@@ -3,23 +3,21 @@ import { GameBridge } from './engine/GameBridge';
 import { WorldMapView } from './views/WorldMapView';
 import { TacticalMapView } from './views/TacticalMapView';
 import { UIManager } from './ui/UIManager';
-import type { WorldMapState, TacticalState, MoveResult } from './types';
+import type { MoveResult, WorldMapViewState, TacticalViewState } from './types';
 
-// ─── Bootstrap ──────────────────────────────────────────────────────
 const app = new Application();
 const bridge = new GameBridge();
 const ui = new UIManager();
 
 let worldView: WorldMapView | null = null;
 let tacticalView: TacticalMapView | null = null;
-let currentView: string = '';
+let currentView = '';
 
 // Tactical state
 let selectedCharIndex = 0;
 let partyMemberIds: number[] = [];
 
 async function main(): Promise<void> {
-  // Initialize PixiJS
   await app.init({
     resizeTo: window,
     backgroundColor: 0x1a1a2e,
@@ -27,16 +25,11 @@ async function main(): Promise<void> {
   });
   document.getElementById('game-container')!.prepend(app.canvas);
 
-  // Initialize WASM game engine
   await bridge.init();
 
-  // Initial render
   refreshView();
-
-  // Input handling
   setupInput();
 
-  // Game loop for smooth camera
   app.ticker.add(() => {
     smoothUpdate();
   });
@@ -49,37 +42,31 @@ function refreshView(): void {
   const partyInfo = bridge.getPartyInfo();
   const gameTime = bridge.getGameTime();
 
-  // Update UI
   ui.updatePartyBar(partyInfo);
   ui.updateGameTime(gameTime);
   ui.setControlsHint(viewMode);
 
-  // Store party member IDs for tactical selection
   partyMemberIds = partyInfo.map((m) => m.id);
 
   if (viewMode !== currentView) {
     switchView(viewMode);
   }
 
-  // Render appropriate view
-  if (viewMode === 'world_map' && worldView && 'WorldMap' in (viewState as object)) {
-    const state = (viewState as WorldMapState).WorldMap;
+  if (viewMode === 'world_map' && worldView && viewState.type === 'WorldMap') {
     ui.setLocationName('World Map');
-    worldView.render(state, app.screen.width, app.screen.height);
+    worldView.render(viewState, app.screen.width, app.screen.height);
   } else if (
     (viewMode === 'tactical_exploration' || viewMode === 'tactical_combat') &&
     tacticalView &&
-    'Tactical' in (viewState as object)
+    viewState.type === 'Tactical'
   ) {
-    const state = (viewState as TacticalState).Tactical;
-    ui.setLocationName(state.map_name || 'Tactical Map');
+    ui.setLocationName(viewState.mapName || 'Tactical Map');
     const selectedId = partyMemberIds[selectedCharIndex] ?? null;
-    tacticalView.render(state, app.screen.width, app.screen.height, selectedId);
+    tacticalView.render(viewState, app.screen.width, app.screen.height, selectedId);
   }
 }
 
 function switchView(newMode: string): void {
-  // Clean up old view
   if (worldView) {
     app.stage.removeChild(worldView.container);
     worldView.destroy();
@@ -91,7 +78,6 @@ function switchView(newMode: string): void {
     tacticalView = null;
   }
 
-  // Create new view
   if (newMode === 'world_map') {
     worldView = new WorldMapView();
     app.stage.addChild(worldView.container);
@@ -105,12 +91,10 @@ function switchView(newMode: string): void {
 }
 
 function smoothUpdate(): void {
-  // Smooth camera follow
   if (currentView === 'world_map' && worldView) {
     const state = bridge.getViewState();
-    if ('WorldMap' in (state as object)) {
-      const ws = (state as WorldMapState).WorldMap;
-      worldView.updateCameraSmooth(ws.party_position, app.screen.width, app.screen.height);
+    if (state.type === 'WorldMap') {
+      worldView.updateCameraSmooth(state.partyPosition, app.screen.width, app.screen.height);
     }
   }
 }
@@ -136,7 +120,6 @@ function handleWorldInput(e: KeyboardEvent): void {
     case 'ArrowLeft': case 'a': case 'A': dx = -1; break;
     case 'ArrowRight': case 'd': case 'D': dx = 1; break;
     case 'Enter':
-      // Try to enter location at current position
       tryEnterLocation();
       return;
     default: return;
@@ -152,11 +135,9 @@ function handleTacticalInput(e: KeyboardEvent): void {
   const charId = partyMemberIds[selectedCharIndex];
   if (charId === undefined) return;
 
-  // Get current position of selected character
   const state = bridge.getViewState();
-  if (!('Tactical' in (state as object))) return;
-  const ts = (state as TacticalState).Tactical;
-  const charPos = ts.party_positions.find((p) => p.id === charId);
+  if (state.type !== 'Tactical') return;
+  const charPos = state.partyPositions.find((p) => p.id === charId);
   if (!charPos) return;
 
   let nx = charPos.x, ny = charPos.y;
@@ -172,7 +153,6 @@ function handleTacticalInput(e: KeyboardEvent): void {
       refreshView();
       return;
     case 'Escape':
-      // Try to exit — find an exit tile near any character
       tryExitTactical();
       return;
     default: return;
@@ -188,38 +168,23 @@ function handleTacticalInput(e: KeyboardEvent): void {
 
 function handleMoveResult(result: MoveResult): void {
   if (typeof result === 'object' && result !== null) {
-    if ('ArrivedAtLocation' in result) {
-      const locId = result.ArrivedAtLocation;
-      console.log(`Arrived at location ${locId}. Press ENTER to enter.`);
-    } else if ('ReachedExit' in result) {
-      const exit = result.ReachedExit;
-      console.log('Reached exit:', exit);
-      // Auto-exit when reaching exit tile
-      if (exit.destination) {
-        if ('WorldMap' in exit.destination) {
-          const [wx, wy] = exit.destination.WorldMap;
-          bridge.exitToWorld(wx, wy);
-          refreshView();
-        }
-      }
-      // Handle array format [wx, wy] from serde
-      if (Array.isArray(exit.destination)) {
-        // ExitDestination::WorldMap is serialized as {"WorldMap": [x, y]}
-      }
+    if (result.type === 'ArrivedAtLocation') {
+      console.log(`Arrived at location ${result.locationId}. Press ENTER to enter.`);
+    } else if (result.type === 'ReachedExit') {
+      console.log('Reached exit:', result.exit);
+      bridge.handleExit(result.exit);
+      refreshView();
     }
   }
 }
 
 function tryEnterLocation(): void {
-  // The WASM side tracks arrival — we just try entering known location IDs
-  // Check the last move result or try each location
   const state = bridge.getViewState();
-  if (!('WorldMap' in (state as object))) return;
-  const ws = (state as WorldMapState).WorldMap;
+  if (state.type !== 'WorldMap') return;
 
-  for (const loc of ws.locations) {
-    const [lx, ly] = loc.world_position;
-    const [px, py] = ws.party_position;
+  for (const loc of state.locations) {
+    const [lx, ly] = loc.worldPosition;
+    const [px, py] = state.partyPosition;
     if (lx === px && ly === py) {
       const success = bridge.enterLocation(loc.id);
       if (success) {
@@ -233,25 +198,19 @@ function tryEnterLocation(): void {
 
 function tryExitTactical(): void {
   const state = bridge.getViewState();
-  if (!('Tactical' in (state as object))) return;
-  const ts = (state as TacticalState).Tactical;
+  if (state.type !== 'Tactical') return;
 
-  // Check if any character is on an exit tile
-  for (const exit of ts.exits) {
+  for (const exit of state.exits) {
     const [ex, ey] = exit.position;
-    for (const pos of ts.party_positions) {
+    for (const pos of state.partyPositions) {
       if (pos.x === ex && pos.y === ey) {
-        if (exit.destination && 'WorldMap' in exit.destination) {
-          const [wx, wy] = exit.destination.WorldMap;
-          bridge.exitToWorld(wx, wy);
-          refreshView();
-          return;
-        }
+        bridge.handleExit(exit);
+        refreshView();
+        return;
       }
     }
   }
   console.log('No character is on an exit tile. Move to an EXIT marker first.');
 }
 
-// ─── Start ──────────────────────────────────────────────────────────
 main().catch(console.error);

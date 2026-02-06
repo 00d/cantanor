@@ -1,5 +1,5 @@
 import { Container, Graphics, Text, TextStyle } from 'pixi.js';
-import type { TacticalState, TacticalTileInfo, CharacterPosition } from '../types';
+import type { TacticalViewState, CharacterPosition, TacticalTile, Exit } from '../types';
 import { TACTICAL_TERRAIN_COLORS } from '../types';
 
 const TILE_SIZE = 32;
@@ -31,31 +31,29 @@ export class TacticalMapView {
     this.container.addChild(this.characterLayer);
   }
 
-  /** Full render from state */
   render(
-    state: TacticalState['Tactical'],
+    state: TacticalViewState,
     screenWidth: number,
     screenHeight: number,
-    selectedCharId: number | null
+    selectedCharId: number | null,
   ): void {
-    this.mapWidth = state.map_width;
-    this.mapHeight = state.map_height;
+    this.mapWidth = state.mapWidth;
+    this.mapHeight = state.mapHeight;
     this.selectedCharId = selectedCharId;
 
     this.renderTerrain(state.tiles);
     this.renderObjects(state.tiles, state.exits);
-    this.renderCharacters(state.party_positions);
-    this.renderHighlight(state.party_positions, selectedCharId);
+    this.renderCharacters(state.partyPositions);
+    this.renderHighlight(state.partyPositions, selectedCharId);
 
-    // Center camera on selected character or first party member
-    const focusPos = state.party_positions.find((p) => p.id === selectedCharId)
-      ?? state.party_positions[0];
+    const focusPos = state.partyPositions.find((p) => p.id === selectedCharId)
+      ?? state.partyPositions[0];
     if (focusPos) {
       this.updateCamera([focusPos.x, focusPos.y], screenWidth, screenHeight);
     }
   }
 
-  private renderTerrain(tiles: TacticalTileInfo[][]): void {
+  private renderTerrain(tiles: TacticalTile[][]): void {
     if (this.terrainLayer.children.length > 0) {
       this.terrainLayer.removeChildren();
     }
@@ -63,15 +61,11 @@ export class TacticalMapView {
     for (let y = 0; y < tiles.length; y++) {
       for (let x = 0; x < tiles[y].length; x++) {
         const tile = tiles[y][x];
-        const terrainType = typeof tile.terrain === 'string'
-          ? tile.terrain
-          : Object.keys(tile.terrain)[0];
-        const color = TACTICAL_TERRAIN_COLORS[terrainType] ?? 0x555555;
+        const color = TACTICAL_TERRAIN_COLORS[tile.terrain] ?? 0x555555;
 
         const gfx = new Graphics();
         gfx.rect(0, 0, TILE_SIZE, TILE_SIZE);
         gfx.fill(color);
-        // Grid
         gfx.rect(0, 0, TILE_SIZE, TILE_SIZE);
         gfx.stroke({ width: 1, color: 0x000000, alpha: 0.3 });
 
@@ -82,30 +76,23 @@ export class TacticalMapView {
     }
   }
 
-  private renderObjects(tiles: TacticalTileInfo[][], exits: { position: [number, number] }[]): void {
+  private renderObjects(tiles: TacticalTile[][], exits: Exit[]): void {
     this.objectLayer.removeChildren();
 
-    // Render specials (chests, traps, etc)
     for (let y = 0; y < tiles.length; y++) {
       for (let x = 0; x < tiles[y].length; x++) {
         const tile = tiles[y][x];
         if (!tile.special) continue;
 
-        const specialType = typeof tile.special === 'string'
-          ? tile.special
-          : Object.keys(tile.special)[0];
-
         const cx = x * TILE_SIZE + TILE_SIZE / 2;
         const cy = y * TILE_SIZE + TILE_SIZE / 2;
         const icon = new Graphics();
 
-        if (specialType === 'Chest') {
-          // Chest icon
+        if (tile.special.type === 'Chest') {
           icon.roundRect(cx - 6, cy - 4, 12, 8, 2);
           icon.fill(0xdaa520);
           icon.stroke({ width: 1, color: 0x8b6914 });
-        } else if (specialType === 'Trap') {
-          // Warning triangle
+        } else if (tile.special.type === 'Trap') {
           icon.poly([cx, cy - 6, cx + 6, cy + 4, cx - 6, cy + 4]);
           icon.fill({ color: 0xff0000, alpha: 0.5 });
         }
@@ -114,14 +101,12 @@ export class TacticalMapView {
       }
     }
 
-    // Render exit markers
     for (const exit of exits) {
       const [ex, ey] = exit.position;
       const cx = ex * TILE_SIZE + TILE_SIZE / 2;
       const cy = ey * TILE_SIZE + TILE_SIZE / 2;
 
       const marker = new Graphics();
-      // Upward arrow for exit
       marker.poly([cx, cy - 8, cx + 6, cy + 4, cx + 2, cy + 4, cx + 2, cy + 8, cx - 2, cy + 8, cx - 2, cy + 4, cx - 6, cy + 4]);
       marker.fill({ color: 0x00ff88, alpha: 0.7 });
 
@@ -154,7 +139,6 @@ export class TacticalMapView {
       const sprite = new Graphics();
       const color = charColors[i % charColors.length];
 
-      // Character token
       sprite.circle(px, py, 10);
       sprite.fill(color);
       sprite.stroke({
@@ -162,7 +146,6 @@ export class TacticalMapView {
         color: this.selectedCharId === id ? 0xffffff : 0x000000,
       });
 
-      // Character ID label
       const label = new Text({
         text: `${id}`,
         style: new TextStyle({
@@ -182,7 +165,7 @@ export class TacticalMapView {
 
   private renderHighlight(
     positions: CharacterPosition[],
-    selectedCharId: number | null
+    selectedCharId: number | null,
   ): void {
     this.highlightLayer.removeChildren();
     if (selectedCharId === null) return;

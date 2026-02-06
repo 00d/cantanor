@@ -1,57 +1,52 @@
-import init, { GameEngine } from '../../pkg/pathfinder_wasm.js';
-import type { ViewState, MoveResult, PartyMemberInfo, GameTimeInfo } from '../types';
+import { GameEngine, ViewState, MoveResult, PartyMemberInfo, GameTimeInfo, createDemoGame } from './GameEngine';
+import { CharacterId, LocationId } from './types';
+import type { Exit } from './tactical';
 
-/**
- * Bridge between the WASM game engine and the TypeScript rendering layer.
- * All game logic goes through this — the frontend never modifies state directly.
- */
 export class GameBridge {
   private engine: GameEngine | null = null;
-  private initialized = false;
 
   async init(): Promise<void> {
-    await init();
-    this.engine = new GameEngine();
-    this.initialized = true;
-    console.log('Game engine initialized');
+    this.engine = createDemoGame();
   }
 
-  private ensureReady(): GameEngine {
-    if (!this.initialized || !this.engine) {
-      throw new Error('GameBridge not initialized. Call init() first.');
-    }
+  private get game(): GameEngine {
+    if (!this.engine) throw new Error('GameBridge not initialized');
     return this.engine;
   }
 
   getViewMode(): string {
-    return this.ensureReady().getViewMode();
+    return this.game.getViewMode();
   }
 
   getViewState(): ViewState {
-    return this.ensureReady().getViewState() as ViewState;
+    return this.game.getViewState();
   }
 
   getPartyInfo(): PartyMemberInfo[] {
-    return this.ensureReady().getPartyInfo() as PartyMemberInfo[];
+    return this.game.getPartyInfo();
   }
 
   getGameTime(): GameTimeInfo {
-    return this.ensureReady().getGameTime() as GameTimeInfo;
+    return this.game.getGameTime();
   }
 
   movePartyWorld(dx: number, dy: number): MoveResult {
-    return this.ensureReady().movePartyWorld(dx, dy) as MoveResult;
+    return this.game.movePartyWorld(dx, dy);
   }
 
-  enterLocation(locationId: number): boolean {
-    return this.ensureReady().enterLocation(locationId);
+  enterLocation(locationId: LocationId): boolean {
+    return this.game.enterLocation(locationId);
   }
 
-  moveCharacterTactical(charId: number, x: number, y: number): MoveResult {
-    return this.ensureReady().moveCharacterTactical(charId, x, y) as MoveResult;
+  moveCharacterTactical(charId: CharacterId, x: number, y: number): MoveResult {
+    return this.game.moveCharacterTactical(charId, x, y);
   }
 
   exitToWorld(worldX: number, worldY: number): boolean {
-    return this.ensureReady().exitToWorld(worldX, worldY);
+    return this.game.exitToWorld(worldX, worldY);
+  }
+
+  handleExit(exit: Exit): boolean {
+    return this.game.handleExit(exit);
   }
 }

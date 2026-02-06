@@ -1,82 +1,11 @@
-// Types mirroring the Rust game state, as returned by WASM
+// Re-export engine types used by views
+export type { ViewState, WorldMapViewState, TacticalViewState, CharacterPosition, PartyMemberInfo, GameTimeInfo, MoveResult } from './engine/GameEngine';
+export type { WorldTerrain } from './engine/world';
+export type { TacticalTerrain, TacticalTile, Exit, ExitDestination, TileSpecial } from './engine/tactical';
+export type { Direction, ViewMode, CoverType, LocationId, CharacterId } from './engine/types';
+export type { Location, LocationType } from './engine/world';
 
-export interface WorldMapState {
-  WorldMap: {
-    party_position: [number, number];
-    party_facing: string;
-    terrain: string[][];
-    discovered: Array<[number, number]>;
-    locations: LocationInfo[];
-    game_time: GameTimeInfo;
-  };
-}
-
-export interface TacticalState {
-  Tactical: {
-    map_name: string;
-    map_width: number;
-    map_height: number;
-    tiles: TacticalTileInfo[][];
-    party_positions: CharacterPosition[];
-    exits: ExitInfo[];
-    in_combat: boolean;
-  };
-}
-
-export type ViewState = WorldMapState | TacticalState | 'Menu';
-
-export interface LocationInfo {
-  id: number;
-  name: string;
-  location_type: string;
-  world_position: [number, number];
-  discovered: boolean;
-}
-
-export interface TacticalTileInfo {
-  terrain: string;
-  passable: boolean;
-  cover: string;
-  special: any | null;
-  visible: boolean;
-  explored: boolean;
-}
-
-export interface GameTimeInfo {
-  day: number;
-  hour: number;
-  is_night: boolean;
-  total_minutes: number;
-}
-
-export interface PartyMemberInfo {
-  id: number;
-  name: string;
-  class: string;
-  level: number;
-  current_hp: number;
-  max_hp: number;
-}
-
-export interface CharacterPosition {
-  id: number;
-  x: number;
-  y: number;
-}
-
-export interface ExitInfo {
-  position: [number, number];
-  destination: any;
-}
-
-// Move result from WASM
-export type MoveResult =
-  | 'Moved'
-  | 'Blocked'
-  | { ArrivedAtLocation: number }
-  | { ReachedExit: ExitInfo };
-
-// Terrain color mapping
+// Color maps for rendering
 export const WORLD_TERRAIN_COLORS: Record<string, number> = {
   Plains: 0x7ec850,
   Forest: 0x2d6a1e,
@@ -98,4 +27,12 @@ export const TACTICAL_TERRAIN_COLORS: Record<string, number> = {
   Door: 0x8b6914,
   StairsUp: 0xc0a0ff,
   StairsDown: 0x6040a0,
+};
+
+export const LOCATION_TYPE_COLORS: Record<string, number> = {
+  Town: 0xffd700,
+  Dungeon: 0xff4444,
+  Landmark: 0x44aaff,
+  EncounterSite: 0xff8800,
+  QuestLocation: 0xaa44ff,
 };

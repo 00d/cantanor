@@ -1,8 +1,5 @@
 import type { PartyMemberInfo, GameTimeInfo } from '../types';
 
-/**
- * Manages the HTML overlay UI — top bar, party bar, and controls hint.
- */
 export class UIManager {
   private locationEl: HTMLElement;
   private timeEl: HTMLElement;
@@ -23,21 +20,21 @@ export class UIManager {
   updateGameTime(time: GameTimeInfo): void {
     const period = time.hour >= 12 ? 'PM' : 'AM';
     const displayHour = time.hour === 0 ? 12 : time.hour > 12 ? time.hour - 12 : time.hour;
-    const nightIcon = time.is_night ? ' [Night]' : '';
+    const nightIcon = time.isNight ? ' [Night]' : '';
     this.timeEl.textContent = `Day ${time.day} - ${displayHour}:00 ${period}${nightIcon}`;
   }
 
   updatePartyBar(members: PartyMemberInfo[]): void {
     this.partyBarEl.innerHTML = '';
     for (const member of members) {
-      const hpPct = Math.max(0, (member.current_hp / member.max_hp) * 100);
+      const hpPct = Math.max(0, (member.currentHp / member.maxHp) * 100);
       const div = document.createElement('div');
       div.className = 'party-member';
       div.innerHTML = `
         <div class="name">${member.name}</div>
         <div class="class">Lv${member.level} ${member.class}</div>
         <div class="hp-bar"><div class="hp-bar-fill" style="width:${hpPct}%"></div></div>
-        <div class="hp-text">${member.current_hp}/${member.max_hp} HP</div>
+        <div class="hp-text">${member.currentHp}/${member.maxHp} HP</div>
       `;
       this.partyBarEl.appendChild(div);
     }
