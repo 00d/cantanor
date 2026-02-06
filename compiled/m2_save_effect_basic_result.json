@@ -1,0 +1,190 @@
+{
+  "battle_id": "m2_save_effect_basic",
+  "seed": 404,
+  "executed_commands": 5,
+  "event_count": 11,
+  "replay_hash": "6d34163c6c1d6686e6541f7d3bebddcdb93f46937700f04636554a1b7a1315ab",
+  "final_state": {
+    "battle_id": "m2_save_effect_basic",
+    "round": 2,
+    "active_unit": "pc_cleric",
+    "units": {
+      "ghoul": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "position": [
+          1,
+          0
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_cleric": {
+        "team": "pc",
+        "hp": 9,
+        "max_hp": 21,
+        "position": [
+          0,
+          0
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "pc_cleric",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_cleric",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "pc_cleric",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "pc_cleric",
+        "target": "ghoul",
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "duration_rounds": 1,
+        "tick_timing": null,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc_cleric",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "target": "ghoul",
+        "condition": "frightened",
+        "value": 1
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc_cleric",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_cleric",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "ghoul",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "ghoul",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "ghoul",
+      "type": "save_damage",
+      "payload": {
+        "actor": "ghoul",
+        "target": "pc_cleric",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "roll": {
+          "die": 3,
+          "modifier": 3,
+          "total": 6,
+          "dc": 17,
+          "degree": "critical_failure"
+        },
+        "damage": {
+          "formula": "1d6+2",
+          "rolled_total": 6,
+          "rolls": [
+            4
+          ],
+          "flat_modifier": 2,
+          "multiplier": 2.0,
+          "applied_total": 12
+        },
+        "target_hp": 9,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 1,
+      "active_unit": "ghoul",
+      "type": "end_turn",
+      "payload": {
+        "actor": "ghoul",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 1,
+      "active_unit": "ghoul",
+      "type": "effect_duration",
+      "payload": {
+        "effect_id": "eff_0001",
+        "remaining_rounds": 0,
+        "target": "ghoul"
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 1,
+      "active_unit": "ghoul",
+      "type": "effect_expire",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "target": "ghoul",
+        "cleared_condition": "frightened"
+      }
+    },
+    {
+      "event_id": "ev_000009",
+      "round": 2,
+      "active_unit": "pc_cleric",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_cleric",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_000010",
+      "round": 2,
+      "active_unit": "pc_cleric",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_cleric",
+        "target": "ghoul",
+        "degree": "critical_failure",
+        "roll": {
+          "die": 1,
+          "modifier": 6,
+          "total": 7,
+          "dc": 15
+        },
+        "damage": null,
+        "target_hp": 20,
+        "actions_remaining": 2
+      }
+    }
+  ]
+}

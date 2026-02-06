@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cantanor.local/schema/event.schema.json",
+  "title": "Event",
+  "type": "object",
+  "required": ["event_id", "round", "active_unit", "type", "payload"],
+  "properties": {
+    "event_id": {"type": "string"},
+    "round": {"type": "integer", "minimum": 1},
+    "active_unit": {"type": "string"},
+    "type": {"type": "string"},
+    "payload": {"type": "object"}
+  }
+}

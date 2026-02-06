@@ -1,0 +1,78 @@
+{
+  "generated_at_utc": "2026-02-06T21:45:22.640560+00:00",
+  "passed": true,
+  "checks": [
+    {
+      "name": "count_match",
+      "passed": true,
+      "detail": "phase1=29 phase2=29"
+    },
+    {
+      "name": "all_phase1_hazards_present_in_phase2",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "no_extra_phase2_hazards",
+      "passed": true,
+      "detail": "extra=0"
+    },
+    {
+      "name": "no_duplicate_phase1_ids",
+      "passed": true,
+      "detail": "duplicates=0"
+    },
+    {
+      "name": "no_duplicate_phase2_ids",
+      "passed": true,
+      "detail": "duplicates=0"
+    },
+    {
+      "name": "no_parse_quality_issues",
+      "passed": true,
+      "detail": "hazards_with_issues=0"
+    },
+    {
+      "name": "complex_hazards_have_routine_actions",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "all_hazards_have_detection_value",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "all_hazards_have_disable_options",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "trigger_actions_structured",
+      "passed": true,
+      "detail": "bad=0"
+    },
+    {
+      "name": "strikes_parsed_when_present",
+      "passed": true,
+      "detail": "bad=0 total=8"
+    },
+    {
+      "name": "ac_parsed_when_raw_present",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "encounter_baseline_values_present",
+      "passed": true,
+      "detail": "round=6 actions=3 reactions=1"
+    }
+  ],
+  "totals": {
+    "total_checks": 13,
+    "passed_checks": 13,
+    "failed_checks": 0,
+    "hazards_phase1": 29,
+    "hazards_phase2": 29
+  }
+}

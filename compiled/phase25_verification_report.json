@@ -1,0 +1,53 @@
+{
+  "generated_at_utc": "2026-02-06T21:45:22.664425+00:00",
+  "passed": true,
+  "checks": [
+    {
+      "name": "hazard_count_match",
+      "passed": true,
+      "detail": "phase2=29 phase25=29"
+    },
+    {
+      "name": "all_phase2_hazards_present",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "no_extra_phase25_hazards",
+      "passed": true,
+      "detail": "extra=0"
+    },
+    {
+      "name": "source_count_match_per_hazard",
+      "passed": true,
+      "detail": "mismatch=0"
+    },
+    {
+      "name": "all_sources_have_raw_text",
+      "passed": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "all_sources_have_effects",
+      "passed": true,
+      "detail": "zero_effect_sources=0"
+    },
+    {
+      "name": "coverage_threshold_met",
+      "passed": true,
+      "detail": "ratio=1.000 threshold=0.900"
+    },
+    {
+      "name": "all_effects_have_kind",
+      "passed": true,
+      "detail": "missing_kind=0"
+    }
+  ],
+  "totals": {
+    "total_checks": 8,
+    "passed_checks": 8,
+    "failed_checks": 0,
+    "hazards_phase2": 29,
+    "hazards_phase25": 29
+  }
+}

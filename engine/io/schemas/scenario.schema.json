@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cantanor.local/schema/scenario.schema.json",
+  "title": "Scenario",
+  "type": "object",
+  "required": ["battle_id", "seed", "map", "units", "commands"],
+  "properties": {
+    "battle_id": {"type": "string"},
+    "seed": {"type": "integer"},
+    "map": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "blocked": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [{"type": "integer"}, {"type": "integer"}],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "team", "hp", "position", "initiative", "attack_mod", "ac", "damage"],
+        "properties": {
+          "id": {"type": "string"},
+          "team": {"type": "string"},
+          "hp": {"type": "integer", "minimum": 1},
+          "position": {
+            "type": "array",
+            "prefixItems": [{"type": "integer"}, {"type": "integer"}],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "initiative": {"type": "integer"},
+          "attack_mod": {"type": "integer"},
+          "ac": {"type": "integer"},
+          "damage": {"type": "string"},
+          "fortitude": {"type": "integer"},
+          "reflex": {"type": "integer"},
+          "will": {"type": "integer"}
+        }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "actor"],
+        "properties": {
+          "type": {"type": "string"},
+          "actor": {"type": "string"}
+        }
+      }
+    }
+  }
+}

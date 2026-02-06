@@ -1,0 +1,175 @@
+{
+  "battle_id": "m3_trigger_hazard_source_basic",
+  "seed": 777,
+  "executed_commands": 2,
+  "event_count": 4,
+  "replay_hash": "011b52567e20914a940c97a265f37f58a538df663c80021d7d04492cc053cfd8",
+  "final_state": {
+    "battle_id": "m3_trigger_hazard_source_basic",
+    "round": 1,
+    "active_unit": "pc_2",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          3,
+          3
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 0,
+        "max_hp": 30,
+        "position": [
+          3,
+          4
+        ],
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        }
+      },
+      "pc_2": {
+        "team": "pc",
+        "hp": 18,
+        "max_hp": 30,
+        "position": [
+          4,
+          4
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "trigger_hazard_source",
+      "payload": {
+        "actor": "hazard_core",
+        "hazard_id": "fireball-rune",
+        "source_type": "trigger_action",
+        "source_name": "Fireball",
+        "center": [
+          3,
+          4
+        ],
+        "explicit_target": null,
+        "target_ids": [
+          "pc_1",
+          "pc_2"
+        ],
+        "effect_kinds": [
+          "damage",
+          "save_check"
+        ],
+        "results": [
+          {
+            "actor": "hazard_core",
+            "target": "pc_1",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 8,
+              "modifier": 4,
+              "total": 12,
+              "degree": "critical_failure"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 22,
+              "rolls": [
+                4,
+                4,
+                3,
+                5,
+                3,
+                3
+              ],
+              "flat_modifier": 0,
+              "multiplier": 2.0,
+              "applied_total": 44
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 0
+          },
+          {
+            "actor": "hazard_core",
+            "target": "pc_2",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 18,
+              "modifier": 8,
+              "total": 26,
+              "degree": "success"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 25,
+              "rolls": [
+                1,
+                4,
+                6,
+                5,
+                5,
+                4
+              ],
+              "flat_modifier": 0,
+              "multiplier": 0.5,
+              "applied_total": 12
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 18
+          }
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc_2",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_2",
+        "round": 1
+      }
+    }
+  ]
+}

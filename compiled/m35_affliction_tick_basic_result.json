@@ -1,0 +1,232 @@
+{
+  "battle_id": "m35_affliction_tick_basic",
+  "seed": 888,
+  "executed_commands": 3,
+  "event_count": 9,
+  "replay_hash": "7a50847d6552e2424987fdfdd916d908a71db1174a139f157821af2a81e6d0dc",
+  "final_state": {
+    "battle_id": "m35_affliction_tick_basic",
+    "round": 2,
+    "active_unit": "hazard_core",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          3,
+          3
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 17,
+        "max_hp": 40,
+        "position": [
+          3,
+          4
+        ],
+        "alive": true,
+        "conditions": {
+          "clumsy": 3
+        }
+      }
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "trigger_hazard_source",
+      "payload": {
+        "actor": "hazard_core",
+        "hazard_id": "poisoned-dart-gallery",
+        "source_type": "trigger_action",
+        "source_name": "Continuous Barrage",
+        "center": null,
+        "explicit_target": "pc_1",
+        "target_ids": [
+          "pc_1"
+        ],
+        "effect_kinds": [
+          "affliction",
+          "apply_condition",
+          "attack_trigger",
+          "damage",
+          "duration",
+          "save_check"
+        ],
+        "results": [
+          {
+            "actor": "hazard_core",
+            "target": "pc_1",
+            "save": {
+              "dc": 22,
+              "save_type": "Fortitude",
+              "mode": "affliction",
+              "die": 3,
+              "modifier": -5,
+              "total": -2,
+              "degree": "critical_failure"
+            },
+            "damage": null,
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": {
+              "contracted": true,
+              "effect_id": "eff_0001",
+              "initial_stage": 2,
+              "maximum_duration_rounds": 6
+            },
+            "target_hp": 31
+          }
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "affliction",
+        "target": "pc_1",
+        "stage": 2,
+        "stage_result": {
+          "stage": 2,
+          "applied": true,
+          "damage": [
+            {
+              "formula": "2d6",
+              "damage_type": "poison",
+              "rolls": [
+                4,
+                5
+              ],
+              "flat_modifier": 0,
+              "total": 9
+            }
+          ],
+          "conditions": [
+            {
+              "name": "clumsy",
+              "value": 2
+            }
+          ],
+          "target_hp": 31
+        }
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_1",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_1",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "effect_tick",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "affliction",
+        "target": "pc_1",
+        "stage_from": 2,
+        "stage_to": 3,
+        "save": {
+          "dc": 22,
+          "save_type": "Fortitude",
+          "die": 15,
+          "modifier": -5,
+          "total": 10,
+          "degree": "critical_failure"
+        },
+        "stage_result": {
+          "stage": 3,
+          "applied": true,
+          "damage": [
+            {
+              "formula": "3d6",
+              "damage_type": "poison",
+              "rolls": [
+                4,
+                4,
+                6
+              ],
+              "flat_modifier": 0,
+              "total": 14
+            }
+          ],
+          "conditions": [
+            {
+              "name": "clumsy",
+              "value": 3
+            }
+          ],
+          "target_hp": 17
+        }
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "effect_duration",
+      "payload": {
+        "effect_id": "eff_0001",
+        "remaining_rounds": 5,
+        "target": "pc_1"
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 2
+      }
+    }
+  ]
+}

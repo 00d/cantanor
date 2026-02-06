@@ -1,0 +1,182 @@
+{
+  "battle_id": "fireball_rune_basic",
+  "seed": 202,
+  "executed_commands": 6,
+  "event_count": 10,
+  "replay_hash": "46db5e117d9457a8972de20f5b488d3204ae7c91d680961b2b568e86b5fa2b8e",
+  "final_state": {
+    "battle_id": "fireball_rune_basic",
+    "round": 2,
+    "active_unit": "orc_brute",
+    "units": {
+      "orc_brute": {
+        "team": "enemy",
+        "hp": 6,
+        "max_hp": 22,
+        "position": [
+          1,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_mage": {
+        "team": "pc",
+        "hp": 15,
+        "max_hp": 15,
+        "position": [
+          0,
+          1
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "pc_mage",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_mage",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "pc_mage",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_mage",
+        "target": "orc_brute",
+        "degree": "success",
+        "roll": {
+          "die": 13,
+          "modifier": 8,
+          "total": 21,
+          "dc": 16
+        },
+        "damage": {
+          "formula": "1d10+2",
+          "rolls": [
+            8
+          ],
+          "flat_modifier": 2,
+          "multiplier": 1,
+          "total": 10
+        },
+        "target_hp": 12,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc_mage",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_mage",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "orc_brute",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "orc_brute",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "orc_brute",
+      "type": "move",
+      "payload": {
+        "actor": "orc_brute",
+        "from": [
+          1,
+          1
+        ],
+        "to": [
+          1,
+          2
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "orc_brute",
+      "type": "end_turn",
+      "payload": {
+        "actor": "orc_brute",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 2,
+      "active_unit": "pc_mage",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_mage",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 2,
+      "active_unit": "pc_mage",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_mage",
+        "target": "orc_brute",
+        "degree": "success",
+        "roll": {
+          "die": 14,
+          "modifier": 8,
+          "total": 22,
+          "dc": 16
+        },
+        "damage": {
+          "formula": "1d10+2",
+          "rolls": [
+            4
+          ],
+          "flat_modifier": 2,
+          "multiplier": 1,
+          "total": 6
+        },
+        "target_hp": 6,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 2,
+      "active_unit": "pc_mage",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_mage",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000009",
+      "round": 2,
+      "active_unit": "orc_brute",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "orc_brute",
+        "round": 2
+      }
+    }
+  ]
+}

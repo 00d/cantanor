@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cantanor.local/schema/command.schema.json",
+  "title": "Command",
+  "type": "object",
+  "required": ["type", "actor"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "move",
+        "strike",
+        "end_turn",
+        "save_damage",
+        "area_save_damage",
+        "apply_effect",
+        "trigger_hazard_source"
+      ]
+    },
+    "actor": {"type": "string"},
+    "x": {"type": "integer"},
+    "y": {"type": "integer"},
+    "target": {"type": "string"},
+    "dc": {"type": "integer"},
+    "save_type": {"type": "string", "enum": ["Fortitude", "Reflex", "Will"]},
+    "damage": {"type": "string"},
+    "mode": {"type": "string"},
+    "effect_kind": {"type": "string"},
+    "payload": {"type": "object"},
+    "duration_rounds": {"type": ["integer", "null"]},
+    "tick_timing": {"type": ["string", "null"], "enum": ["turn_start", "turn_end", null]},
+    "center_x": {"type": ["integer", "null"]},
+    "center_y": {"type": ["integer", "null"]},
+    "radius_feet": {"type": "integer"},
+    "include_actor": {"type": "boolean"},
+    "hazard_id": {"type": "string"},
+    "source_name": {"type": "string"},
+    "source_type": {"type": "string"},
+    "model_path": {"type": ["string", "null"]}
+  }
+}
