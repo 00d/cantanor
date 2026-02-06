@@ -1,0 +1,4210 @@
+# Bestiary - Creatures: Z
+# Count: 4 creatures
+
+
+================================================================================
+# ZELEKHUT
+================================================================================
+
+
+a DC 26 Will save or be slowed 1 indeﬁnitely. An aﬀected creature can choose to roll
+twice when it attempts an attack, saving throw, or skill check and take the lower result.
+Regardless of the outcome, that creature is no longer slowed after that roll. The theletos
+can’t use Wrath of Fate again for 1d4 rounds.
+ZELEKHUT
+A zelekhut is a bounty hunter and executioner. The zelekhut resembles a mechanical
+centaur crafted from silvery metal with golden clockwork wings adorning its back.
+Instead of hands, the zelekhut’s arms end in long, barbed chains that crackle with
+electricity. Whether sent by the powers of Axis or summoned by mortal authorities,
+the zelekhut seeks out those who continually evade justice—either through active
+ﬂight, or by abusing their power and station—so as to bring justice to the multiverse’s
+most notorious fugitives and criminals. Indeed, many a zelekhut’s quarry are as
+famous for their ability to evade capture as for the crimes they commit.
+Though the zelekhut is implacable and unrelenting in
+enforcing sentences, it does not pass judgments of its own
+or take the initiative in pursuing targets of opportunity. While
+hunting a condemned serial killer or notorious thief across half a
+dozen planes, the zelekhut wouldn’t shift a single hoof to capture a
+corrupt ruler whose offenses are far greater. All zelekhuts understand
+that laws can and must differ from place to place, and it is not the
+zelekhut’s job to moralize, merely to obey its rightful assignments
+and track down those who seek to ﬂee their punishment.
+ZELEKHUT
+CREATURE 9
+LN
+LARGE
+AEON
+INEVITABLE
+MONITOR
+Perception +21; darkvision, true seeing
+Languages Celestial, Infernal, Utopian; truespeech
+Skills Acrobatics +18, Athletics +21, Axis Lore +15, Diplomacy +16, Survival +21
+(+23 when tracking)
+Str +6, Dex +5, Con +4, Int +0,
+Wis +3, Cha +3
+Truespeech A zelekhut can
+speak with and understand
+any creature with a language.
+AC 28; Fort +17, Ref +20, Will +18;
++1 status to all saves vs. magic
+HP
+160;
+Immunities
+death
+eﬀects, disease, emotion, poison,
+unconscious; Weaknesses chaotic 10
+Attack of Opportunity Ǻȓ
+Speed 40 feet, ﬂy 40 feet
+Melee Ȱɵ chain +21 (lawful, magical, reach
+10 feet), Damage 2d10+6 slashing plus 2d6
+electricity and 1d6 lawful plus Knockdown
+Divine Innate Spells DC 28; 5th locate; 4th clairaudience,
+clairvoyance, dimensional anchor, dispel magic, paralyze (×3);
+Constant (6th) true seeing
+Rituals DC 32; geas
+Double
+Attack
+ʚʖ
+The
+zelekhut makes two
+chain Strikes, each
+targeting a diﬀerent
+creature. Each Strike counts toward the zelekhut’s multiple
+attack penalty, but the penalty doesn’t increase until after it has
+made both attacks. If the zelekhut subsequently uses the Knockdown action, it aﬀects
+all creatures it hit with Double Attack.
+PARADOX AND UNITY
+To mortals, aeons sometimes
+seem to combine elements that
+are fundamentally incompatible,
+whether it’s an aeon combining
+opposing concepts, or axiomites and
+inevitables mixing the organic with
+the mathematical or mechanical.
+Aeons see no paradox in this, but
+rather claim it is an expression of the
+underlying unity of all things.
+
+================================================================================
+PAGE 11
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868508
+4425020
+Bestiary 2
+1010
+MARUT
+A marut is tasked with hunting mortals who cheat death by artiﬁcially extending
+their lifespans. This includes those who seek undeath, such as liches and
+vampires, but also includes those who use powerful magic to cling to their youth,
+use divination to discover and avoid an appointed death, or call too often on
+the power of resurrection. Once the marut has selected its target, the inevitable
+pursues its quarry without surcease or deviation until either it or the target
+is dead.
+Maruts seem to be carved from stone and clad in golden armor, yet they move
+with the deliberate grace of a creature made of ﬂesh and bone. A marut never
+rushes, but its thunderous footfalls are relentless as it pursues its target. Though
+able to speak any language, the marut is taciturn even among inevitables.
+MARUT
+CREATURE 15
+LN
+LARGE
+AEON
+INEVITABLE
+MONITOR
+Perception +26; darkvision, true seeing
+Languages Celestial, Infernal, Utopian; truespeech
+Skills Athletics +31, Axis Lore +22, Diplomacy +27, Intimidation +29, Religion +26,
+Survival +28
+Str +8, Dex +4, Con +6, Int +1, Wis +5, Cha +6
+Truespeech As zelekhut.
+AC 37; Fort +27, Ref +25, Will +26; +2 status to all saves vs. magic
+HP 230, regeneration 15 (deactivated by chaotic); Immunities death eﬀects, disease,
+emotion, poison, unconscious; Weaknesses chaotic 15
+Attack of Opportunity Ǻȓ
+Speed 25 feet; air walk
+Melee Ȱɵ ﬁst +30 (lawful, magical, reach 10 feet), Damage 3d8+11 bludgeoning plus
+1d6 lawful and ﬁsts of thunder and lightning
+Divine Innate Spells DC 37; 8th chain lightning, dispel magic, earthquake,
+harm; 7th fear, plane shift, wall of force; 5th command, locate; 4th
+dimension door (at will); Constant (8th) air walk, true seeing
+Rituals DC 36; geas
+Final End The marut is anathema to beings that unnaturally
+extend their existence, including undead. Its ﬁsts bypass such
+creatures’ resistances to damage and apply the creatures’ highest weakness to
+damage. If a marut kills a creature that rejuvenates, like a lich or ghost, it always
+knows that the creature isn’t fully defeated.
+Fists of Thunder and Lightning (divine, evocation, incapacitation) Each time the
+marut makes a ﬁst Strike, it chooses either lightning or thunder. If it chooses
+lightning, the attack deals an additional 2d12 electricity damage and the
+target must succeed at a DC 33 Fortitude save or be blinded for 1 minute. If it
+chooses thunder, the attack deals an additional 3d8 sonic damage and the target
+must succeed at a DC 36 Fortitude save or be deafened for 1 minute.
+BYTHOS
+The bythos is a guardian of space and time, and at all times seeks out
+those who misuse planar and temporal magic. A bythos is a roughly
+humanoid creature with four arms and a body made of swirling clouds
+and mist. Despite its appearance, its body feels like dry stone. A bythos
+seeks out paradoxes caused by irresponsible planar or dimensional
+travelers and repairs breaches where the barriers between planes have
+become thin or damaged. If the mortals responsible remain in the area
+and cannot be convinced to cease their activities, the bythos has no
+qualms about removing them. Using its ability to manipulate time, a
+bythos might cause an opponent to quickly die of old age as time
+speeds up around them, or cause a target to disappear from
+time and space.
+PSYCHOPOMP ALLIES
+The mandate of marut inevitables
+is similar to that of psychopomps.
+Generally, the practical psychopomps
+are content to let an unyielding
+marut complete its mission and
+swoop in afterward to ensure the
+work has been done, but occasionally,
+they may work together.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868508
+4425020
+
+PAGE 74
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868571
+4425083
+D
+73
+73
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+HELLFIRE
+Stinking, sulfurous hellﬁre is infused
+with evil. Hellﬁre always deals a
+combination of ﬁre damage and evil
+damage, though the speciﬁc ratio
+depends on the hellﬁre’s origin. Certain
+types of hellﬁre can impose other
+eﬀects on creatures as well, such as
+sapping their strength or memories.
+SARGLAGON
+CREATURE 8
+LE
+LARGE
+AMPHIBIOUS
+DEVIL
+FIEND
+Perception +18; greater darkvision, see invisibility
+Languages Celestial, Infernal; telepathy 100 feet
+Skills Arcana +14, Athletics +18, Deception +15, Diplomacy +15, Intimidation +17, Stealth +15
+Str +6, Dex +3, Con +4, Int +2, Wis +4, Cha +3
+AC 27; Fort +18, Ref +13, Will +16; +1 status to all saves vs. magic
+HP 120; Immunities ﬁre; Weaknesses good 5; Resistances physical 5 (except silver), poison 10
+Heavy Aura (aura, divine, incapacitation, transmutation) 10 feet. A creature that enters the
+heavy aura must attempt a DC 23 Will save. It is then temporarily immune for 10 minutes.
+Success The creature is unaﬀected.
+Failure The creature is encumbered while it remains in the area. If the creature is
+already encumbered, it is immobilized while it remains within the aura.
+Critical Failure As failure, but the eﬀect persists for 3 rounds after leaving the aura.
+Stygian Guardian Ǻȓ Trigger A creature or object within the sarglagon’s reach is targeted
+by an attack; Eﬀect The sarglagon interposes themself, giving the creature or object
+standard cover against the attack (+2 circumstance bonus to AC), or greater cover
+(+4 circumstance bonus to AC) if the sarglagon was already granting it lesser cover.
+Speed 25 feet, ﬂy 25 feet, swim 30 feet
+Melee Ȱɵ fangs +20 (evil, magical), Damage 2d12+9 piercing plus 1d6 evil
+Melee Ȱɵ tentacle arm +20 (agile, evil, magical); Damage 2d8+9 bludgeoning plus 1d6
+evil and sarglagon venom
+Divine Innate Spells DC 23, attack +18; 5th control water, dimension door; 4th dimension
+door (at will), freedom of movement, hydraulic torrent; Constant (2nd) see invisibility
+Rituals DC 23; infernal pact
+Drown ʚʖ (conjuration, divine, incapacitation) The sarglagon conjures murky water
+to ﬁll the lungs of a creature that can’t breathe water within 30 feet. The target must
+attempt a DC 26 Fortitude save.
+Critical Success The target is unaﬀected.
+Success The target coughs up water and is sickened 1.
+Failure The target is holding its breath (Core Rulebook
+478). The only action it can take is to attempt a
+Fortitude save against Drown to expel the
+water, which is a single action.
+Critical Failure The target falls unconscious
+and begins suﬀocating. If the target
+succeeds at its Fortitude save
+while suﬀocating, it coughs up the
+water and can breathe again.
+Sarglagon Venom (poison) Saving Throw DC 26
+Fortitude; Maximum Duration 6 rounds; Stage
+1 2d6 poison damage and clumsy 1 (1 round);
+Stage 2 3d6 poison damage and clumsy 2 (1 round)
+OSYLUTH (BONE DEVIL)
+An osyluth is an unparalleled inquisitor that revels
+in the sadism and torture for which Hell is so well
+known. These devils’ charge is to seek out heresies,
+both among mortals and among other ﬁends—a
+commandment they uphold with unwavering
+fervor. They spawn within the Styx-fed swamps
+of Hell’s ﬁfth layer, Stygia; where heresies and
+the souls of heretics stagnate, osyluths eventually
+rise. In the remote corners of that same layer of Hell,
+they build massive, calciﬁed hives where they perform their vile
+interrogations and perfect their torturous arts upon lesser devils
+and petitioners alike.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868571
+4425083
+
+PAGE 239
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868736
+4425248
+Bestiary 2
+238
+238
+AAPOPH MUTATIONS
+Aapoph are prone to mutations, which
+you can choose or roll using a d%.
+1–45
+No mutation
+46–56
+Dual tail
+57–66
+Additional fangs
+67–74
+Additional, vestigial arm
+75–84
+Hooded neck
+85–91
+Horns
+92–96
+Additional, vestigial head
+97–100
+Spiny scales
+scales—yet these variations have little impact on their overall combat prowess—
+and combat prowess is the measure by which zyss judge them.
+AAPOPH SERPENTFOLK
+CREATURE 3
+UNCOMMON
+CE
+MEDIUM
+HUMANOID
+MUTANT
+SERPENTFOLK
+Perception +8; darkvision, scent (imprecise) 30 feet
+Languages Aklo, Undercommon; telepathy 100 feet
+Skills Acrobatics +7, Athletics +11, Intimidation +6
+Str +4, Dex +2, Con +3, Int –3, Wis +1, Cha –1
+Items scimitar
+AC 18; Fort +10, Ref +7, Will +6 (+2 status vs. mental)
+HP 60; Resistances poison 5
+Attack of Opportunity Ǻȓ
+Speed 25 feet
+Melee Ȱɵ scimitar +11 (forceful, sweep), Damage 1d6+6 slashing
+Melee Ȱɵ fangs +11, Damage 1d8+6 piercing plus serpentfolk venom
+Melee Ȱɵ tail +11 (agile), Damage 1d6+6 bludgeoning plus Knockdown
+Serpentfolk Venom (poison) As zyss serpentfolk, but DC 20.
+Slithering Attack Ȱɵ The aapoph serpentfolk makes one scimitar or fangs Strike and
+one tail Strike, each targeting a diﬀerent creature. These attacks both count toward
+the aapoph’s multiple attack penalty, but the penalty doesn’t increase until after the
+aapoph makes both attacks.
+COIL SPY
+Some serpentfolk undergo intense ritual training and practice to improve their
+innate ability to disguise themselves. These serpentfolk often identify as members
+of a sinister society known as the Coils of Ydersius, and the most devoted of
+their number seek out methods of reincarnating into new forms to even more
+efﬁciently inﬁltrate enemy societies. But before such agents take this extreme
+step, they must prove themselves as Coil spies. These serpentfolk train in
+methods of inﬁltrating other societies to such an extent that they might be
+capable of inﬁltrating a mammalian civilization for years. Though they’re
+expected to work entirely toward the eventual triumph of their people,
+most Coil spies also ﬁnd personal pursuits to keep them occupied in
+the shorter term. When Coil spies get caught, it’s rarely due to a lack
+of pure skill, but rather to their arrogance or recklessness as they
+pursue their hedonistic desires.
+COIL SPY
+CREATURE 4
+UNCOMMON
+NE
+MEDIUM
+HUMANOID
+SERPENTFOLK
+Perception +10; darkvision, scent (imprecise) 30 feet
+Languages
+Aklo,
+Common,
+Dwarven,
+Gnomish,
+Undercommon; telepathy 100 feet
+Skills Acrobatics +10, Deception +13, Diplomacy +11,
+Intimidation +11, Occultism +10, Society +10, Stealth
++12, Thievery +12
+Str +2, Dex +4, Con +1, Int +4, Wis +2, Cha +5
+Items hand crossbow (20 bolts), hunting spider venom (2), shortsword, thieves’
+tools
+AC 22; Fort +9, Ref +12, Will +10 (+4 status vs. mental); +1 status to all saves vs.
+magic
+HP 48; Resistances poison 5
+Speed 25 feet
+Melee Ȱɵ shortsword +14 (agile, ﬁnesse, versatile S), Damage 1d6+5 piercing
+plus serpentfolk venom
+Melee Ȱɵ fangs +14 (ﬁnesse), Damage 1d6+5 piercing plus
+serpentfolk venom
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868736
+4425248
+
+PAGE 305
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868802
+4425314
+Bestiary 2
+304
+304
+Ability Glossary
+The following creature abilities are listed here because
+they are shared by many creatures or are highly complex.
+The statistics for individual creatures might alter the
+traits, the number of actions, or other rules of these
+abilities. Anything noted in a speciﬁc creature’s stat
+block overrides the general rules for the ability below.
+In these abilities, “monster” is used for the creature
+that has the ability, to differentiate it from any other
+creatures the ability might affect.
+All-Around Vision This monster can see in all directions
+simultaneously, and therefore can’t be ﬂanked.
+Aquatic Ambush Ȱɵ Requirements The monster is hiding in
+water and a creature that hasn’t detected it is within the
+listed number of feet; Eﬀect The monster moves up to
+its swim Speed + 10 feet toward the triggering creature,
+traveling on water and on land. Once the creature is in
+reach, the monster makes a Strike against it. The creature is
+ﬂat-footed against this Strike.
+Attack of Opportunity Ǻȓ Trigger A creature within the
+monster’s reach uses a manipulate action or a move action,
+makes a ranged attack, or leaves a square during a move
+action it’s using; Eﬀect The monster attempts a melee Strike
+against the triggering creature. If the attack is a critical
+hit and the trigger was a manipulate action, the monster
+disrupts that action. This Strike doesn’t count toward the
+monster’s multiple attack penalty, and its multiple attack
+penalty doesn’t apply to this Strike.
+At-Will Spells The monster can cast its at-will spells any
+number of times without using up spell slots.
+Aura A monster’s aura automatically aﬀects everything within
+a speciﬁed emanation around that monster. The monster
+doesn’t need to spend actions on the aura; rather, the aura’s
+eﬀects are applied at speciﬁc times, such as when a creature
+ends its turn in the aura or when creatures enter the aura.
+If an aura does nothing but deal damage, its entry lists
+only the radius, damage, and saving throw. Such auras deal
+this damage to a creature when the creature enters the aura
+and when a creature starts its turn in the aura. A creature
+can take damage from the aura only once per round.
+The GM might determine that a monster’s aura doesn’t
+aﬀect its own allies. For example, a creature might be
+immune to a monster’s frightful presence if they have been
+around each other for a long time.
+Buck Ǻȓ Most monsters that serve as mounts can attempt to
+buck oﬀ unwanted or annoying riders, but most mounts
+will not use this reaction against a trusted creature unless
+the mounts are spooked or mistreated; Trigger A creature
+Mounts or uses the Command an Animal action while riding
+the monster; Eﬀect The triggering creature must succeed
+at a Reﬂex saving throw against the listed DC or fall oﬀ the
+creature and land prone. If the save is a critical failure, the
+triggering creature also takes 1d6 bludgeoning damage in
+addition to the normal damage for the fall.
+Catch Rock Ǻȓ Requirements The monster must have a free hand
+but can Release anything it’s holding as part of this reaction;
+Trigger The monster is targeted with a thrown rock Strike
+or a rock would fall on the monster; Eﬀect The monster
+gains a +4 circumstance bonus to its AC against the
+triggering attack or to any defense against the falling rock.
+If the attack misses or the monster successfully defends
+against the falling rock, the monster catches the rock, takes
+no damage, and is now holding the rock.
+Change Shape
+Ȱɵ
+(concentrate,
+[magical
+tradition],
+polymorph, transmutation) The monster changes its shape
+indeﬁnitely. It can use this action again to return to its
+natural shape or adopt a new shape. Unless otherwise
+noted, a monster cannot use Change Shape to appear
+as a speciﬁc individual. Using Change Shape counts as
+creating a disguise for the Impersonate use of Deception.
+The monster’s transformation automatically defeats
+Perception DCs to determine whether the creature is
+a member of the ancestry or creature type into which
+it transformed, and it gains a +4 status bonus to its
+Deception DC to prevent others from seeing through its
+disguise. Change Shape abilities specify what shapes the
+monster can adopt. The monster doesn’t gain any special
+abilities of the new shape, only its physical form. For
+example, in each shape, it replaces its normal Speeds and
+Strikes, and might potentially change its senses or size.
+Any changes are listed in its stat block.
+Constant Spells A constant spell aﬀects the monster without
+the monster needing to cast it, and its duration is unlimited.
+If a constant spell gets counteracted, the monster can
+reactivate it by spending the normal spellcasting actions
+the spell requires.
+Constrict Ȱɵ The monster deals the listed amount of damage
+to any number of creatures grabbed or restrained by it.
+Each of those creatures can attempt a basic Fortitude save
+with the listed DC.
+Coven (divination, mental, occult) This monster can form a
+coven with two or more other creatures who also have the
+coven ability. This involves performing an 8-hour ceremony
+with all prospective coven members. After the coven
+is formed, each of its members gains elite adjustments
+(page 6), adjusting their levels accordingly. Coven members
+can sense other members’ locations and conditions by
+spending a single action, which has the concentrate trait,
+and can sense what another coven member is sensing as a
+two‑action activity, which has the concentrate trait as well.
+Covens also grant spells and rituals to their members,
+but these can be cast only in cooperation between three
+coven members who are all within 30 feet of one another.
+A coven member can contribute to a coven spell with a
+single-action spellcasting activity that has a single verbal
+component. If two coven members have contributed these
+actions within the last round, a third member can cast a
+coven spell on her turn by spending the normal spellcasting
+actions. A coven can cast its coven spells an unlimited
+number of times but can cast only one coven spell each
+round. All covens grant the 8th-level baleful polymorph
+spell and all the following spells, which the coven can
+cast at any level up to 5th: augury, charm, clairaudience,
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868802
+4425314
+
+PAGE 306
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868803
+4425315
+305
+305
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+clairvoyance, dream message, illusory disguise, illusory
+scene, prying eye, and talking corpse. Individual creatures
+with the coven ability also grant additional spells to any
+coven they join. A coven can also cast the control weather
+ritual (Core Rulebook 411), with a DC of 23 instead of the
+standard DC.
+If a coven member leaving the coven or the death of a
+coven member brings the coven below three members,
+the remaining members keep their elite adjustments for
+24 hours, but without enough members to contribute the
+necessary actions, they can’t cast coven spells.
+Darkvision A monster with darkvision can see perfectly well
+in areas of darkness and dim light, though such vision is in
+black and white only. Some forms of magical darkness, such
+as a 4th-level darkness spell, block normal darkvision. A
+monster with greater darkvision, however, can see through
+even these forms of magical darkness.
+Disease When a creature is exposed to a monster’s disease, it
+attempts a Fortitude save or succumbs to the disease. The
+level of a disease is the level of the monster inﬂicting the
+disease. The disease follows the rules for aﬄictions found
+on page 457 of the Pathﬁnder Core Rulebook.
+Engulf ʚʖ The monster Strides up to double its Speed and can
+move through the spaces of any creatures in its path. Any
+creature of the monster’s size or smaller whose space the
+monster moves through can attempt a Reﬂex save with the
+listed DC to avoid being engulfed. A creature unable to act
+automatically critically fails this save. If a creature succeeds
+at its save, it can choose to be either pushed aside (out of
+the monster’s path) or pushed in front of the monster to the
+end of the monster’s movement. The monster can attempt
+to Engulf the same creature only once in a single use of
+Engulf. The monster can contain as many creatures as can
+ﬁt in its space.
+A creature that fails its save is pulled into the monster’s
+body. It is grabbed, is slowed 1, and has to hold its breath
+or start suﬀocating. The creature takes the listed amount
+of damage when ﬁrst engulfed and at the end of each of
+its turns while it’s engulfed. An engulfed creature can get
+free by Escaping against the listed Escape DC. An engulfed
+creature can attack the monster engulﬁng it, but only with
+unarmed attacks or with weapons of light Bulk or less. The
+engulﬁng creature is ﬂat-footed against the attack. If the
+monster takes piercing or slashing damage equaling or
+exceeding the listed Rupture value from a single attack or
+spell, the engulfed creature cuts itself free. A creature that
+gets free by either method can immediately breathe and
+exits the engulﬁng monster’s space.
+If the monster dies, all creatures it has engulfed are
+automatically released as the monster’s form loses cohesion.
+Fast Healing A monster with this ability regains the given
+number of Hit Points each round at the beginning of its turn.
+Ferocity Ǻȓ Trigger The monster is reduced to 0 HP; Eﬀect The
+monster avoids being knocked out and remains at 1 HP, but
+its wounded value increases by 1. When it is wounded 3, it
+can no longer use this ability.
+Frightful Presence (aura, emotion, fear, mental) A creature
+that ﬁrst enters the area must attempt a Will save.
+Regardless of the result of the saving throw, the creature
+is temporarily immune to this monster’s Frightful Presence
+for 1 minute.
+Critical Success The creature is unaﬀected by the presence.
+Success The creature is frightened 1.
+Failure The creature is frightened 2.
+Critical Failure The creature is frightened 4.
+Grab Ȱɵ Requirements The monster’s last action was a
+success with a Strike that lists Grab in its damage entry,
+or it has a creature grabbed using this action; Eﬀect The
+monster automatically Grabs the target until the end of the
+monster’s next turn. The creature is grabbed by whichever
+body part the monster attacked with, and that body part
+can’t be used to Strike creatures until the grab is ended.
+Using Grab extends the duration of the monster’s Grab
+until the end of its next turn for all creatures grabbed by it.
+A grabbed creature can use the Escape action to get out of
+the grab, and the Grab ends for a grabbed creatures if the
+monster moves away from it.
+Greater Constrict Ȱɵ The monster deals the listed amount of
+damage to any number of creatures grabbed or restrained
+by it. Each of those creatures can attempt a basic Fortitude
+save with the listed DC. A creature that fails this save
+falls unconscious, and a creature that succeeds is then
+temporarily immune to falling unconscious from Greater
+Constrict for 1 minute.
+Improved Grab, Improved Knockdown, or Improved Push
+Ȳ˓ The monster can use Grab, Knockdown, or Push (as
+appropriate) as a free action triggered by a hit with its
+initial attack. A monster with Improved Grab still needs
+to spend an action to extend the duration for creatures it
+already has grabbed.
+Knockdown Ȱɵ Requirements The monster’s last action was
+a success with a Strike that lists Knockdown in its damage
+entry; Eﬀect The monster knocks the target prone.
+Lifesense Lifesense allows a monster to sense the vital
+essence of living and undead creatures within the listed
+range. The sense can distinguish between the positive
+energy animating living creatures and the negative
+energy animating undead creatures, much as sight
+distinguishes colors.
+Light Blindness When ﬁrst exposed to bright light, the
+monster is blinded until the end of its next turn. After this
+exposure, light doesn’t blind the monster again until after it
+spends 1 hour in darkness. However, as long as the monster
+is in an area of bright light, it’s dazzled.
+Low-Light Vision The monster can see in dim light as though
+it were bright light, so it ignores the concealed condition
+due to dim light.
+Negative Healing A creature with negative healing draws
+health from negative energy rather than positive energy.
+It is damaged by positive damage and is not healed by
+positive healing eﬀects. It does not take negative damage,
+and it is healed by negative eﬀects that heal undead.
+Poison When a creature is exposed to a monster’s poison,
+it attempts a Fortitude save to avoid becoming poisoned.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868803
+4425315
+
+PAGE 307
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868804
+4425316
+Bestiary 2
+306
+306
+The level of a poison is the level of the monster inﬂicting
+the poison. The poison follows the rules for aﬄictions
+found on page 457 of the Core Rulebook.
+Push Ȱɵ Requirements The monster’s last action was a success
+with a Strike that lists Push in its damage entry; Eﬀect The
+monster automatically knocks the target away from the
+monster. Unless otherwise noted in the ability description,
+the creature is pushed 5 feet. If the attack was a critical hit,
+this distance is doubled.
+Regeneration This monster regains the listed number of Hit
+Points each round at the beginning of its turn. Its dying
+condition never increases beyond dying 3 as long as its
+regeneration is active. However, if it takes damage of a
+type listed in the regeneration entry, its regeneration
+deactivates until the end of its next turn. Deactivate the
+regeneration before applying any damage of a listed type,
+since that damage might kill the monster by bringing it
+to dying 4.
+Rend Ȱɵ A Rend entry lists a Strike the monster has;
+Requirements The monster hit the same enemy with two
+consecutive Strikes of the listed type in the same round;
+Eﬀect The monster automatically deals that Strike’s damage
+again to the enemy.
+Retributive Strike Ǻȓ Trigger An enemy damages the
+monster’s ally, and both are within 15 feet of the monster;
+Eﬀect The ally gains resistance to all damage against the
+triggering damage equal to 2 + the monster’s level. If the
+foe is within reach, the monster makes a melee Strike
+against it.
+Scent Scent involves sensing creatures or objects by smell,
+and is usually a vague sense. The range is listed in the ability,
+and it functions only if the creature or object being detected
+emits an aroma (for instance, incorporeal creatures usually
+do not exude an aroma).
+If a creature emits a heavy aroma or is upwind, the GM
+can double or even triple the range of scent abilities used to
+detect that creature, and the GM can reduce the range if a
+creature is downwind.
+Shield Block Ǻȓ Trigger The monster has its shield raised and
+takes damage from a physical attack; Eﬀect The monster
+snaps its shield into place to deﬂect a blow. The shield
+prevents the monster from taking an amount of damage
+up to the shield’s Hardness. The monster and the shield
+each take any remaining damage, possibly breaking or
+destroying the shield.
+Swallow Whole Ȱɵ (attack) The monster attempts to swallow
+a creature of the listed size or smaller that it has grabbed in
+its jaws or mouth. If a swallowed creature is of the maximum
+size listed, the monster can’t use Swallow Whole again.
+If the creature is smaller than the maximum, the monster
+can usually swallow more creatures; the GM determines
+the maximum. The monster attempts an Athletics check
+opposed by the grabbed creature’s Reﬂex DC. If it succeeds,
+it swallows the creature. The monster’s mouth or jaws no
+longer grab a creature it has swallowed, so the monster is
+free to use them to Strike or Grab once again. The monster
+can’t attack creatures it has swallowed.
+A swallowed creature is grabbed, is slowed 1, and has to
+hold its breath or start suﬀocating. The swallowed creature
+takes the listed amount of damage when ﬁrst swallowed
+and at the end of each of its turns while it’s swallowed. If
+the victim Escapes this ability’s grabbed condition, it exits
+through the monster’s mouth. This frees any other creature
+grabbed in the monster’s mouth or jaws. A swallowed
+creature can attack the monster that has swallowed it, but
+only with unarmed attacks or with weapons of light Bulk
+or less. The swallowing creature is ﬂat-footed against the
+attack. If the monster takes piercing or slashing damage
+equaling or exceeding the listed Rupture value from a single
+attack or spell, the swallowed creature cuts itself free. A
+creature that gets free by either Escaping or cutting itself
+free can immediately breathe and exits the swallowing
+monster’s space.
+If the monster dies, a swallowed creature can be
+freed by creatures adjacent to the corpse if they spend
+a combined total of 3 actions cutting the monster open
+with a weapon or unarmed attack that deals piercing or
+slashing damage.
+Swarm Mind This monster doesn’t have a single mind
+(typically because it’s a swarm of smaller creatures), and is
+immune to mental eﬀects that target only a speciﬁc number
+of creatures. It is still subject to mental eﬀects that aﬀect all
+creatures in an area.
+Telepathy (aura, divination, magical) A monster with
+telepathy can communicate mentally with any creatures
+within the listed radius, as long as they share a language.
+This doesn’t give any special access to their thoughts,
+and communicates no more information than normal
+speech would.
+Throw Rock Ȱɵ The monster interacts to pick up a rock within
+reach or retrieve a stowed rock and throws it, making a
+ranged Strike.
+Trample ̂ˬ The monster Strides up to double its Speed
+and can move through the spaces of creatures of the listed
+size, Trampling each creature whose space it enters. The
+monster can attempt to Trample the same creature only
+once in a single use of Trample. The monster deals the
+damage of the listed Strike, but trampled creatures can
+attempt a basic Reﬂex save at the listed DC (no damage on
+a critical success, half damage on a success, double damage
+on a critical failure).
+Tremorsense Tremorsense allows a monster to feel the
+vibrations through a solid surface caused by movement.
+It is usually an imprecise sense with a limited range
+(listed in the ability). Tremorsense functions only if the
+monster is on the same surface as the subject, and only
+if the subject is moving along (or burrowing through) the
+surface.
+Wavesense This sense allows a monster to feel vibrations
+caused by movement through a liquid. It’s usually an
+imprecise sense with a limited range (listed in the ability).
+Wavesense functions only if the monster and the subject
+are in the same body of liquid, and only if the subject is
+moving through the liquid.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868804
+4425316
+
+PAGE 308
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868805
+4425317
+307
+307
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Creature Traits
+Some of these traits appear in the Core Rulebook, while
+others are new to this book and the ﬁrst Bestiary.
+Rarity Traits
+Unless the creature is common, its trait list starts with a
+rarity trait. Creatures that don’t start with a rarity trait
+have the common rarity.
+Common A creature of this rarity is generally known and can
+be summoned with the appropriate summon spell.
+Uncommon Less is known about uncommon creatures than
+common creatures. They typically can’t be summoned. The
+DC of Recall Knowledge checks related to this creature is
+increased by 2.
+Rare As the name suggests, these creatures are rare. They
+typically can’t be summoned. The DC of Recall Knowledge
+checks related to this creature is increased by 5.
+Unique A creature with this rarity is one of a kind. The DC
+of Recall Knowledge checks related to this creature is
+increased by 10.
+Alignment Trait Abbreviation
+Following any listed rarity trait is one of nine alignment
+trait abbreviations. They are listed below with the
+alignment traits that these abbreviations represent.
+General descriptions of alignments are found on pages
+28–29 of the Core Rulebook.
+CE Chaotic and evil
+CG Chaotic and good
+CN Chaotic and neutral
+LG Lawful and good
+LE Lawful and evil
+LN Lawful and neutral
+N Neutral
+NE Neutral and evil
+NG Neutral and good
+Size
+After any listed rarity trait and the alignment
+abbreviation, each creature has its size listed
+before its other traits.
+Gargantuan This size of creature takes up a space
+of at least 20 feet by 20 feet (16 squares on the grid), but
+can be much larger. Gargantuan creatures typically have a
+reach of 20 feet if they are tall, or 15 feet if they are long,
+but larger ones could have a much longer reach.
+Huge A Huge creature takes up a 15-foot-by-15-foot space (9
+squares on the grid). It typically has a reach of 15 feet if the
+creature is tall or 10 feet if the creature is long.
+Large A Large creature takes up a 10-foot-by-10-foot space
+(4 squares on the grid). It typically has a reach of 10 feet if
+the creature is tall or 5 feet if the creature is long.
+Medium A Medium creature takes up a 5-foot-by-5-foot space
+(1 square on the grid) and typically has a reach of 5 feet.
+Small A Small creature takes up a 5-foot-by-5-foot space
+(1 square on the grid) and typically has a reach of 5 feet.
+Tiny A creature of this size takes up less than a 5-foot-by-5-foot
+space (1 square on the grid), and multiple Tiny creatures
+can occupy the same square on the grid. At least four Tiny
+creatures can occupy the same square, and even more
+can occupy the same square, at the GM’s discretion. They
+can also occupy the same space as larger creatures, and
+if their reach is 0 feet, they must do so in order to attack.
+Other Traits
+After any rarity traits, the alignment abbreviation, and
+the size, each creature’s trait line lists all other traits the
+creature has in alphabetical order. The following is a list
+of those traits found in the book.
+Aberration Aberrations are creatures from beyond the planes
+or corruptions of the natural order.
+Acid Creatures with this trait are primarily constituted of acid
+or have a magical connection to it.
+Aeon These monitors are the self-styled defenders of reality.
+Traditional aeons have dualistic natures and forms, and
+they hold a dichotomy of interests, though axiomites
+and inevitables do not. Aeons other than axiomites
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868805
+4425317
+
+PAGE 309
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868806
+4425318
+Bestiary 2
+308
+308
+and inevitables communicate via a strange telepathic
+hodgepodge of sensory sending called envisioning.
+Air Creatures with this trait consist primarily of air or have a
+magical connection to that element.
+Amphibious An amphibious creature can breathe in water and
+in air, even outside of its preferred environment, usually
+indeﬁnitely but at least for hours. These creatures often
+have a swim Speed. Their bludgeoning and slashing unarmed
+Strikes don’t take the usual –2 penalty for being underwater.
+Angel This family of celestials is native to the plane of Nirvana.
+Most angels are neutral good, have darkvision, and have a
+weakness to evil damage.
+Animal An animal is a creature with a relatively low
+intelligence. It typically doesn’t have an Intelligence modiﬁer
+above –4, can’t speak languages, and can’t be trained in
+Intelligence‑based skills.
+Aquatic Aquatic creatures are at home underwater. Their
+bludgeoning and slashing unarmed Strikes don’t take the
+usual –2 penalty for being underwater. Aquatic creatures
+can breathe water but not air.
+Archon Members of this family of celestials are the protectors
+of Heaven and are lawful good. They have darkvision and a
+weakness to evil damage.
+Azata This family of celestials is native to Elysium. They are
+chaotic good and have darkvision and a weakness to evil
+and cold iron.
+Beast A creature similar to an animal but with an Intelligence
+modiﬁer of –3 or higher is usually a beast. Unlike an animal,
+a beast might be able to speak and reason.
+Caligni These subterranean people have darkvision, and some
+have powers to create darkness.
+Celestial Creatures that hail from or have a strong connection
+to the good-aligned planes are called celestials. Celestials
+can survive the basic environmental eﬀects of planes in the
+Outer Sphere.
+Cold Creatures with this trait have a magical connection to cold.
+Construct A construct is an artiﬁcial creature empowered
+by a force other than necromancy. Constructs are often
+mindless; they are immune to bleed damage, death
+eﬀects, disease, healing, necromancy, nonlethal attacks,
+poison, and the doomed, drained, fatigued, paralyzed,
+sickened, and unconscious conditions; and they may
+have Hardness based on the materials used to construct
+their bodies. Constructs are not living creatures, nor are
+they undead. When reduced to 0 Hit Points, a construct
+creature is destroyed.
+Couatl A family of supernatural feathered serpents who serve
+as guardians and messengers on the Material Plane for
+various good-aligned divinities.
+Daemon A family of ﬁends spawned on the desolate plane
+of Abaddon, most daemons are neutral evil. They
+typically have darkvision and weakness to good
+damage.
+Demon A family of ﬁends hailing from the Abyss,
+most demons are chaotic evil. Most
+demons have darkvision and weakness
+to good damage.
+Devil A family of ﬁends from Hell, most devils
+are lawful evil. They typically have greater
+darkvision, weakness to good damage,
+immunity to ﬁre, and telepathy.
+Dinosaur These reptiles have survived
+from prehistoric times.
+Dragon Dragons are reptilian creatures,
+often winged or with the power of ﬂight.
+Most are able to use a breath weapon and are
+immune to sleep and the paralyzed condition.
+Dream Creatures native to the Dimension of Dreams
+can be any alignment and possess a diverse array
+of abilities, although those associated with the
+nightmare realm of Leng are almost always evil and
+immune to that realm’s freezing temperatures.
+Earth Creatures with this trait consist primarily of earth or
+have a magical connection to that element.
+Electricity Creatures with this trait have a magical connection
+to electricity.
+Elemental Elementals are creatures directly tied to an element
+and are native to the Elemental Planes. Elementals don’t
+need to breathe.
+Ethereal Ethereal creatures are natives of the Ethereal Plane.
+They can survive the basic environmental eﬀects of the
+Ethereal Plane.
+Fetchling A creature with this trait is a member of
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868806
+4425318
+
+PAGE 310
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868807
+4425319
+309
+309
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+the fetchling ancestry. Fetchlings were once human,
+but generations of life on the Shadow Plane have
+transformed them.
+Fey Creatures of the First World are called the fey.
+Fiend Creatures that hail from or have a strong connection
+to the evil-aligned planes are called ﬁends. Fiends can
+survive the basic environmental eﬀects of planes in the
+Outer Sphere.
+Fire Creatures with this trait are primarily constituted of ﬁre
+or have a magical connection to that element.
+Fungus Fungal creatures have the fungus trait. They are
+distinct from normal fungi.
+Ghoul Ghouls are vile undead creatures that feast on ﬂesh.
+Giant Giants are massive humanoid creatures.
+Gnome A creature with this trait is a member of the gnome
+ancestry. Gnomes are small people skilled at magic who
+seek out new experiences and usually have low-light vision.
+Golem Golems are a special type of construct. Golems are immune
+to almost all magic, but most have a weakness to certain spells.
+Gremlin Cruel and mischievous fey, gremlins have acclimated
+to life on the Material Plane.
+Grippli Gripplis are a family of froglike humanoids.
+Human A creature with this trait is a member of the human
+ancestry. Humans are a diverse array of people known for
+their adaptability. An ability with this trait can be used or
+selected only by humans.
+Humanoid Humanoids reason and act much like humans. They
+typically stand upright and have two arms and two legs.
+Ifrit Ifrits are planar scions descended from efreet.
+Incorporeal An incorporeal creature or object has no physical
+form. It can pass through solid objects, including walls.
+When inside an object, an incorporeal creature can’t perceive,
+attack, or interact with anything outside the object, and if it
+starts its turn in an object, it is slowed 1. Corporeal creatures
+can pass through an incorporeal creature, but they can’t end
+their movement in its space.
+An incorporeal creature can’t attempt Strength-based checks
+against physical creatures or objects—only against incorporeal
+ones—unless those objects have the ghost touch property rune.
+Likewise, a corporeal creature can’t attempt Strength-based
+checks against incorporeal creatures or objects.
+Incorporeal creatures usually have immunity to eﬀects
+or conditions that require a physical body, like disease,
+poison, and precision damage. They usually have resistance
+against all damage (except force damage and damage from
+Strikes with the ghost touch property rune), with double
+the resistance against non-magical damage.
+Inevitable These constructed aeons were created by the
+axiomites. Each type of inevitable is dedicated to a speciﬁc
+task. Most inevitables have weakness to chaotic damage.
+Leshy Leshys are small, roughly humanoid plant creatures.
+Magical Something with the magical trait is imbued with
+magical energies not tied to a speciﬁc tradition of magic.
+A magical item radiates a magic aura infused with its
+dominant school of magic.
+Some items or eﬀects are closely tied to a particular
+tradition of magic. In these cases, the item has the arcane,
+divine, occult, or primal trait instead of the magical trait.
+Any of these traits indicate that the item is magical.
+Mindless A mindless creature has either programmed or
+rudimentary mental attributes. Most, if not all, of their mental
+ability modiﬁers are –5. They are immune to all mental eﬀects.
+Monitor Creatures that hail from or have a strong connection
+to the neutrally aligned planes are called monitors. Monitors
+can survive the basic environmental eﬀects of planes in the
+Outer Sphere.
+Morlock Morlocks are a family of pale, underground-dwelling
+humanoids who, generations ago, were regular humans.
+Mummy A mummy is an undead creature created from a
+preserved corpse.
+Mutant The monster has mutated or evolved, granting it
+unusual beneﬁts, drawbacks, or both.
+Negative Creatures with this trait are natives of the Negative
+Energy Plane. They can survive the basic environmental
+eﬀects of the Negative Energy Plane.
+Oni Oni are a family of ﬁends who dwell on the Material Plane
+and take monstrous forms based on humanoid shapes.
+Ooze Oozes are creatures with simple anatomies. They tend
+to have low mental ability scores and immunity to mental
+eﬀects and precision damage.
+Oread Oreads are planar scions descended from shaitans.
+Petitioner Petitioners are mortal souls who have been judged
+and then transformed into creatures native to other planes.
+Petitioners can survive the basic environmental eﬀects of
+their home plane.
+Plant Vegetable creatures have the plant trait. They are
+distinct from normal plants.
+Positive Creatures with this trait are natives of the Positive
+Energy Plane. They can survive the basic environmental
+eﬀects of the Positive Energy Plane.
+Protean A family of monitors spawned within the Maelstrom,
+these creatures are guardians of disorder and are chaotic
+neutral. They typically have darkvision, an amorphous
+anatomy, and a weakness to lawful damage.
+Psychopomp A family of monitors spawned within the
+Boneyard to convey souls to the Outer Planes, most
+psychopomps are true neutral. They typically have
+darkvision, lifesense, and spirit touch, and they are immune
+to death eﬀects.
+Qlippoth A family of ﬁends hailing from the Abyss, most
+qlippoth are chaotic evil. Their appearance aﬀects the
+minds of non-qlippoth that view them.
+Serpentfolk Serpentfolk are a family of serpentine humanoids.
+Shadow Creatures with this trait are natives of the Shadow
+Plane. They can survive the basic environmental eﬀects of
+the Shadow Plane.
+Skulk Skulks are a family of humanoids whose skin can shift
+coloration to aid in stealth.
+Sonic A creature with this trait has a magical connection to
+powerful sound.
+Soulbound These constructs are mentally augmented by a
+fragment of a once-living creature’s soul.
+Spirit Spirits are ephemeral creatures deﬁned by their spiritual
+essence. They often lack a material form.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868807
+4425319
+
+PAGE 311
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868808
+4425320
+Bestiary 2
+310
+310
+Spriggan Kin to gnomes, spriggans tend to be evil and can
+grow in size to resemble giants.
+Suli Sulis are planar scions descended from jann.
+Swarm A swarm is a mass or cloud of creatures that functions
+as one monster. Its size entry gives the size of the entire
+mass, though for most swarms the individual creatures
+that make up that mass are Tiny. A swarm can occupy the
+same space as other creatures, and must do so in order to
+use its damaging action. A swarm typically has weakness
+to eﬀects that deal damage over an area (like area spells
+and splash weapons). Swarms are immune to the grappled,
+prone, and restrained conditions.
+Sylph Sylphs are planar scions descended from djinn.
+Tane The Tane are powerful creatures created eons ago by the
+Eldest of the First World. All of the Tane treat whatever
+plane they happen to be on as their home plane.
+Time Time creatures are natives of the Dimension of Time.
+They do not age, and while some may be driven by
+supernatural hungers, they do not need to eat or drink to
+survive. They can survive the basic environmental eﬀects
+of the Dimension of Time.
+Troll Trolls are giant, brutish creatures and are well known for
+their ability to regenerate.
+Undead Once living, these creatures were infused after death
+with negative energy and soul-corrupting evil magic. When
+reduced to 0 Hit Points, an undead creature is destroyed.
+Undead creatures are damaged by positive energy, are healed
+by negative energy, and don’t beneﬁt from healing eﬀects.
+Undine Undines are planar scions descended from marids.
+Urdefhan Urdefhans are humanoids who have pacts with
+daemons, have transparent skin, and drink blood.
+Vampire Undead creatures who thirst for blood, vampires are
+notoriously versatile and hard to destroy.
+Velstrac A family of ﬁends from the Shadow Plane that are
+associated with pain and agony. All velstracs possess some
+form of disturbing gaze.
+Water Creatures with this trait are primarily constituted of
+water or have a magical connection to the element.
+Wight A wight is an undead creature that drains life and
+stands vigil over its burial site.
+Werecreature These shapechanging creatures either are naturally
+able to shift between animal, humanoid, and hybrid forms or
+are aﬄicted with a curse that forces them to shift involuntarily.
+Wraith A wraith is an incorporeal undead creature infused
+with negative energy and driven by a hatred of all life.
+Weapon Traits
+The bonuses from these weapons traits are included in
+creatures’ statistics, but the traits appear because they’re
+relevant for the clumsy and enfeebled conditions.
+Brutal A ranged attack with this trait uses its Strength
+modifier instead of Dexterity on the attack roll.
+Finesse This melee attack is Dexterity based. Even if
+a weapon normally has the finesse trait, this trait is
+omitted in the Strike entry if the monster is applying
+its Strength.
+Rituals
+Some creatures from the Outer Planes can use special
+rituals to call their kin or transport themselves to another
+plane. These are the rituals used by various creatures in
+this book.
+ABYSSAL PACT
+RITUAL 1
+UNCOMMON
+CONJURATION
+Cast 1 day
+Primary Check Religion (expert; you must be a demon)
+You call in a favor from another demon whose level is no
+more than double Abyssal pact’s spell level, two demons
+whose levels are each at least 2 less than double the spell
+level, or three demons whose levels are each at least 3 less
+than double the spell level.
+Critical Success You conjure the demon or demons. They
+are eager to pursue the task, so they don’t ask for a favor.
+Success You conjure the demon or demons. They are not
+eager to pursue the task, so they require a favor in return.
+Failure You don’t conjure any demons.
+Critical Failure The demon or demons are angry that
+you disturbed them. They appear before you, but they
+immediately attack you.
+ANGELIC MESSENGER
+RITUAL 1
+UNCOMMON
+CONJURATION
+Cast 1 day
+Primary Check Religion (expert; you must be an angel)
+You transport yourself to either a celestial plane or a world
+on the Material Plane where worshippers of your patron
+can be found. You must be of no higher level than double
+angelic messenger’s spell level.
+Critical Success As success, but if you’ve never visited that
+plane or world before, you appear right in front of the
+message’s intended recipient.
+Success You arrive on the target plane or world at the
+last location you visited on that plane or world, or to a
+random location within 10d10 miles of your message’s
+intended recipient if you’ve never visited that plane or
+world before.
+Failure You don’t travel.
+Critical Failure You accidentally travel to the wrong plane,
+possibly a dangerous plane.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868808
+4425320
+
+PAGE 312
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868809
+4425321
+311
+311
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DAEMONIC PACT
+RITUAL 1
+UNCOMMON
+CONJURATION
+Cast 1 day
+Primary Check Religion (expert; you must be a daemon or an
+urdefhan)
+You call upon the powers of Abaddon to grant you the
+assistance of a daemon. You call upon a daemon whose level
+can be no more than double daemonic pact’s spell level, two
+daemons whose levels are each at least 2 less than double the
+spell level, or three daemons whose levels are each at least 3
+less than double the spell level.
+Critical Success You conjure the daemon or daemons, and
+they require nothing in return for their service.
+Success You conjure the daemon or daemons, who serve you
+willingly, but require a sacriﬁce in the form of spilled blood
+(either another creature’s or your own).
+Failure You don’t conjure any daemons.
+Critical Failure You don’t conjure any daemons, and the self-
+sacriﬁce required to perform the ritual leaves you drained 1
+(or drained 2 if the spell level is 5 or higher).
+INFERNAL PACT
+RITUAL 1
+UNCOMMON
+CONJURATION
+Cast 1 day
+Primary Check Religion (expert; you must be a devil)
+You make an appeal to a powerful devil, asking it to bind some
+of its subordinates to your service. If you succeed, the devil
+sends you its choice of one devil whose level is no more than
+double infernal pact’s level, two devils whose levels are each at
+least 2 less than double the spell level, or three devils whose
+levels are each at least 3 less than double the spell level.
+Critical Success The devils are sent to you and serve you for
+1d4 weeks.
+Success The devils are sent to you and serve you for 1d4 days.
+Failure Your request is denied.
+Critical Failure Not only is your request denied, but the
+powerful devil sends word of its displeasure to your master.
+Languages
+Some creatures in this book speak languages not found on
+page 65 of the Pathﬁnder Core Rulebook. The languages
+are listed below.
+TABLE: UNCOMMON LANGUAGES
+Language
+Speakers
+Alghollthu
+Alghollthus and some of their enemies
+Arboreal
+Plant creatures
+Caligni
+Calignis
+Cyclops
+Cyclopes and associated creatures
+Daemonic
+Daemons and their worshippers
+Destrachan
+Destrachans
+D’ziriak
+D’ziriaks
+Grippli
+Gripplis
+Jistkan
+Ancient constructs
+Jyoti
+Jyotis
+Varisian
+Regional human language, Sandpoint Devil
+Utopian
+Axiomites and inevitables
+Creatures by Type
+The following lists organize the creatures by their major
+types, subdivided by level. A superscript “U” indicates
+that a creature is uncommon, “R” that it’s rare, and “Uq”
+that it’s unique.
+Aberration
+Level 0 grindylow; Level 1 akataR; Level 2 bog striderU, choker;
+Level 3 d’ziriak, vampiric mist; Level 6 lunar nagaU, skrik nettle,
+xillU; Level 7 hound of TindalosR, sceaduinarR; Level 8 denizen of
+Leng, destrachan, intellect devourerU; Level 9 irnakurse, spirit
+nagaU; Level 10 ghonhatine; Level 11 gosregU, isqulugU, quoppopak;
+Level 13 froghemothU, irlgaunt, Leng spiderU; Level 14 doprillu,
+worm that walksU; Level 15 neothelidU; Level 17 vaspercham
+Animal
+Level  –1 compsognathus, raven, snapping turtle; Level  0
+badger, blue-ringed octopus, bottlenose dolphin, dream
+spider, giant maggot, sea snake, spear frog, stingray, vampire
+squid; Level 1 cave scorpion, giant cockroach, giant ﬂy, giant
+frog, giant solifugid, giant tick, hippocampus, manta ray, reef
+octopus; Level 2 black bear, blindheim, cave ﬁsher, cockroach
+swarm, giant ant, giant badger, giant crab, giant leech,
+giant toad, hippogriﬀ, shocker lizard, wolverine; Level 3 fen
+mosquito swarm, giant chameleon, giant dragonﬂy nymph,
+giant whiptail centipede, pachycephalosaurus, raven swarm;
+Level 4 brood leech swarm, giant dragonﬂy, giant wolverine,
+hadrosaurid, rhinoceros; Level  5 army ant swarm, emperor
+cobra, hippopotamus, ogre spider, orca, polar bear; Level 6
+ﬁre jellyﬁsh swarm, giant mosquito, iguanodon, woolly
+rhinoceros; Level 7 elasmosaurus, giant jellyﬁsh, megalania,
+sportlebore swarm; Level  8 anancus, giant hippocampusu,
+giant slug; Level 9 aurumvorax, giant snapping turtle, giant
+squid, mastodon, tick swarm, titan centipede; Level  10
+behemoth hippopotamus; Level 11 spinosaurus; Level 12 frost
+worm; Level 15 black scorpion; Level 18 duneshaker solifugid
+Beast
+Level  1 carbuncleR; Level  2 blink dogU, wereboar; Level  3
+chupacabra, trollhound, yeth hound; Level  4 peryton,
+weretiger; Level  5 grodair, leucrotta; Level  6 ahuizotlU,
+hodagU; Level 7 dweomercatU, hellcat; Level 8 behir, gorgonU,
+Sandpoint DevilUq; Level 9 dracoliskU; Level 10 bebilith, quetz
+couatlU, water ormR; Level 11 thunderbirdU; Level 12 catoblepas;
+Level 15 umonleeU; Level 17 leydrothU, thrasfyrR
+Celestial
+Level 4 hound archon; Level 6 bralani; Level 10 movanic deva;
+Level  12 monadic deva; Level  14 trumpet archon; Level  16
+planetarU; Level  19 star archon; Level  20 bastion archonR,
+veranallia; Level 23 solarR
+Construct
+Level  3 necrophidius; Level  4 carrion golemU, scarecrow;
+Level 5 dig-widget, ice golemU; Level 6 wood golemU; Level 8
+glass golemU; Level  11 spiral centurion; Level  17 radiant
+wardenU; Level 18 aolazR
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868809
+4425321
+
+PAGE 313
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868810
+4425322
+Bestiary 2
+312
+312
+Dragon
+Level 2 shadow drake, tatzlwyrm; Level 6 sea drake; Level 7
+young crystal dragonU; Level 8 young brine dragonU; Level 9
+dracoliskU, young magma dragonU; Level  10 peluda, young
+cloud dragonU; Level 11 adult crystal dragonU, young umbral
+dragonU; Level 12 adult brine dragonU; Level 13 adult magma
+dragonU; Level 14 adult cloud dragonU, ravener huskR; Level 15
+adult umbral dragonU, shoal linnormU; Level 16 ancient crystal
+dragonR, ford linnormU, zomok; Level 17 ancient brine dragonR;
+Level  18 ancient magma dragonR, cairn linnormU; Level  19
+ancient cloud dragonR, taiga linnormU; Level 20 ancient umbral
+dragonR; Level 21 ravenerR; Level 23 jabberwockR
+Dream
+Level 8 animate dreamU, denizen of Leng; Level 13 Leng spiderU
+Elemental
+Level  1 dust mephitU, ice mephitU, ooze mephitU, steam
+mephitU; Level  2 ember fox, icicle snake, living boulder,
+mudwretch, spark bat; Level 4 earthen destrier, ﬁlth ﬁre, living
+thunderclap, mist stalker; Level 6 belker, blizzardborn, sand
+sentry, striding ﬁre; Level 7 young crystal dragonU; Level 8
+granite glyptodont, magma scorpion, young brine dragonU;
+Level 9 young magma dragonU; Level 10 icewyrm, melody on
+the wind, young cloud dragonU; Level 11 adult crystal dragonU;
+Level 12 adult brine dragonU; Level 13 adult magma dragonU;
+Level 14 adult cloud dragonU; Level 16 ancient crystal dragonR;
+Level  17 ancient brine dragonR; Level  18 ancient magma
+dragonR; Level 19 ancient cloud dragonR; Level 21 lerritan
+Ethereal
+Level 6 xillU
+Fey
+Level 1 brownie, nixie, vexgit; Level 2 leprechaun, nuglub; Level 3
+quicklingU, twigjack; Level 4 kelpie, korredU; Level 5 grimstalker,
+grodair, lurker in light; Level 6 baobhan sithU, blodeuweddU; Level 7
+culdewen, stygira; Level 9 nuckelavee; Level 10 nereid; Level 12
+rusalka; Level 14 ankou; Level 15 marrmora; Level 20 nornR
+Fiend
+Level 1 augur, cythnigotU; Level 3 yeth hound, zebub; Level 5
+ostiarius; Level  6 babau, evangelist; Level  7 hellcat, invidiak,
+shoggtiU, soul eaterU; Level  8 nabasu, onidoshi, Sandpoint
+DevilUq, sarglagon; Level 9 osyluth; Level 10 bebilith, nyogothU,
+piscodaemon, sacristan; Level 11 hamatula, hezrou, meladaemon;
+Level 12 chernobueU, derghodaemon, interlocutor; Level 13 ice
+yai, thanadaemon; Level 14 augnagarU, ﬁre yai, gylou, nalfeshnee;
+Level 16 cornugon; Level 17 water yai; Level 18 purrodaemon,
+thulgantU; Level 19 vrolikaiU; Level 20 eremite, olethrodaemon
+Fungus
+Level 2 slime mold; Level 3 violet fungus; Level 5 basidirond;
+Level 7 tendriculos
+Giant
+Level 4 frost trollU; Level 6 cavern trollU, wood giant; Level 8
+marsh giant, onidoshi, two-headed trollU; Level  12 athach,
+taiga giant; Level 13 ice yai, shadow giant; Level 14 ﬁre yai;
+Level 15 jotund trollR; Level 17 water yai
+Humanoid
+Level 1 fetchling scout; Level 1 grippli scout, ifrit pyrochemist,
+oread guard, skulk, suli dune dancer, sylph sneak, undine
+hydromancer; Level 2 morlock, triton, wereboar, zyss serpentfolkU;
+Level  3 aapoph serpentfolkU, caligni slayerU, spriggan bully,
+urdefhan warrior; Level 4 Coil spyU, weretiger; Level 5 urdefhan
+tormentor; Level 6 witchwyrdU, wood giant; Level 7 spriggan
+warlord; Level 8 bone prophetU, marsh giant, onidoshi; Level 9
+jyoti; Level 12 athach, taiga giant; Level 13 ice yai, shadow giant;
+Level 14 ﬁre yai; Level 17 water yai; Level 19 GrendelUq
+Monitor
+Level 3 akizendri, esobok; Level 5 azuretzi, catrina; Level 7
+theletos, vanth; Level 9 zelekhut; Level 10 imentesh; Level 15
+marut; Level 16 bythosU; Level 20 yamarajU
+negative
+Level 7 sceaduinarR
+Ooze
+Level 1 amoeba swarm, giant amoeba; Level 2 slime mold; Level 4
+gray ooze; Level 6 verdurous ooze; Level 13 carnivorous blob
+Petitioner
+Level 1 petitioner
+Plant
+Level –1 yellow musk thrall; Level 1 sunﬂower leshy; Level 2
+yellow musk brute, yellow musk creeper; Level  3 assassin
+vine, twigjack; Level 4 calathgar, ﬂytrap leshy, mandragora;
+Level 6 blodeuweddU, scythe tree; Level 7 drainberry bush,
+tendriculos; Level 8 moonﬂowerU; Level 13 viper vine; Level 16
+zomok; Level 19 sardR
+Positive
+Level 9 jyoti
+Shadow
+Level 1 fetchling scout; Level 2 shadow drake; Level 3 d’ziriak;
+Level 11 young umbral dragonU; Level 13 shadow giant; Level 15
+adult umbral dragonU; Level 20 ancient umbral dragonR
+Time
+Level 7 hound of TindalosR
+Undead
+Level –1 crawling hand; Level 1 void zombieR; Level 2 draugr;
+Level 4 attic whisperer, cairn wightU; Level 5 bog mummy,
+giant crawling hand, skaveling; Level 6 revenant, vrykolakas
+spawn; Level 7 specter, totenmaske; Level 8 bodakU, mohrg;
+Level 9 dread wraith, witchﬁreU; Level 10 vrykolakas master;
+Level 11 devourerU; Level 13 vrykolakas ancientU; Level 14
+ravener huskR; Level 21 ravenerR
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868810
+4425322
+
+PAGE 314
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868811
+4425323
+313
+313
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Creature
+Level
+Category
+Type Traits
+Rarity
+Page
+Compsognathus
+–1
+Dinosaur
+Animal
+Common
+80
+Crawling hand
+–1
+Crawling hand
+Undead
+Common
+56
+Raven
+–1
+Raven
+Animal
+Common
+221
+Snapping turtle
+–1
+Turtle
+Animal
+Common
+269
+Yellow musk thrall
+–1
+Yellow musk creeper
+Plant
+Common
+300
+Badger
+0
+Badger
+Animal
+Common
+32
+Blue–ringed octopus
+0
+Octopus
+Animal
+Common
+187
+Bottlenose dolphin
+0
+Dolphin
+Animal
+Common
+84
+Dream spider
+0
+Spider
+Animal
+Common
+249
+Giant maggot
+0
+Fly
+Animal
+Common
+120
+Grindylow
+0
+Grindylow
+Aberration
+Common
+138
+Sea snake
+0
+Snake
+Animal
+Common
+245
+Spear frog
+0
+Frog
+Animal
+Common
+121
+Stingray
+0
+Ray
+Animal
+Common
+226
+Vampire squid
+0
+Squid
+Animal
+Common
+254
+Akata
+1
+Akata
+Aberration
+Rare
+13
+Amoeba swarm
+1
+Ooze
+Ooze
+Common
+192
+Augur
+1
+Velstrac
+Fiend
+Common
+280
+Brownie
+1
+Brownie
+Fey
+Common
+44
+Carbuncle
+1
+Carbuncle
+Beast
+Rare
+47
+Cave scorpion
+1
+Scorpion
+Animal
+Common
+234
+Cythnigot
+1
+Qlippoth
+Fiend
+Uncommon
+212
+Dust mephit
+1
+Elemental, mephit
+Elemental
+Uncommon
+112
+Fetchling scout
+1
+Fetchling
+Humanoid, shadow
+Common
+117
+Giant amoeba
+1
+Ooze
+Ooze
+Common
+192
+Giant cockroach
+1
+Cockroach
+Animal
+Common
+53
+Giant ﬂy
+1
+Fly
+Animal
+Common
+120
+Giant frog
+1
+Frog
+Animal
+Common
+121
+Giant solifugid
+1
+Solifugid
+Animal
+Common
+246
+Giant tick
+1
+Tick
+Animal
+Common
+260
+Grippli scout
+1
+Grippli
+Humanoid
+Common
+139
+Hippocampus
+1
+Hippocampus
+Animal
+Common
+142
+Ice mephit
+1
+Elemental, mephit
+Elemental
+Uncommon
+112
+Ifrit pyrochemist
+1
+Planar scion, geniekin
+Humanoid
+Common
+200
+Manta ray
+1
+Ray
+Animal
+Common
+226
+Nixie
+1
+Nixie
+Fey
+Common
+183
+Ooze mephit
+1
+Elemental, mephit
+Elemental
+Uncommon
+113
+Oread guard
+1
+Planar scion, geniekin
+Humanoid
+Common
+200
+Petitioner
+1
+Petitioner
+Petitioner
+Common
+198
+Reef octopus
+1
+Octopus
+Animal
+Common
+187
+Skulk
+1
+Skulk
+Humanoid
+Common
+243
+Steam mephit
+1
+Elemental, mephit
+Elemental
+Uncommon
+113
+Suli dune danger
+1
+Planar scion, geniekin
+Humanoid
+Common
+201
+Sunﬂower leshy
+1
+Leshy
+Plant
+Common
+160
+Sylph sneak
+1
+Planar scion, geniekin
+Humanoid
+Common
+202
+Undine hydromancer
+1
+Planar scion, geniekin
+Humanoid
+Common
+203
+Vexgit
+1
+Gremlin
+Fey
+Common
+134
+Void zombie
+1
+Void zombie
+Undead
+Rare
+288
+Black bear
+2
+Bear
+Animal
+Common
+36
+Blindheim
+2
+Blindheim
+Animal
+Common
+39
+Blink dog
+2
+Blink dog
+Beast
+Uncommon
+40
+Creatures by Level
+The following tables present every single stat block in
+Bestiary 2, organized by level. Each entry also details the
+creature’s category, showing under which entry it can be
+found and the general group it belongs to; its type traits,
+which are useful for summoning and some other abilities;
+its rarity; and page number.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868811
+4425323
+
+PAGE 315
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868812
+4425324
+Bestiary 2
+314
+314
+Bog strider
+2
+Bog strider
+Aberration
+Uncommon
+43
+Cave ﬁsher
+2
+Cave ﬁsher
+Animal
+Common
+49
+Choker
+2
+Choker
+Aberration
+Common
+51
+Cockroach swarm
+2
+Cockroach
+Animal
+Common
+53
+Draugr
+2
+Draugr
+Undead
+Common
+102
+Ember fox
+2
+Elemental, ﬁre
+Elemental
+Common
+110
+Giant ant
+2
+Ant
+Animal
+Common
+20
+Giant badger
+2
+Badger
+Animal
+Common
+32
+Giant crab
+2
+Crab
+Animal
+Common
+55
+Giant leech
+2
+Leech
+Animal
+Common
+156
+Giant toad
+2
+Toad
+Animal
+Common
+261
+Hippogriﬀ
+2
+Hippogriﬀ
+Animal
+Common
+143
+Icicle snake
+2
+Elemental, water
+Elemental
+Common
+114
+Leprechaun
+2
+Leprechaun
+Fey
+Common
+158
+Living boulder
+2
+Elemental, earth
+Elemental
+Common
+108
+Morlock
+2
+Morlock
+Humanoid
+Common
+174
+Mudwretch
+2
+Mudwretch
+Elemental
+Common
+176
+Nuglub
+2
+Gremlin
+Fey
+Common
+135
+Shadow drake
+2
+Drake
+Dragon, shadow
+Common
+100
+Shocker lizard
+2
+Shocker lizard
+Animal
+Common
+240
+Slime mold
+2
+Ooze
+Fungus, ooze
+Common
+193
+Spark bat
+2
+Elemental, air
+Elemental
+Common
+106
+Tatzlwyrm
+2
+Tatzlwyrm
+Dragon
+Common
+256
+Triton
+2
+Triton
+Humanoid
+Common
+263
+Wereboar
+2
+Werecreature
+Beast, humanoid
+Common
+290
+Wolverine
+2
+Wolverine
+Animal
+Common
+295
+Yellow musk brute
+2
+Yellow musk creeper
+Plant
+Common
+301
+Yellow musk creeper
+2
+Yellow musk creeper
+Plant
+Common
+300
+Zyss serpentfolk
+2
+Serpentfolk
+Humanoid
+Uncommon
+237
+Aapoph serpentfolk
+3
+Serpentfolk
+Humanoid
+Uncommon
+237
+Akizendri
+3
+Protean
+Monitor
+Common
+204
+Assassin vine
+3
+Assassin vine
+Plant
+Common
+26
+Caligni slayer
+3
+Caligni
+Humanoid
+Uncommon
+46
+Chupacabra
+3
+Chupacabra
+Beast
+Common
+52
+D’ziriak
+3
+D’ziriak
+Aberration, shadow
+Common
+104
+Esobok
+3
+Psychopomp
+Monitor
+Common
+208
+Fen mosquito swarm
+3
+Mosquito
+Animal
+Common
+175
+Giant chameleon
+3
+Lizard
+Animal
+Common
+168
+Giant dragonﬂy nymph
+3
+Dragonﬂy
+Animal
+Common
+98
+Giant whiptail centipede
+3
+Centipede
+Animal
+Common
+50
+Necrophidius
+3
+Necrophidius
+Construct
+Common
+180
+Pachycephalosaurus
+3
+Dinosaur
+Animal
+Common
+80
+Quickling
+3
+Quickling
+Fey
+Uncommon
+218
+Raven swarm
+3
+Raven
+Animal
+Common
+221
+Spriggan bully
+3
+Spriggan
+Humanoid
+Common
+252
+Trollhound
+3
+Trollhound
+Beast
+Common
+268
+Twigjack
+3
+Twigjack
+Fey, plant
+Common
+270
+Urdefhan warrior
+3
+Urdefhan
+Humanoid
+Common
+272
+Vampiric mist
+3
+Vampiric mist
+Aberration
+Common
+278
+Violet fungus
+3
+Violet fungus
+Fungus
+Common
+286
+Yeth hound
+3
+Yeth hound
+Beast, ﬁend
+Common
+302
+Zebub
+3
+Devil
+Fiend
+Common
+72
+Attic whisperer
+4
+Attic whisperer
+Undead
+Common
+28
+Brood leech swarm
+4
+Leech
+Animal
+Common
+156
+Cairn wight
+4
+Wight
+Undead
+Uncommon
+292
+Calathgar
+4
+Calathgar
+Plant
+Common
+45
+Carrion golem
+4
+Golem
+Construct
+Uncommon
+128
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868812
+4425324
+
+PAGE 316
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868813
+4425325
+315
+315
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Coil spy
+4
+Serpentfolk
+Humanoid
+Uncommon
+238
+Earthen destrier
+4
+Elemental, earth
+Elemental
+Common
+108
+Filth ﬁre
+4
+Elemental, ﬁre
+Elemental
+Common
+110
+Flytrap leshy
+4
+Leshy
+Plant
+Common
+161
+Frost troll
+4
+Troll
+Giant
+Uncommon
+264
+Giant dragonﬂy
+4
+Dragonﬂy
+Animal
+Common
+98
+Giant wolverine
+4
+Wolverine
+Animal
+Common
+295
+Gray ooze
+4
+Ooze
+Ooze
+Common
+193
+Hadrosaurid
+4
+Dinosaur
+Animal
+Common
+81
+Hound archon
+4
+Archon
+Celestial
+Common
+22
+Kelpie
+4
+Kelpie
+Fey
+Common
+154
+Korred
+4
+Korred
+Fey
+Uncommon
+155
+Living thunderclap
+4
+Elemental, air
+Elemental
+Common
+106
+Mandragora
+4
+Mandragora
+Plant
+Common
+170
+Mist stalker
+4
+Elemental, water
+Elemental
+Common
+114
+Peryton
+4
+Peryton
+Beast
+Common
+197
+Rhinoceros
+4
+Rhinoceros
+Animal
+Common
+228
+Scarecrow
+4
+Scarecrow
+Construct
+Common
+232
+Weretiger
+4
+Werecreature
+Beast, humanoid
+Common
+291
+Army ant swarm
+5
+Ant
+Animal
+Common
+20
+Azuretzi
+5
+Protean
+Monitor
+Common
+205
+Basidirond
+5
+Basidirond
+Fungus
+Common
+34
+Bog mummy
+5
+Mummy
+Undead
+Common
+177
+Catrina
+5
+Psychopomp
+Monitor
+Common
+209
+Dig–widget
+5
+Dig–widget
+Construct
+Common
+79
+Emperor cobra
+5
+Snake
+Animal
+Common
+245
+Giant crawling hand
+5
+Crawling hand
+Undead
+Common
+56
+Grimstalker
+5
+Grimstalker
+Fey
+Common
+137
+Grodair
+5
+Grodair
+Beast, fey
+Common
+140
+Hippopotamus
+5
+Hippopotamus
+Animal
+Common
+144
+Ice golem
+5
+Golem
+Construct
+Uncommon
+129
+Leucrotta
+5
+Leucrotta
+Beast
+Common
+162
+Lurker in light
+5
+Lurker in light
+Fey
+Common
+169
+Ogre spider
+5
+Spider
+Animal
+Common
+249
+Orca
+5
+Dolphin
+Animal
+Common
+84
+Ostiarius
+5
+Velstrac
+Fiend
+Common
+281
+Polar bear
+5
+Bear
+Animal
+Common
+36
+Skaveling
+5
+Skaveling
+Undead
+Common
+241
+Urdefhan tormentor
+5
+Urdefhan
+Humanoid
+Common
+273
+Ahuizotl
+6
+Ahuizotl
+Beast
+Uncommon
+12
+Babau
+6
+Demon
+Fiend
+Common
+64
+Baobhan sith
+6
+Baobhan sith
+Fey
+Uncommon
+33
+Belker
+6
+Elemental, air
+Elemental
+Common
+106
+Blizzardborn
+6
+Elemental, water
+Elemental
+Common
+114
+Blodeuwedd
+6
+Blodeuwedd
+Fey, plant
+Uncommon
+41
+Bralani
+6
+Azata
+Celestial
+Common
+30
+Cavern troll
+6
+Troll
+Giant
+Uncommon
+264
+Evangelist
+6
+Velstrac
+Fiend
+Common
+281
+Fire jellyﬁsh swarm
+6
+Jellyﬁsh
+Animal
+Common
+152
+Giant mosquito
+6
+Mosquito
+Animal
+Common
+175
+Hodag
+6
+Hodag
+Beast
+Uncommon
+145
+Iguanodon
+6
+Dinosaur
+Animal
+Common
+82
+Lunar naga
+6
+Naga
+Aberration
+Uncommon
+178
+Revenant
+6
+Revenant
+Undead
+Common
+227
+Sand sentry
+6
+Elemental, earth
+Elemental
+Common
+108
+Scythe tree
+6
+Scythe tree
+Plant
+Common
+235
+Sea drake
+6
+Drake
+Dragon
+Common
+101
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868813
+4425325
+
+PAGE 317
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868814
+4425326
+Bestiary 2
+316
+316
+Skrik nettle
+6
+Skrik nettle
+Aberration
+Common
+242
+Striding ﬁre
+6
+Elemental, ﬁre
+Elemental
+Common
+111
+Verdurous ooze
+6
+Ooze
+Ooze
+Common
+194
+Vrykolakas spawn
+6
+Vampire
+Undead
+Common
+276
+Witchwyrd
+6
+Witchwyrd
+Humanoid
+Uncommon
+294
+Wood giant
+6
+Giant
+Giant, humanoid
+Common
+124
+Wood golem
+6
+Golem
+Construct
+Uncommon
+130
+Woolly rhinoceros
+6
+Rhinoceros
+Animal
+Common
+228
+Xill
+6
+Xill
+Aberration, ethereal
+Uncommon
+299
+Culdewen
+7
+Culdewen
+Fey
+Common
+57
+Drainberry bush
+7
+Drainberry bush
+Plant
+Common
+99
+Dweomercat
+7
+Dweomercat
+Beast
+Uncommon
+103
+Elasmosaurus
+7
+Elasmosaurus
+Animal
+Common
+105
+Giant jellyﬁsh
+7
+Jellyﬁsh
+Animal
+Common
+152
+Hellcat
+7
+Hellcat
+Beast, ﬁend
+Common
+141
+Hound of Tindalos
+7
+Hound of Tindalos
+Aberration, time
+Rare
+146
+Invidiak
+7
+Demon
+Fiend
+Common
+65
+Megalania
+7
+Lizard
+Animal
+Common
+168
+Sceaduinar
+7
+Sceaduinar
+Aberration, negative
+Rare
+233
+Shoggti
+7
+Qlippoth
+Fiend
+Uncommon
+213
+Soul eater
+7
+Soul eater
+Fiend
+Uncommon
+247
+Spectre
+7
+Spectre
+Undead
+Common
+248
+Sportlebore swarm
+7
+Sportlebore
+Animal
+Common
+251
+Spriggan warlord
+7
+Spriggan
+Humanoid
+Common
+253
+Stygira
+7
+Stygira
+Fey
+Common
+255
+Tendriculos
+7
+Tendriculos
+Fungus, plant
+Common
+257
+Theletos
+7
+Aeon
+Monitor
+Common
+8
+Totenmaske
+7
+Totenmaske
+Undead
+Common
+262
+Vanth
+7
+Psychopomp
+Monitor
+Common
+210
+Young crystal dragon
+7
+Dragon, primal
+Dragon, elemental
+Uncommon
+91
+Anancus
+8
+Elephant
+Animal
+Common
+116
+Animate dream
+8
+Animate dream
+Dream
+Uncommon
+18
+Behir
+8
+Behir
+Beast
+Common
+38
+Bodak
+8
+Bodak
+Undead
+Uncommon
+42
+Bone prophet
+8
+Serpentfolk
+Humanoid
+Uncommon
+239
+Denizen of Leng
+8
+Denizen of Leng
+Aberration, dream
+Common
+70
+Destrachan
+8
+Destrachan
+Aberration
+Common
+71
+Giant hippocampus
+8
+Hippocampus
+Animal
+Uncommon
+142
+Giant slug
+8
+Slug
+Animal
+Common
+244
+Glass golem
+8
+Golem
+Construct
+Uncommon
+131
+Gorgon
+8
+Gorgon
+Beast
+Uncommon
+132
+Granite glyptodont
+8
+Elemental, earth
+Elemental
+Common
+109
+Intellect devourer
+8
+Intellect devourer
+Aberration
+Uncommon
+147
+Magma scorpion
+8
+Elemental, ﬁre
+Elemental
+Common
+111
+Marsh giant
+8
+Giant
+Giant, humanoid
+Common
+125
+Mohrg
+8
+Mohrg
+Undead
+Common
+172
+Moonﬂower
+8
+Moonﬂower
+Plant
+Uncommon
+173
+Nabasu
+8
+Demon
+Fiend
+Common
+65
+Onidoshi
+8
+Oni
+Fiend, giant, humanoid
+Common
+188
+Sandpoint Devil
+8
+Sandpoint Devil
+Beast, ﬁend
+Unique
+230
+Sarglagon
+8
+Devil
+Fiend
+Common
+72
+Two–headed troll
+8
+Troll
+Giant
+Uncommon
+265
+Young brine dragon
+8
+Dragon, primal
+Dragon, elemental
+Uncommon
+87
+Aurumvorax
+9
+Aurumvorax
+Animal
+Common
+29
+Dracolisk
+9
+Basilisk
+Beast, dragon
+Uncommon
+35
+Dread wraith
+9
+Wraith
+Undead
+Common
+298
+Giant snapping turtle
+9
+Turtle
+Animal
+Common
+269
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868814
+4425326
+
+PAGE 318
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868815
+4425327
+317
+317
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Giant squid
+9
+Squid
+Animal
+Common
+254
+Irnakurse
+9
+Fleshwarp
+Aberration
+Common
+118
+Jyoti
+9
+Jyoti
+Humanoid, positive
+Common
+153
+Mastodon
+9
+Elephant
+Animal
+Common
+116
+Nuckelavee
+9
+Nuckelavee
+Fey
+Common
+186
+Osyluth
+9
+Devil
+Fiend
+Common
+73
+Spirit naga
+9
+Naga
+Aberration
+Uncommon
+179
+Tick swarm
+9
+Tick
+Animal
+Common
+260
+Titan centipede
+9
+Centipede
+Animal
+Common
+50
+Witchﬁre
+9
+Witchﬁre
+Undead
+Uncommon
+293
+Young magma dragon
+9
+Dragon, primal
+Dragon, elemental
+Uncommon
+94
+Zelekhut
+9
+Aeon
+Monitor
+Common
+9
+Bebilith
+10
+Bebilith
+Beast, ﬁend
+Common
+37
+Behemoth hippopotamus
+10
+Hippopotamus
+Animal
+Common
+144
+Ghonhatine
+10
+Fleshwarp
+Aberration
+Common
+119
+Icewyrm
+10
+Elemental, water
+Elemental
+Common
+115
+Imentesh
+10
+Protean
+Monitor
+Common
+207
+Melody on the wind
+10
+Elemental, air
+Elemental
+Common
+107
+Movanic deva
+10
+Angel
+Celestial
+Common
+14
+Nereid
+10
+Nereid
+Fey
+Common
+182
+Nyogoth
+10
+Qlippoth
+Fiend
+Uncommon
+213
+Peluda
+10
+Peluda
+Dragon
+Common
+196
+Piscodaemon
+10
+Daemon
+Fiend
+Common
+58
+Quetz couatl
+10
+Couatl
+Beast
+Uncommon
+54
+Sacristan
+10
+Velstrac
+Fiend
+Common
+282
+Vrykolakas master
+10
+Vampire
+Undead
+Common
+276
+Water orm
+10
+Water orm
+Beast
+Rare
+289
+Young cloud dragon
+10
+Dragon, primal
+Dragon, elemental
+Uncommon
+89
+Adult crystal dragon
+11
+Dragon, primal
+Dragon, elemental
+Uncommon
+92
+Devourer
+11
+Devourer
+Undead
+Uncommon
+78
+Gosreg
+11
+Gosreg
+Aberration
+Uncommon
+133
+Hamatula
+11
+Devil
+Fiend
+Common
+74
+Hezrou
+11
+Demon
+Fiend
+Common
+66
+Isqulug
+11
+Isqulug
+Aberration
+Uncommon
+149
+Meladaemon
+11
+Daemon
+Fiend
+Common
+58
+Quoppopak
+11
+Quoppopak
+Aberration
+Common
+219
+Spinosaurus
+11
+Dinosaur
+Animal
+Common
+82
+Spiral centurion
+11
+Spiral centurion
+Construct
+Common
+250
+Thunderbird
+11
+Thunderbird
+Beast
+Uncommon
+259
+Young umbral dragon
+11
+Dragon, primal
+Dragon, shadow
+Uncommon
+96
+Adult brine dragon
+12
+Dragon, primal
+Dragon, elemental
+Uncommon
+87
+Athach
+12
+Athach
+Giant, humanoid
+Common
+27
+Catoblepas
+12
+Catoblepas
+Beast
+Common
+48
+Chernobue
+12
+Qlippoth
+Fiend
+Uncommon
+214
+Derghodaemon
+12
+Daemon
+Fiend
+Common
+59
+Frost worm
+12
+Frost worm
+Animal
+Common
+123
+Interlocutor
+12
+Velstrac
+Fiend
+Common
+283
+Monadic deva
+12
+Angel
+Celestial
+Common
+15
+Rusalka
+12
+Rusalka
+Fey
+Common
+229
+Taiga giant
+12
+Giant
+Giant, humanoid
+Common
+126
+Adult magma dragon
+13
+Dragon, primal
+Dragon, elemental
+Uncommon
+94
+Carnivorous blob
+13
+Ooze
+Ooze
+Common
+195
+Froghemoth
+13
+Froghemoth
+Aberration
+Uncommon
+122
+Ice yai
+13
+Oni
+Fiend, giant, humanoid
+Common
+189
+Irlgaunt
+13
+Irlgaunt
+Aberration
+Common
+148
+Leng spider
+13
+Leng spider
+Aberration, dream
+Uncommon
+157
+Shadow giant
+13
+Giant
+Giant, humanoid, shadow
+Common
+127
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868815
+4425327
+
+PAGE 319
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868816
+4425328
+Bestiary 2
+318
+318
+Thanadaemon
+13
+Daemon
+Fiend
+Common
+60
+Viper vine
+13
+Viper vine
+Plant
+Common
+287
+Vrykolakas ancient
+13
+Vampire
+Undead
+Uncommon
+277
+Adult cloud dragon
+14
+Dragon, primal
+Dragon, elemental
+Uncommon
+90
+Ankou
+14
+Ankou
+Fey
+Common
+19
+Augnagar
+14
+Qlippoth
+Fiend
+Uncommon
+215
+Doprillu
+14
+Doprillu
+Aberration
+Common
+85
+Fire yai
+14
+Oni
+Fiend, giant, humanoid
+Common
+190
+Gylou
+14
+Devil
+Fiend
+Common
+75
+Nalfeshnee
+14
+Demon
+Fiend
+Common
+67
+Ravener husk
+14
+Ravener
+Dragon, undead
+Rare
+224
+Trumpet archon
+14
+Archon
+Celestial
+Common
+23
+Worm that walks cultist
+14
+Worm that walks
+Aberration
+Uncommon
+297
+Adult umbral dragon
+15
+Dragon, primal
+Dragon, shadow
+Uncommon
+96
+Black scorpion
+15
+Scorpion
+Animal
+Common
+234
+Jotund troll
+15
+Troll
+Giant
+Rare
+267
+Marrmora
+15
+Marrmora
+Fey
+Common
+171
+Marut
+15
+Aeon
+Monitor
+Common
+10
+Neothelid
+15
+Neothelid
+Aberration
+Uncommon
+181
+Shoal linnorm
+15
+Linnorm
+Dragon
+Uncommon
+164
+Umonlee
+15
+Umonlee
+Beast
+Uncommon
+271
+Ancient crystal dragon
+16
+Dragon, primal
+Dragon, elemental
+Rare
+92
+Bythos
+16
+Aeon
+Monitor
+Uncommon
+11
+Cornugon
+16
+Devil
+Fiend
+Common
+76
+Fjord linnorm
+16
+Linnorm
+Dragon
+Uncommon
+165
+Planetar
+16
+Angel
+Celestial
+Uncommon
+15
+Zomok
+16
+Zomok
+Dragon, plant
+Common
+303
+Ancient brine dragon
+17
+Dragon, primal
+Dragon, elemental
+Rare
+88
+Leydroth
+17
+Leydroth
+Beast
+Uncommon
+163
+Radiant warden
+17
+Radiant warden
+Construct
+Uncommon
+220
+Thrasfyr
+17
+Thrasfyr
+Beast
+Rare
+258
+Vaspercham
+17
+Vaspercham
+Aberration
+Common
+279
+Water yai
+17
+Oni
+Fiend, giant, humanoid
+Common
+191
+Ancient magma dragon
+18
+Dragon, primal
+Dragon, elemental
+Rare
+95
+Aolaz
+18
+Aolaz
+Construct
+Rare
+21
+Cairn linnorm
+18
+Linnorm
+Dragon
+Uncommon
+166
+Duneshaker solifugid
+18
+Solifugid
+Animal
+Common
+246
+Purrodaemon
+18
+Daemon
+Fiend
+Common
+61
+Thulgant
+18
+Qlippoth
+Fiend
+Uncommon
+216
+Ancient cloud dragon
+19
+Dragon, primal
+Dragon, elemental
+Rare
+90
+Grendel
+19
+Grendel
+Humanoid
+Unique
+136
+Sard
+19
+Sard
+Plant
+Rare
+231
+Star archon
+19
+Archon
+Celestial
+Common
+23
+Taiga linnorm
+19
+Linnorm
+Dragon
+Uncommon
+167
+Vrolikai
+19
+Demon
+Fiend
+Uncommon
+68
+Ancient umbral dragon
+20
+Dragon, primal
+Dragon, shadow
+Rare
+97
+Bastion archon
+20
+Archon
+Celestial
+Rare
+24
+Eremite
+20
+Velstrac
+Fiend
+Common
+284
+Norn
+20
+Norn
+Fey
+Rare
+184
+Olethrodaemon
+20
+Daemon
+Fiend
+Common
+63
+Veranallia
+20
+Azata
+Celestial
+Common
+31
+Yamaraj
+20
+Psychopomp
+Monitor
+Uncommon
+211
+Lerritan
+21
+Lerritan
+Elemental
+Common
+159
+Ravener
+21
+Ravener
+Dragon, undead
+Rare
+224
+Jabberwock
+23
+Jabberwock
+Dragon
+Rare
+150
+Solar
+23
+Angel
+Celestial
+Rare
+16
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868816
+4425328
+
+PAGE 320
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868817
+4425329
+319
+319
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+This product is compliant with the Open Game License (OGL) and is suitable for use with the Pathﬁnder
+Roleplaying Game (Second Edition).
+Product Identity: The following items are hereby identiﬁed as Product Identity, as deﬁned in the Open Game
+License version 1.0a, Section 1(e), and are not Open Game Content: All trademarks, registered trademarks, proper
+nouns (characters, deities, locations, etc., as well as all adjectives, names, titles, and descriptive terms derived
+from proper nouns), artworks, characters, dialogue, locations, organizations, plots, storylines, and trade dress.
+(Elements that have previously been designated as Open Game Content, or are exclusively derived from previous
+Open Game Content, or that are in the public domain are not included in this declaration.)
+Open Game Content: Except for material designated as Product Identity (see above), the game mechanics of this
+Paizo game product are Open Game Content, as deﬁned in the Open Game License version 1.0a, Section 1(d).
+No portion of this work other than the material designated as Open Game Content may be reproduced in any
+form without written permission.
+Pathﬁnder Bestiary 2 (Second Edition) © 2020, Paizo Inc. All Rights Reserved. Paizo, the Paizo golem logo,
+Pathﬁnder, the Pathﬁnder logo, Pathﬁnder Society, Starﬁnder, and the Starﬁnder logo are registered trademarks of
+Paizo Inc.; the Pathﬁnder P logo, Pathﬁnder Accessories, Pathﬁnder Adventure Card Game, Pathﬁnder Adventure
+Card Society, Pathﬁnder Adventure Path, Pathﬁnder Adventures, Pathﬁnder Battles, Pathﬁnder Combat Pad,
+Pathﬁnder Flip-Mat, Pathﬁnder Flip-Tiles, Pathﬁnder Legends, Pathﬁnder Lost Omens, Pathﬁnder Pawns,
+Pathﬁnder Roleplaying Game, Pathﬁnder Tales, Starﬁnder Adventure Path, Starﬁnder Combat Pad, Starﬁnder Flip-
+Mat, Starﬁnder Pawns, Starﬁnder Roleplaying Game, and Starﬁnder Society are trademarks of Paizo Inc.
+Printed in China.
+OPEN GAME LICENSE Version 1.0a
+The following text is the property of Wizards of the Coast, Inc. and is Copyright 2000 Wizards of the
+Coast, Inc. (“Wizards”). All Rights Reserved.
+1. Deﬁnitions: (a) “Contributors” means the copyright and/or trademark owners who have contributed
+Open Game Content; (b) “Derivative Material” means copyrighted material including derivative works
+and translations (including into other computer languages), potation, modiﬁcation, correction, addition,
+extension, upgrade, improvement, compilation, abridgment or other form in which an existing work
+may be recast, transformed or adapted; (c) “Distribute” means to reproduce, license, rent, lease, sell,
+broadcast, publicly display, transmit or otherwise distribute; (d) “Open Game Content” means the game
+mechanic and includes the methods, procedures, processes and routines to the extent such content
+does not embody the Product Identity and is an enhancement over the prior art and any additional
+content clearly identiﬁed as Open Game Content by the Contributor, and means any work covered by
+this License, including translations and derivative works under copyright law, but speciﬁcally excludes
+Product Identity. (e) “Product Identity” means product and product line names, logos and identifying
+marks including trade dress; artifacts, creatures, characters, stories, storylines, plots, thematic elements,
+dialogue, incidents, language, artwork, symbols, designs, depictions, likenesses, formats, poses, concepts,
+themes and graphic, photographic and other visual or audio representations; names and descriptions
+of characters, spells, enchantments, personalities, teams, personas, likenesses and special abilities;
+places, locations, environments, creatures, equipment, magical or supernatural abilities or eﬀects,
+logos, symbols, or graphic designs; and any other trademark or registered trademark clearly identiﬁed
+as Product identity by the owner of the Product Identity, and which speciﬁcally excludes the Open
+Game Content; (f) “Trademark” means the logos, names, mark, sign, motto, designs that are used by a
+Contributor to identify itself or its products or the associated products contributed to the Open Game
+License by the Contributor (g) “Use”, “Used” or “Using” means to use, Distribute, copy, edit, format,
+modify, translate and otherwise create Derivative Material of Open Game Content. (h) “You” or “Your”
+means the licensee in terms of this agreement.
+2. The License: This License applies to any Open Game Content that contains a notice indicating that
+the Open Game Content may only be Used under and in terms of this License. You must aﬃx such a
+notice to any Open Game Content that you Use. No terms may be added to or subtracted from this
+License except as described by the License itself. No other terms or conditions may be applied to any
+Open Game Content distributed using this License.
+3. Oﬀer and Acceptance: By Using the Open Game Content You indicate Your acceptance of the
+terms of this License.
+4. Grant and Consideration: In consideration for agreeing to use this License, the Contributors grant
+You a perpetual, worldwide, royalty-free, non-exclusive license with the exact terms of this License
+to Use, the Open Game Content.
+5. Representation of Authority to Contribute: If You are contributing original material as Open Game
+Content, You represent that Your Contributions are Your original creation and/or You have suﬃcient
+rights to grant the rights conveyed by this License.
+6. Notice of License Copyright: You must update the COPYRIGHT NOTICE portion of this License to
+include the exact text of the COPYRIGHT NOTICE of any Open Game Content You are copying, modifying
+or distributing, and You must add the title, the copyright date, and the copyright holder’s name to the
+COPYRIGHT NOTICE of any original Open Game Content you Distribute.
+7. Use of Product Identity: You agree not to Use any Product Identity, including as an indication as
+to compatibility, except as expressly licensed in another, independent Agreement with the owner of
+each element of that Product Identity. You agree not to indicate compatibility or co-adaptability with
+any Trademark or Registered Trademark in conjunction with a work containing Open Game Content
+except as expressly licensed in another, independent Agreement with the owner of such Trademark
+or Registered Trademark. The use of any Product Identity in Open Game Content does not constitute
+a challenge to the ownership of that Product Identity. The owner of any Product Identity used in Open
+Game Content shall retain all rights, title and interest in and to that Product Identity.
+8. Identiﬁcation: If you distribute Open Game Content You must clearly indicate which portions of
+the work that you are distributing are Open Game Content.
+9. Updating the License: Wizards or its designated Agents may publish updated versions of this
+License. You may use any authorized version of this License to copy, modify and distribute any Open
+Game Content originally distributed under any version of this License.
+10. Copy of this License: You MUST include a copy of this License with every copy of the Open
+Game Content You distribute.
+11. Use of Contributor Credits: You may not market or advertise the Open Game Content using the
+name of any Contributor unless You have written permission from the Contributor to do so.
+12. Inability to Comply: If it is impossible for You to comply with any of the terms of this License
+with respect to some or all of the Open Game Content due to statute, judicial order, or governmental
+regulation then You may not Use any Open Game Material so aﬀected.
+13. Termination: This License will terminate automatically if You fail to comply with all terms herein
+and fail to cure such breach within 30 days of becoming aware of the breach. All sublicenses shall
+survive the termination of this License.
+14. Reformation: If any provision of this License is held to be unenforceable, such provision shall be
+reformed only to the extent necessary to make it enforceable.
+15. COPYRIGHT NOTICE
+Open Game License v 1.0a © 2000, Wizards of the Coast, Inc.
+System Reference Document © 2000, Wizards of the Coast, Inc.; Authors: Jonathan Tweet, Monte
+Cook, and Skip Williams, based on material by E. Gary Gygax and Dave Arneson.
+Angel, Monadic Deva from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Angel, Movanic Deva from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Aurumvorax from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Basidirond from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Blindheim from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Roger Musson.
+The Book of Fiends © 2003, Green Ronin Publishing; Authors: Aaron Loeb, Erik Mona, Chris Pramas,
+and Robert J. Schwalb.
+Armies of the Abyss © 2002, Green Ronin Publishing; Authors: Erik Mona and Chris Pramas.
+The Avatar’s Handbook © 2003, Green Ronin Publishing; Authors: Jesse Decker and Chris Thomasson.
+Book of the Righteous © 2002, Aaron Loeb.
+Legions of Hell © 2001, Green Ronin Publishing; Author: Chris Pramas.
+The Unholy Warrior’s Handbook © 2003, Green Ronin Publishing; Author: Robert J. Schwalb.
+Carbuncle from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Albie Fiore.
+Cave Fisher from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Lawrence Schick.
+Daemon, Derghodaemon from the Tome of Horrors Complete © 2011, Necromancer Games, Inc.,
+published and distributed by Frog God Games; Author: Scott Greene, based on original material by
+Gary Gygax.
+Daemon, Piscodaemon from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Dark Creeper from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Rik Shepard.
+Dark Stalker from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Simon Muth.
+Demon, Nabasu from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Demon, Shadow from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Neville White.
+Dracolisk from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Froghemoth from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Genie, Marid from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+PAIZO INC.
+Creative Directors • James Jacobs, Robert G. McCreary, and Sarah E. Robinson
+Director of Game Design • Jason Bulmahn
+Managing Developers • Adam Daigle and Amanda Hamon
+Organized Play Lead Developer • Linda Zayas-Palmer
+Developers • James Case, Eleanor Ferron, Jason Keeley, Luis Loza, Ron Lundeen,
+Patrick Renie, Michael Sayre, and Jason Tondro
+Starﬁnder Lead Designer • Joe Pasini
+Starﬁnder Senior Developer • John Compton
+Starﬁnder Society Developer • Thurston Hillman
+Designers • Logan Bonner, Lyz Liddell, and Mark Seifter
+Managing Editor • Judy Bauer
+Editors • Leo Glass, Patrick Hurley, Avi Kool, Kieran Newton, and Lu Pellazar
+Art Directors • Kent Hamilton and Sonja Morris
+Senior Graphic Designers • Emily Crowell and Adam Vick
+Production Artist • Tony Barnett
+Franchise Manager • Mark Moreland
+Paizo CEO • Lisa Stevens
+Chief Creative Oﬃcer • Erik Mona
+Chief Financial Oﬃcer • John Parrish
+Chief Operations Oﬃcer • Jeﬀrey Alvarez
+Chief Technical Oﬃcer • Vic Wertz
+Program Manager • Glenn Elliott
+Project Coordinator • Michael Nzazi
+Director of Sales • Pierce Watters
+Sales Associate • Cosmo Eisele
+Vice President of Marketing & Licensing • Jim Butler
+Public Relations Manager • Aaron Shanks
+Social Media Producer • Payton Smith
+Customer Service & Community Manager • Sara Marie
+Operations Manager • Will Chase
+Organized Play Manager • Tonya Woldridge
+Accountant • William Jorenby
+Data Entry Clerk • B. Scott Keim
+Director of Technology • Raimi Kong
+Web Content Manager • Maryssa Lagervall
+Senior Software Developer • Gary Teter
+Webstore Coordinator • Katina Davis
+Customer Service Team • Joan Hong, Virginia Jordan, Samantha Phelan, and
+Diego Valdez
+Warehouse Team • Laura Wilkes Carey, Mika Hawkins, Heather Payne, Jeﬀ Strand, and
+Kevin Underwood
+Website Team • Brian Bauman, Robert Brandenburg, Whitney Chatterjee, Erik Keith,
+Josh Thornton, and Andrew White
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Grippli from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and distributed
+by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Korred from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and distributed
+by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Necrophidius from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Simon Tillbrook.
+Nereid from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and distributed
+by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Quickling from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Quickwood from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by Gary Gygax.
+Scythe Tree from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene.
+Skulk from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and distributed
+by Frog God Games; Author: Scott Greene, based on original material by Simon Muth.
+Soul Eater from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published and
+distributed by Frog God Games; Author: Scott Greene, based on original material by David Cook.
+Troll, Two-Headed from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Oliver
+Charles MacDonald.
+Yellow Musk Creeper from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Albie Fiore.
+Yellow Musk Zombie from the Tome of Horrors Complete © 2011, Necromancer Games, Inc., published
+and distributed by Frog God Games; Author: Scott Greene, based on original material by Albie Fiore.
+Pathﬁnder Core Rulebook (Second Edition) © 2019, Paizo Inc.; Authors: Logan Bonner, Jason
+Bulmahn, Stephen Radney-MacFarland, and Mark Seifter.
+Pathﬁnder Bestiary 2 (Second Edition) © 2020, Paizo Inc.; Authors: Alexander Augunas, Dennis
+Baker, Jesse Benner, Joseph Blomquist, Logan Bonner, Paris Crenshaw, Adam Daigle, Jesse Decker,
+Darrin Drader, Brian Duckwitz, Robert N. Emerson, Scott Fernandez, Keith Garrett, Scott Gladstein,
+Matthew Goodall, T.H. Gulliver, BJ Hensley, Tim Hitchcock, Vanessa Hoskins, James Jacobs, Brian R.
+James, Jason Keeley, John Laﬀan, Lyz Liddell, Colm Lundberg, Ron Lundeen, Jason Nelson, Randy Price,
+Jessica Redekop, Patrick Renie, Alistair Rigg, Alex Riggs, David N. Ross, David Schwartz, Mark Seifter,
+Amber Stewart, Jeﬀrey Swank, Russ Taylor, and Jason Tondro.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868817
+4425329
+
+PAGE 321
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868818
+4425330
+GAMEMASTERY GUIDE
+GAMEMASTERY GUIDE
+HARDCOVER $49.99 and Deluxe Hardcover $69.99
+HARDCOVER $49.99 and Deluxe Hardcover $69.99
+© 2020, Paizo Inc. Paizo, the Paizo golem logo, Pathﬁ nder, and the Pathﬁ nder logo are registered trademarks of Paizo Inc.;
+the Pathﬁ nder P logo, Pathﬁ nder Adventure Path, Pathﬁ nder Roleplaying Game, and Pathﬁ nder Lost Omens are trademarks of Paizo Inc.
+Second Edition
+paizo.com/pathﬁ nder
+Learn to build adventures, campaigns, and the denizens and treasures that lurk within.
+Make the game your own with variant rules like dual-class characters and free archetypes.
+Explore new types of magic items like artifacts, cursed items, and relics that scale with
+your character.
+Experience exciting subsystems like chases, duels, and inﬁ ltrations.
+Find more than 80 new NPCs to use in your game, from guards to assassins.
+Available Now!
+Available Now!
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868818
+4425330
+
+PAGE 322
+================================================================================
+
+Rulebook
+More Monsters,
+More Mayhem!
+More than 300 menacing monsters and fearsome foes await within this
+compendium of creatures from the world of Pathﬁnder! From classic adversaries
+like giants, dragons, and the jabberwock to potential allies and servants suitable
+for summoners of every alignment, this must-have expansion to the Pathﬁnder
+Bestiary seethes with enemies to challenge characters of any level.
+paizo.com/pathﬁnder
+Printed in China.

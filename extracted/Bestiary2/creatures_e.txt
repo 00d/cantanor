@@ -1,0 +1,737 @@
+# Bestiary - Creatures: E
+# Count: 7 creatures
+
+
+================================================================================
+# ELASMOSAURUS
+================================================================================
+
+
+OTHER AQUATIC REPTILES
+The elasmosaurus is but one of
+many types of aquatic reptiles found
+in primeval oceans or lost worlds.
+Some, like the ichthyosaurus, are
+almost ﬁshlike in appearance.
+Others, such as the mosasaurus,
+are truly massive beasts capable of
+killing and eating whales.
+Elasmosaurus
+Elasmosauruses are long-necked, primeval reptiles that dwell in deep oceans and
+seas. Although not truly a dinosaur, elasmosauruses are often found in similar
+locations and are similarly titanic creatures. Keeping their massive bodies
+underwater, elasmosauruses use their long necks to catch prey and snorkel air to
+their massive lungs while remaining mostly hidden from the surface above. An
+elasmosaurus is 30 feet long and weighs 6,000 pounds.
+As rare and reclusive as they are, elasmosauruses are sometimes mistaken for
+even rarer creatures called water orms, legendary aquatic denizens of remote
+lakes known for their elusiveness and craftiness. Whereas elasmosauruses are
+mundane creatures of animalistic intelligence, water orms are magical beings with
+near‑humanoid intelligence and a curious fascination with mortals, and they seem
+to delight in confounding onlookers. As a result, it’s theorized that a typical water
+orm is more than happy to lead a group of spectators to a lost elasmosaurus, both
+to throw its pursuers off its tail and for the hilarity that will inevitably ensue.
+While elasmosauruses are often found in lost worlds and unsettled regions,
+those who dwell in the oceans of the world do not contain their hunting grounds
+to speciﬁc regions. As a result, it’s not unheard of for a wandering specimen to
+ﬁnd its way to coastal waters. Those that do often ﬁnd the ports of small towns
+or even large cities to be wondrous banquets and are usually hunted down by
+coastal guards or adventurers. When a wayward
+elasmosaurus like this ﬁnds its way into a city’s
+sewer system or reservoirs, though, it can become
+the stuff of urban legends.
+ELASMOSAURUS
+CREATURE 7
+N
+HUGE
+ANIMAL
+Perception +16; low-light vision, scent (imprecise) 30 feet
+Skills Athletics +17
+Str +6, Dex +4, Con +6, Int –4, Wis +5, Cha –1
+Deep Breath The elasmosaurus can hold its breath for 2 hours.
+AC 25; Fort +17, Ref +13, Will +16
+HP 125
+Long Neck An elasmosaurus’s long neck allows it to interact with the surface while
+its body remains submerged underwater. While submerged no deeper than 15 feet
+underwater, an elasmosaurus can still stick its head up to breathe. An elasmosaurus
+gains cover against attacks made against creatures who are above the water’s
+surface while it is underwater, even if its head is above the surface.
+Attack of Opportunity Ǻȓ Jaws only.
+Speed 5 feet, swim 35 feet
+Melee Ȱɵ jaws +17 (reach 15 feet), Damage 2d12+10 piercing plus Grab
+Melee Ȱɵ paddle +17, Damage 2d6+10 bludgeoning
+Drag Below Ȱɵ (attack) The elasmosaurus attempts an Athletics check against a
+grabbed foe’s Fortitude DC. If the elasmosaurus succeeds, the foe is forcibly moved
+5 feet toward the elasmosaurus’s body. If the elasmosaurus
+critically succeeds, the foe is moved 10 feet towards the
+elasmosaurus’s body.
+Thrashing Retreat ʚʖ A swimming
+elasmosaurus thrashes the area
+around it as it attempts to ﬂee.
+It makes two paddle Strikes, each
+of which must be against
+separate
+targets,
+and
+each of which takes the
+normal multiple attack penalty. It then Swims up
+to its swim Speed. This Swim does not trigger
+reactions based on movement.
+
+================================================================================
+PAGE 107
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868604
+4425116
+Bestiary 2
+106
+106
+DIVERSE ELEMENTALS
+The Elemental Planes are more
+than expanses of sky, rock, ﬁre,
+and ocean. Clouds of fog, dust, and
+storms ﬂoat through the Plane of Air.
+The Plane of Earth includes verdant
+groves, shining metal and crystal,
+and irradiated wastelands. The Plane
+of Fire features magma, suﬀocating
+smoke, and radiant ﬁrelight. Amid the
+endless sea of the Plane of Water are
+pockets of ooze and brine, plus the
+otherworldly environs of the deep.
+Elemental, Air
+Some elementals embody aspects of air such as smoke, lightning, and fog.
+SPARK BAT
+Spark bats congregate around volatile weather in the Plane of Air.
+SPARK BAT
+CREATURE 2
+N
+TINY
+AIR
+ELEMENTAL
+Perception +7; darkvision
+Skills Acrobatics +9, Stealth +9
+Str +0, Dex +3, Con +1, Int –4, Wis +1, Cha +0
+AC 19; Fort +5, Ref +11, Will +7
+HP 18; Immunities bleed, electricity, paralyzed, poison, sleep
+Speed 5 feet, ﬂy 50 feet
+Melee Ȱɵ jaws +11 (agile, ﬁnesse), Damage 1d4+5 electricity
+Arc Lightning [(move, electricity, primal, transmutation) The spark bat transforms into
+lightning that arcs to a large piece of metal within 100 feet, such as a suit of metal
+armor or a metal weapon. The bat then returns to its normal form in a space adjacent
+to the metal. This movement doesn’t trigger reactions.
+LIVING THUNDERCLAP
+A living thunderclap is a humanoid-shaped storm cloud
+that cracks and booms with thunder.
+LIVING THUNDERCLAP
+CREATURE 4
+N
+MEDIUM
+AIR
+ELEMENTAL
+Perception +9; darkvision
+Skills Acrobatics +12, Stealth +12
+Languages Auran
+Str +3, Dex +4, Con +2, Int –3, Wis +1, Cha +0
+AC 22; Fort +10, Ref +12, Will +9
+HP 50; Immunities bleed, paralyzed, poison, sleep, sonic
+Speed ﬂy 50 feet; swiftness
+Melee Ȱɵ gust +14 (agile, ﬁnesse), Damage 2d6+6 bludgeoning plus Push
+5 feet
+Ranged Ȱɵ lightning bolt +14 (electricity, range increment 50 feet), Damage 2d12
+electricity
+Swiftness The living thunderclap doesn’t trigger reactions when it moves.
+Thunderbolt ʚʖ (electricity, evocation, primal, sonic) The living thunderclap emits a
+bolt of lightning that crashes with deafening thunder. The living thunderclap makes
+a lightning bolt Strike that deals 1d12 electricity damage. If it hits, the target and any
+creatures within a 15-foot emanation around the target take 2d6 sonic damage and
+must attempt a DC 18 basic Fortitude save. Any creature that fails its save is also
+deafened for 1d4 rounds.
+BELKER
+These reclusive elementals have glowing red eyes, leathery wings,
+and long, sharp claws. While they always retain their shape,
+belkers can control the solidity of their forms at will,
+transforming into clouds of smoke, ash, and dust.
+BELKER
+CREATURE 6
+NE
+LARGE
+AIR
+ELEMENTAL
+Perception +14; darkvision, smoke vision
+Skills Acrobatics +15, Stealth +15 (+17 in smoke)
+Languages Auran
+Str +2, Dex +5, Con +3, Int –2, Wis +4, Cha +0
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868604
+4425116
+
+PAGE 110
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868607
+4425119
+E-G
+E-G
+109
+109
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+SAND MIMICS
+Sand sentries have no true culture
+or society of their own, but they
+are endlessly fascinated with the
+society and culture of humanoids
+they encounter. They can shape their
+appearance to mimic any similarly
+sized humanoids, and although
+they always remain obviously
+composed of sand, they do their best
+to mimic the day-to-day activities
+they observe other humanoids
+performing. Of course, structures
+and objects sand sentries build from
+sand never last, but this never seems
+to stiﬂe their obsession.
+SAND SENTRY
+CREATURE 6
+N
+MEDIUM
+EARTH
+ELEMENTAL
+Perception +14; darkvision, tremorsense (imprecise) 60 feet
+Skills Acrobatics +14, Stealth +14 (+17 in sand)
+Languages Terran
+Str +5, Dex +2, Con +4, Int +0, Wis +2, Cha +1
+AC 24; Fort +16, Ref +12, Will +14
+HP 94; Immunities bleed, paralyzed, poison, sleep
+Glass Armor When the sand sentry takes ﬁre or lightning damage, its outer layer of sand
+fuses into sheets of hardened glass for 1 minute. This increases the sand sentry’s AC to
+26 and grants it resistance 5 to acid, cold, electricity, ﬁre, force, piercing, and slashing
+damage. A sand sentry can’t use earth glide while glass armor is active.
+Speed 25 feet, burrow 50 feet; earth glide
+Melee Ȱɵ  ﬁst +17, Damage 2d8+8 bludgeoning plus blinding sand
+Earth Glide As living boulder.
+Blinding Sand When the sand sentry critically hits with a ﬁst Strike, the target is blinded
+for 1 round.
+GRANITE GLYPTODONT
+This squat and stony creature looks like an armadillo with a large raised back
+and a ﬂail-like tail. The granite glyptodont has no true need to feed, as with
+all elementals, yet it does seem to linger after transforming the ﬂesh of those it
+calciﬁes, as if the mere proximity of ﬂesh fossilizing into stone pleases it somehow.
+GRANITE GLYPTODONT
+CREATURE 8
+N
+LARGE
+EARTH
+ELEMENTAL
+Perception +17; darkvision, tremorsense (imprecise) 90 feet
+Skills Athletics +18
+Str +6, Dex +1, Con +6, Int +0, Wis +5, Cha +0
+AC 28; Fort +18, Ref +13, Will +17
+HP 145; Immunities bleed, paralyzed, poison, sleep
+Speed 30 feet, burrow 20 feet; earth glide
+Melee Ȱɵ  tail +20 (forceful, reach 10 feet, versatile piercing), Damage 2d12+9
+bludgeoning plus calciﬁcation
+Calciﬁcation (incapacitation, primal, transmutation) A blow from a granite
+glyptodont’s tail hardens the ﬂesh of the creature struck. The target must
+succeed at a DC 26 Fortitude saving throw or become slowed 1 (or
+slowed 2 on a critical failure). Further failed saves
+against calciﬁcation increase the value of the
+slowed condition. Once a creature’s actions are
+reduced to 0 by calciﬁcation, that creature
+becomes petriﬁed. If the creature isn’t
+petriﬁed, the slowed conditions end once 1
+minute passes without the creature failing a
+save against calciﬁcation.
+Every 24 hours after it was petriﬁed,
+the creature can attempt a DC 26
+Fortitude save to recover. On a success, it
+becomes ﬂesh again, but is slowed 1 for
+the next 24 hours. On a critical success,
+the creature recovers and isn’t slowed.
+On a failure, the creature remains
+petriﬁed, but can try again in 24 hours.
+On a critical failure, the petriﬁcation
+is permanent, and the creature can’t
+attempt any more saves.
+Earth Glide As living boulder.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868607
+4425119
+
+PAGE 210
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868707
+4425219
+O-R
+O-R
+209
+209
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+PSYCHOPOMP FOES
+Psychopomps’ greatest enemies are
+creatures that devour or steal souls,
+such as astradaemons and night
+hags. Their other opponents include
+necromancers, proteans, and those
+who have unnaturally extended their
+lifespan, such as liches.
+CATRINA
+Not all spirits who enter the Boneyard realize they have died. Catrinas meet these
+souls, helping to convince them of the ﬁnality of their fate to ease a spirit’s passing.
+Catrinas are more likely to intervene when a mortal can’t accept their death. They
+perform their task to keep the afterlife calm, rather than out of true compassion
+for a mortal’s grief. Catrinas only rarely visit the Material Plane, typically to help
+an extremely important mortal pass on.
+Catrinas resemble skeletons dressed in bright ﬂowers and colorful dresses,
+giving them a simultaneously festive and macabre appearance. Though most
+catrinas present as feminine, masculine catrinas still dress in bright colors and
+carry garlands of ﬂowers.
+CATRINA
+CREATURE 5
+N
+MEDIUM
+MONITOR
+PSYCHOPOMP
+Perception +13; darkvision, lifesense 60 feet
+Languages Abyssal, Celestial, Infernal, Requian; telepathy 120 feet, tongues
+Skills Acrobatics +14, Boneyard Lore +11, Diplomacy +14, Intimidation +14,
+Medicine +12, Occultism +11, Religion +12
+Str +0, Dex +5, Con +4, Int +2, Wis +4, Cha +5
+AC 22; Fort +11, Ref +12, Will +13; +1 status to all saves vs. magic
+HP 75; Immunities death eﬀects, disease; Resistances negative 5, poison 5
+Calming Presence (aura, divine, emotion, enchantment, incapacitation) 30 feet. A
+creature that begins its turn within the area must attempt a DC 18 Will save.
+Critical Success The creature is unaﬀected and is temporarily immune to calming
+presence for 24 hours.
+Success The creature’s attack rolls take a –1 status penalty for 1 round.
+Failure Any emotion eﬀects that would aﬀect the creature are suppressed and the
+creature can’t use hostile actions. If the creature is subjected to hostility from any
+other creature, it ceases to be aﬀected by calming presence and is temporarily
+immune to calming presence for 24 hours.
+Critical Failure As failure, but hostility doesn’t end the eﬀect.
+Speed 25 feet
+Melee Ȱɵ ﬁst +14 (agile, ﬁnesse), Damage 2d8+2 bludgeoning plus
+spirit touch
+Divine Innate Spells DC 22; 4th dimension door, talking
+corpse (at will); 3rd illusory disguise; 2nd invisibility (at
+will, self only); Cantrips (3rd) dancing lights; Constant
+(5th) tongues
+Compel Condemned Ȱɵ (divine, enchantment, incapacitation,
+mental) The catrina telepathically compels a creature
+within 30 feet to approach and allow the catrina to kiss
+them, in preparation for using Kiss of Death. The target
+must attempt a DC 22 Will save.
+Success The creature is unaﬀected and is temporarily immune
+to Compel Condemned for 24 hours.
+Failure The creature must spend each of its actions to move closer to the catrina as
+quickly as possible, while avoiding obvious dangers. If the compelled creature is
+adjacent to the catrina, it stays still and doesn’t act. If the creature takes any damage,
+the eﬀect ends and the creature is temporarily immune to Compel Condemned for
+24 hours. This eﬀect lasts for 1 round, but if the catrina uses this ability again on
+subsequent rounds, it extend the duration by 1 round for all aﬀected creatures.
+Critical Failure As failure, but damage does not end the eﬀect.
+Kiss of Death ʚʖ (death, divine, manipulate, necromancy) The catrina gives a long,
+passionate kiss to an unconscious or willing creature, dealing 3d6 negative damage.
+Any creature damaged by the same catrina’s Kiss of Death for 3 consecutive rounds
+becomes unconscious and is dying 1.
+Spirit Touch As esobok.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868707
+4425219
+
+PAGE 247
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868744
+4425256
+Bestiary 2
+246
+246
+SOLIFUGID BURROWS
+Most species of solifugid lay their
+eggs in burrows. The female doesn’t
+eat while guarding her eggs, and
+thus ﬁghts even more aggressively
+against any creatures she deems
+potential threats to her brood. The
+bodies of wayward adventurers often
+litter such burrows, though this does
+little to deter other fortune-hunters
+from trying their luck in such
+treasure-laden nests.
+Solifugid
+These monstrous vermin have six legs and two large feeding appendages easily
+mistaken for an additional pair of legs. They are often called camel spiders,
+sun spiders, or wind scorpions, despite the fact that they are neither spiders
+nor scorpions.
+GIANT SOLIFUGID
+The smallest of giant solifugids are still large enough to harry desert traders and
+their mounts.
+GIANT SOLIFUGID
+CREATURE 1
+N
+MEDIUM
+ANIMAL
+Perception +7; darkvision
+Skills Acrobatics +8, Athletics +6, Stealth +6 (+10 in deserts)
+Str +1, Dex +3, Con +3, Int –5, Wis +1, Cha –4
+AC 16; Fort +6, Ref +8, Will +4
+HP 20
+Speed 35 feet, climb 25 feet
+Melee Ȱɵ jaws +8, Damage 1d10+1 piercing
+Melee Ȱɵ claw +8 (agile, reach 10 feet), Damage 1d8+1 slashing
+Pounce Ȱɵ The giant solifugid Strides and makes a Strike at the end of that movement.
+If the giant solifugid began this action hidden, it remains hidden until after this
+ability’s Strike.
+Rend Ȱɵ claw
+DUNESHAKER SOLIFUGID
+The largest solifugids, duneshakers, are so immense that their movements make
+the terrain around them tremble. They can prey on creatures the size of mammoths
+or even larger.
+DUNESHAKER SOLIFUGID
+CREATURE 18
+N
+GARGANTUAN
+ANIMAL
+Perception +30; darkvision, tremorsense (imprecise) 30 feet
+Skills Acrobatics +33, Athletics +35, Stealth +33 (+37 in deserts)
+Str +9, Dex +7, Con +7, Int –5, Wis +4, Cha –4
+AC 42; Fort +31, Ref +33, Will +28
+HP 340
+Speed 50 feet, burrow 25 feet, climb 25 feet
+Melee Ȱɵ jaws +35 (reach 10 feet), Damage 4d10+17 piercing
+Melee Ȱɵ claw +35 (agile, reach 20 feet), Damage 3d10+17
+slashing
+Earth Shaker Each turn, the ﬁrst time the
+duneshaker solifugid is adjacent to
+a Large or smaller creature during
+a move action it’s using, that
+creature must succeed at a DC 39
+Reﬂex save or fall prone.
+Pounce Ȱɵ The duneshaker
+solifugid Strides and makes a
+Strike at the end of that movement. If the duneshaker solifugid began this action
+hidden, it remains hidden until after this ability’s Strike.
+Rend Ȱɵ claw
+Venom Spray ʚʖ (poison) The duneshaker solifugid spews toxic barbs at all creatures
+in a 30-foot cone. Each creature within the area takes 10d6 poison damage (DC 39
+basic Fortitude save). A creature that fails its saving throw is blinded for 1d6 rounds
+(or permanently on a critical failure). The duneshaker solifugid can’t use Venom
+Spray again for 1d4 rounds.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868744
+4425256
+
+PAGE 284
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868781
+4425293
+U-Z
+U-Z
+283
+283
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+THE SHADOW FORGE
+Many velstracs outsource the forging
+of their chains to unique velstracs
+known as almoners. These six-armed,
+legless humanoids toil endlessly at
+a great burning foundry called the
+Shadow Forge. Almoners operate
+under mysterious strictures, and are
+just as likely to turn a velstrac away
+empty-handed as not.
+SACRISTAN
+CREATURE 10
+LE
+MEDIUM
+FIEND
+VELSTRAC
+Perception +19; greater darkvision, painsight
+Languages Common, Infernal, Shadowtongue
+Skills Acrobatics +19, Athletics +22, Intimidation +18, Stealth +21, Torture Lore +16
+Str +6, Dex +5, Con +6, Int +0, Wis +3, Cha +2
+Painsight (divination, divine) As augur.
+AC 30; Fort +22, Ref +19, Will +17; +1 status to all saves vs. magic
+HP 175, regeneration 10 (deactivated by good or silver); Immunities cold; Weaknesses
+good 10, silver 10
+Staggering Servitude (aura, divine, enchantment, fear, mental, visual) 30 feet. When a
+creature ends its turn in the aura, it sees a vision of the sacristan groveling in pitiable
+servitude. The creature must succeed at a DC 27 Will save or become stunned 1.
+Attack of Opportunity Ǻȓ
+Speed 25 feet
+Melee Ȱɵ barbed chain +22 (evil, magical, reach 10 feet, trip, versatile S), Damage 2d8+9
+piercing plus 1d6 evil and 2d6 persistent bleed
+Divine Innate Spells DC 29; 5th chilling darkness; 3rd fear
+Focus Gaze Ȱɵ (concentrate, divine, enchantment, fear, mental, visual) The sacristan
+stares at a creature they can see within 30 feet. The creature must immediately
+attempt a Will save against staggering servitude. In addition, if the creature was
+already stunned, on a failed save its revulsion toward the sacristan’s presence causes
+it to be stupeﬁed 2 for 1 minute. After attempting this save, the creature is then
+temporarily immune until the start of the sacristan’s next turn.
+Shadow Scream ̂ˬ (aura, concentrate, darkness, divine, evocation, mental, sonic)
+Frequency once per hour; Eﬀect The sacristan opens their mouth to unloose
+the wailing howls and mind-twisting darkness of the Shadow Plane.
+This creates a 30-foot emanation of darkness and wailing sounds
+around the sacristan. Creatures with darkvision can’t see through
+this darkness. The sacristan can Sustain Shadow Scream for up
+to 1 minute. Non-velstrac creatures in the area when the ability is
+used, as well as those who enter or start their turn in the area, must
+attempt a DC 28 Will save.
+Critical Success The creature is
+unaﬀected and is then temporarily
+immune for 24 hours.
+Success The creature is deafened for 1 round.
+Failure The creature is confused and deafened for
+1 round.
+Critical Failure The creature takes 20 mental damage,
+and is confused and deafened for 1 round.
+INTERLOCUTOR
+Interlocutors are the most talented surgeon-sculptors of
+the velstracs, carving away ﬂesh and replacing it with
+new body parts of muscle, sinew, and metal.
+Each interlocutor structures their individual
+appearance carefully, but all are towering,
+multi-limbed amalgamations of the strongest
+limbs, densest bone, and sharpest metal they
+can ﬁnd. They continually search for new
+material to graft to their forms, and their slain
+foes are rarely found intact, as little is
+more valuable to interlocutors than a
+powerful opponent’s legs, eyes, or even
+brain. Interlocutors average 9 feet tall
+and weigh approximately 800 pounds.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868781
+4425293
+
+PAGE 287
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868784
+4425296
+Bestiary 2
+286
+286
+DEADLY WHIPS
+Canny adventurers can harvest a
+defeated violet fungus’s tentacles and
+use them as whips. The whips inﬂict
+violent rot (with the same eﬀects
+and DC as in the violet fungus’s
+stat block) on anything they touch,
+including the wielder, although metal
+gloves such as gauntlets can protect
+against the poison. Such whips can be
+used for 1 hour before they degrade
+and become useless.
+Violet Fungus
+At a glance, a violet fungus might seem to be little more than an unsightly and
+sickeningly purple mushroom of unusual size. Only once one draws closer—
+once whip-like tentacles dripping with ﬂesh-rotting venom slither out from the
+fungus’s cratered cap—does the terrifying truth of this carnivorous toadstool
+become apparent. Many amateur spelunkers have met untimely ends in the
+clutches of this monstrous fungus’s tentacles, since violet fungi are practically
+synonymous with caverns on Golarion.
+Anyone who has ever braved the world’s caves for an extended period of
+time know the dangers of the deadly violet fungus. Darklands dwellers such as
+drow and duergars often bear the long, whip-like scars of at least one brush
+with this vicious plant’s cruel, poison-infused tentacles. Canny subterranean
+trappers and scouts sometimes make use of cultivated violent fungi to catch
+game in the enormous caverns below the surface world. Some Darklands
+peoples also cultivate violet fungi as a means to defend their territory. Xulgaths
+in particular place violet fungi around the perimeters of their settlements as a
+ﬁrst line of defense.
+VIOLET FUNGUS
+CREATURE 3
+N
+MEDIUM
+FUNGUS
+MINDLESS
+Perception +8; no vision, tremorsense 60 feet
+Skills Stealth +9
+Str +4, Dex +0, Con +3, Int –5, Wis +1, Cha –2
+AC 17; Fort +10, Ref +7, Will +6
+HP 60; Immunities bleed, fatigued, mental, poison, sleep,
+unconscious; Weaknesses fire 5
+Speed 10 feet
+Melee Ȱɵ tentacle +11 (agile, reach 10 feet), Damage 1d10+4
+bludgeoning plus violet rot
+Violet Rot (poison); Saving Throw DC 20 Fortitude;
+Maximum Duration 6 rounds; Stage 1 1d6 poison
+plus enfeebled 1 (1 round); Stage 2 1d6 poison plus
+enfeebled 1 and drained 1 (1 round); Stage 3 2d6 poison
+plus enfeebled 1 and drained 1 (1 round)
+VIOLET VENOM
+Alchemists and poisoners cherish violet fungi for the
+plants’ potent rotting poison, and have perfected an
+effective method of preserving the toxin as violet venom.
+After slaying a violet fungus, a character can extract
+the fungus’s toxin with a successful DC 20 Nature or
+Survival check. Afterward, the extracted venom can be
+Crafted into 1 dose of violet venom with a successful
+DC 18 Crafting check.
+VIOLET VENOM
+ITEM 3
+ALCHEMICAL
+CONSUMABLE
+CONTACT
+POISON
+Price 12 gp
+Usage held in 2 hands; Bulk L
+Activate Ȱɵ Interact
+The delicate process of extracting violet venom from a violet fungus
+leaves it diluted at the best of times. Alchemists are still on the hunt for a truly pure,
+unadulterated version of this highly toxic poison.
+Saving Throw DC 17 Fortitude; Onset 1 minute; Maximum Duration
+6 rounds; Stage 1 1d6 poison plus enfeebled 1 (1 round); Stage 2
+1d6 poison plus drained 1 (1 round); Stage 3 2d6 poison plus
+enfeebled 1 (1 round)
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868784
+4425296

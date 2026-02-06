@@ -1,0 +1,1295 @@
+# Bestiary - Creatures: P
+# Count: 12 creatures
+
+
+================================================================================
+# PLEROMA
+================================================================================
+
+(at will), suggestion (×2); 3rd paralyze (×2); 2nd invisibility (self only); 1st command
+(at will)
+Divine Rituals DC 32; geas
+Pleroma
+Among the most powerful of all the true aeons, pleromas are a manifestation
+of the duality of creation and destruction. Their physical manifestation is
+a constant state of ﬂux between these two poles, their forms a shifting
+cloak of black where galaxies and other celestial objects ﬂit in and out of
+existence, as if depicting the constant life, death, and rebirth of a miniature,
+self-contained universe.
+Pleromas see the multiverse as both eternal and cyclical, doomed and
+malleable, ending only if these cycles ever become unbalanced. They
+believe the current Convergence is necessary to obtain this
+essential balance, and act to ensure that the grand design of
+the Monad is carried out to the smallest detail.
+PLEROMA
+CREATURE 20
+LN
+LARGE
+AEON
+MONITOR
+Perception +37; darkvision, lifesense 120 feet, true seeing
+Languages envisioning
+Skills Acrobatics +33, Arcana +38, Deception +34, Diplomacy +34,
+Occultism +38, Religion +39, Stealth +35
+Str +6, Dex +7, Con +6, Int +8, Wis +9, Cha +6
+Envisioning Pleromas care little for communication with other creatures,
+but when they do convey information, they do so wordlessly through a
+series of psychic projections. This acts as telepathy with a range of 100
+feet but is understandable to all creatures regardless of whether they have
+a language, though the aeon’s meaning to non-aeons can be vague and is often
+mysterious. An aeon can use this ability to communicate ﬂawlessly with any other
+aeon on the same plane as itself.
+INEVITABLE FATES
+The fact that the aeons known
+as inevitables seem to be on the
+decline is taken by some planar
+scholars as metaphysical proof
+that entropy is on the rise and the
+Great Beyond is past its prime and
+on the way to the end of this cycle
+of reality.
+
+================================================================================
+PAGE 12
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668864
+4425021
+A-C
+11
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+AC 45; Fort +32, Ref +31, Will +37; +1 status to all saves vs. magic
+HP 335, regeneration 20 (deactivated by chaotic); Immunities negative, positive;
+Weaknesses chaotic 20
+Reality Twist Ǻȓ Trigger The pleroma critically fails the saving throw. Eﬀect The critical
+failure becomes a normal failure.
+Speed ﬂy 40 feet; freedom of movement
+Melee Ȱɵ energy touch (agile, lawful, magical) +36, Damage 5d8+18 positive or negative
+damage plus 1d6 lawful
+Ranged Ȱɵ Sphere of Oblivion +37 (magical), Eﬀect see Sphere of Oblivion
+Divine Innate Spells DC 47, attack +37; 10th alter reality; 9th banishment, blade barrier,
+disjunction, overwhelming presence; 8th disintegrate (×2), unrelenting observation;
+7th plane shift, retrocognition; 5th creation (at will); 4th create food (at will), shape
+stone (at will); 3rd hypercognition (at will); 2nd detect alignment (at will), shape
+wood (at will); 1st create water (at will); Constant (8th) true seeing; (4th) freedom
+of movement
+Energy Touch A pleroma’s touch deals its choice of positive or negative damage, but
+neither energy can be used to heal a creature.
+Sphere of Creation ʚʖ (incapacitation, magical) Three
+times per day, a pleroma can manifest a 2-foot-
+diameter sphere of white energy that hovers
+above its left hand. By using a single action,
+which has the concentrate trait, the pleroma can
+cause the sphere to ﬂy 10 feet. The sphere can
+move in any direction, ignoring diﬃcult terrain,
+but it can’t move farther than 300 feet away from
+the pleroma. Wherever the sphere travels, it leaves
+behind a 5-foot-wide path of new matter, creating either
+new terrain (the pleroma’s choice of normal, diﬃcult, or greater
+diﬃcult terrain) or a 5-foot-square solid barrier of a single natural
+substance (such as clay, wood, or stone). The sphere can enter the
+space of a creature; when it does, the creature must succeed at a DC
+43 Fortitude save or be absorbed into the sphere. On a successful
+save, the creature is pushed to a space of the GM’s choice away
+from the sphere. Those who fail take 20d6 positive damage (even
+if they are living) and are pushed away as a success. Those who
+critically fail, or are reduced to 0 HP by the damage from a failure,
+become one with the new material and can be restored only via a
+10th-level spell. A pleroma can have only one Sphere of Creation
+in existence at a time, and the sphere automatically vanishes in a
+ﬂash of blinding light after 1d4 minutes. All creatures within 30
+feet of the sphere of creation when it vanishes must succeed at
+a DC 43 Fortitude save or be permanently blinded.
+Sphere of Oblivion ʚʖ (incapacitation, magical) Three times
+per day, a pleroma can manifest a 2-foot-diameter sphere of
+complete and utter darkness that hovers above its right
+hand. It can move and control the sphere in the same
+manner as its Sphere of Creation. The sphere is an
+empty void that lasts for 1 minute before collapsing
+in on itself and winking out of existence. Once
+manifested, the sphere can be used as a ranged
+attack, but it blinks out of existence immediately after that attack is resolved. Any
+unattended object that touches the void is sucked in and completely destroyed.
+Larger objects (such as ships or buildings) are destroyed at a rate of one 10-foot cube
+per round of contact. The sphere can enter the space of a creature, with eﬀects similar
+to the Sphere of Creation except that it deals negative damage (even to undead) on
+a failure and annihilates rather than incorporating the creature into material. Such a
+destroyed creature can be restored only by a 10th-level spell.
+OTHER AEONS
+Aeons are among the least
+understood of the Great Beyond’s
+immortal creatures, and they
+have a wide range of powers
+and abilities. Far more aeons
+exist than those presented here,
+including guardians of time like the
+four-armed bythos and the weirdly
+symmetrical theletos, which
+moderates the duality between
+freedom and fate.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668864
+4425021
+
+PAGE 13
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668865
+4425022
+Bestiary
+12
+Alghollthu
+In bygone millennia, aquatic monsters known as alghollthus used their occult
+powers to conquer and rule vast parts of the world. Their empires contained
+countless mortal slaves treated as little more than cattle. Alghollthus shaped their
+slaves and other creatures using mental manipulation and physically transformative
+magic. Aberrant horrors from faceless stalkers to mimics can be traced back to this
+meddling. The rulers of the alghollthu race, the so-called veiled masters, further
+shaped entire societies by assuming the forms of those they controlled. From the
+heights of power to the shadows of poverty, the veiled masters manipulated these
+societies according to their own dark designs, enslaving, killing, or horriﬁcally
+transforming those who discovered their plans or acted against them.
+In time, the alghollthus grew frustrated with their increasingly upstart slave
+societies and sought to wipe the slate clean—both starting anew and punishing
+those who had become too willful and rebellious. They used incredible magical
+power to call forth a cataclysm, hoping to destroy the rebellious societies they’d
+manipulated. Yet they miscalculated the strength of faith and will to survive of
+their pawns and slaves, and in time the world and its empires recovered and grew
+strong once again—this time without alghollthu inﬂuence.
+Today, the alghollthus have retreated from their mass-scale manipulation
+of the surface world, and they have mostly remained within the deep aquatic
+realms where they still rule without question. Yet they have not abandoned their
+plots entirely, and the reemergence of servitor races like ugothols points to a
+frightening possibility—that the alghollthus have turned their hateful eyes to the
+surface once again.
+Skum (Ulat-Kini)
+The most numerous of the alghollthus are the
+ulat-kinis, a servitor race created from human stock
+to serve as rank-and-ﬁle soldiers in alghollthu armies.
+At the zenith of alghollthu power, ulat-kinis formed
+massive legions and enjoyed signiﬁcant power over other species. When the
+alghollthus retreated from the world, they abandoned teeming hordes of ulat-
+kinis. Although these erstwhile soldiers tried to continue their conquering
+ways, their numbers declined rapidly in battleﬁeld defeats and purposeful
+exterminations enacted by their enemies. Ulat-kini society
+degenerated, so that now only a few enclaves exist
+in the depths of the earth or along isolated
+coastlines. Few remember their own species’
+name, instead using the epithet their foes
+gave them: “skum.”
+SKUM
+CREATURE 2
+LE
+MEDIUM
+AMPHIBIOUS
+HUMANOID
+Perception +6; darkvision
+Languages Alghollthu, Undercommon
+Skills Athletics +8, Intimidation +4, Stealth +7
+Str +4, Dex +1, Con +3, Int +0, Wis +0, Cha –2
+Items trident
+AC 16; Fort +7, Ref +7, Will +4
+HP 40; Resistances cold 5
+Speed 20 feet, swim 40 feet
+Melee Ȱɵ trident +10, Damage 1d8+4 piercing
+Melee Ȱɵ claw +10 (agile), Damage 1d6+4
+slashing
+Melee Ȱɵ fangs +10, Damage 2d4+4 piercing
+Ranged Ȱɵ trident +7 (thrown 20 feet),
+Damage 1d8+3 piercing
+ALGHOLLTHU DOMAINS
+The ruling castes of the alghollthu
+species dwell in oceanic depths
+or underground waterways, while
+their servitors like ulat-kinis and
+ugothols can often be found in
+coastal regions and marshes.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668865
+4425022
+
+PAGE 58
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668910
+4425067
+A-C
+57
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+RAVENOUS TUNNELERS
+Cave worms are infamous for
+being nearly unstoppable and for
+swallowing their prey whole. A
+cave worm also ingests earth and
+minerals as it tunnels. The worm
+processes some of these minerals,
+resulting in its armored hide and
+toxic sting, while it leaves others
+behind—often including treasure or
+other valuables that incidentally
+serve to lure explorers into the
+worm’s proximity and, more often
+than not, its gullet. While not
+completely mindless, cave worms
+are diﬃcult to train, and most
+attempts to domesticate them (in
+theory, a cave worm would make
+an excellent mining resource)
+result in disaster.
+AC 32; Fort +28, Ref +21, Will +21
+HP 270
+Inexorable The purple worm recovers from the paralyzed, slowed, and stunned
+conditions at the end of its turn. It’s also immune to penalties to its Speeds and the
+immobilized condition, and it ignores diﬃcult terrain and greater diﬃcult terrain.
+Shake It Oﬀ Ǻȓ Frequency once per day; Trigger The purple worm would be aﬀected
+by a condition or adverse eﬀect (such as baleful polymorph). Eﬀect The purple
+worm negates the triggering condition or eﬀect. Eﬀects from artifacts, deities, or a
+similarly powerful source can’t be avoided in this way.
+Speed 40 feet, burrow 40 feet, swim 20 feet
+Melee Ȱɵ jaws +28 (deadly 2d10, reach 15 feet), Damage 3d10+15 piercing plus
+Improved Grab
+Melee Ȱɵ stinger +28 (agile, poison, reach 15 feet), Damage 2d12+15 piercing plus purple
+worm venom
+Melee Ȱɵ body +26 (reach 15 feet), Damage 1d10+13 bludgeoning
+Ranged Ȱɵ regurgitate +26 (brutal, range increment 60 feet), Damage varies (see ability)
+Fast Swallow Ǻȓ Trigger The purple worm Grabs a creature. Eﬀect The worm uses
+Swallow Whole.
+Purple Worm Venom (poison); Saving Throw DC 32 Fortitude, Maximum Duration 6 rounds;
+Stage 1 5d6 poison damage and enfeebled 2 (1 round), Stage 2 6d6 poison damage, and
+enfeebled 2 (1 round); Stage 3 8d6 poison damage and enfeebled 2 (1 round).
+Regurgitate The purple worm can violently regurgitate a creature or boulder it has
+swallowed to make a ranged Strike. The Strike deals bludgeoning damage depending
+on the size of the projectile: Tiny deals 2d6+13, Small 3d6+13, Medium 4d6+13,
+Large 5d6+13, and Huge 6d6+13. A regurgitated creature takes falling damage from
+the height of the target or from 20 feet, whichever is greater.
+Boulders occupy space in the worm’s stomach as a creature of equivalent size, and
+purple worms often have several boulders swallowed. A purple worm can use a single
+action to swallow a new boulder.
+Rock Tunneler A purple worm can burrow through solid stone at a Speed of 20 feet. It
+can leave a tunnel if it desires, and it usually does.
+Swallow Whole Ȱɵ Huge, 3d6+9 bludgeoning, Rupture 24
+Thrash ʚʖ The worm makes a Strike once against each creature in its reach. It can
+Strike up to once with its jaws, up to once with its stinger, and any number of times
+with its body. Each attack counts toward the worm’s multiple attack penalty, but the
+multiple attack penalty doesn’t increase until after it makes all the attacks.
+Azure Worm
+The azure worm is a deep-blue creature that is more at home in ﬂooded tunnels
+than dry caves. While an azure worm is a strong swimmer, it prefers to lie in
+wait within the walls, ﬂoor, or even ceiling of ﬂooded caverns, ready to spring
+out and ambush creatures swimming past its hiding spot. The azure worm is
+particularly hated and feared by Darklands-dwelling cultures, due to the fact
+that an azure worm that burrows into a tunnel often brings with it waters from
+the submerged river or lake it calls home. When it becomes obvious that an
+azure worm is near a Darklands settlement, the inhabitants quickly establishing
+a hunting party to deal with the menace before it can bring ruin.
+AZURE WORM
+CREATURE 15
+UNCOMMON
+N
+GARGANTUAN
+AMPHIBIOUS
+ANIMAL
+Perception +22; darkvision, tremorsense (imprecise) 100 feet
+Skills Athletics +33, Stealth +20 (+25 in water)
+Str +10, Dex –1, Con +8, Int –5, Wis –1, Cha –1
+AC 35; Fort +32, Ref +20, Will +23
+HP 320
+Inexorable As purple worm.
+Shake It Oﬀ Ǻȓ As purple worm.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668910
+4425067
+
+PAGE 92
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668944
+4425101
+D
+91
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+FIRE AND ICE
+The classic depiction of Hell
+is of a burning wasteland of
+magma and volcanoes, a searing
+landscape rife with the screaming
+souls of the damned. Yet those
+who have visited Hell know the
+awful truth—for its torments do
+not cease at eternal burning.
+Some regions of hell are perpetual
+frozen reaches of razor-sharp ice
+and ﬂesh-scouring wind, while
+others are miasmic swamps ﬁlled
+with poison and disease. Hell does
+not limit its torturous toolbox
+merely to the ﬁres for which it is
+so well known!
+Gelugon (Ice Devil)
+Insectile ice devils are strategists and masterminds in Hell’s armies, using their
+superior intellect to strike against their enemies and spread Hell’s inﬂuence
+throughout the planes. An ice devil rarely breaks their solitary contemplation of
+strategy save to pursue a plan they have devised. They can be enticed otherwise
+only by an exchange of services to be determined at a later time, adding to
+the pieces they can play on the board. Occasionally, a mortal strategist of
+outstanding skill might amuse an ice devil enough for the gelugon to agree to
+a contest of strategy, typically a strategic board game like chess, to decide a
+dispute. In the unlikely event the devil loses such a contest, they inevitably go to
+great lengths to later obtain that mortal’s services for their own infernal ends.
+GELUGON
+CREATURE 13
+LE
+LARGE
+DEVIL
+FIEND
+Perception +26; greater darkvision
+Languages Celestial, Common, Draconic, Infernal; telepathy 100 feet
+Skills Acrobatics +22, Athletics +23, Deception +25, Diplomacy +25, Intimidation +23,
+Religion +26, Society +25, Stealth +22, Warfare Lore +30
+Str +6, Dex +5, Con +5, Int +8, Wis +5, Cha +4
+Items +1 striking longspear
+AC 34; Fort +24, Ref +24, Will +26; +1 status to all saves vs. magic
+HP 215; Immunities cold, ﬁre; Weaknesses good 10; Resistances physical 10
+(except silver), poison 10
+Frightful Presence (aura, divine, emotion, enchantment, fear, mental) 10 feet, DC 31
+Attack of Opportunity Ǻȓ
+Speed 35 feet, ﬂy 35 feet (from ﬂy)
+Melee Ȱɵ frost longspear +28 (cold, evil, magical, reach 15 feet), Damage 2d8+12 piercing
+plus 1d6 cold, 1d6 evil, and slowing frost
+Melee Ȱɵ tail +25 (agile, cold, evil, magical, reach 10 feet), Damage 2d6+12 bludgeoning
+plus 2d6 cold, 1d6 evil, and slowing frost
+Ranged Ȱɵ frost longspear
++27 (cold, magical, thrown
+20 feet), Damage 2d8+12
+piercing plus 1d6 cold
+Divine Innate Spells DC 33; 7th cone of cold
+(×2); 6th illusory scene; 5th dimension door, wall
+of ice (×3); 4th dimension door (at will); Cantrips
+(7th) ray of frost; Constant (4th) ﬂy
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668944
+4425101
+
+PAGE 94
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668946
+4425103
+D
+93
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+OTHER DEVILS
+The devils presented on these
+pages are a small sampling of the
+torments Hell has to oﬀer. Other
+devils, like the inquisition-focused
+bone devils, the cherub-faced and
+ﬂy-bodied accuser devils, and the
+aquatic drowning devil are a few
+examples of these widespread
+immortal creatures.
+Commander’s Aura (aura, divine, enchantment) 100 feet. Commanded or allied evil
+creatures in the aura of lower level than the pit ﬁend gain a +1 circumstance bonus to
+attack rolls, damage rolls, AC, saves, and skill checks.
+Frightful Presence (aura, divine, emotion, enchantment, fear, mental) 20 feet, DC 42
+Attack of Opportunity Ǻȓ The pit ﬁend can make an Attack of Opportunity when a
+creature within reach uses a concentrate action, in addition to the usual trigger. The
+devil can disrupt triggering concentrate actions, and they disrupt actions on any hit,
+not only a critical hit.
+Speed 35 feet, ﬂy 50 feet
+Melee Ȱɵ jaws +40 (evil, magical, poison, reach 10 feet), Damage 4d10+17 piercing plus
+2d6 evil and pit ﬁend venom
+Melee Ȱɵ claw +38 (agile, evil, magical, reach 10 feet), Damage 4d6+17 slashing plus 2d6 evil
+Melee Ȱɵ tail +36 (evil, magical, reach 10 feet), Damage 4d10+17 bludgeoning plus 2d6
+evil and Improved Grab
+Melee Ȱɵ wing +36 (evil, magical, reach 15 feet), Damage 4d6+17 slashing plus 2d6 evil
+Divine Innate Spells DC 42; 10th meteor swarm, miracle (once per year), power word
+stun; 9th bind soul (at will); 8th dispel magic (at will), divine decree (at will), ﬁreball
+(at will), scrying, wall of ﬁre (at will); 5th dimension door; 4th dimension door (at
+will); Constant (8th) true seeing
+Rituals DC 42; infernal pact
+Constrict Ȱɵ 2d10+17 bludgeoning plus 2d6 evil, DC 43
+Devil Shaping (divine, downtime, transmutation) The pit
+ﬁend reshapes a large number of lemures within a
+600-foot radius into more powerful devils to swell
+Hell’s legions. The pit ﬁend must have available
+the number of lemures listed on the table in the
+sidebar on page 92. The pit ﬁend can shape 100
+lemures per day, to a maximum of 1,100 lemures
+in 11 days. Devils created in this way are in
+thrall to the pit ﬁend and follow its orders,
+with the exception of created pit ﬁends or
+other devils of similar power, which are
+always independent. As a result, few pit
+ﬁends choose to create peers. At the
+end of the Devil Shaping activity, the
+pit ﬁend attempts an incredibly hard
+Religion check of the desired devilʼs level,
+with results as follows.
+Critical Success The pit ﬁend shapes
+two devils from the massed lemures
+instead of one.
+Success The pit ﬁend shapes a devil of the
+desired type and level.
+Failure The devil shaped from the lemures is
+2 levels lower than the intended devil.
+Critical Failure The pit fiend fails to shape
+any devils and draws the ire of an archdevil
+for its waste of resources.
+Fast Swoop Ȱɵ The pit ﬁend Flies and makes a wing
+Strike at any point during its movement.
+Masterful Quickened Casting Ȳ˓ (concentrate); Frequency once per round.
+Eﬀect If the pit ﬁendʼs next action is to cast an 8th-level or lower innate
+spell, reduce the number of actions to cast it by 1 (minimum 1 action).
+Pit Fiend Venom (poison); Saving Throw DC 43 Fortitude; Maximum
+Duration 10 rounds; Stage 1 6d6 poison damage and drained 1 (1
+round); Stage 2 7d6 poison damage and drained 2 (1 round); Stage 3 8d6
+poison damage and drained 3 (1 round)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668946
+4425103
+
+PAGE 95
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668947
+4425104
+Bestiary
+94
+DEZULLON VENOM
+The dezullon is most well known
+for the psychoactive eﬀects of
+its secretions. Aﬀected creatures
+suﬀer amnesia, brieﬂy forgetting
+where they are and why they are
+in pain. Some creatures, desperate
+to escape the past, willingly
+expose themselves to a dezullon’s
+amnesia venom in an eﬀort to
+make their painful memories fade.
+Dezullon
+Dezullons are dangerous carnivorous pitcher plants that dwell in forested
+regions with thick canopies. They hunt for meat along the forest’s understory
+when not sunning themselves in the boughs above. Dezullons are smart enough
+to notice that some creatures are attracted by shiny things, and sometimes use
+such objects to set up ambushes. To assume that the dezullon’s ambulations are
+slow simply because the creature has a root structure is a foolish mistake; many
+an adventurer has been crushed to death by this surprisingly agile plant. In
+addition, these dangerous plants are expert climbers, making their pursuit even
+more difﬁcult to escape from.
+A hungry dezullon keeps prey off-balance by spilling its putrid, psychoactive
+digestive juices from its central pitcher. In addition to being highly acidic, the
+enzymes in a dezullon’s digestive tract, once expelled, inﬂict a victim with powerful
+hallucinations and amnesia. This secondary effect makes dezullons highly sought
+after in some circles, including avid drug users, experimental doctors, and
+criminals who deal in poisons.
+Many varieties of dezullon exist, including lumbering giants of
+incredible size, those that have tiny, cup-shaped pitchers that
+proliferate along lengths of creeping ivy like suckers on a squid’s
+tentacles, and others with hundreds of blood-red, razor-sharp
+leaves that protrude from the inside of their pitchers like
+a leech’s teeth. This latter variety is especially dangerous,
+since the leaves can all but eviscerate creatures that become
+ensconced inside their pitchers.
+DEZULLON
+CREATURE 10
+N
+MEDIUM
+PLANT
+Perception +18; low-light vision
+Skills Acrobatics +21, Athletics +19, Stealth +21 (+24 in forests or swamps)
+Str +5, Dex +7, Con +3, Int –4, Wis +2, Cha –1
+AC 30; Fort +17, Ref +21, Will +16
+HP 130, regeneration 15 (deactivated by ﬁre); Resistances acid 20
+Stench (aura, olfactory) 30 feet. A creature entering the emanation must
+attempt a DC 27 Fortitude save. On a failure, the creature is sickened 1, and
+on a critical failure is also slowed 1. While within the aura, the creature
+takes a –2 circumstance penalty to saves to
+recover from the sickened condition. A
+creature that succeeds at the save is
+temporarily immune to this eﬀect for
+1 minute.
+Speed 25 feet; climb 30 feet
+Melee Ȱɵ vine +21 (acid, agile),
+Damage 3d6+8 bludgeoning plus
+3d6 acid and Grab
+Ranged Ȱɵ acid glob +23 (acid, range
+30 feet), Damage 4d8 acid plus
+amnesia venom
+Amnesia Venom (mental, poison); Saving Throw
+DC 29 Fortitude; Maximum Duration 6 rounds; Stage
+1 ﬂat-footed (1 round); Stage 2 ﬂat-footed and clumsy 1
+(1 round); Stage 3 confused, ﬂat-footed, and clumsy 2 (1 round).
+Constrict Ȱɵ 2d6+2 bludgeoning
+Root Ȱɵ (concentrate) Until the next time it acts, the dezullon
+appears to be a normal pitcher plant. It has an
+automatic result of 41 (44 in forests or swamps)
+on Deception checks and DCs to pass as a
+non‑creature plant.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668947
+4425104
+
+PAGE 262
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669114
+4425271
+O-R
+261
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+SERVANTS OF SARENRAE
+While phoenixes are not denizens
+of the Outer Planes, they have
+long been associated with the
+goddess Sarenrae. Indeed, many
+phoenixes view the Dawnﬂower as
+their patron and subscribe to her
+mission of redeeming those who
+have fallen to evil.
+Phoenix
+The phoenix is a primordial bird made of heat and ﬂame that dwells in the
+most inhospitable regions of the desert. Though highly intelligent and brimming
+with compassion, the phoenix is best-known for its iconic ability to resurrect
+itself when slain, emerging reborn from the ashes of its own corpse. Phoenixes
+are often sought out for their knowledge or healing abilities, as they cannot
+abide the sight of suffering and deny their succor only to the most foul and
+irredeemable of creatures.
+Phoenixes enjoy the company of metallic dragons, and when the two dwell in
+close proximity, they can forge lifelong friendships, sharing their resources and
+words of wisdom while keeping each other updated on regional news.
+While most phoenixes are benevolent, they are not infallible. When a
+phoenix loses its way or falls under the inﬂuence of evil, it still retains its strong
+appetite for knowledge. Evil phoenixes are known
+to assault universities and libraries in their pursuit
+for power—not only to gain new information, but
+also to set ﬁre to the texts and thus hoard that
+knowledge for themselves.
+PHOENIX
+CREATURE 15
+RARE
+NG
+GARGANTUAN
+BEAST
+FIRE
+Perception +27; darkvision, detect magic, see invisibility
+Languages Auran, Celestial, Common, Ignan
+Skills Acrobatics +30, Athletics +27, Diplomacy +31,
+Intimidation +27, Nature +25
+Str +6, Dex +7, Con +5, Int +7, Wis +6, Cha +6
+AC 36; Fort +27, Ref +31, Will +28; +1 status to all saves
+vs. magic
+HP 300, regeneration 20 (deactivated by cold or evil),
+self-resurrection; Immunities ﬁre; Weaknesses cold 10,
+evil 10
+Self-Resurrection (healing, necromancy, primal) When a phoenix
+dies, it collapses into a pile of smoldering ashes before returning
+to life fully healed 1d4 rounds later, as if subject to a 7th-level
+resurrect ritual. Self-resurrection happens only if there are some
+remains to resurrect; for instance, a phoenix killed by a disintegrate spell
+can’t use this ability. A phoenix whose remains rest within an area devoted to
+an evil deity by consecrate can’t self-resurrect until its remains are no longer in that
+area. A phoenix can self-resurrect only once per year.
+Shroud of Flame (aura, evocation, ﬁre, primal) 20 feet. 4d6 ﬁre, DC 37 basic Reﬂex
+save. While this aura is active, any adjacent creature that hits the phoenix with a
+melee attack or otherwise touches it takes 2d6 ﬁre damage. The phoenix can activate
+or deactivate the aura with a single action, which has the concentrate trait.
+Speed 25 feet, ﬂy 70 feet
+Melee Ȱɵ beak +30 (finesse, fire, magical, reach 20 feet), Damage 1d12+9 piercing
+plus 3d8 fire and 2d10 persistent fire
+Melee Ȱɵ talon +30 (agile, ﬁnesse, ﬁre, magical, reach 20 feet), Damage 1d6+6 piercing
+plus 3d8 ﬁre and 2d10 persistent ﬁre
+Ranged Ȱɵ flame jet +30 (fire, range increment 40 feet), Damage 6d6 fire plus 2d10
+persistent fire
+Primal Innate Spells DC 39; 8th continual flame (at will), dispel magic (×3), flame
+strike, heal (×3), remove curse, wall of fire (×3); 7th dispel magic (at will); 6th
+restoration (×3); Cantrips (8th) light; Constant (8th) detect magic; (6th) see
+invisibility
+Flaming Strafe Ȱɵ (evocation, ﬁre, primal) The phoenix blazes with superheated ﬂame
+and Flies up to its Speed. It deals 6d6 ﬁre damage to each creature within 20 feet of
+each square it moves through (DC 37 basic Reﬂex save).
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669114
+4425271
+
+PAGE 263
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669115
+4425272
+Bestiary
+262
+OTHER PLANAR SCIONS
+As many types of planar scions
+exist as planes of existence, and
+even then there are signiﬁcant
+diﬀerences between scions
+depending on the exact nature of
+their extraplanar forebears. Angelic
+scions are known as aasimars,
+ﬁendish scions are called tieﬂings,
+and monitor scions are urobians.
+Planar Scion
+Many immortals dwell upon the other planes of the Great Beyond. Some are
+benevolent and kindly, like angels. Others are cruel and destructive, like demons.
+And some ﬁt roles outside of morality, like psychopomps. It’s far from unheard
+of that mortals and immortals alike become entangled romantically, and the
+children of such engagements carry a supernatural element in their bloodlines
+for generations to follow. After the ﬁrst generation, this otherworldly inﬂuence
+usually lies dormant, but now and then, the inﬂuence can manifest strongly in
+descendants many years later. These inheritors of extraplanar legacies are known
+collectively as planar scions.
+Tiefling
+Tieﬂings are planar scions with ﬁendish blood. One of the most common types is
+pitborn, who bear a demonic corruption infesting their mortal bloodline. Some
+strive to live above their forebear’s ﬁendish reputation, but many, such as this
+tieﬂing adept, simply accept their label and delve fully into evil.
+TIEFLING  ADEPT
+CREATURE 3
+CE
+MEDIUM
+HUMAN
+HUMANOID
+TIEFLING
+Perception +6; darkvision
+Languages Abyssal, Common
+Skills Abyss Lore +9, Acrobatics +7, Arcana +9, Deception +9,
+Intimidation +7, Occultism +9, Religion +6, Society +9, Stealth +7
+Str +0, Dex +2, Con +0, Int +4, Wis +1, Cha + 2
+Items dagger, explorer’s clothing, spellbook, staﬀ
+AC 17; Fort +5, Ref +7, Will +8
+HP 29
+Speed 25 feet
+Melee Ȱɵ staﬀ +6 (two-handed 1d8), Damage 1d6 bludgeoning
+Melee Ȱɵ dagger +7 (agile, ﬁnesse, versatile S), Damage 1d4
+piercing
+Ranged Ȱɵ dagger +7 (agile, thrown 10 feet, versatile S), Damage 1d4+1 piercing
+Arcane Prepared Spells DC 21, attack +11; 2nd ﬂaming sphere, invisibility; 1st
+charm, magic missile, ray of enfeeblement; Cantrips (2nd) chill touch, detect
+magic, mage hand, shield, tanglefoot
+Divine Innate Spells DC 17; 2nd darkness
+Drain Bonded Item Ȳ˓ Frequency Once per day; Requirements
+The adept hasn’t acted yet on this turn. Eﬀect The adept
+expends the power stored in its staﬀ. This gives the adept the
+ability to cast one prepared spell it had already previously
+cast today (choosing a diﬀerent spell level each time),
+without spending a spell slot. The adept must still Cast
+the Spell and meet the spell’s other requirements.
+Duskwalker
+Duskwalkers are infused with the same energies
+as psychopomps. These ashen scions are reborn
+on the Material Plane to serve as guardians of
+the cycle of life and death.
+DUSKWALKER GHOST HUNTER	 CREATURE 4
+N
+MEDIUM
+DUSKWALKER
+HUMAN
+HUMANOID
+Perception +10; darkvision
+Languages Common, Necril
+Skills Acrobatics +10, Athletics +8, Deception +6,
+Intimidation +6, Nature +8, Stealth +12, Survival +8
+Str +2, Dex +4, Con +1, Int +0, Wis +2, Cha +0
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669115
+4425272
+
+PAGE 266
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669118
+4425275
+O-R
+265
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+WHAT IS A KAMI?
+The spirit creatures known
+collectively as kami were originally
+protectors of the natural world,
+especially those things unable to
+protect themselves. Over time,
+though, their remit has grown,
+and now kami protectors extend
+their services to include artiﬁcial
+structures and items. In theory,
+any animal, plant, object, or
+location could be served by its own
+kami, but not everything has yet
+been blessed with such protection.
+The classiﬁcation of which objects
+warrant kami protection—and
+those that don’t—is confusing and
+complicated to all save the kami,
+who ﬁnd the organizational system
+perfectly logical.
+Poracha
+Porachas are feline beasts native to the mystical Forest of Spirits in Tian Xia. In their
+natural form, these graceful eight-legged creatures sport a gray tabby coat of fur
+streaked with lines of olive green, but they are rarely seen this way. Even the youngest
+porachas are capable of hiding within objects, making them incredibly elusive and
+rarely seen except on their own terms. Because porachas can so effortlessly blend in
+with the forest and emerge from its dark corners in an instant, superstitious locals
+believe these beasts are related to kami—nature spirits who embody individual trees,
+stones, or other elements of nature in the Forest of Spirits. The truth is that while
+porachas frequently associate with kami, they are their own breed of mysterious
+monster with powers over time and space that set them apart from nature spirits.
+The poracha’s most iconic feature is its ability to bend reality to teleport, or jaunt,
+short distances. But a poracha can also rest within objects, allowing it to safely sleep
+inside. Given that a poracha experiences time very slowly while hiding within objects,
+it can sleep inside of one for an extended period. Once it wakes, a poracha departs to
+play in the living world. Porachas especially enjoy resting inside roadside milestones,
+to maximize their chances of coming across travelers.
+Porachas rarely tread humanoid-occupied lands, preferring the company of the
+kami and their natural habitat in the Forest of Spirits. Though they enjoy occasional
+conversation, they’re extremely sensitive to sound; they speak softly and request the
+same from those they speak with. Their territories span vast swaths of the wood,
+making them ideal allies for hunters or treasure seekers who would otherwise become
+lost in the dense trees. But porachas are nothing if not ﬁckle, and typically demand
+inscrutable favors in return for their aid, such as the planting of a rare sapling in a
+particular grotto or the clearing of an invasive monster species around a treasured
+spring. Any attempt to coerce or trick a poracha into service is ill advised, for these
+sacred beasts have many friends among the kami as well as others of their kind.
+Though they generally don’t travel in groups, porachas know where to ﬁnd more of
+their kind in times of need, and an organized pack of porachas is a disorienting threat.
+PORACHA
+CREATURE 4
+UNCOMMON
+N
+MEDIUM
+BEAST
+Perception +10; tremorsense (imprecise) 10 feet, darkvision
+Languages Common, Sylvan
+Skills Acrobatics +13, Athletics +9, Deception +11, Diplomacy +11, Stealth +13, Survival +10
+Str +3, Dex +5, Con +3, Int +0, Wis +2, Cha +3
+AC 23; Fort +9, Ref +13, Will +10
+HP 50; Weaknesses sonic 5
+Speed 40 feet
+Melee Ȱɵ jaws +13 (ﬁnesse, magical), Damage 2d6+7 piercing
+Melee Ȱɵ claw +13 (agile, ﬁnesse, magical), Damage 2d4+7 slashing
+Jaunt Ȱɵ (conjuration, move, primal, teleportation) The
+poracha teleports up to 40 feet. It must have line of
+sight to the space it teleports to. It can’t use Jaunt
+again for 1d4 rounds.
+Object Meld ʚʖ (primal, transmutation)
+The poracha touches an adjacent object
+of enough volume to contain it. It merges
+into the object indefinitely, and while it’s
+inside, time moves exceptionally slowly for it and
+it has only limited perception of the outside world.
+The poracha can sense what’s going on outside the
+object only using tremorsense. The poracha can use
+only mental actions or Jaunt; if it Jaunts, it leaves
+the object and appears where it chooses. If a
+creature Strikes the object, the poracha is
+expelled unharmed.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669118
+4425275
+
+PAGE 267
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669119
+4425276
+Bestiary
+266
+PROTEAN DIVINITIES
+The most powerful of all proteans
+are a group of demigods known
+collectively as protean lords.
+Yet even their vast might pales
+in comparison to that of the
+mysterious Speakers of the
+Depths. The Speakers are the most
+enigmatic of the Maelstrom’s gods—
+even their exact nature is unknown,
+and scholars disagree as to whether
+they are even divinities or just
+aspects of the Maelstrom itself.
+Protean
+Guardians of disorder and natives of the primal plane of chaos known as the
+Maelstrom, proteans consider it their calling to spread bedlam and hasten entropic
+ends. The most powerful proteans are demigods known collectively as the protean
+lords, although they are mysterious entities whose cults on the Material Plane
+tend to be obscure and secretive.
+Proteans divide themselves into a loose caste system and possess a dizzying
+variety of powers. Most proteans have a serpentine body with the head of a
+primeval beast. Scholars have long been intrigued by this fact—that scions of
+dissolution and disorder would share so many features—pointing out that even in
+the purest chaos there is some semblance of order. Others note that the serpentine
+form is one of the most primeval shapes, perhaps suggesting that in a reality at the
+dawn of time, such shapes were all that could exist. The proteans themselves have
+little to say on the matter, which, perhaps ironically, only adds to the confusion
+and lack of consensus surrounding their kind. After all, if even chaos cannot be
+trusted to be chaotic, would that not be the purest form of entropy?
+Warpwaves
+Many proteans can subject their foes to disorienting alterations perceived in time and
+space by creating ripples of unstable reality in the environment called warpwaves.
+When a creature fails its saving throw and is affected by a warpwave, roll 1d8 and
+consult the table below for the speciﬁc effect on that creature. Unless indicated
+otherwise, a warpwave effect lasts for 1d4 rounds, and a new warpwave effect
+negates any previous warpwave effect already affecting a creature.
+D8
+Warpwave Eﬀect
+1
+Clumsy 2 (3 on a critical failure)
+2
+Confused and gains 4d6 temporary Hit Points
+3
+Dazzled (permanent on a critical failure)
+4
+Enfeebled 2 (3 on a critical failure)
+5
+Immobilized by ﬁlaments of energy
+6
+Quickened (Stride, Strike, or Step only)
+7
+Slowed 1
+8
+Stupeﬁed 2 (3 on a critical failure)
+Voidworm
+Other proteans don’t consider the ﬂying, iridescent beings known as voidworms
+to be part of a protean caste at all, but instead merely a shameful side effect of
+the Maelstrom’s constantly churning energy. To call a voidworm a protean in
+the presence of a more powerful protean is as sure a way to instigate combat
+as any.
+Voidworms themselves have little interest in whether anyone sees them as
+proteans. They maintain a thriving ecology in the Maelstrom, frolicking in
+schools of up to 20 and playing in the chaos of constantly shifting realities.
+Elsewhere (such as on the Material Plane), voidworms are mesmerized by the
+principle of object permanence; many latch onto speciﬁc features of a region
+(such as a hillside or pond) and ﬂit through the air around it for months or even
+years as they wait for the object of their curiosity to change. Minor changes—
+such as a tree’s change of color in the fall, a corpse’s slow decay, or periodic
+venting of steam from a geyser—all fascinate voidworms. A voidworm is about
+2 feet long and weighs 2 pounds.
+VOIDWORM
+CREATURE 1
+CN
+TINY
+MONITOR
+PROTEAN
+Perception +4; entropy sense (imprecise) 30 feet, darkvision
+PROTEAN NAMES
+Individual proteans have two
+names: a traditional name in
+their hissing, confusing language;
+and an honorary title. The latter
+is easily translated to other
+languages, but a protean’s
+traditional name can only rarely be
+uttered in any tongue other than
+Protean. As such, most proteans
+tend to go by their titles when
+dealing with outsiders, referring to
+themselves as, for example, “Song
+of Gentle Poison” or “Sibilant Cry
+of the Storm.”
+OTHER PROTEANS
+Many other proteans beyond
+those presented here dwell in the
+Maelstrom, including the spectral
+pelagastrs, the nearly humanoid
+shapechanging ourdivars, and the
+incredibly powerful izﬁitars.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669119
+4425276
+
+PAGE 311
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669163
+4425320
+Bestiary
+310
+JINX EATERS
+In the pirate-controlled archipelago
+of the Shackles, tengus occupy a
+unique social niche, since many
+pirates believe that a tengu’s
+presence on board a ship wards
+oﬀ bad luck. Known as “jinx
+eaters,” these tengu are treated as
+mascots by their pirate crews. Jinx
+eaters don’t mind this treatment,
+however, since it allows them
+to escape much of the drudgery
+associated with working on a
+ship. When a tengu is sailing with
+pirates afraid of ill fortune, the
+claim that “hunger leads to bad
+luck” secures comfort and respect
+for the jinx eater more eﬀectively
+than any bribe.
+Tengu
+Crow-like humanoids, tengus are a canny and clever people who can be found
+across all of Golarion. Tengus are used to being minorities and facing suspicion
+wherever they travel, so by necessity many possess a knack for languages as
+well as for blades. They live on the fringes of society and tend to ﬂock toward
+less-than-legal occupations, earning them their reputation for being streetwise
+and unscrupulous—a label that, in turn, perpetuates the tengus’ oppressive cycle
+of discrimination and illegitimate work.
+Although humanoid, tengus have very distinct, birdlike features, and many
+would say that they resemble crows more than they do humans. They have
+strong, thick beaks, as well as sharp talons at the ends of their arms and legs.
+Most of a tengu’s body is covered in small feathers that range in color from dark
+brown and midnight blue to glossy black, with lighter colors being rare but not
+unheard of. Like many avian creatures, tengus have hollow bones, making them
+much lighter than other humanoids of their size, although few tengus possess the
+wings necessary to ﬂy naturally. A tengu’s speech might be punctuated by quick
+clucks or throaty cawing, and many tengus practice conversation diligently to rid
+themselves of these involuntary ticks. Rufﬂing of the feathers and compulsive,
+jerky movements of the neck are other trademark habits. Tengus reproduce by
+laying eggs: the average tengu egg is about 11 inches in diameter and 16 inches
+tall and takes 4 months to hatch.
+Tengus are a people in diaspora and are almost always found within larger
+kingdoms and communities of other races. Perhaps because they are more visually
+distinctive than most other humanoid races, tengus tend to be distrusted and
+persecuted more often than, for example, elves or dwarves. As a result, tengus
+tend to gather in close-knit social groups composed of other outcasts and
+people of uncommon ancestry. Few true tengu communities exist, and
+those that do are often exiled to ghettos and other forgotten city
+quarters. From an early age, tengus learn that the world is not a
+friendly place and that they must look out for themselves.
+TENGU SNEAK
+CREATURE 2
+CN
+MEDIUM
+HUMANOID
+TENGU
+Perception +6; low-light vision
+Languages Common, Tengu, plus two others
+Skills Acrobatics +8, Athletics +6, Deception +7, Diplomacy +5, Society
++5, Stealth +8, Thievery +8
+Str +2, Dex +4, Con +1, Int +1, Wis +0, Cha +1
+Items rapier, shortbow, studded leather armor
+AC 19; Fort +7, Ref +10, Will +4
+HP 27
+Speed 25 feet
+Melee Ȱɵ rapier +10 (deadly 1d8, disarm, ﬁnesse), Damage 1d6+2
+piercing
+Melee Ȱɵ beak +10 (ﬁnesse), Damage 1d4+2 piercing
+Ranged Ȱɵ shortbow +10 (deadly 1d10, range increment 60 feet,
+reload 0), Damage 1d6 piercing
+Go for the Eyes Ǻȓ (incapacitation) Trigger The tengu critically hits with
+a beak Strike. Eﬀect The tengu attempts to peck out its victim’s eyes. The
+target must attempt a DC 17 Fortitude save.
+Success Unaﬀected.
+Failure Blinded for 1 round.
+Critical Failure Blinded until healed to maximum HP.
+Sneak Attack The tengu deals 1d6 extra precision damage to ﬂat-
+footed creatures.
+Surprise Attacker On the ﬁrst round of combat, creatures that haven’t
+acted yet are ﬂat-footed to the tengu.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669163
+4425320
+
+PAGE 342
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669194
+4425351
+U-Z
+341
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+RISEN FROM THE GRAVE
+Zombies are often created using
+unwholesome necromantic rituals.
+Among the living dead, zombies are
+most often used as fodder, wearing
+down defenses and consuming
+resources before more powerful
+undead arrive to deal the killing
+blow. Zombies cannot speak or
+really even think for themselves,
+but they can be commanded by
+other allied undead and
+powerful necromancers.
+HP 50, negative healing; Immunities death eﬀects, disease, mental, paralyzed, poison,
+unconscious; Weaknesses positive 10, slashing 10
+Speed 25 feet
+Melee Ȱɵ ﬁst +9, Damage 1d8+4 bludgeoning plus Grab and zombie rot
+jaws Ȱɵ (attack); As zombie shambler, but with an attack bonus of +9 that deals 1d12+4
+piercing damage. A creature damaged by the jaws is exposed to zombie rot.
+Zombie Rot (disease, necromancy); An infected creature can’t heal damage it takes from
+zombie rot until it has been cured of the disease. Saving Throw DC 18 Fortitude; Stage
+1 carrier with no ill eﬀect (1 day); Stage 2 1d6 negative damage (1 day); Stage 3 1d6
+negative damage (1 day); Stage 4 1d6 negative damage (1 day); Stage 5 dead, rising as
+a plague zombie immediately
+Zombie Brute
+Necromantic augmentations have granted this zombie increased size and power.
+ZOMBIE BRUTE
+CREATURE 2
+NE
+LARGE
+MINDLESS
+UNDEAD
+ZOMBIE
+Perception +4; darkvision
+Skills Athletics +9
+Str +5, Dex –3, Con +4, Int –5, Wis +0, Cha –2
+Slow As zombie shambler.
+AC 15; Fort +10, Ref +3, Will +6
+HP 70, negative healing; Immunities death eﬀects, disease, mental,
+paralyzed, poison, unconscious; Weaknesses positive 10,
+slashing 10
+Speed 25 feet
+Melee Ȱɵ ﬁst +11 (reach 10 feet), Damage 1d12+5
+bludgeoning plus Improved Push 5 feet
+Zombie Hulk
+These towering horrors are animated from the corpses of monstrosities.
+ZOMBIE HULK
+CREATURE 6
+NE
+HUGE
+MINDLESS
+UNDEAD
+ZOMBIE
+Perception +8; darkvision
+Skills Athletics +18
+Str +7, Dex –1, Con +4, Int –5, Wis +0, Cha –2
+Slow As zombie shambler.
+AC 21; Fort +16, Ref +9, Will +12
+HP 160, negative healing; Immunities death eﬀects, disease,
+mental, paralyzed, poison, unconscious; Weaknesses positive
+10, slashing 10
+Speed 25 feet
+Melee Ȱɵ hunk of meat +17 (reach 15 feet), Damage 2d10+9 bludgeoning
+Ranged Ȱɵ hunk of meat +9 (thrown 10 feet), Damage 2d10+9
+bludgeoning
+Ranged Ȱɵ corpse +17 (brutal, range increment 30 feet), Damage
+2d6+9 bludgeoning
+Corpse Throwing A zombie hulk can throw corpses at foes. While
+any Medium dead body will do, they sometimes throw zombie
+shamblers, who take just as much damage from being thrown as
+the target they hit. A thrown shambler lands prone, but if it’s not
+destroyed, it can rise and use other actions normally.
+Wide Swing Ȱɵ The zombie hulk makes a hunk of meat Strike and
+compares the attack roll result to the AC of up to two foes, each
+of whom must be within the Strike’s reach. This attack counts
+as two attacks for the zombie hulk’s multiple attack penalty.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669194
+4425351

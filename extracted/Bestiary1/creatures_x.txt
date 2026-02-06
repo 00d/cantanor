@@ -1,0 +1,340 @@
+# Bestiary - Creatures: X
+# Count: 4 creatures
+
+
+================================================================================
+# XORN
+================================================================================
+
+Earth Glide As sod hound.
+Xorn
+These squat, rotund elementals have three legs, three arms,
+three eyes, and one massive maw, which they ﬁll with the gems
+and metals they ﬁnd so delicious.
+XORN
+CREATURE 7
+N
+MEDIUM
+EARTH
+ELEMENTAL
+Perception
++15;
+darkvision,
+tremorsense
+(imprecise) 60 feet
+Languages Common, Terran
+Skills Athletics +17, Geology Lore +15,
+Stealth +11, Survival +15
+Str +6, Dex +0, Con +5, Int +0, Wis +2, Cha +0
+
+================================================================================
+PAGE 148
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669000
+4425157
+E-G
+147
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+ELEMENTAL CREATURES
+Not all elementals are lumbering,
+humanoid-shaped creatures. Some
+take on the forms and natures
+of animals and beasts from the
+Material Plane. These creatures
+often behave in ways similar to
+their Material Plane counterparts,
+even though as elementals they
+lack the animalistic instincts
+mortal creatures have when it
+comes to hunting, reproducing,
+and the like. Elemental creatures
+are favorites of conjurers due to
+their small size, relative ease of
+summoning, and varied abilities.
+AC 25, all-around vision; Fort +18, Ref +11, Will +13
+HP 115; Immunities bleed, paralyzed, poison, sleep; Resistances cold 5, electricity 5,
+ﬁre 5; Weaknesses bludgeoning 5
+Speed 20 feet, burrow 20 feet; earth glide
+Melee Ȱɵ jaw +18 (deadly 1d10), Damage 2d10+8 piercing
+Melee Ȱɵ claw +18 (agile), Damage 2d6+8 slashing
+Claw Frenzy ʚʖ The xorn makes three claw Strikes; no more than two can be against
+the same target. These attacks count toward the xorn’s multiple attack penalty, but
+the penalty doesn’t increase until after all the attacks have been made.
+Earth Glide As sod hound.
+Stone Mauler
+These towering heaps of earth can inﬂict tremendous damage up close and from afar.
+STONE MAULER
+CREATURE 9
+N
+LARGE
+EARTH
+ELEMENTAL
+Perception +16; darkvision, tremorsense (imprecise) 80 feet
+Languages Terran
+Skills Athletics +21, Stealth +12
+Str +6, Dex –1, Con +7, Int –1, Wis +3, Cha –1
+Earthbound When not touching solid ground, a stone mauler is slowed 1 and can’t
+use reactions.
+AC 27; Fort +23, Ref +15, Will +19
+HP 180; Immunities bleed, paralyzed, poison, sleep
+Spike Stones (aura, earth, primal, transmutation) 5 feet. Spikes of rock rise up from all stone
+surfaces in the emanation, creating diﬃcult terrain. A creature moving in the terrain takes
+2d6 piercing damage for each square of spikes it moves into (a Large or larger creature
+takes damage only once for each square it moves, even if its space covers multiple squares
+of spikes). Creatures with the earth trait ignore all eﬀects within the area. The stone mauler
+can disable or activate spike stones as a single action, which has the concentrate trait.
+Crumble Ǻȓ As living landslide, but 15 feet down.
+Speed 35 feet, burrow 35 feet; earth glide
+Melee Ȱɵ ﬁst +21 (reach 10 feet), Damage 2d10+10 bludgeoning plus Push 10 feet
+Ranged Ȱɵ rock +21 (brutal, range increment 80 feet), Damage 2d12+6 bludgeoning
+Earth Glide As sod hound.
+Elemental Avalanche
+Stubborn and ponderous, elemental avalanches are massive beings of living rock
+and dirt.
+ELEMENTAL AVALANCHE
+CREATURE 11
+N
+HUGE
+EARTH
+ELEMENTAL
+Perception +20; darkvision, tremorsense (imprecise) 90 feet
+Languages Terran
+Skills Athletics +24, Stealth +14
+Str +7, Dex –1, Con +8, Int +0, Wis +3, Cha –1
+Earthbound When not touching solid ground, the elemental avalanche is slowed 1, can’t
+use reactions, and can’t Trample.
+AC 32; Fort +26, Ref +17, Will +21
+HP 215; Immunities bleed, paralyzed, poison, sleep
+Spike Stones (aura, earth, primal, transmutation) 10 feet. As stone mauler, but 2d8 piercing.
+Crumble Ǻȓ As living landslide.
+Speed 25 feet, burrow 25 feet; earth glide
+Melee Ȱɵ ﬁst +24 (reach 20 feet), Damage 2d12+11 bludgeoning
+Ranged Ȱɵ rock +24 (brutal, range increment 80 feet), Damage 2d12+7 bludgeoning
+Earth Glide As sod hound.
+Trample ̂ˬ Large or smaller, ﬁst, DC 30
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669000
+4425157
+
+PAGE 338
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669190
+4425347
+U-Z
+337
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+XULGATH SOCIETY
+Xulgaths respect strength, and the
+leader of a community is usually the
+strongest of all of them. The leader’s
+dominance is rarely questioned
+until a potentially stronger xulgath
+believes it’s time for a change in
+rulership. The two xulgaths then
+face oﬀ in a ﬁght to the death, with
+the victor claiming rule.
+Xulgath Skulker
+Xulgath warrens are patrolled—some might say “haunted”—by the community’s
+skulkers. These xulgaths specialize in stealth, striking swiftly from the shadows
+and otherwise ambushing foes.
+XULGATH SKULKER
+CREATURE 2
+CE
+MEDIUM
+HUMANOID
+XULGATH
+Perception +7; darkvision
+Languages Draconic, Undercommon
+Skills Acrobatics +8, Stealth +8, Thievery +8
+Str +3, Dex +4, Con +2, Int –1, Wis +1, Cha +0
+Items dagger (4)
+AC 19; Fort +8, Ref +10, Will +5
+HP 28
+Stench (aura, olfactory) 30 feet. As xulgath warrior.
+Stench Suppression Ȳ˓ A xulgath skulker can suppress its stench aura as a free action
+to better hide its presence. The skulker can resume its stench aura as a free action.
+Speed 25 feet
+Melee Ȱɵ dagger +10 (agile, ﬁnesse, versatile S), Damage 1d4+3 piercing
+Melee Ȱɵ jaws +9, Damage 1d6+3 piercing
+Melee Ȱɵ claw +10 (agile, ﬁnesse), Damage 1d4+3 slashing
+Ranged Ȱɵ dagger +10 (agile, thrown 10 feet, versatile S), Damage 1d4+3 piercing
+Hidden Movement If a xulgath skulker starts its turn undetected by a creature or merely
+hidden from it, that creature is ﬂat-footed against the skulker’s attacks until the end
+of the skulker’s turn.
+Sneak Attack A xulgath skulker deals an additional 1d6 precision damage to
+ﬂat‑footed creatures.
+Xulgath Leader
+Xulgath leaders are usually the strongest, most violent
+members of a community—although in some cases,
+particularly in larger groups, xulgath tribes are led by
+powerful demon cultists or other monsters who seek to
+use the xulgaths as servants or slaves.
+XULGATH LEADER
+CREATURE 3
+CE
+MEDIUM
+HUMANOID
+XULGATH
+Perception +9; darkvision
+Languages Draconic, Undercommon
+Skills Athletics +11, Intimidation +6,
+Stealth +6
+Str +4, Dex +1, Con +2, Int –1, Wis +2, Cha +1
+Items breastplate, greataxe, javelin (4)
+AC 20; Fort +9, Ref +6, Will +9
+HP 44
+Stench (aura, olfactory) 30 feet. As xulgath warrior, but DC 19.
+Speed 25 feet
+Melee Ȱɵ greataxe +11 (sweep), Damage 1d10+6 slashing plus
+Weakening Strike
+Melee Ȱɵ jaws +11, Damage 1d6+6 piercing plus Weakening Strike
+Melee Ȱɵ claw +11 (agile), Damage 1d4+6 slashing
+Ranged Ȱɵ javelin +8 (thrown 30 feet), Damage
+1d6+4 piercing
+Weakening Strike Ȱɵ The target must
+succeed at a DC 20 Fortitude save or
+become enfeebled 1 (or enfeebled 2 on
+a critical hit) for 1 round.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669190
+4425347
+
+PAGE 339
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669191
+4425348
+Bestiary
+338
+YETI TREASURE
+Lone exiles of yeti clans have little
+use for treasure and leave the gear
+of their slain victims behind where
+it is quickly covered by snowfall.
+Clan-based yetis, on the other
+hand, create beautifully carved
+stonework, some of which they
+shape into protective talismans of
+rare beauty.
+Yeti
+Nearly a myth, the yeti is rarely seen—and even when it is, it is often too late.
+Yetis dwell amid the highest, most remote peaks of the world, coming down
+from their snowy mountain holds to raid, steal livestock, and sometimes feed
+their insatiable urges for slaughter and destruction. Those folks who live at the
+foot of a yeti-ruled mountain warn of the “abominable snowmen”: monstrous,
+fur-covered humanoids who leave strange and bloody tracks in the snow.
+Normally yetis seek to protect the world rather than hunt its other civilized
+denizens. They do so by lairing near eldritch portals that form links between
+the Material Plane and other, much stranger dimensions of reality. From within
+these snow-covered arches and ancient stone doorways, aliens, living nightmares,
+ﬁends, and worse can emerge through dimensional networks into the world. Yetis
+who guard these portals sometimes succumb to these horrors and are corrupted,
+taking on the bloodthirsty urges and horriﬁc behaviors of the very monsters they
+strive to protect the world against. Yetis who manifest such violent tendencies
+are driven out of their clan and forced to wander the mountaintops alone, thus
+giving rise to the myth of the legendary abominable snowman. Forced to fend
+for themselves, these exiled yetis often fully embrace the corrupting elements that
+caused their exile in the ﬁrst place, growing more powerful and more deadly as
+a result. The most vile of these yetis turn to cannibalism, not out of need, but
+out of a sheer joy at the terror they inﬂict upon their kin. Invariably such
+cannibalistic yetis attract the attention of wendigos, which makes a bad
+situation all the worse.
+YETI
+CREATURE 5
+UNCOMMON
+N
+LARGE
+HUMANOID
+Perception +15; darkvision, scent (imprecise) 30 feet
+Languages Aklo
+Skills Athletics +14, Stealth +12 (+15 in
+snow), Survival +11
+Str +5, Dex +2, Con +4, Int –1,
+Wis +4, Cha –1
+Snowblind When Hiding, the yeti
+is concealed by any snowfall, even
+if it’s not thick enough to make other
+creatures concealed.
+AC 21; Fort +15, Ref +11, Will +13; +4 status to all saves vs. fear and dreams
+HP 115; Immunities cold; Weaknesses ﬁre 10
+Nightmare Guardian Yetis gain a +4 status bonus to saves against fear and
+against spells and abilities that aﬀect dreams. A yeti that falls prey to a
+supernatural nightmare loses this ability and becomes permanently enraged,
+gaining a +1 status bonus to attack and damage rolls and a –1 status penalty
+to AC.
+Vanish Ǻȓ Trigger The yeti is hidden or undetected while not in combat,
+and a creature would observe it. Eﬀect The yeti Strides or Climbs up to
+half its Speed to a location where it can Hide, then Hides. If its new Stealth
+check result meets or exceeds the triggering creature’s Perception DC, the yeti
+remains hidden.
+Speed 35 feet, climb 20 feet
+Melee Ȱɵ claw +15, Damage 2d10+5 slashing
+Grisly Arrival Ȳ˓ (emotion, fear, mental); Trigger The yeti hits a creature in
+the ﬁrst round of combat and the yeti was hidden from that creature at
+the start of combat. Eﬀect Each enemy within 30 feet that witnesses the
+attack (including the target of the attack) must attempt a DC 23 Will
+save. On a failure, the creature is frightened 2; on a critical failure, it’s
+frightened 4.
+Rend Ȱɵ claw
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669191
+4425348

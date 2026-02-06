@@ -1,0 +1,3081 @@
+# Bestiary - Creatures: D
+# Count: 31 creatures
+
+
+================================================================================
+# DAEODON
+================================================================================
+
+Boar Charge ʚʖ The boar Strides twice and then makes a tusk Strike. As long as it
+moved at least 20 feet, it gains a +2 circumstance bonus to its attack roll.
+Daeodon
+Where the typical boar is merely ill-tempered and generally unfriendly, the
+towering daeodon is legitimately hateful and ruthlessly violent. Although
+omnivorous, the daeodon (known in some regions simply as a giant boar)
+prefers to feed on ﬂesh. Primarily a scavenger, the daeodon isn’t adverse
+to attacking creatures it encounters while searching for easier meals, or
+to protect any perceived encroachment into its lair or feeding grounds.
+Particularly brave or skilled orcs are fond of using daeodons as
+mounts or war-trained battle beasts; orc cavalry mounted on
+daeodons is a fearsome force indeed.
+A typical adult daeodon is 10 feet long and 7 feet tall at
+the shoulder. It weighs approximately 2,000 pounds.
+DAEODON
+CREATURE 4
+N
+LARGE
+ANIMAL
+Perception +12; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +8, Athletics +12, Survival +10
+Str +6, Dex +0, Con +3, Int –4, Wis +2, Cha –1
+AC 21; Fort +13, Ref +9, Will +10
+HP 60
+Ferocity Ǻȓ
+Speed 40 feet
+Melee Ȱɵ tusk +14, Damage 2d8+6 piercing
+Daeodon Charge ʚʖ The daeodon Strides twice and then makes a tusk Strike. As
+long as it moved at least 20 feet, it gains a +2 circumstance bonus to its attack roll.
+A Medium or smaller creature struck by this attack must succeed at a DC 19 Reﬂex
+save or be knocked prone by the force of the blow.
+BOAR LOCATIONS
+Boars can be found in almost
+any environment, from forests to
+deserts, warm or cold, including
+even high-altitude mountainous
+regions. They tend to prefer
+forests, marshes, and meadows.
+Daeodons are likewise found
+in such regions but generally
+prefer remote reaches far from
+civilization.
+
+================================================================================
+PAGE 45
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668897
+4425054
+Bestiary
+44
+BOGGARD VILLAGES
+Boggards prefer to dwell in
+swamplands and mires. Though
+they are at home in the water, they
+prefer to spend most of their lives
+on land, and build villages of mud
+huts. They often keep guardian
+beasts, such as bloodseekers
+(page 42), crocodiles (page 67),
+giant frogs, or other feral animals
+tamed (if only just barely) to serve
+as protectors.
+Boggard
+Boggards are aggressive humanoid amphibians that thrive in swamps, marshes,
+and even some rain forests. Boggards hatch from eggs into tadpoles, ﬁercely
+competing for food and even consuming their siblings in that struggle. Over 3
+years, the surviving boggards develops arms, legs, and lungs while learning the
+rudiments of hunting, crafts, and warfare—everything needed to survive in their
+might-makes-right society. At the top of most boggard hierarchies lords a hulking
+swampseer imbued with sinister divine magic.
+Boggard Scout
+Often tasked with patrolling the borders of their lands, boggard scouts learn to
+speak another language (typically Common) to make it easier to issue threats and
+insults toward trespassers.
+BOGGARD SCOUT
+CREATURE 1
+CE
+MEDIUM
+AMPHIBIOUS
+BOGGARD
+HUMANOID
+Perception +7; darkvision
+Languages Boggard, Common
+Skills Acrobatics +5, Athletics +8, Stealth +7 (+9 in water)
+Str +3, Dex +2, Con +4, Int –1, Wis +2, Cha +0
+Items leather armor, morningstar, sling (10 bullets)
+AC 16; Fort +9, Ref +5, Will +7
+HP 24
+Speed 20 feet, swim 25 feet; swamp stride
+Melee Ȱɵ morningstar +8 (versatile P), Damage 1d6+3 bludgeoning
+Melee Ȱɵ tongue +8 (reach 10 feet), Eﬀect tongue grab
+Ranged Ȱɵ sling +7 (propulsive, reload 1, range increment 50 feet), Damage 1d6+1
+bludgeoning
+Swamp Stride A boggard scout ignores diﬃcult terrain caused by swamp terrain features.
+Terrifying Croak Ȱɵ (auditory, emotion, fear, mental) The boggard scout unleashes a
+terrifying croak. Any non-boggard within 30 feet becomes frightened 1 unless they
+succeed at a DC 17 Will save; those who critically succeed are temporarily immune for
+1 minute.
+Tongue Grab If the boggard scout hits a creature with its tongue, that creature becomes
+grabbed by the boggard. Unlike with a normal grab, the creature isn’t immobilized, but
+it can’t move beyond the reach of the boggard’s tongue. A creature can sever the
+tongue by hitting AC 13 and dealing at least 2 slashing damage. Though this doesn’t
+deal any damage to the boggard, it prevents it from using its tongue Strike until it
+regrows its tongue, which takes a week.
+Boggard Warrior
+Boggard warriors exalt in single combat, and prefer to ﬁght alone so that
+none can contest their kills. They have been known to pursue enemies who ﬂee
+combat with a single-mindedness that seems almost supernatural.
+BOGGARD WARRIOR
+CREATURE 2
+CE
+MEDIUM
+AMPHIBIOUS
+BOGGARD
+HUMANOID
+Perception +8; darkvision
+Languages Boggard
+Skills Athletics +8, Intimidation +5, Stealth +6 (+8 in water)
+Str +4, Dex +0, Con +4, Int –1, Wis +2, Cha +1
+Items club, javelin (3), studded leather armor
+AC 17; Fort +10, Ref +5, Will +8
+HP 38
+Speed 20 feet, swim 25 feet; swamp stride
+Melee Ȱɵ club +10, Damage 1d6+6 bludgeoning
+Melee Ȱɵ tongue +10 (reach 10 feet), Eﬀect tongue grab
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668897
+4425054
+
+PAGE 69
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668921
+4425078
+Bestiary
+68
+LOST CIVILIZATIONS
+Cyclopes dwell in or near the
+remains of their lost civilizations—
+notably Ghol-Gan in Garund,
+Koloran in northwestern
+Casmaron, and various kingdoms
+in Iblydos. Ruins of Ghol-Gan
+still dot the archipelago of the
+Shackles, and untold numbers
+of treasures belonging to the
+ancient cyclops empire still await
+discovery. Pirates and treasure
+hunters regularly conduct
+expeditions in search of lost Ghol-
+Gani relics, but many of these
+voyages never return. Among
+those that do, survivors speak of
+terrible curses, gruesome traps,
+and one-eyed undead guardians.
+Cyclops
+The cyclopes are violent giants with a tragic past. Although they possess only
+one eye, they could once see far more than most, possessing occult wisdom and
+divinatory magic that gave them the mystic ability of foresight. But their legendary
+oracular powers failed to prevent the fall of their society, and the vast kingdoms
+of the cyclops long ago collapsed into ruin. Today, cyclopes have forgotten much
+of what they once knew, and they skulk among the crumbling remains of their
+fallen cities like forgotten kings and queens gone mad.
+Cyclops
+The kingdoms of the cyclopes date to an age before the rise of humanity,
+when dragons and giants and serpentfolk ruled the world. The cyclopes built
+enormous stone cities and prayed to ancient gods of brutality and wrath, but
+their power to foresee the future failed them, and their civilization collapsed.
+Today, most cyclopes have virtually no knowledge of the former glory of their
+kind, even though it is not uncommon for
+them to dwell among the ruins of their
+greatness. Cyclops cities include monuments
+and imposing murals which depict their
+peoples’ history, but few now among them can
+read or interpret these relics of the past.
+In addition to their single eye, cyclopes are
+also famous for their never-ending hunger, an
+appetite so all-consuming that some scholars
+theorize it may in fact be some kind of
+curse. The ever-present hunger of the
+cyclopes seems to have some connection
+to the death of their civilization—though
+whether this voracity was the cause or a
+side-effect of their people’s downfall is likely
+destined to remain a mystery.
+Although details of the cyclopes’ gods have
+largely been lost to the annals of time, what
+little is known about these deities suggests they
+were vindictive and petty enough to curse their
+own people if they felt neglected or badly served.
+CYCLOPS
+CREATURE 5
+UNCOMMON
+NE
+LARGE
+GIANT
+HUMANOID
+Perception +12; low-light vision
+Languages Common, Cyclops, Jotun
+Skills Athletics +14, Fortune-Telling Lore
++13, Intimidation +10, Survival +12
+Str +5, Dex –1, Con +2, Int +0, Wis +3, Cha –1
+Items greataxe, heavy crossbow (10 bolts),
+hide armor
+AC 21; Fort +13, Ref +8, Will +12
+HP 80
+Ferocity Ǻȓ
+Flash of Insight Ȳ˓ (divination, occult, fortune)
+Frequency once per day; Trigger The cyclops is about
+to roll a d20. Eﬀect The cyclops peers into an occluded
+spectrum of possible futures. It gets a success (but not a
+critical success) on the roll instead of rolling.
+Speed 30 feet
+Melee Ȱɵ greataxe +14 (reach 10 feet, sweep),
+Damage 1d12+9 slashing
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668921
+4425078
+
+PAGE 76
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668928
+4425085
+D
+75
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+FEW FRIENDS BELOW
+Most who dwell in the Darklands
+are sinister and cruel. While deep
+gnomes are not, those who seek
+their aid should remember that
+they don’t welcome strangers
+with open arms. In the brutal
+Darklands, such traits are seized
+upon by its denizens and treated
+as much as weaknesses as
+they are strengths.
+Speed 20 feet
+Melee Ȱɵ light pick +7 (agile, fatal d8), Damage 1d4+2 piercing
+Ranged Ȱɵ sling +9 (propulsive, range increment 50 feet, reload 1), Damage
+1d6+1 bludgeoning
+Primal Innate Spells DC 14; 1st illusory disguise
+Hidden Movement If the deep gnome scout starts its turn undetected or hidden to a
+creature, that creature is ﬂat-footed against the deep gnome scout’s attacks until the
+end of the turn.
+Deep Gnome Warrior
+Deep gnome warriors are quick to charge into battle but focus on defending
+their kin and their homes over more aggressive tactics when a choice
+is available.
+DEEP GNOME WARRIOR
+CREATURE 2
+N
+SMALL
+GNOME
+HUMANOID
+Perception +7; darkvision
+Languages Gnomish, Undercommon
+Skills Athletics +8, Intimidation +5, Stealth +5
+Str +4, Dex +2, Con +3, Int +0, Wis +1, Cha –1
+Items heavy crossbow (20 bolts), spear, steel shield (Hardness 5, HP 20, BT 10), studded
+leather armor
+AC 18 (20 with shield raised); Fort +9, Ref +8, Will +5
+HP 34
+Attack of Opportunity Ǻȓ
+Shield Block Ǻȓ
+Speed 20 feet
+Melee Ȱɵ spear +10, Damage 1d6+4 piercing
+Ranged Ȱɵ heavy crossbow +8 (range increment 120 feet, reload 2), Damage
+1d10 piercing
+Primal Innate Spells DC 15; 1st illusory disguise
+Deep Gnome Rockwarden
+Deep gnome rockwardens follow druidic teachings and commune with
+the natural elemental inﬂuences and denizens of the Darklands. They
+know that not everything that lives below ground is sinister and
+evil, but they also understand that all primal spirits and entities
+must be respected.
+DEEP GNOME ROCKWARDEN
+CREATURE 5
+N
+SMALL
+GNOME
+HUMANOID
+Perception +14; darkvision
+Languages Gnomish, Terran, Undercommon
+Skills Crafting +9, Diplomacy +11, Nature +14, Stealth +9
+Str +1, Dex +2, Con +3, Int +0, Wis +5, Cha +2
+Items hide armor, pick, primal focus, scroll of nondetection, sling (10 bullets)
+AC 22; Fort +12, Ref +9, Will +14
+HP 63
+Speed 15 feet
+Melee Ȱɵ pick +10 (fatal d10), Damage 1d6 piercing
+Ranged Ȱɵ sling +11 (propulsive, range increment 50 feet), Damage 1d6
+bludgeoning
+Primal Prepared Spells DC 24, attack +14; 3rd blindness, meld into stone;
+2nd acid arrow, deafness, spider climb; 1st ant haul, shocking grasp,
+ventriloquism; Cantrips (3rd) acid splash, detect magic, prestidigitation,
+produce ﬂame, read aura
+Primal Innate Spells DC 21; 1st illusory disguise
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668928
+4425085
+
+PAGE 77
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668929
+4425086
+Bestiary
+76
+DEMONIC DEITIES
+The most powerful demons are
+known as demon lords (the term
+is gender neutral in this case).
+Of these divinities, Lamashtu is
+the most powerful. Countless
+other demon lords exist, including
+Abraxas, Cyth-V’sug, Kabriri,
+and Zura.
+Demon
+When a sinful mortal soul is judged and sent on to the Abyss, it can become a
+deadly ﬁend—a demon. Demons are living incarnations of sin—be they classic
+sins like wrath or gluttony, or more “specialized” depravities like an obsession
+with torture or the act of treason or treachery. Once formed, a demon’s driving
+goals are twofold—the amassing of personal power, and the corruption of mortal
+souls to cause them to become tainted by sin. In this way demons ensure a never-
+ending supply of new demons to bolster their ever-growing ranks in the Abyss.
+Quasit
+Unlike other demons, quasits are formed when a mortal spellcaster sheds a portion
+of their own sinful soul to create a familiar or companion. When these quasits outlive
+their creators, they become free willed and seek methods of returning to the Abyss,
+a task that requires pledging servitude to more powerful demons, so many quasits
+instead opt to remain on the Material Plane to promote evil and hope for chance and
+luck to someday provide them with a method of reaching the Abyss on their own.
+QUASIT
+CREATURE 1
+CE
+TINY
+DEMON
+FIEND
+Perception +7; darkvision
+Languages Abyssal, Common; telepathy (touch)
+Skills Acrobatics +7, Arcana +4, Deception +7, Intimidation +5, Religion +5, Stealth +7
+Str –1, Dex +4, Con +0, Int +1, Wis +2, Cha +2
+Abyssal Knowledge When a quasit oﬀers Aid for an Arcana or Religion check, it gets the
+critical success result on any success and gets the critical failure result on any failure.
+AC 17; Fort +4, Ref +10, Will +7
+HP 25; Weaknesses cold iron 3, good 3
+Virtue Aversion The quasit’s link to a mortal soul gave it birth, but it presents a
+vulnerability. Once per round, a creature can present an object related to something
+virtuous or good in the life of the quasit’s creator (such as a beloved daughter’s doll) as
+an Interact action to automatically deal the quasit 2d6 mental damage.
+Speed 15 feet, ﬂy 35 feet
+Melee Ȱɵ claw +9 (agile, evil, ﬁnesse, magical, poison), Damage 1d6–1 slashing plus 1d4
+evil and quasit venom
+Divine Innate Spells DC 17; 4th read omens; 2nd detect alignment (at will; good only),
+invisibility (at will, self only); 1st fear; Cantrips (1st) detect magic
+Abyssal Healing Ȱɵ (concentrate, divine, healing, necromancy) Frequency once per
+round; Eﬀect The quasit restores 1d6 HP to itself.
+Change Shape Ȱɵ (concentrate, divine, polymorph, transmutation)
+• 	 Bat echolocation 40 feet; Speed 15 feet, ﬂy Speed 30 feet; Melee fangs +7, Damage
+1d4–1 piercing; Melee wing +7 (agile), Damage 1d4–1 bludgeoning
+• 	 Centipede Speed 10 feet, climb 10 feet; Melee mandibles +7 (poison), Damage 1
+piercing plus 1d4 poison
+• 	 Toad scent (imprecise) 30 feet; Speed 5 feet; Melee jaws +7, Damage 1 bludgeoning
+•	 Wolf size Medium; scent (imprecise) 30 feet; Speed 40 feet, climb 10 feet; Melee
+jaws +7, Damage 1d10–1 piercing plus Knockdown
+Quasit Venom (poison) Saving Throw DC 17 Fortitude; Maximum Duration 6 rounds; Stage 1
+1d6 poison (1 round); Stage 2 As stage 1; Stage 3 1d6 poison and slowed 1 (1 round)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668929
+4425086
+
+PAGE 86
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668938
+4425095
+D
+85
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+CYTILLESH
+Deros grow and ingest a poisonous
+fungus called cytillesh, also known
+as brain mold. Cytillesh gives oﬀ
+a pale blue glow and can cause
+birth defects and various adverse
+eﬀects. Deros aren’t fazed by these
+detriments, as prolonged exposure
+can also slow the eﬀects of aging
+and, in rare cases, provide occult
+powers to certain individuals
+known as “magisters.” Deros can
+also brew cytillesh spores into a
+poison that creates delusions and
+hallucinations.
+Occult Innate Spells DC 19; 2nd darkness (at will), sound burst; Cantrips (2st) daze, ghost sound
+Strangle Ȱɵ (attack, nonlethal) Requirement The dero must have two free hands, or be
+wielding an aklys and have one hand free. Eﬀect The dero attempts an Athletics check
+to Grab with a +2 circumstance bonus. On a success, the target takes 1d6+6 bludgeoning
+damage. Double the damage on a critical success.
+Dero Magister
+dero magisters are leaders among dero society. They perform the bulk of the cruel
+operations and memory-altering procedures inﬂicted upon their victims.
+DERO MAGISTER
+CREATURE 5
+UNCOMMON
+CE
+SMALL
+DERO
+HUMANOID
+Perception +8; darkvision
+Languages Aklo, Undercommon
+Skills Crafting +12, Medicine +8, Occultism +12, Stealth +11
+Str +1, Dex +4, Con +2, Int +3, Wis –1, Cha +5
+Items aklys (see below)
+AC 22, Fort +10, Ref +13, Will +10
+HP 65; Immunities confusion; Weaknesses vulnerable
+to sunlight
+Vulnerable to Sunlight As dero stalker but 10 damage.
+Speed 20 feet
+Melee Ȱɵ aklys +10 (trip), Damage 1d6+3 bludgeoning
+Ranged Ȱɵ aklys +13 (ranged trip, tethered, thrown 20
+feet), Damage 1d6+3 bludgeoning
+Occult Innate Spells DC 24; 4th modify memory; 2nd
+darkness (at will), sound burst; Cantrips (1st) daze,
+ghost sound
+Occult Spontaneous Spells DC 24; 3rd (3 slots)
+blindness, vampiric touch; 2nd (4 slots) hideous
+laughter, paranoia, spectral hand, touch of idiocy;
+1st (4 slots) grim tendrils, magic missile, phantom pain, soothe;
+Cantrips (3rd) chill touch, dancing lights, detect magic, forbidding ward,
+message
+Cytillesh Stare Ȱɵ (concentrate, incapacitation, mental, visual) Frequency
+once per round; Eﬀect The magister focuses their gaze on a creature they
+can see within 30 feet. The target is dazzled for 1 round and must succeed
+at a DC 24 Will saving throw or be confused for 1 round.
+Aklyses
+The aklys is a throwing club with a hook on one end and a lengthy cord attached
+to the other. It is an uncommon advanced melee weapon in the club group. It deals
+1d6 bludgeoning damage and has 1 Bulk. It requires one hand to use and has the
+ranged trip, tethered, thrown 20 feet, and trip weapon traits; the new traits are
+described below. Though aklyses aren’t available in most shops, one might be
+purchased for 5 gp from a vendor that specializes in strange weapons.
+Ranged Trip: This weapon can be used to Trip with the Athletics skill at a distance
+up to the weapon’s ﬁrst range increment. The skill check takes a –2 circumstance
+penalty. You can add the weapon’s item bonus to attack rolls as a bonus to the
+check. As with using a melee weapon to trip, a ranged trip doesn’t deal any damage
+when used to Trip. This trait usually only appears on a thrown weapon.
+Tethered: This weapon is attached to a length of rope or chain that allows you
+to retrieve it after it has left your hand. If you have a free hand while wielding
+this weapon, you can use an Interact action to pull the weapon back into your
+grasp after you have thrown it as a ranged attack or after it has been disarmed
+(unless it is being held by another creature).
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668938
+4425095
+
+PAGE 87
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668939
+4425096
+Bestiary
+86
+Devil
+Masters of corruption and architects of conquest, devils seek both to tempt mortal
+life to join in their pursuit of all things profane and to spread tyranny throughout
+all worlds. The temptations they offer mortals range from great powers granted
+by the signing of an infernal contract to twisted favors following a whispered
+pledge to a diabolic patron, or any number of even subtler exchanges. Those who
+succumb to these temptations ﬁnd themselves consigned to an afterlife of endless
+torment in the pits of Hell, wherein the only hope of escape lies in the chance of
+being promoted to become a devil in the infernal ranks. Every devil has a speciﬁc
+role to play in the upkeep of the remorseless bureaucratic machine that is Hell,
+from soldiers and scholars to inquisitors, lawyers, judges, and executioners. Lowly
+lemures and imps perform subservient labor to more powerful and specialized
+devils, such as contract devils and erinyes, while the greatest pit ﬁends command
+entire infernal armies.
+Lemure
+These shapeless masses of quivering ﬂesh are the least of devilkind. Pathetic creatures
+from Hell’s ﬁrst layer, lemures roam alongside damned and suffering souls. Pit
+ﬁends can combine the essence of a mob of lemures to concentrate their collective
+wickedness with a single form, granting it an infernal sentience and transforming it
+into a more powerful devil (see the pit ﬁend’s Devil Shaping ability).
+LEMURE
+CREATURE 0
+LE
+MEDIUM
+DEVIL
+FIEND
+MINDLESS
+Perception +0; greater darkvision
+Skills Athletics +5
+Str +2, Dex +0, Con +3 Int –5, Wis +0, Cha –3
+AC 13; Fort +10, Ref +5, Will +3
+HP 20; Immunities ﬁre, mental; Weaknesses
+good 3; Resistances physical 3 (except
+silver), poison 5
+Speed 20 feet
+Melee Ȱɵ claw +7 (evil, magical), Damage
+1d4+2 slashing plus 1 evil
+Subservience Lemures have little
+drive of their own, but other devils
+can take command of them. A non-
+lemure devil can issue a command
+to all lemures within 60 feet of it
+with a single action, which has the
+auditory and concentrate traits. The devil
+picks one of the following orders lemures can understand, and the
+lemures follow that order. The command and its eﬀects end once
+the commander is out of the lemure’s sight, a new command is
+issued by the same or another devil, or the lemure dies.
+•
+Kill The lemure attacks one target the commander
+singles out and gains a +1 circumstance bonus to attack
+rolls against the target.
+•
+Defend The lemure circles the commander and
+attacks any creature that comes near. It gains a +1
+circumstance bonus to AC and saves.
+•	 Fetch The lemure gains a +10–foot circumstance
+bonus to its Speed and attempts to get an object
+or person the commander singles out. It attacks
+anyone and anything that gets in the way.
+•
+Work The lemure performs drudge work
+dictated by the commander.
+DIABOLIC DIVINITIES
+Many unique and powerful devils
+hold positions of power in Hell.
+The most numerous of these are
+the infernal dukes, many of whom
+were promoted to this position
+from already impressive statures
+as pit ﬁends. The supreme ruler of
+Hell itself is Asmodeus, the Prince
+of Darkness. Between these two
+tiers rule the eight archdevils—see
+the sidebar on the facing page.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668939
+4425096
+
+PAGE 96
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668948
+4425105
+D
+95
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DHAMPIR LOCATIONS
+Most dhampirs make their homes
+in urban areas, though some more
+reclusive individuals claim ruins or
+dungeons as their domains.
+Dhampir
+As the mortal offspring of a vampire and a living parent, dhampirs occupy an
+unusual place among the living. Their vampiric parentage lends them elongated
+incisors, an unearthly beauty and physical grace, a ghostly pallor, and a piercing
+gaze. Perhaps their most distinctive feature, however, is their connection to
+negative energy, which heals them, leaving them as vulnerable to positive energy
+as any undead creature. Though they don’t suffer the full range of a vampire’s
+vulnerabilities, they do share certain characteristics with their vampire parent,
+leading to several distinct dhampir heritages across Golarion. By far the most
+common dhampirs are svetocher, the children of the more common moroi vampires.
+Many dhampirs lived their childhoods as orphans, often because their mortal
+parents believed their child to be cursed and abandoned them, or perished
+as a result of a difﬁcult childbirth. Often outcast, some dhampirs leverage
+their charisma and personal magnetism to manipulate those around them,
+while others struggle to form relationships. Frequent mistrust of a dhampir’s
+parentage present further challenges when dhampirs attempt to integrate into
+mortal society. Those who seek out their vampiric parent instead often ﬁnd
+themselves considered inferior, rejected as they were with regular mortals
+but for different reasons. But in regions like Nidal, Geb, and Ustalav, where
+vampires themselves carry some degree of respect, dhampirs can sometimes ﬁnd
+their heritage empowering.
+Dhampirs ﬁll countless roles within many communities. Some prefer to blend in
+as best they can, holding regular jobs and building families (most children born
+to dhampirs share an ancestry with the dhampir’s mortal parent, but a rare few
+are born as dhampirs themselves). Those who learn to make the most of their
+inherited charm can achieve a high societal status, whether leveraging traditional
+avenues of power or gathering followers enamored by the dhampir’s abilities.
+With a lifespan rivaling that of an elf, a dhampir can develop extensive
+inﬂuence and engage in long-reaching schemes of massive scope. Further, their
+ancestry lends them a proclivity to necromancy and the occult arts.
+Dhampir Wizard
+This dhampir is a svetocher, the child of a moroi vampire.
+DHAMPIR WIZARD
+CREATURE 2
+NE
+MEDIUM
+DHAMPIR
+HUMAN
+HUMANOID
+Perception +4; darkvision
+Languages Common, Necril
+Skills Acrobatics +7, Arcana +8, Deception +5, Intimidation +5, Society +8, Stealth
++7, Vampire Lore +8
+Str +2, Dex +3, Con +0, Int +4, Wis +0, Cha +1
+Items dagger, spellbook containing their prepared spells, staﬀ
+AC 17; Fort +4, Ref +7, Will +6; +2 circumstance to all saves vs. disease
+HP 22, negative healing
+Blood of the Night The dhampir’s penalty and Hit Point reduction
+from the drained condition are reduced as though the
+condition value were 1 lower.
+Speed 25 feet
+Melee Ȱɵ dagger +7 (agile, ﬁnesse, versatile S), Damage
+1d4+2 piercing
+Melee Ȱɵ staﬀ +6 (two-handed d8), Damage 1d6+2 bludgeoning
+Melee Ȱɵ ﬁst +7 (agile, ﬁnesse, nonlethal), Damage 1d4+2
+bludgeoning
+Ranged Ȱɵ dagger +7 (agile, thrown 10 feet, versatile S), Damage 1d4+2 piercing
+Arcane Prepared Spells DC 18, attack +8; 1st command, grim tendrils (×2),
+magic missile; Cantrips (1st) chill touch, detect magic, prestidigitation, ray
+of frost, shield
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668948
+4425105
+
+PAGE 97
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668949
+4425106
+Bestiary
+96
+DINOSAURS IN FANTASY
+At ﬁrst glance, the inclusion of
+dinosaurs in a fantasy setting
+might seem strange, but dinosaurs
+are an excellent creature to use
+in a game that bridges the gap
+between familiar real-world
+animals and legendary monsters.
+If having dinosaurs mix freely with
+lions, manticores, and dragons still
+seems strange to you, consider
+having them dwell in remote,
+primeval lands, as suggested in
+the sidebars on pages 99–100.
+On Golarion, dinosaurs do exist in
+the wilder regions of the world,
+particularly on the continent of
+Garund, though they are common
+enough that PCs might ﬁnd some
+on display in a menagerie in a
+northern city, in use as guardian
+creatures, or even kept by druids
+as loyal animal companions.
+Dinosaur
+Remnants from the world’s primeval era, these enormous reptilian animals still
+exist in large numbers in isolated and remote wildernesses or far underground
+within magical Darklands caverns. Lizardfolk, orcs, giants, and other monstrous
+humanoids sometimes use dinosaurs as mounts, guards, or hunting animals.
+Humans and other ancestries have also been known to collect dinosaurs, be it
+to display them in menageries or keep them as exotic pets or guardians. Such
+activities are generally pursuits of the rich or eccentric, but certain druids and
+other guardians of nature feel strong kinships with dinosaurs as well and take
+them on as companions. When dinosaurs establish themselves in regions beyond
+their normal habitats, it is generally the result of these captive creatures escaping
+into the wild.
+Velociraptor
+A smaller cousin of the deinonychus, the velociraptor is a swift, cunning
+pack hunter. It has no fear of larger creatures, and a group of these dinosaurs
+won’t hesitate to attack creatures the size of a horse. Velociraptors are social
+animals, and tend to live in groups of up to a dozen other velociraptors. They
+have manes of feathery plumage that extend down their backs and along the
+sides of their arms, legs, and tail, while their underbellies and ﬂanks are scaly.
+These feathers allow them to blend into their natural terrains with ease, but
+when excited, attempting to intimidate, or seeking a mate, a velociraptor can
+puff and frill this plumage to expose much brighter colors normally covered
+by the longer feathers. A typical velociraptor is 1-1/2
+feet tall, 7 feet long, and weighs 35 pounds.
+VELOCIRAPTOR
+CREATURE 1
+N
+SMALL
+ANIMAL
+DINOSAUR
+Perception +6; low-light vision, scent
+(imprecise) 30 feet
+Skills Acrobatics +8, Athletics +5 (+8
+jumping), Stealth +6
+Str +0, Dex +3, Con +2, Int –4, Wis +1, Cha +1
+AC 16; Fort +5, Ref +7, Will +4
+HP 20
+Speed 40 feet
+Melee Ȱɵ jaws +8 (ﬁnesse), Damage 1d6+3 piercing
+Melee Ȱɵ talon +8 (agile, ﬁnesse), Damage 1d4+3 slashing
+Leaping Charge Ȱɵ The velociraptor Strides up to 10 feet,
+ignoring diﬃcult terrain as it leaps over obstacles. It then
+makes a Strike with its talons, gaining a +1 circumstance
+bonus to its attack roll.
+Pack Attack The velociraptor deals 1d4 extra damage
+to any creature that’s within reach of at least two of the
+velociraptor’s allies.
+Deinonychus
+Deinonychuses are wily hunters that attack in groups of up to a dozen
+individuals, ripping apart their prey with sharp talons and powerful jaws. They
+are lean and muscular, and have two powerful legs and a long tail that helps
+them maintain balance. Although deinonychuses don’t use their dexterous
+clawed forelimbs to attack, the dinosaurs can use them to pull aside
+small barriers. Although some of these dinosaurs have scaly skin, most
+have thatches of vibrantly colored feathers as well. A deinonychus is
+about 6 feet tall and weighs about 150 pounds.
+However, larger deinonychuses exist. These creatures—which stand
+taller than a human—are called megaraptors.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668949
+4425106
+
+PAGE 105
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668957
+4425114
+Bestiary
+104
+Dragon, Chromatic
+While there are many types of dragons, from the powerful planar dragons to the
+strange esoteric dragons, few dragon varieties are as well-known and as rightly
+feared as the chromatic dragons. Differentiated by the hue of their scales, each
+color of dragon unleashes its own ﬂavor of murderous cruelty—be it by claw,
+tooth, or breath—and unlike most creatures, dragons only become more powerful
+as they age. Their lust for treasure, food, bloodshed, and control are legendary.
+Physically powerful with egos to match, these dragons are often morally depraved
+and act as criminal masterminds, vicious tyrants, or voracious raiders.
+Shape-Changing Dragons
+Some dragons can take humanoid form, allowing them to inﬁltrate settlements or
+inﬂuence others without revealing their true nature. They gain the following ability:
+Change Shape Ȱɵ (arcane, concentrate, polymorph, transmutation) The dragon takes on
+the appearance of any Small or Medium humanoid. This doesn’t change its Speed or
+attack and damage bonuses with its Strikes, but might change the damage type its
+Strikes deal (typically to bludgeoning).
+Chromatic Dragon Spellcasters
+Each type of chromatic dragon features a sidebar on spellcasting dragons of that
+type. To make a chromatic dragon spellcaster, remove the dragon’s Draconic Frenzy
+and Draconic Momentum abilities, and give it the spells outlined in its sidebar. You
+can swap out any number of these with other arcane spells, provided you keep the
+same number of spells for each level. You might also want to increase the dragon’s
+Intelligence or Charisma modiﬁer by 1 or 2 to reﬂect its mastery of magic.
+Chromatic Dragons of Golarion
+The chromatic dragons that dwell around the Inner Sea region are cruel and
+sinister monsters who inspire as much fear as reverence. These terrible beasts are
+no mere myth, however, but a very real threat to the people with whom they share
+their lands. Most dwell in the wild places of the world, and only the most brazen
+of them regularly meddle in mortal affairs. The dragons of Golarion believe that
+they are descended from two original beings, Apsu and Tiamat, and their rich
+mythology attempts to explain the origins of the age-old war between chromatic
+and metallic dragons.
+Black dragons thrive in swampy wildernesses like the Mushfens in Varisia or the
+wrecked coastline now known as the Sodden Lands, while blue dragons prefer the
+sand-swept deserts of Thuvia and Osirion. Brutish green dragons roam the forests of
+the River Kingdoms in abundance and even the elven kingdom of Kyonin, particularly
+in the demon-tainted Tanglebriar. One of the most infamous red dragons, Aashaq, a
+wyrm priestess of the draconic god Dahak, makes her home among the isles of the
+Shackles, where she lords over her followers and leads raids throughout the Inner Sea
+region. White dragons, though they may be found in virtually any mountain range
+in Avistan, are perhaps most prevalent around the Crown of the World, where they
+threaten travelers caravaning across the Path of Aganhei.
+Black Dragon
+Murderous tyrants of marshes, swamps, bogs, and fens, black dragons terrorize their
+domains with intense fervor. Gleefully sadistic, they rule their fetid principalities
+from a deep cave or otherwise isolated part of the swamp with a mix of lightning-
+quick raids and subterfuge. Their hatred for other creatures is as acidic as their
+breath weapons, and they rarely tolerate even other dragons of their kind—except
+perhaps to mate or temporarily collaborate to take down a mutual enemy.
+Black dragons are amphibious—although they breathe air, their gills also allow
+them to breathe water. Their frills and ﬁns make them accomplished swimmers, well
+suited to their wetland environments and submerged lairs. They’re immune to the
+fetid water that comes as a result of their magical ability to corrupt water.
+BLACK DRAGON
+SPELLCASTERS
+Black dragon spellcasters tend to
+cast the following spells.
+YOUNG BLACK DRAGON
+Arcane Prepared Spells DC 25,
+attack +18; 3rd slow, stinking cloud;
+2nd blur, glitterdust, invisibility; 1st
+alarm, ray of enfeeblement, true
+strike; Cantrips (3rd) dancing lights,
+detect magic, prestidigitation, read
+aura, tanglefoot
+ADULT BLACK DRAGON
+Arcane Prepared Spells DC 30,
+attack +24; As young black dragon,
+plus 5th black tentacles, mariner’s
+curse; 4th clairvoyance, dimension
+door, suggestion; 3rd paralyze;
+Cantrips (5th) dancing lights,
+detect magic, prestidigitation, read
+aura, tanglefoot
+ANCIENT BLACK DRAGON
+Arcane Prepared Spells DC 37,
+attack +32; As adult black dragon,
+plus 7th ﬁnger of death, mask of
+terror, reverse gravity; 6th dominate,
+true seeing, wall of force; 5th prying
+eye; Cantrips (7th) dancing lights,
+detect magic, prestidigitation, read
+aura, tanglefoot
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668957
+4425114
+
+PAGE 106
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668958
+4425115
+D
+105
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+SERZILIAN
+The great wyrm black dragon
+Serzilian rules over the fetid
+Graidmere swamp in Ustalav, where
+she has resided for over 800 years.
+She knows something darker even
+than herself resides somewhere in
+the swamp, but she has yet to ﬁnd
+how to summon such an entity. For
+now, she slumbers, waking only to
+demand sacriﬁces.
+Black dragon lairs are as foul as their souls. The ﬂoors are littered with rotting
+meat, and plundered treasures line the muck and slime of their dank caves amid
+twisted roots and creepers. Such places are often crawling with pests, snakes,
+and slimes. Though they claim natural caverns when they can, they make do
+with areas of dense, twisted vegetation within a swamp. Black dragon treasure
+hoards primarily consist of gems and expensive glass work, as valuables of softer
+substance can’t survive the dragon’s acidic presence.
+YOUNG BLACK DRAGON
+CREATURE 7
+CE
+LARGE
+ACID
+AMPHIBIOUS
+DRAGON
+Perception +15; darkvision, scent (imprecise) 60 feet
+Languages Draconic
+Skills Acrobatics +14, Arcana +12, Athletics +17, Deception +15, Intimidation +15, Stealth +16
+Str +6, Dex +3, Con +4, Int +1, Wis +2, Cha +2
+AC 25; Fort +17, Ref +12, Will +15
+HP 125; Immunities acid, paralyzed, sleep
+Frightful Presence (aura, emotion, fear, mental) 90 feet, DC 23
+Tail Lash Ǻȓ Trigger A creature within reach of the dragon’s tail takes
+an action to Strike or attempt a skill check; Eﬀect The dragon
+Strikes with its tail at the triggering creature at a –2 penalty.
+If it hits, the creature takes a –2 circumstance penalty to the
+triggering roll.
+Speed 40 feet, ﬂy 100 feet, swim 40 feet
+Melee Ȱɵ jaws +19 (acid, reach 10 feet), Damage 2d10+9 piercing plus
+1d6 acid
+Melee Ȱɵ claw +19 (agile), Damage 2d6+9 slashing
+Melee Ȱɵ tail +17 (reach 15 feet), Damage 2d8+7
+bludgeoning
+Melee Ȱɵ horns +17 (reach 10 feet), Damage 1d8+7
+piercing
+Breath Weapon ʚʖ (acid, arcane, evocation); The
+dragon breathes a spray of acid that deals 8d6
+acid damage in a 60-foot line (DC 25 basic
+Reﬂex save). It can’t use Breath Weapon
+again for 1d4 rounds.
+Draconic Frenzy ʚʖ The dragon makes two claw
+Strikes and one horns Strike in any order.
+Draconic Momentum The dragon recharges its
+Breath Weapon whenever it scores a critical hit
+with a Strike.
+ADULT BLACK DRAGON
+CREATURE 11
+CE
+LARGE
+ACID
+AMPHIBIOUS
+DRAGON
+Perception +22; darkvision, scent (imprecise) 60 feet
+Languages Common, Draconic, Jotun
+Skills Acrobatics +18, Arcana +19, Athletics +24,
+Deception +20, Intimidation +20, Stealth +20
+Str +7, Dex +3, Con +5, Int +2, Wis +3, Cha +3
+AC 31; Fort +23, Ref +18, Will +21; +1 status to all saves
+vs. magic
+HP 215; Immunities acid, paralyzed, sleep
+Frightful Presence (aura, emotion, fear, mental) 90 feet,
+DC 28
+Tail Lash Ǻȓ As young black dragon.
+Speed 50 feet, ﬂy 120 feet, swim 50 feet
+Melee Ȱɵ jaws +25 (acid, magical, reach 10 feet), Damage 2d12+13
+piercing plus 2d6 acid
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668958
+4425115
+
+PAGE 130
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668982
+4425139
+D
+129
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DRAKAUTHIX SPORELINGS
+When a new drakauthix bursts
+forth from a spore-infested corpse,
+it has no true way of defending
+itself. However, a sporeling does
+not need to hunt until it grows
+much larger. Each sporeling
+harvests enough material from
+the body it emerged from to grow
+to its full size over a few short
+days. After it has done so, the
+drakauthix detaches from the cave
+ceiling and, starving, immediately
+seeks out its ﬁrst meal in the
+cavern below.
+Drakauthix
+The drakauthix is a massive fungus that ﬂoats through the heights of the largest
+Darklands caverns, propelled by bladders that spray air and spores. A voracious
+but slow-moving hunter, the drakauthix prefers to ambush meaty creatures
+from above, using its hooked appendages to pull its victims upward to feed.
+The drakauthix’s digestive process is entirely external—it clings to victims,
+and its spore-laden surface slowly feeds on and grows through the ﬂesh before
+the spore-infested carcass is discarded. As the infested body strikes the ground
+below, it bursts and releases a cloud of spores, unleashing a host of young called
+sporelings that immediately scuttle up the cavern walls to cling to its ceiling
+and grow.
+The drakauthix behaves no more intelligently than most predatory animals,
+and often uses a sort of symbiotic scavenger method to secure prey by capitalizing
+on the hunting methods of oozes and vermin found in the large cave systems
+it frequents. When a relatively mindless creature kills a victim, the drakauthix
+drifts down, hooks the freshly slain carcass with its tendrils, and reels in its meal.
+The mindless ooze or other creature that just had its food stolen rarely holds a
+grudge and simply slithers off to ﬁnd a new quarry, letting the drakauthix digest
+the corpse in peace. Of course, the drakauthix isn’t above feasting on more active
+prey as well, and might attack an adventurer who neglects to look upward for
+danger when exploring a network of mysterious caves.
+Some Darklands-dwelling creatures, such as duergars, hunt drakauthixes for
+their ﬂesh, which has a unique ﬂavor with a peppery aftertaste. Subterranean
+races also make ink from drakauthixes by burning their carcasses, then grinding
+and pressing the ashes for a long time until a silvery substance congeals.
+DRAKAUTHIX
+CREATURE 9
+N
+HUGE
+FUNGUS
+Perception +17; darkvision, sporesight (imprecise) 60 feet
+Skills Acrobatics +15, Athletics +20, Stealth +17
+Str +7, Dex +2, Con +6, Int –4, Wis +2, Cha +0
+Sporesight The drakauthix exudes a cloud of spores that it uses to see.
+This is an imprecise sense that functions only in areas without
+strong wind currents. Sporesight does not function underwater.
+AC 25; Fort +21, Ref +13, Will +15
+HP 190; Weaknesses ﬁre 10, slashing 10
+Obscuring Spores Whenever the drakauthix takes at
+least 10 slashing damage, it releases a cloud of brown
+spores that has the eﬀect of obscuring mist for 1 minute,
+centered around the drakauthix. This cloud of spores
+does not move with the drakauthix, nor is it displaced by
+its movement.
+Speed ﬂy 20 feet
+Melee Ȱɵ tentacle +20 (reach 30 feet), Damage 3d8+9
+piercing plus Improved Grab
+Reel In Ȱɵ The drakauthix pulls all creatures it has
+grabbed 15 feet closer to itself.
+Spore Tendrils Ȱɵ The tendrils that cover the
+drakauthix’s body reach out and infest adjacent
+creatures, dealing 4d6 poison damage and 1d6
+persistent poison damage. A creature can attempt a
+basic DC 27 Reﬂex save to reduce this damage, but
+one grabbed by the drakauthix takes a –4 circumstance
+penalty to this save.
+Whirlwind of Hooks ʚʖ ]The drakauthix whirls, whipping creatures
+around it. The drakauthix makes a tentacle Strike against every
+creature within its reach.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668982
+4425139
+
+PAGE 131
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668983
+4425140
+Bestiary
+130
+DRAKE ECOLOGY
+Drakes reach maturity and
+reproduce much earlier than
+dragons, meaning that they are a
+far more common threat than their
+more powerful forebears. Drakes
+have few qualms about dwelling
+with one another (provided they
+are the same species), often
+establishing dens in pockets of
+wilderness suitable to their needs,
+such as swampy grottoes, shallow
+shoreline caves, or cliﬀside perches.
+Drake
+Ravenous, bestial, and driven by instinct—drakes are primitive draconic monsters
+who bear a fraction of the terrifying might of their larger cousins but little (if any)
+of the cunning. While they’re weaker, slower, and less inclined toward reason than
+dragons, drakes are nonetheless a menace to creatures and settlements around
+them. Their propensity for forming raiding parties—small social groups ﬁttingly
+called “rampages”—makes them all the more dangerous; a single rampage of
+river drakes can quickly lay waste to a waterside village, and roving rampages of
+desert drakes are a plague to caravan traders.
+Drakes share a number of physical characteristics that unite them as one
+species despite their wide variety of habitats and abilities. For example, drakes
+lack forearms, leaving them only their formidable jaws and thick-scaled tails
+with which to attack if engaged at melee range. Most drakes would rather avoid
+close combat, however, preferring to use their breath weapons to wreak havoc in
+wide swaths from comfortable distances while ﬂying overhead. Finally, all drakes
+have small reservoirs of their ancestral draconic power that they can tap into to
+perform incredible feats of speed.
+Drake Eggs
+While drake hides aren’t any more valuable than those of other, similarly sized
+creatures, drake eggs are prized commodities. While they are used as components
+in powerful spells as well as eaten by various cultures, the most common use for
+drake eggs is hatching and rearing drakes to serve as mounts and guardians.
+A typical drake lays a clutch of 2d4 eggs every 5 years. Eggs hatch within 3
+to 6 weeks, during which time they must be kept in conditions appropriate to
+their natural environment, perhaps the most difﬁcult aspect of drake husbandry.
+While it is generally easy for breeders to incubate the eggs of desert or jungle
+drakes (which require mildly warm temperatures to hatch) or river drakes
+(which must be submerged in running water), the eggs of ﬂame and frost
+drakes require extreme temperatures in order to hatch, which can be difﬁcult
+to replicate safely.
+A drake egg has Hardness 3, 5 HP, and BT 5. The
+coloration of drake eggs varies only slightly
+from one species to the next. A creature
+must succeed at a DC 20 Nature check,
+or a relevant DC 20 Lore check, to
+identify the drake species of a
+speciﬁc egg.
+Once
+a
+drake
+hatches, it imprints
+on the ﬁrst creature
+that it sees. A creature imprinted on in
+this way gains a +5 bonus to Nature
+checks to train or command that
+drake. The market price of a drake
+egg varies depending on the region, the type
+of drake, and the exact purpose the buyer has
+in mind, but typically depends on the level of
+the drake. Because drakes are evil, dangerous,
+and intelligent creatures, many societies do not
+condone the trade of drake eggs and criminalize
+those who engage in it.
+It takes 2 years for a drake hatchling to grow to full
+size. A well-trained drake can make a fearsome mount
+or guardian, but many careless would-be drake trainers
+are devoured by their charges due to cruelty, overconﬁdence,
+or general lack of skill.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668983
+4425140
+
+PAGE 132
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668984
+4425141
+D
+131
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DRAKE TREASURE
+Drakes share dragon’s interest
+in treasure, but lack dragons’
+discerning taste. A drake hoard
+will certainly contain coins,
+jewelry, gemstones, gear, and
+even the odd magic item or
+two, but the bulk of the hoard
+invariably consists of broken
+weapons, shiny rocks, bits of
+junk, and other doubtful
+pieces of refuse.
+River Drake
+Although the glistening scales and sleek, ﬁn-like wings on these drakes give them
+an appearance reminiscent of river ﬁsh, they are actually distant relatives of the
+black dragon. While smaller than most drakes, river drakes are more than capable
+of plaguing river travelers and are equally at home above and below the water’s
+surface. This ﬂexibility allows them to catch a wide variety of prey, from ﬁsh and
+boggards to deer and the occasional ferry passenger.
+RIVER DRAKE
+CREATURE 3
+NE
+MEDIUM
+AMPHIBIOUS
+DRAGON
+WATER
+Perception +9; darkvision, scent (imprecise) 30 feet
+Languages Draconic
+Skills Acrobatics +11, Athletics +10, Intimidation +6, Stealth +9, Survival +7
+Str +3, Dex +4, Con +2, Int –1, Wis +2, Cha –1
+AC 19; Fort +11, Ref +9, Will +7
+HP 45; Immunities paralyzed, unconscious; Resistances acid 10
+Tail Lash Ǻȓ Trigger A creature within reach of the river drake’s tail uses an action
+to Strike or attempt a skill check. Eﬀect The river drake attempts to Strike the
+triggering creature with its tail. If it hits, the creature takes a –2 circumstance penalty
+to the triggering roll.
+Speed 20 feet, ﬂy 50 feet, swim 30 feet
+Melee Ȱɵ fangs +12, Damage 2d8+3 piercing
+Melee Ȱɵ tail +12 (reach 10 feet), Damage 2d6+3
+bludgeoning
+Caustic Mucus ʚʖ (acid, arcane, evocation) The river
+drake spits a ball of caustic mucus up to a range
+of 50 feet that explodes in a 10-foot burst.
+Creatures within the burst take 4d6 acid
+damage (DC 19 basic Reﬂex save). Those that
+fail this save also take 1d6 persistent acid
+damage and take a –5-foot status penalty to
+their Speed. This Speed reduction ends with
+the persistent acid damage. The river drake
+can’t use Caustic Mucus again for 1d6 rounds.
+Draconic Frenzy ʚʖ The river drake makes one
+fangs Strike and two tail Strikes in any order.
+Speed Surge Ȱɵ (move) The river drake moves up to
+twice its Speed. It can do this three times per day.
+Flame Drake
+The distant kin of red dragons, ﬂame drakes thankfully
+lack the intelligence and ambition of their larger cousins,
+but are no less territorial or violent. Flame drakes dwell
+near volcanoes and magma, but it’s not unheard of for
+one to drift into nearby areas like forests or wooded hills.
+Their scales are usually some shade of red, occasionally fading to smoky
+blacks and grays along the edges of their wings and the tips of their tails.
+FLAME DRAKE
+CREATURE 5
+CE
+LARGE
+DRAGON
+FIRE
+Perception +12; darkvision, scent (imprecise) 30 feet,
+smoke vision
+Languages Draconic
+Skills Acrobatics +10, Athletics +12, Stealth +9, Survival +10
+Str +5, Dex +1, Con +3, Int –1, Wis +3, Cha +0
+Smoke Vision Smoke doesn’t impair a ﬂame drake’s vision; it
+ignores concealment from smoke.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668984
+4425141
+
+PAGE 137
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668989
+4425146
+Bestiary
+136
+Drow
+The ﬁrst drow were elves who ﬂed into the depths of the world from a devastating
+cataclysm thousands of years ago. In their journey below, they fell to bickering
+and in-ﬁghting, drawing the attention of sinister intelligences beyond their own.
+Whether it was the inﬂuence of a speciﬁc demon lord, the Rough Beast Rovagug,
+or some other fell force is unknown, but in that time the elves transformed both
+spiritually and physically, tainting their hearts with desires for cruelty, sadism,
+and violence. The hues of their eyes became sinister red or bleached white, and
+their ﬂesh adopted an unearthly lavender sheen that made the drow instantly
+recognizable. The drow also developed potent magical abilities and resistances
+that further empowered them, if at the cost of their souls.
+Over the centuries to follow, the drow developed into a powerful, if violently
+dysfunctional society, inﬂuenced by the worship of demon lords and focused on
+providing power and glory to a relatively small collection of noble houses. Many
+of these noble houses are matriarchal in nature and all hold allegiance to a speciﬁc
+demon lord patron—but traditions of worship, warfare, and wizardry help to
+bind the oft-bickering houses together enough that drow society doesn’t simply
+consume itself from within. Fear of earning the wrath of one’s superior—be it a
+teacher, a parent, a commander, or the demon one worships—is the real bond
+holding drow society together, and this system is held in esteem by the lowliest
+drow servant and by the most powerful drow priestess alike.
+The drow are infamous throughout the world, but until recently most assumed
+stories of demon-worshipping, underground-dwelling elves were spooky legends
+crafted to share around a campﬁre. Today, the existence of drow is an understood
+truth, and while their presence in the dark caverns deep below is unsettling, they
+seem content to leave the surface world alone for now.
+Drow Fighter
+Drow ﬁghters train to master techniques that inﬂict deep, bleeding wounds and
+use poisoned crossbow bolts to exhaust enemies.
+DROW FIGHTER
+CREATURE 1
+CE
+MEDIUM
+DROW
+ELF
+HUMANOID
+Perception +6; darkvision
+Languages Elven, Undercommon
+Skills Acrobatics +7, Athletics +5, Intimidation +3, Stealth +7
+Str +2, Dex +4, Con +2, Int +0, Wis +1, Cha +0
+Items hand crossbow (10 bolts), leather armor, lethargy poison (2; Pathﬁnder Core
+Rulebook 552), rapier
+Light Blindness
+AC 18; Fort +7, Ref +9, Will +4; +1 status to all saves vs. magic, +2 status to all
+saves vs. mental
+HP 18; Immunities sleep
+Attack of Opportunity Ǻȓ
+Speed 30 feet
+Melee Ȱɵ rapier +9 (deadly 1d8, disarm, ﬁnesse), Damage 1d6+2 piercing
+Melee Ȱɵ main-gauche +9 (agile, disarm, ﬁnesse, parry, versatile S), Damage
+1d4+2 piercing
+Ranged Ȱɵ hand crossbow +9 (range increment 60 feet, reload 1), Damage
+1d6+1 piercing plus lethargy poison
+Divine Innate Spells DC 14; 2nd darkness (at will), faerie ﬁre (at will);
+Cantrips (2nd) dancing lights
+Quick Draw Ȱɵ The drow ﬁghter draws a weapon using the Interact action,
+then Strikes with that weapon.
+Skewer ʚʖ The drow ﬁghter Strikes with its rapier, and gains a
++1 circumstance bonus to the attack roll. A creature damaged by
+the attack takes 1d6 persistent bleed damage.
+BECOMING A DROW
+Rarely, when a surface elf
+commits an act of cruelty heinous
+enough to draw the attention of a
+demon lord, transformation into a
+drow can happen spontaneously—
+but these transformations are
+rare enough to be legends in their
+own right. No known instance of a
+drow reverting to an elf has ever
+been recorded.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668989
+4425146
+
+PAGE 138
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668990
+4425147
+D
+137
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Drow Rogue
+Loners at heart, drow rogues trust no one—least of all fellow slayers. Thees drow rely
+on awareness and adaptation to survive the cutthroat nature of their society.
+DROW ROGUE
+CREATURE 2
+CE
+MEDIUM
+DROW
+ELF
+HUMANOID
+Perception +6; darkvision
+Languages Elven, Undercommon
+Skills Acrobatics +8, Deception +7, Society +4, Stealth +10, Thievery +8
+Str +2, Dex +4, Con +2, Int +0, Wis +0, Cha +1
+Items hand crossbow (10 bolts), lethargy poison (2; Pathﬁnder Core Rulebook 552),
+shortsword, studded leather armor
+Light Blindness
+AC 19; Fort +6, Ref +10, Will +6; +1 status to all saves vs. magic, +2 status to all saves
+vs. mental
+HP 26; Immunities sleep
+Nimble Dodge Ǻȓ Requirement A drow rogue can’t use this reaction while encumbered.
+Trigger The drow rogue is hit or critically hit by an attack made by a creature the drow
+rogue can see. Eﬀect The drow rogue gains a +2 circumstance bonus to their Armor
+Class against the triggering attack.
+Speed 30 feet
+Melee Ȱɵ shortsword +10 (agile, ﬁnesse, versatile S), Damage 1d6+4
+piercing
+Ranged Ȱɵ hand crossbow +10 (range increment 60 feet, reload 1),
+Damage 1d6 piercing plus lethargy poison
+Divine Innate Spells DC 16; 2nd darkness (at will), faerie ﬁre (at will);
+Cantrips (2nd) dancing lights
+Quick Draw Ȱɵ As drow ﬁghter.
+Sneak Attack The drow rogue deals 1d6 extra precision damage to ﬂat-footed creatures.
+Drow Priestess
+Many drow priestesses venerate demon lords and other foul divinities.
+DROW PRIESTESS
+CREATURE 3
+CE
+MEDIUM
+DROW
+ELF
+HUMANOID
+Perception +9; darkvision
+Languages Abyssal, Elven, Undercommon
+Skills Deception +8, Intimidation +8, Religion +9, Society +5, Stealth +7
+Str +1, Dex +2, Con +1, Int +0, Wis +4, Cha +1
+Items chain mail, hand crossbow (10 bolts), steel shield (Hardness 5, HP 20, BT 10),
+lethargy poison (4; Pathfinder Core Rulebook 552), rapier, religious symbol
+Light Blindness
+AC 20 (22 with shield raised); Fort +8, Ref +7, Will +11; +1 status to all saves vs.
+magic, +2 status to all saves vs. mental
+HP 39; Immunities sleep
+Shield Block Ǻȓ
+Speed 30 feet
+Melee Ȱɵ rapier +9 (deadly 1d8, disarm, ﬁnesse), Damage 1d6+2 piercing
+Ranged Ȱɵ hand crossbow +9 (range increment 60 feet, reload 1), Damage
+1d6 piercing plus lethargy poison
+Divine Prepared Spells DC 21; 2nd harm (×3), silence, spiritual weapon;
+1st bless, command, fear; Cantrips (2nd) detect magic, guidance, know
+direction, read aura, stabilize
+Divine Innate Spells DC 17; 4th darkness; 3rd dispel
+magic, levitate (×3); 2nd darkness (at will), faerie
+ﬁre (at will); 1st command (at will); Cantrips (4th)
+dancing lights
+DROW EXILES
+While drow society is evil, not all
+drow are bound to these norms.
+Those who seek something
+better in life are invariably exiles
+and often flee to the surface to
+escape their sinister kin. These
+drow often live as hermits, or
+they seek out societies where
+others have yet to hear the
+legends regarding their kind.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668990
+4425147
+
+PAGE 139
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668991
+4425148
+Bestiary
+138
+OCCULT TRADITIONS
+Unlike classical dwarven
+practitioners of magic, duergars
+have embraced the practice of
+occultism. All duergars have at
+least a few innate occult spells,
+primary among them being the
+ability to magically increase their
+size. This power not only aids
+them in intimidating and bullying
+their slaves, but also serves as
+a potent combat option against
+their many enemies.
+Duergar
+Deep beneath the surface, duergars stubbornly claim the ancestral subterranean
+homelands of the dwarves as their own, having refused to venture to the
+surface along with their modern dwarven cousins. An exiled dwarven deity
+named Droskar offered duergars salvation from the horrors of the Darklands,
+and in exchange duergars endlessly toil in his honor within their subterranean
+empire. Notorious slavers, duergars regularly raid other Darklands settlements
+as well as surface communities in constant search of living beings to task with
+endless amounts of work in their harsh and exhausting settlements.
+Duergars are gray-skinned creatures, often referred to as “ashen” by those
+surface dwarves willing to speak of them. These subterranean dwarves have a
+strong natural connection with cave-dwelling vermin, and it’s common to see
+duergar caravans drawn by teams of immense beetles. Most duergars devote
+themselves to the worship of Droskar, a taskmaster of a god who demands
+back-breaking toil in addition to regular prayer. Duergar leadership often
+consists of powerful divine servants of Droskar, along with incredibly stout
+warriors whose martial prowess ensures they can overcome any direct threat
+to their rule. Almost every aspect of duergar society is controlled by a strict
+hierarchy of leadership, with taskmasters directing subordinates across all
+walks of life.
+Duergar Sharpshooter
+Duergar sharpshooters serve both as ranged support for slaver parties and
+as snipers posted on towers overlooking quarries and other areas where
+enslaved workers toil away the hours. Duergar sharpshooters also specialize
+in nonlethal methods of ranged combat—tactics they are often called upon to
+use when quelling slave riots or capturing escaped slaves.
+DUERGAR SHARPSHOOTER
+CREATURE 0
+LE
+MEDIUM
+DUERGAR
+DWARF
+HUMANOID
+Perception +4; darkvision
+Languages Common, Dwarven, Undercommon
+Skills Athletics +3, Stealth +5
+Str +1, Dex +3, Con +3, Int +0, Wis +2, Cha –2
+Items chain shirt, crossbow (3 bola bolts and 10 bolts), light mace
+AC 17; Fort +7, Ref +7, Will +4; +2 status to saves vs. magic
+HP 16
+Light Blindness
+Speed 20 feet
+Melee Ȱɵ light mace +5 (agile, ﬁnesse, shove), Damage 1d4+1 bludgeoning
+Ranged Ȱɵ crossbow +7 (range increment 120 feet, reload 1), Damage 1d8
+piercing or bola bolt
+Occult Innate Spells DC 12; 2nd enlarge (self only), invisibility (self only)
+Bola Bolt This shot deals no damage, but on a hit, the target must succeed at a
+DC 16 Reﬂex save or be knocked prone and immobilized until it is freed with a
+successful DC 15 check to Escape. This check can be attempted either by the
+target or a creature adjacent to the target.
+Duergar Bombardier
+Alchemy intrigues many duergars, and their cruel traditions often
+motivate them to experiment on slaves. Eager to inﬂict pain
+and justify the abuse as a method of expanding knowledge,
+duergar bombardiers often accompany slaver bands so they can have the ﬁrst
+chance to select their next test subjects from captured victims. To duergar
+bombardiers, the lob of each bomb represents a new opportunity to observe
+how their targets react and record the results to enhance future modiﬁcations
+to their alchemical concoctions.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668991
+4425148
+
+PAGE 140
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668992
+4425149
+D
+139
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DUERGAR COMMUNITIES
+Duergar communities are found
+deep underground in the ruins
+of abandoned dwarven cities.
+Generations of duergar occupation
+have resulted in the loss of
+dwarven history as the ashen
+honor their taskmaster deity by
+reworking traditional dwarven art
+into topics that elevate the exiled
+god. That duergars themselves
+seem incapable of achieving
+the heights of artistry mastered
+by their dwarven ancestors is
+both a source of frustration and
+shame that only fosters greater
+resentment of those who dwell on
+the surface.
+DUERGAR BOMBARDIER
+CREATURE 1
+LE
+MEDIUM
+DUERGAR
+DWARF
+HUMANOID
+Perception +4; darkvision
+Languages Common, Dwarven, Undercommon
+Skills Acrobatics +6, Crafting +6, Occultism +6, Stealth +6, Survival +4
+Str +1, Dex +3, Con +2, Int +3, Wis +1, Cha –1
+Items alchemist’s tools, infused lesser acid ﬂask (2), infused lesser alchemist’s ﬁre (2),
+infused reagents (2), studded leather, warhammer
+Infused Items A duergar bombardier’s items listed as infused last for 24 hours, or until
+the next time they make their daily preparations.
+AC 18; Fort +7, Ref +8, Will +4; +2 status to all saves vs. magic
+HP 20
+Light Blindness
+Speed 20 feet
+Melee Ȱɵ warhammer +4 (shove), Damage 1d8+1 bludgeoning
+Ranged Ȱɵ bomb +8 (range increment 30 feet, splash), Damage varies by bomb
+Occult Innate Spells DC 17; 2nd enlarge (self only), invisibility (self only)
+Alchemical Formulas (1st) lesser acid ﬂask, lesser alchemist ﬁre, lesser tanglefoot bag
+Far Lobber The duergar bombardier has a range increment of 30 feet with their bombs
+instead of 20 feet.
+Quick Alchemy Ȱɵ The duergar bombardier creates a single alchemical item from their
+formula book (see Alchemical Formulas). This item has the infused trait, but it remains
+potent only until the start of the duergar bombardier’s next turn.
+Quick Bomber Ȱɵ The duergar can use Interact to draw a bomb, then Strike with it.
+Duergar Taskmaster
+Duergar priests of the taskmaster god Droskar often assume leadership roles
+within their communities, advancing the goals of their deity through coercion
+and displays of force. Often referred to as duergar taskmasters, these leaders
+often issue commands to duergar subordinates and slaves in the same
+breath, treating the two almost as if they were interchangeable. As a
+result, duergar taskmasters are loathed by both slave and slaver alike.
+DUERGAR TASKMASTER
+CREATURE 2
+LE
+MEDIUM
+DUERGAR
+DWARF
+HUMANOID
+Perception +8; darkvision
+Languages Common, Dwarven, Undercommon
+Skills Athletics +7, Deception +7, Intimidation +7, Occultism +5, Religion +6,
+Survival +6
+Str +2, Dex +0, Con +2, Int +0, Wis +2, Cha +3
+Items chain mail, maul, religious symbol
+AC 18; Fort +8, Ref +4, Will +8; +2 status to all saves vs. magic, iron mind
+HP 30
+Iron Mind Duergar taskmasters automatically disbelieve all illusions
+of 1st level or lower.
+Light Blindness
+Speed 20 feet
+Melee Ȱɵ maul +8 (shove), Damage 1d12+2 bludgeoning
+Divine Prepared Spells DC 18; 1st fear, harm, magic weapon, Cantrips (1st)
+detect magic, shield
+Occult Innate Spells DC 18; 2nd enlarge (self only), invisibility (self only)
+Take Them Down! Ȱɵ The duergar taskmaster smashes their maul into
+the ground and invokes Droskar’s name to rally their allies to action.
+All allied duergars of equal or lower level that are within
+20 feet of the duergar taskmaster gain a +1 status bonus
+to attack rolls and damage rolls until the end of the duergar
+taskmaster’s next turn.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668992
+4425149
+
+PAGE 141
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668993
+4425150
+Bestiary
+140
+Dullahan
+Riding on a horse as black as night, the headless hunter known as the dullahan
+tracks down and takes the heads of those it deems unﬁt to continue living. When
+closing in for the kill, the dullahan ﬁrst whispers its victim’s name, then swiftly
+collects its prize, casting a pall of dread upon all who witness the grim execution.
+A dullahan manifests when a particularly violent warrior is beheaded and
+the warrior’s soul stubbornly clings to material existence (or is refused entry
+to the afterlife). Most dullahans return to their former homelands, where
+they can exact vengeance those they feel wronged them in life (or their living
+descendants). A dullahan’s concept of justice is swift and merciless, and once it
+has selected a target, it is unwavering in its cause.
+Perhaps even more than revenge on the living, a dullahan desires its own rotted
+head. An individual who wields the head of a dullahan is powerful indeed, for a
+dullahan will grudgingly serve such a master in the hopes of reclaiming its missing
+skull. Mighty ﬁends such as devils command dullahans to harvest souls or lead
+armies for them, while a mortal might use such an undead warrior to fulﬁll a
+personal vendetta. No matter its master’s rank or station, however, a dullahan won’t
+hesitate to kill its liege and reclaim its head when the opportunity presents itself.
+Most dullahan lairs are abandoned, overgrown ruins or other dilapidated
+places where severed heads and other trophies line the walls. Some dullahans,
+on the other hand, are content to simply commit their foul deeds and leave the
+remains of their decapitated victims in the streets, strewn among a copse of dead
+trees, or unceremoniously tossed in a bog hole.
+DULLAHAN
+CREATURE 7
+UNCOMMON
+LE
+MEDIUM
+UNDEAD
+Perception +14; lifesense 60 feet
+Languages Common, Necril
+Skills Athletics +15, Intimidation +17, Stealth +13, Survival +15
+Str +6, Dex +2, Con +2, Int +2, Wis +3, Cha +4
+Items full plate, +1 hatchet, +1 longsword
+AC 28; Fort +13, Ref +15, Will +17
+HP 95, fast healing 5; Immunities fear, death eﬀects, disease,
+poison, paralyzed, unconscious; Weaknesses good 5
+Frightful Presence (aura, emotion, fear, mental)
+30 feet, DC 23
+Attack of Opportunity Ǻȓ
+Speed 20 feet
+Melee Ȱɵ keen longsword +18 (magical,
+versatile P), Damage 1d8+10 slashing
+Melee Ȱɵ keen returning hatchet +17 (agile, sweep),
+Damage 1d6+10 slashing
+Melee Ȱɵ ﬁst +18 (agile, nonlethal), Damage
+1d4+10 bludgeoning
+Ranged Ȱɵ keen returning hatchet +14 (agile,
+thrown 10 feet), Damage 2d8+10 slashing
+Head Hunter Any slashing weapon a dullahan
+wields becomes keen, and any hatchet it wields
+becomes returning. If the dullahan kills a creature with a critical hit using a slashing
+weapon, the target is decapitated as though the dullahan had used Reap on the target.
+These eﬀects remain only while the dullahan holds the weapon.
+Reap ʚʖ The dullahan removes the head of a dead creature within reach. Each creature
+within the area of the dullahan’s frightful presence must attempt a new save, even if
+they are temporarily immune.
+Summon Steed ʚʖ (conjuration, occult) The dullahan summons a warhorse (page 209)
+with elite adjustments (page 6) and the ﬁend trait. This steed remains until it is
+slain, the dullahan Dismisses it, or the dullahan summons another steed.
+DULLAHAN LEGENDS
+In Ustalav, residents recite legends
+of a cadre of dullahans who
+drive the “Coach of the Silent,” a
+macabre funeral carriage pulled
+by a team of spectral horses. To
+the west, among the Lands of the
+Linnorm Kings, Ulfen warriors
+whisper of dullahans who hunt
+down their victims using packs of
+hellish ebony hounds. And along
+the western coasts of Garund,
+pirates and merchants alike insist
+of the existence of a black-sailed
+ship crewed entirely by headless
+undead sailors.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668993
+4425150
+
+PAGE 142
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668994
+4425151
+E-G
+141
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+ALLIES IN THE SKIES
+Aeries of giant eagles can make
+potent allies to those who respect
+their territories and approach
+without malice in their hearts.
+Giant eagles are just as likely to
+swoop in and provide unsolicited
+aid to those in the lowlands
+of their realm against obvious
+dangers, but if not oﬀered respect
+in turn, giant eagles may abandon
+an unpleasant victim to its fate
+rather than suﬀer more insults.
+Eagle
+Few avian creatures can match the beauty and grace of the eagle.
+Eagle
+These large birds of prey swoop down from incredible heights to snatch ﬁsh and
+small mammals in their powerful talons. Eagles nest atop high trees or steep cliffs
+that provide a commanding view of the surrounding area. They avoid nesting too
+near civilization, but some remote cultures train eagles as hunting companions.
+EAGLE
+CREATURE –1
+N
+SMALL
+ANIMAL
+Perception +6; low-light vision
+Skills Acrobatics +6
+Str +0, Dex +3, Con +1, Int –4, Wis +1, Cha +1
+AC 16; Fort +4, Ref +6, Will +2
+HP 6
+Speed 10 feet, ﬂy 60 feet
+Melee Ȱɵ beak +6 (ﬁnesse), Damage 1d6 piercing
+Melee Ȱɵ talon +6 (agile, ﬁnesse), Damage 1d4 slashing
+Eagle Dive ʚʖ The eagle Flies up to double its ﬂy Speed in a straight line, descending at
+least 10 feet, and then makes a talon Strike.
+Giant Eagle
+No mere animals, giant eagles have a keen intellect and a strong sense of
+honor. As guardians of their mountain homes, giant eagles attempt to prevent
+the encroachment of civilization upon wild land and the predations of wicked
+humanoid settlements. Unlike ordinary eagles, which tend to be solitary creatures,
+giant eagles congregate within aeries holding up to a dozen members and work
+together to protect their domains.
+Giant eagles have wingspans up to 30 feet across and weigh up to 500 pounds.
+These impressive birds cannot be easily broken or cowed. A giant eagle may allow
+trusted terrestrial friends to ride it, but they invariably resist saddles, harnesses, or
+other equipment that might suggest they are mere
+beasts of burden rather than trusted companions.
+Giant eagles are long-lived and take debts and
+oaths very seriously, often remembering slights for
+years and remaining slow to forgive.
+GIANT EAGLE
+CREATURE 3
+NG
+LARGE
+BEAST
+Perception +11; low-light vision
+Languages Auran, Sylvan (can’t speak any language)
+Skills Acrobatics +11, Athletics +8
+Str +3, Dex +4, Con +1, Int +0, Wis +2, Cha +2
+AC 19; Fort +6, Ref +11, Will +9
+HP 45
+Evasion When a giant eagle rolls a success on a Reﬂex save, it
+gets a critical success instead.
+Speed 10 feet, ﬂy 60 feet
+Melee Ȱɵ beak +12, Damage 2d8+5 piercing
+Melee Ȱɵ talon +12 (agile), Damage 1d10+5 slashing plus Grab
+Eagle Dive ʚʖ The giant eagle Flies up to double its ﬂy Speed
+in a straight line, descending at least 10 feet, and then makes
+a talon Strike.
+Snatch A giant eagle can Fly at half Speed while it has a
+creature grabbed or restrained in its talons, carrying that
+creature along with it.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668994
+4425151
+
+PAGE 161
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669013
+4425170
+Bestiary
+160
+FLYTRAP TREASURE
+Giant ﬂytraps have enough
+instinctual intellect to eﬀectively
+ambush prey or to move about to
+seek out better hunting grounds,
+but they don’t value treasure. Still,
+a ﬂytrap tends to accumulate a
+small wealth of discarded loot
+from those it has eaten, discarding
+these shiny baubles in the
+periphery of its root system once it
+has ﬁnished digesting its meal.
+Flytrap
+Flytraps are dangerous creatures as eager to feed on humanoids and larger prey
+as they are monstrous insects.
+Snapping Flytrap
+The snapping ﬂytrap is a ravenous, carnivorous plant that is quick to bite at any
+creature that passes by. Snapping ﬂytraps typically have two sets of tooth-edged
+leaves, each measuring 3 feet wide, at the end of 10-foot-long stalks.
+SNAPPING FLYTRAP
+CREATURE 3
+N
+LARGE
+MINDLESS
+PLANT
+Perception +7; tremorsense (imprecise) 30 feet
+Skills Athletics +11, Stealth +10 (+13 in undergrowth)
+Str +2, Dex +3, Con +5 Int –5, Wis +2, Cha –2
+AC 18; Fort +12, Ref +8, Will +7
+HP 50; Immunities mental; Weaknesses ﬁre 5; Resistances acid 5
+Quick Capture Ǻȓ Trigger A creature hits or touches the ﬂytrap. Eﬀect The ﬂytrap
+makes a leaf Strike against the triggering creature. If it hits, the creature is grabbed
+in that leaf.
+Speed 15 feet
+Melee Ȱɵ leaf +11 (reach 10 feet), Damage 1d8+2 piercing plus 1d6 acid and Improved Grab
+Focused Assault ʚʖ The ﬂytrap attacks a single target with both its leaves. The
+ﬂytrap makes one leaf Strike. On a success, the ﬂytrap deals the damage from one
+leaf Strike plus an additional 1d8 damage for every leaf beyond
+the ﬁrst. On a failure, the ﬂytrap deals the damage from
+one leaf Strike, but it can’t use Improved Grab. It deals no
+damage on a critical failure. This counts toward the ﬂytrap’s
+multiple attack penalty as a number of attacks equal to the number of
+leaves the ﬂytrap has.
+Hungry Flurry ʚʖ The ﬂytrap makes two leaf Strikes at a –2
+penalty, each against a diﬀerent target. These attacks count
+toward the ﬂytrap’s multiple attack penalty, but the multiple
+attack penalty doesn’t increase until after it makes all its attacks.
+Swallow Whole Ȱɵ (attack) Medium, 1d8+1 bludgeoning plus 1d6 acid, Rupture 5
+Giant Flytrap
+Because they blend in so well with surrounding foliage, giant ﬂytraps can use the
+element of surprise to make quick strikes against unsuspecting adventurers and
+forest travelers.
+GIANT FLYTRAP
+CREATURE 10
+N
+HUGE
+MINDLESS
+PLANT
+Perception +17; tremorsense (imprecise) 60 feet
+Skills Athletics +23, Stealth +21 (+24 in undergrowth)
+Str +7, Dex +5, Con +5, Int –5, Wis +3, Cha –2
+AC 29; Fort +21, Ref +17, Will +15
+HP 185; Immunities mental; Weaknesses ﬁre 10; Resistances acid 10
+Quick Capture Ǻȓ As snapping ﬂytrap.
+Speed 25 feet
+Melee Ȱɵ leaf +23 (reach 15 feet), Damage 2d8+7 piercing
+plus 2d6 acid and Improved Grab
+Focused Assault ʚʖ As snapping ﬂytrap, but it uses all
+four of its leaves.
+Hungry Flurry ʚʖ As snapping ﬂytrap, but it makes four leaf
+Strikes rather than two.
+Swallow Whole Ȱɵ (attack) Large, 2d8+3 bludgeoning plus 2d6
+acid, Rupture 17
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669013
+4425170
+
+PAGE 165
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669017
+4425174
+Bestiary
+164
+JANNI AMIRS
+Janni amirs can’t grant wishes. They
+add the following to their innate
+spells: 4th read omens; Cantrips
+(4th) detect magic (at will).
+MARID SHAHZADAS
+Marid shahzadas grant wishes in
+ways that amuse them. They add
+the following to their innate spells:
+5th cone of cold (at will), illusory
+creature (×2).
+SHAITAN
+CREATURE 7
+UNCOMMON
+LN
+LARGE
+EARTH
+ELEMENTAL
+GENIE
+Perception +15; darkvision, detect magic, tremorsense (imprecise) 60 feet
+Languages Common, Terran
+Skills Athletics +19, Crafting +14, Deception +16, Nature +15, Society +14
+Str +6, Dex +1, Con +4, Int +3, Wis +2, Cha +3
+Items +1 falchion
+AC 25; Fort +18, Ref +12, Will +15
+HP 110; Resistances electricity 10
+Speed 20 feet, burrow 45 feet, climb 20 feet; earth glide
+Melee Ȱɵ falchion +20 (forceful +1, magical, reach 10 feet, sweep), Damage 1d10+12 slashing
+Melee Ȱɵ ﬁst +19 (agile, magical, nonlethal, reach 10 feet), Damage 1d4+12 bludgeoning
+plus Push 10 feet and shove into stone
+Arcane Innate Spells DC 24; 7th plane shift (to Astral Plane, Elemental Planes, or Material
+Plane only); 5th veil (self only), wall of stone; 4th shape stone (at will); 2nd glitterdust
+(×2); Constant (4th) detect magic
+Earth Glide The shaitan can Burrow through dirt and stone at its full burrow Speed,
+leaving no tunnels or signs of its passing.
+Shove into Stone (arcane, earth, transmutation) When the shaitan
+Pushes a creature into a stone barrier, the target must succeed at a
+DC 22 Reﬂex save or become merged with the barrier (as meld with
+stone). The victim can attempt to Escape (DC 28).
+Efreeti
+The efreet are hateful and merciless genies from the Plane
+of Fire, where they build metropolises and massive trade
+centers that draw extraplanar travelers from across the
+multiverse. They are cruel slavers, vengeful warmongers,
+and sinister wish-masters; there are many tales of
+mortals who made pacts with efreet only to have
+their words twisted to suit a genie’s capricious and
+malevolent whims.
+Efreet do not readily treat with other genies;
+they share an eternal feud with the djinn, disdain
+marids, regard jann as weaklings unworthy of
+the genie title, and only occasionally tolerate
+alliances with shaitans. At 12 feet tall and
+weighing 2,000 pounds, efreet are formidable
+opponents and cow their chosen victims with
+a glance.
+EFREETI
+CREATURE 9
+UNCOMMON
+LE
+LARGE
+ELEMENTAL
+FIRE
+GENIE
+Perception +17; darkvision, detect magic
+Languages Common, Ignan
+Skills Arcana +14, Athletics +22, Crafting +14, Deception +19,
+Diplomacy +17, Intimidation +19, Society +14
+Str +5, Dex +3, Con +4, Int +1, Wis +2, Cha +4
+Items breastplate, +1 striking scimitar
+AC 28; Fort +18, Ref +17, Will +20
+HP 175; Immunities ﬁre; Weaknesses cold 10
+Speed 25 feet, ﬂy 35 feet
+Melee Ȱɵ scimitar +21 (ﬁre, forceful +2, magical, reach 10
+feet, sweep), Damage 2d6+11 slashing plus 2d6 ﬁre
+Melee Ȱɵ ﬁst +20 (agile, magical, reach 10 feet), Damage 1d4+11
+bludgeoning plus 2d6 ﬁre
+Arcane Innate Spells DC 29, attack +19; 7th plane shift (at will; to Astral Plane,
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669017
+4425174
+
+PAGE 224
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669076
+4425233
+L-N
+223
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+ASSOCIATED MONSTERS
+Undead minions are very common
+companions for a lich or demilich.
+Liches prefer mindless undead,
+that do what they’re told and don’t
+interrupt the lich’s studies with
+useless conversation. Liches with
+a knack for crafting are also fond
+of surrounding themselves with
+construct servitors and guardians,
+such as golems.
+the demilich’s remains, touches its treasure, or casts a spell that would aﬀect the
+demilich. Eﬀect The demilich ends torpor, rolls initiative, and gains the eﬀect of its
+contingency’s companion spell. The contingency resets after 24 hours.
+Countermeasures Ȳ˓ Trigger The demilich’s turn begins. Eﬀect The demilich casts blink,
+ﬂy, spell turning, or true seeing on itself. It usually chooses spell turning unless it
+already has that spell in eﬀect.
+Speed ﬂy 30 feet
+Melee Ȱɵ jaws +27 (reach 0 feet, ﬁnesse, magical), Damage 1d4–3 piercing plus 6d6 negative
+Arcane Innate Spells DC 40, attack +30; 9th wail of the banshee; 7th spell turning (at
+will); 4th blink (at will), dimension door (at will), telekinetic maneuver (at will); Cantrips
+(8th) mage hand, telekinetic projectile; Constant (6th) true seeing
+Demilich Eye Gems (arcane) A demilich has gemstone eyes that glow when the demilich
+is active. Each eye contains an 8th-level spell that targets one creature (usually one
+eye has maze and the other polar ray). The demilich can Activate an eye. This uses
+the number of spellcasting actions the spell requires, and also requires command and
+envision components. When the demilich casts a spell from a gemstone eye, that
+eye stops glowing for 1d4 rounds, during which time that eye’s spell can’t be used.
+Occasionally, one or both of the two demilich eye gems can be harvested from a
+destroyed demilich as magic items (see below).
+Devour Soul Ȱɵ (arcane, necromancy, negative) Requirements A soul has been trapped
+in one of the demilich’s blight quartz gems (see Trap Soul) for 24 hours. Eﬀect The
+demilich consumes the soul. The soul is utterly destroyed, and the demilich regains
+HP equal to double the creature’s level.
+Mental Magic A demilich can replace all material and somatic components for casting
+spells with verbal components, and can replace all Interact components for activating
+magic items with envision components.
+Staﬀ Gems A demilich long ago absorbed the spells from a staﬀ into gemstone nodules
+embedded in its skull, with larger nodules representing higher-level spells. It can cast
+any of the spells as though it were Activating the staﬀ, and regains 1 charge per
+4 hours spent in torpor, to a maximum of 8 charges. A typical demilich has the
+spells from a greater staﬀ of necromancy, but it could have spells from
+another staﬀ of 8th level or lower instead.
+Trap Soul Ȱɵ command Frequency once per day per gem; Eﬀect Ten
+blight quartz gemstones on the demilich’s skull can trap the
+souls of the living. The Activated gem casts bind soul. This bind
+soul can target and aﬀect a dying creature instead of a corpse.
+The dying creature can attempt a DC 38 Fortitude save; if
+it succeeds, it doesn’t die and its soul is not trapped but it’s
+enervated 2 (or is unaﬀected entirely on a critical success).
+When the soul of a creature gets trapped, the creature’s body
+swiftly turns to dust.
+The gemstones work like the black sapphires used in
+bind soul, except that they can hold creatures of up to
+17th level and have a value of 200 gp apiece. The demilich
+can Devour a Soul it has trapped.
+DEMILICH EYE GEM
+ITEM 15
+RARE
+ ARCANE
+Price 3,000 gp (can’t be crafted)
+Usage held in 1 hand; Bulk —
+This glowing gem is harvested from a demilich and has an 8th-level spell
+magically bonded to it. This item has the traits of the spell it contains.
+Activate command, Interact Frequency once per day; Eﬀect The gem casts
+the 8th-level spell it contains. This activation uses the same number of actions
+as Casting the Spell. Once the spell is cast, the gem’s glow fades, but returns 24
+hours later, when the spell can be used once again.
+Craft Requirements Demilich eye gems can’t be crafted.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669076
+4425233
+
+PAGE 225
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669077
+4425234
+Bestiary
+224
+LINNORM KINGS
+In the storied Lands of the
+Linnorm Kings, the slaying of a
+linnorm is traditionally required for
+those who would claim a nation’s
+crown. Recently, though, the
+Linnorm King White Estrid claimed
+her crown not by slaying a linnorm
+but by beating it into submission,
+gaining a powerful and dangerous
+ally to help secure her rule.
+Linnorm
+Immense, primeval dragons of the northern reaches of the world, linnorms hate
+those they deem to be lesser creatures and seek to inﬂict as much suffering as possible
+upon their unfortunate victims. While these serpentine monstrosities might not be
+the powerful winged dragons most imagine, they nonetheless possess incredible
+strength and deadly powers that often rival authentic dragon brutality.
+Crag Linnorm
+Despite being among the weakest linnorms, the crag linnorm is a devastating
+predator, capable of quickly cooking its foes with its magma breath.
+CRAG LINNORM
+CREATURE 14
+UNCOMMON
+CE
+GARGANTUAN
+DRAGON
+FIRE
+Perception +26; darkvision, scent (imprecise) 60 feet, true seeing
+Languages Aklo, Draconic, Sylvan
+Skills Acrobatics +22, Athletics +28
+Str +8, Dex +4, Con +6, Int –3, Wis +4, Cha +5
+AC 37; Fort +28, Ref +24, Will +22; +1 status to all saves vs. magic
+HP 270, regeneration 10 (deactivated by cold iron); Immunities curse, ﬁre, paralyzed,
+sleep; Weaknesses cold iron 10
+Curse of Fire (curse, ﬁre, primal) When a creature slays a crag linnorm, it must succeed
+at a DC 35 Will save or permanently gain weakness to ﬁre 15.
+Attack of Opportunity Ǻȓ Tail only.
+Speed 35 feet, ﬂy 100 feet, swim 60 feet; freedom of movement
+Melee Ȱɵ jaws +30 (reach 20 feet, magical), Damage 3d12+14 piercing plus crag
+linnorm venom
+Melee Ȱɵ claw +30 (reach 20 feet, magical), Damage 3d8+14 slashing
+Melee Ȱɵ tail +30 (reach 20 feet, magical), Damage 3d6+14 bludgeoning plus
+Improved Grab
+Primal Innate Spells DC 33; Constant (6th) freedom of movement; (5th) true seeing
+Breath Weapon ʚʖ (evocation, ﬁre, primal) The crag linnorm breathes out a stream
+of magma in a 120-foot line that deals 12d6 ﬁre damage to creatures within
+the area (DC 34 basic Reﬂex save). Any creature that fails its
+save also takes 4d6 persistent ﬁre damage. The crag linnorm
+can’t use Breath Weapon again for 1d4 rounds. The magma
+remains until the start of the linnorm's next turn. If the
+linnorm was on the ground, the magma remains as a
+burning line on the ground directly under the line of
+the Breath Weapon, and if the linnorm was airborne,
+the magma rains downward in a sheet 60 feet high.
+Any creature that moves across or through the
+magma takes 6d6 ﬁre damage (DC 34 basic Reﬂex
+save). At the start of the linnorm's next turn,
+the magma cools to a thin layer of brittle
+stone on the ground, or the magma rain
+ﬁnishes falling and turns to harmless
+pebbles. The cooled magma quickly
+degrades to powder and sand over the
+course of several hours.
+Constrict Ȱɵ 2d6+14 bludgeoning, DC 34
+Crag Linnorm Venom (ﬁre, injury, poison)
+Saving Throw DC 34
+Fortitude;
+Maximum
+Duration
+10
+rounds;
+Stage 1 4d6 ﬁre damage
+and drained 1; Stage 2 6d6 ﬁre damage and drained 2.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669077
+4425234
+
+PAGE 235
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669087
+4425244
+Bestiary
+234
+MEDUSA INFILTRATORS
+Rumors persist of disguised
+medusas acting as prominent
+members of criminal organizations
+such as the Sczarni in Riddleport and
+the Aspis Consortium in Port Peril,
+and their kind is known to thrive
+in metropolises including Absalom
+and Katapesh. Because they are so
+widespread, medusas resembling
+humans of every major ethnicity can
+be found in Avistan and Garund.
+Medusa
+Monstrous humanoids that resemble humans with snakes instead of hair,
+medusas are best known for their petrifying gazes that—if lingered upon—can
+permanently transform mortals to stone. Medusas are shrewd and manipulative
+adversaries who collect and covet secrets, and who use threats and guile to
+exploit the fears of weaker creatures. A medusa may seek out powerful magic
+items, use divination magic to discover secret knowledge and unlock forbidden
+power, or inﬁltrate a society to beguile inﬂuential politicians. Their ability to
+worm their way into powerful organizations makes them natural leaders of
+criminal outﬁts and thieves’ guilds, and their interest in magical phenomena
+leads some to pursue careers as oracles who offer to help adventurers ﬁnd what
+they seek—for a price. Of course, if wit and deception proves insufﬁcient, a
+medusa can always simply turn rivals into ornate stone decorations with little
+more than a glare.
+Exceptionally agile and surprisingly hardy, a medusa rarely backs down from
+a conﬂict even when cornered. Many adventurers who thought themselves
+readied to resist the effects of a medusa’s gaze have nevertheless fallen to a
+medusa, as these creatures are also often deadly archers able to riddle their
+foes with venom-coated arrows from a distance. Still, a medusa may
+barter for their life if no alternatives remain, and the secrets carried
+by these powerful villains often make it more than worth sparing the
+monster’s life.
+MEDUSA
+CREATURE 7
+LE
+MEDIUM
+HUMANOID
+Perception +16; darkvision
+Languages Common
+Skills Deception +16, Diplomacy +14, Stealth +16
+Str +2, Dex +5, Con +4, Int +2, Wis +1, Cha +2
+Items +1 composite shortbow (60 arrows), shortsword
+AC 25, all-around vision; Fort +15, Ref +16, Will +14
+HP 105
+Petrifying Gaze (arcane, aura, transmutation, visual) 30 feet. When a creature
+ends its turn in the aura, it must attempt a DC 25 Fortitude save. If the
+creature fails, it becomes slowed 1 for 1 minute. The medusa can
+deactivate or activate this aura by using a single action, which
+has the concentrate trait.
+Biting Snakes Ǻȓ Trigger A creature ends its turn
+adjacent to the medusa. Eﬀect The medusa makes
+a snake fangs Strike against the creature.
+Speed 25 feet
+Melee Ȱɵ shortsword +18 (agile, ﬁnesse, versatile S), Damage 1d6+8 piercing plus
+serpent venom
+Melee Ȱɵ snake fangs +16 (agile, ﬁnesse), Damage 1d4+8 piercing plus
+serpent venom
+Ranged Ȱɵ composite shortbow +19 (deadly 1d10, magical, propulsive, range
+increment 60 feet, reload 0), Damage 1d6+7 piercing plus serpent venom
+Focus Gaze Ȱɵ (arcane, concentrate, incapacitation, transmutation,
+visual) The medusa ﬁxes their glare at a creature they can see within
+30 feet. The target must immediately attempt a Fortitude save against
+the medusa's petrifying gaze. If the creature was already slowed by
+petrifying gaze before attempting its save, a failed save causes it to be
+petriﬁed permanently. After attempting its save, the creature is then
+temporarily immune until the start of the medusa's next turn.
+Serpent Venom (poison); Saving Throw DC 25 Fortitude; Maximum
+Duration 6 rounds; Stage 1 1d6 poison damage and enfeebled 1 (1
+round); Stage 2 2d6 poison damage and enfeebled 2 (1 round)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669087
+4425244
+
+PAGE 244
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669096
+4425253
+L-N
+243
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+OTHER NAGAS
+Beyond the sinister dark naga
+and the benevolent guardian
+naga, many other types of nagas
+exist, including the mesmerizing
+spirit naga, the multiheaded royal
+naga, and the introspective and
+mysterious lunar naga.
+DC  25 Fortitude; Maximum Duration 5 minutes; Stage 1 slowed  1 (1 round);
+Stage 2 slowed 2 (1 round); Stage 3 unconscious with no Perception check to
+wake up (1d4+1 minutes)
+Guardian Naga
+The opposite of dark nagas in many ways, guardian nagas are benevolent and
+wise protectors of places of great natural or supernatural signiﬁcance: ancient
+oak groves, forgotten holy temples, and vaults of sacred power are just a few
+examples of locations that these nagas protect. Guardian nagas believe that the
+beautiful elements of the cosmos are worthy of protection and that devotion to
+such a grand effort is its own reward. A guardian naga may join a group with
+similar values, such as a sect of priests or monks, to aid it in its holy endeavors
+and to exchange knowledge of the heavens.
+Guardian nagas usually encourage their young, upon reaching adulthood,
+to depart the nest and seek out their own natural wonders or ancient ruins to
+protect. Sometimes generations of guardian nagas might guard the same place,
+passing the honor of such care from parent to child. In such cases, the parent
+nagas aim to have at least one of their children elect to stay behind and become
+the guardian of their ancestral ward, giving the parents the peace of mind that the
+site they protect will continue to be guarded by their descendants.
+It is difﬁcult for many societies that vilify serpents or see them as symbols of
+evil to accept the fact that guardian nagas are benevolent and kindly. Fortunately
+for these people, guardian nagas are also patient and understanding, and see
+encounters with such societies as opportunities to educate and
+expand worldviews.
+GUARDIAN NAGA
+CREATURE 10
+UNCOMMON
+LG
+LARGE
+ABERRATION
+Perception +22; darkvision
+Languages Celestial, Common
+Skills Acrobatics +22, Deception +18, Diplomacy +21, Heaven Lore +21,
+Stealth +20
+Str +5, Dex +6, Con +5, Int +3, Wis +5, Cha +4
+AC 31; Fort +20, Ref +21, Will +22
+HP 175
+Speed 25 feet
+Melee Ȱɵ fangs +22 (agile,
+ﬁnesse), Damage 2d8+8
+piercing plus guardian
+naga venom
+Ranged Ȱɵ spit +22 (agile,
+poison, range increment
+30 feet), Eﬀect guardian naga venom
+Divine Spontaneous Spells DC 29, attack +21; 5th
+(4 slots) breath of life, death ward, flame strike,
+heal; 4th (4 slots) air walk, freedom of
+movement, remove curse, restoration;
+3rd (4 slots) dispel magic, neutralize
+poison, remove disease, searing
+light; 2nd (4 slots) calm emotions,
+restoration, see invisibility, sound burst;
+1st (4 slots) bless, heal, protection, spirit link;
+Cantrips (5th) daze, detect magic, light, mage hand, ray of frost,
+read aura, stabilize
+Guardian Naga Venom (poison); Saving Throw DC 29 Fortitude;
+Maximum Duration 6 rounds; Stage 1 3d6 poison (1 round); Stage
+2 3d6 poison and drained 1 (1 round)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669096
+4425253
+
+PAGE 248
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669100
+4425257
+L-N
+247
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+NYMPH LOCATIONS
+Nymphs tend to be closely
+associated with speciﬁc areas of
+natural splendor and beauty—
+woodlands for dryads, rivers for
+naiads. Areas where nymphs
+dwell always look more pristine,
+breathtaking, and scenic than they
+would otherwise.
+Languages Common, Elven, Sylvan; speak with plants
+Skills Acrobatics +9, Athletics +5, Crafting +7 (+9 woodworking), Diplomacy +9,
+Nature +13, Stealth +9, Survival +12
+Str +0, Dex +4, Con +1, Int +2, Wis +3, Cha +4
+Nature Empathy The dryad can use Diplomacy to Make an Impression on and make very
+simple Requests of animals and plants.
+AC 19; Fort +6, Ref +11, Will +10
+HP 55; Weaknesses cold iron 5, ﬁre 5
+Tree Dependent A dryad is mystically bonded to a single great tree and must remain
+within 300 feet of it. If she moves beyond that range, she becomes sickened 1 and is
+unable to recover. She must attempt a DC 18 Fortitude save every hour or increase
+the sickened value by 1 (to a maximum of sickened 4). After 24 hours, she becomes
+drained 1, with this value increasing by 1 every additional 24 hours. A dryad can
+perform a 24-hour ritual to bond herself to a new tree.
+Speed 25 feet
+Melee Ȱɵ branch +12 (ﬁnesse, magical), Damage 1d12+2 bludgeoning
+Primal Innate Spells DC 21, attack +11; 5th tree stride (×2); 4th charm (×3), suggestion;
+3rd sleep; 2nd entangle (at will), tree shape (at will); Cantrips
+(2nd) tanglefoot; Constant (4th) speak with plants
+Tree Meld ʚʖ (primal, transmutation) The dryad touches a tree of
+enough volume to contain her and merges into it for as long as she
+wishes. She can Cast a Spell while inside as long as the spell doesn’t
+require a line of eﬀect outside the tree. She can hear, but not
+see, what’s going on outside the tree. She can
+Dismiss this eﬀect.
+Signiﬁcant physical damage dealt to the
+tree expels the dryad from the tree and deals
+3d6 damage to her. Passwall expels the dryad
+without dealing damage.
+If a dryad uses this ability on her bonded tree, she instead enters an
+extradimensional living space within the tree; Tree Meld gains the
+extradimensional trait. A dryad can bring up to two other creatures
+with her when entering her home within her bonded tree. The dryad
+can still be expelled from this space as above.
+Nymph Queens
+Nymph queens are powerful nymphs that rule over entire regions of
+untouched wilderness, not just single trees or ponds. Every variety of
+nymph can have a queen. Naiad queens are among the most prominent, and
+more often interact with nearby mortals. Thus, some scholars refer to naiad
+queens as simply “nymphs.”
+Nymph Queen Abilities
+A nymph queen is 6 to 10 levels higher than an ordinary nymph of the same
+type, with enhanced numerical statistics and improved Strikes to match. A nymph
+queen’s ward is a signiﬁcant region, and she strengthens and viviﬁes this territory
+with her presence. Nymph queens are not dependent on their wards and lose the
+corresponding ability (such as a dryad’s tree dependent ability); instead, they gain
+the tied to the land ability, as described below. A nymph queen also gains the
+nymph’s beauty aura and the Focus Beauty action, which have varying effects based
+on the queen’s original type. She gains the Inspiration ability, allowing her to bestow
+a gift of inspiration on those who catch her fancy, and the Change Shape ability to
+change her form. Finally, she gains primal prepared spells as a druid of her level.
+Change Shape Ȱɵ (polymorph, primal, transmutation) Nymph queens can transform
+between their original form, which looks much like a typical nymph of their kind, and
+any Small or Medium humanoid form, typically choosing a more humanoid-looking
+version of their natural form.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669100
+4425257
+
+PAGE 249
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669101
+4425258
+Bestiary
+248
+OTHER NYMPHS
+Naiads and dryads are the most well-
+known nymphs, but others exist as
+well. Hesperides, for example, are
+wards of the sunset and golden light
+and can be encountered dwelling on
+coastal cliﬀsides or remote islands.
+Lampads, on the other hand, are
+dark, moody nymphs found in
+wondrous,
+crystal-lined
+caverns
+deep underground.
+Focus Beauty Ȱɵ (emotion, enchantment, mental, primal, visual) The nymph queen
+focuses her beauty upon a target within her aura. The creature must attempt a
+Will save. On a failure, it is affected as if by the nymph queen’s nymph’s beauty
+aura; if it was already affected by the aura, it suffers a greater effect described in
+the nymph queen’s entry. A nymph queen can Focus Beauty on a given creature
+only once per turn.
+Inspiration ̂ˬ (emotion, enchantment, mental, primal) A nymph queen can inspire a
+single intelligent creature by giving that creature a token of her favor, typically a lock
+of her hair. As long as the creature carries her token and remains in good standing
+with the nymph queen, the creature gains a +1 status bonus to all Crafting checks,
+Performance checks, and Will saves.
+If a nymph queen grants her Inspiration to a bard and the nymph queen is that bard’s
+muse, the bard gains an additional beneﬁt depending on their muse theme: for lore muse,
+the bard also gains a +1 status bonus to all Lore checks; for maestro muse, the status
+bonus to Performance checks increases to +2 for the purpose of determining the eﬀects
+of compositions; for polymath muse, the bard gains a +4 status bonus to untrained skill
+checks; and for all other muses, the Will save bonus increases to +2 against fey.
+Nymph’s Beauty (aura, emotion, enchantment, mental, primal, visual) 30 feet. Creatures
+that start their turn in the aura must succeed at a Will save or suﬀer an eﬀect
+described in the nymph queen’s entry.
+Tied to the Land A nymph queen is intrinsically tied to a speciﬁc region, such as a forest
+for a dryad queen. As long as the queen is healthy, the environment is exceptionally
+resilient, allowing the nymph queen to automatically attempt to counteract spells and
+rituals such as blight that would harm the environment, using her Spell DC with a
+counteract level equal to the highest-level druid spell she can cast. When the nymph
+queen becomes physically or psychologically unhealthy, however, her warded region
+eventually becomes twisted or unhealthy as well. In that case, restoring the nymph
+queen swiftly heals the entire region.
+Naiad Queen
+Naiad queens rule over pristine wildernesses centered on untouched lakes or other
+bodies of fresh water. Bards’ songs and artists’ paintings of nymphs tend to depict
+naiad queens in their slightly more humanoid forms, which they don when they
+make the rare journey into civilized lands to garner allies or gauge threats.
+Most naiad queens treat those who respect their domains with kindness, but
+they are ﬁerce and quick in eliminating foes. Their blinding beauty and breadth of
+offensive spells make naiad queens ﬁerce opponents if forced into a ﬁght.
+NAIAD QUEEN
+CREATURE 7
+UNCOMMON
+CG
+MEDIUM
+AMPHIBIOUS
+FEY
+NYMPH
+WATER
+Perception +18; low-light vision, speak with animals
+Languages Common, Elven, Sylvan
+Skills Acrobatics +16, Athletics +9 (+13 to Swim), Diplomacy +20, Medicine +15, Nature
++15, Performance +20, Stealth +14, Survival +15
+Str +0, Dex +5, Con +4, Int +3, Wis +4, Cha +7
+Tied to the Land
+Wild Empathy As naiad
+AC 26; Fort +15, Ref +18, Will +17
+HP 100; Weaknesses cold iron 10; Resistances ﬁre 10
+Nymph’s Beauty (aura, emotion, enchantment, mental, primal, visual) 30 feet. DC 23. On a
+failed save, the target is stunned 1 for this turn and whenever it begins its turn within 30
+feet of the naiad queen for the next 24 hours, even if it can’t see her on subsequent turns.
+Speed 25 feet, swim 25 feet
+Melee Ȱɵ aqueous ﬁst +17 (agile, ﬁnesse, magical, water), Damage 2d6+6 bludgeoning
+Primal Prepared Spells DC 28, attack +18; 4th heal, summon animal; 3rd earth bind,
+haste, heal; 2nd animal messenger, faerie ﬁre, tree shape; 1st ﬂeet step, gust of wind,
+negate aroma; Cantrips (4th) detect magic, guidance, light, ray of frost, stabilize
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669101
+4425258
+
+PAGE 251
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669103
+4425260
+Bestiary
+250
+GIANT OCTOPUS LAIRS
+Giant octopuses favor shipwrecks,
+coral reefs, or underwater caverns
+as lairs, where they can take
+advantage of narrow conﬁnes
+for protection. Giant octopuses,
+like their smaller kin, are fond
+of adorning and decorating their
+lairs with found objects—many of
+which, in the giant octopus’s case,
+are also magical weapons, shields,
+or works of art salvaged from
+sunken ships or fallen adventurers.
+Octopus, Giant
+Giant octopuses are found in the heart of deep, dark oceans.
+GIANT OCTOPUS
+CREATURE 8
+N
+HUGE
+ANIMAL
+AQUATIC
+Perception +15; low-light vision
+Skills Acrobatics +17, Athletics +20, Stealth +17
+Str +6, Dex +3, Con +4, Int –3, Wis +3, Cha –2
+AC 27; Fort +16, Ref +17, Will +15
+HP 135; Resistances cold 10
+Speed 15 feet, swim 40 feet; compression
+Melee Ȱɵ arm +20 (agile, reach 15 feet), Damage 2d8+9 bludgeoning plus Grab
+Melee Ȱɵ beak +20, Damage 2d8+9 piercing plus giant octopus venom
+Compression A giant octopus can move through a gap at least 2 feet wide without
+Squeezing, and can Squeeze through a gap at least 1 foot wide.
+Constrict Ȱɵ 1d8+9 bludgeoning
+Giant Octopus Venom (poison); Saving Throw DC 26 Fortitude; Maximum Duration
+6 rounds; Stage 1 2d6 poison damage and ﬂat-footed (1 round); Stage 2 2d6 poison
+damage, clumsy 1, and ﬂat-footed (1 round); Stage 3 2d6 poison damage, clumsy 2,
+and ﬂat-footed (1 round)
+Ink Cloud Ȱɵ The octopus emits a cloud of black ink in a 30-foot emanation. This cloud
+has no eﬀect outside of water. Creatures inside the cloud are undetected and can’t
+use their sense of smell. The cloud dissipates after 1 minute. The octopus can’t use Ink
+Cloud again for 2d6 rounds.
+Jet ʚʖ (move) The octopus moves up to 200 feet in a straight line through the water
+without triggering reactions.
+Writhing Arms ʚʖ The giant octopus makes up to four Strikes with diﬀerent arms, each
+against a diﬀerent target. Each attack counts separately for the octopus’s multiple attack
+penalty, but the penalty doesn't increase the penalty until the octopus has made all
+the attacks. If the octopus subsequently
+uses the Grab action, it can Grab
+any number of creatures it hit
+with Writhing Arms.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669103
+4425260
+
+PAGE 276
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669128
+4425285
+O-R
+275
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+RAJA HEADS
+Raja's heads often resemble those
+of cats or snakes, but they can
+also be similar to apes, jackals,
+vultures, elephants, mantises,
+lizards, rhinos, boars, and more are
+possible. In most cases, the type
+of head a raja rakshasa possesses
+symbolizes its personality—a
+tiger-headed one is stealthy and
+ravenous, while a boar-headed one
+might be gluttonous and crude.
+Raja Rakshasa
+When not disguised as a humanoid, the raja rakshasa has the head of an animal.
+The hands of a raja rakshasa are more subtly unsettling, for the ﬁngers of these
+ﬁends bend outward, away from the palms.
+More than any other types of rakshasa, rajas scoff at religion. They understand
+the power of the divine, yet they view themselves as the only things worthy
+of worship from mortal creatures; not even their own immortals are deemed
+deserving of such gloriﬁcation. Raja rakshasas often form close-knit families that
+work together to bring down mortal cities or to rule them from the shadows
+within. Such families of rakshasas often incorporate other breeds of the ﬁend,
+often using dandasukas as favored servants or stealthy spies. Even though a raja
+family works together to achieve a shared goal, inﬁghting and treachery among
+their own is a constant threat.
+RAJA RAKSHASA
+CREATURE 10
+LE
+MEDIUM
+FIEND
+RAKSHASA
+Perception +19; darkvision
+Languages Common, Infernal, Undercommon
+Skills Deception +23, Diplomacy +21, Intimidation +21, Performance +19, Occultism +18,
+Stealth +20
+Str +4, Dex +6, Con +4, Int +2, Wis +1, Cha +5
+Items +1 striking kukri
+AC 30; Fort +19, Ref +21, Will +18; +2 status to all saves vs. magic, +3 status to
+all saves vs. divine magic
+HP 155; Weaknesses good 10, Resistances physical 10 (except piercing)
+Scoﬀ at the Divine Ǻȓ Trigger A creature within 30 feet casts a divine
+spell or uses a divine ability. Requirements The raja rakshasa has an
+unexpended spell slot that can be used to cast dispel magic. Eﬀect
+The raja rakshasa expends a spell slot that could be used to cast
+dispel magic and attempts to counteract the triggering spell or
+ability. The raja rakshasa can’t Scoﬀ at the Divine for 1d4 rounds.
+Speed 35 feet
+Melee Ȱɵ kukri +23 (agile, ﬁnesse, magical, trip), Damage 2d6+10
+slashing
+Melee Ȱɵ fangs +20 (agile, magical), Damage 2d12+10 piercing
+Melee Ȱɵ claw +22 (agile, ﬁnesse, magical), Damage 2d8+10 slashing
+Occult Spontaneous Spells DC 31; 5th (3 slots) dispel magic,
+hallucination, shadow blast; 4th (4 slots) clairvoyance, dispel magic, ﬂy,
+suggestion; 3rd (4 slots) clairaudience, dispel magic, nondetection, vampiric touch;
+2nd (4 slots) blur, hideous laughter, invisibility; 1st (4 slots) charm, illusory object,
+item facade; Cantrips (5th) detect magic, ghost sound, mage hand, read aura, sigil
+Occult Innate Spells DC 31; 3th mind reading (at will)
+Change Shape Ȱɵ (concentrate, occult, polymorph, transmutation) The raja rakshasa
+takes on the appearance of any Medium humanoid. This doesn’t change the
+raja rakshasa’s Speed or its attack and damage modiﬁers with its Strikes but
+might change the damage type its Strikes deal (typically to bludgeoning). It
+typically loses its fangs Strike unless the humanoid form has fangs or a similar
+unarmed attack.
+Disturbing Vision Ȱɵ (concentrate, enchantment, mental, occult) The raja rakshasa’s
+eyes ﬂash green as it projects a telepathic wave in a 30-foot emanation. All
+creatures in the area are assailed by a vision of evil decadence from one of
+the rakshasa’s past lives. Each non-evil creature in the area must succeed at
+a DC 29 Will save or become sickened 1 (and stunned 1 on a critical
+failure). The visions last 1d4 rounds, and while they do, the
+raja rakshasa and all evil creatures in the area gain a
++1 status bonus to all checks. The raja rakshasa can
+use this ability again only once the previous visions end.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669128
+4425285
+
+PAGE 336
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669188
+4425345
+U-Z
+335
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DREAD WRAITHS
+Dread wraiths are much more
+powerful variants of the standard
+wraith. A dread wraith is a
+9th‑level creature that can drain
+the life from creatures via its
+mere presence. Often, a dread
+wraith commands a small group
+of normal wraiths, and in life may
+have been a bloodthirsty warlord
+or brutal general.
+Wraith
+Wraiths are malevolent undead who drain life and shun light. Their shadowy,
+incorporeal forms are dotted with burning eyes that reﬂect their hatred for the
+living, and shadowy claws are weapon enough to steal the vitality from their
+enemies. A wraith may be created by foul necromancy, but more often they are
+the result of a hermitic murderer or mutilator who even in death could not give up
+their wicked ways. Further complicating the matter is the fact that wraiths multiply
+by consuming and transforming the living into more of their foul kind—meaning a
+handful of wraiths left unchecked can easily turn into a horde of darkness.
+Wraiths weigh nothing and are unharmed by most physical attacks. They haunt
+any place where they can feed on the living, though their vulnerability to sunlight
+conﬁnes them to the shadowy places of the world—places where they can blend
+in seamlessly with their dark surroundings before silently engulﬁng their prey.
+Wraiths may form packs with others of their kind in places where death
+and mayhem are commonplace—countrysides ravaged by war, metropolitan
+underworlds run by criminal overlords, or sites of ﬁendish cultic rituals. In these
+places, the living do well to tread with sunrods and powerful clerics in tow. Ruins,
+sewers, and abandoned buildings provide sanctuary for wraiths during the day, as
+the creatures hunt exclusively at night or in dark places. Wraiths are smart enough
+to take advantage of their incorporeality in combat, so they keep to tortuous
+caverns or structures with hallways and avoid open areas.
+As they’re formed purely of anti-life from the Negative Energy Plane, wraiths
+pervade that unholy realm. Within nations and civilizations ruled by the undead,
+wraiths have places of power as assassins and spies. They’re among the ruling class in
+Geb, but have greater numbers in Ustalav, where packs of wraiths roam graveyards
+and misty trails, consuming the populations of entire villages. In other parts of
+the world, wraiths tend not to wander and limit their activity to smaller environs,
+typically just the site of their chosen haunting and its immediate surroundings.
+WRAITH
+CREATURE 6
+LE
+MEDIUM
+INCORPOREAL
+UNDEAD
+WRAITH
+Perception +14; darkvision, lifesense 60 feet
+Languages Common, Necril
+Skills Acrobatics +14, Intimidation +15, Stealth +14
+Str –5, Dex +4, Con +0, Int +2, Wis +2, Cha +5
+Lifesense (divination, divine) Wraiths sense the vital essence of living and undead
+creatures within the listed range.
+AC 24; Fort +8, Ref +14, Will +14; +1 status to all saves vs. positive
+HP 80, negative healing; Immunities death eﬀects, disease, paralyzed,
+poison, precision, unconscious; Resistances all 5 (except force, ghost
+touch, or positive; double resistance vs. non-magical)
+Sunlight Powerlessness A wraith caught in sunlight is stunned 2 and
+clumsy 2.
+Attack of Opportunity Ǻȓ
+Speed ﬂy 40 feet
+Melee Ȱɵ spectral hand +17 (ﬁnesse), Damage 2d8+5 negative plus drain life
+Drain Life (divine, necromancy) When the wraith damages a living
+creature with its spectral hand Strike, the wraith gains 5 temporary
+Hit Points and the creature must succeed at a DC 23 Fortitude save
+or become drained 1. Further damage dealt by the wraith increases
+the amount of drain by 1 on a failed save to a maximum of drained 4.
+Wraith Spawn (divine, necromancy) A living humanoid slain by a wraith’s
+spectral hand Strike rises as a wraith spawn after 1d4 rounds. This wraith
+spawn is under the command of the wraith that killed it. It doesn’t have drain life or
+wraith spawn and becomes clumsy 2 for as long as it is a wraith spawn. If the creator
+of the wraith spawn dies, the wraith spawn becomes a full-ﬂedged, autonomous
+wraith; it regains its free will, gains Wraith Spawn, and is no longer clumsy.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669188
+4425345

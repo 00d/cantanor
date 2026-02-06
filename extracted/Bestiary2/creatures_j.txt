@@ -1,0 +1,413 @@
+# Bestiary - Creatures: J
+# Count: 3 creatures
+
+
+================================================================================
+# JABBERWOCK
+================================================================================
+
+
+JABBERWOCKS AND DRAGONS
+Although jabberwocks may fear
+vorpal weapons and are ﬁlled with
+rage against all mortal creatures,
+few things invite a jabberwock’s
+wrath more than a Material Plane
+dragon. Some scholars believe that
+in the same way the First World is
+believed to have been a template or
+“ﬁrst draft” of the Material Plane,
+dragons were created in the likeness
+of jabberwocks. A jabberwock
+that learns of a nearby dragon will
+attempt to kill it to the exclusion of
+all other priorities.
+Frumious Jabberwock: Frumious jabberwocks have two heads. They are level
+24 and gain an extra action on each of their turns they can use only to make a
+jaws Strike.
+Mimsy Jabberwock: Typically hailing from wintry regions of the First World,
+mimsy jabberwocks have glowing blue-white scales, resist cold instead of ﬁre, and
+have eyes that burn with blue ﬂames that deal cold damage instead of ﬁre damage.
+Slithy Jabberwock: Wreaking destruction beneath the waves, these sinuous and
+slimy jabberwocks are amphibious, have a swim Speed of 80 feet instead of the
+normal ﬂy Speed, and do not have a wing Strike. A slithy jabberwock’s whifﬂing
+aura is activated whenever it swims, makes a tail Strike, or Burbles.
+JABBERWOCK
+CREATURE 23
+RARE
+CE
+HUGE
+DRAGON
+TANE
+Perception +40; darkvision, scent 120 feet, true seeing
+Languages Aklo, Common, Draconic, Gnomish, Sylvan
+Skills Acrobatics +40, Athletics +44, Intimidation +41, Nature +38, Survival +40
+Str +11, Dex +7, Con +10, Int +4, Wis +9, Cha +8
+Planar Acclimation The jabberwock always treats the plane it is currently located on as
+its home plane.
+AC 49; Fort +39, Ref +37, Will +40
+HP 500, regeneration 25 (deactivated by vorpal weapons); Immunities paralyzed, sleep;
+Weaknesses vorpal weapons 20, vorpal fear; Resistances ﬁre 20
+Frightful Presence (aura, emotion, fear, mental) 100 feet, DC 43
+Vorpal Fear A jabberwock damaged by a vorpal weapon becomes frightened 2 (or
+frightened 4 on a critical hit).
+Claws That Catch Ǻȓ Trigger A creature within the jabberwock’s reach uses a
+manipulate action or a move action, leaves a square during a move action, makes a
+ranged attack, or uses a concentrate action; Effect The jabberwock makes a claw
+Strike against the triggering creature. If the Strike hits, the jabberwock disrupts
+the triggering action.
+Speed 35 feet, ﬂy 60 feet
+Melee Ȱɵ jaws +42 (deadly 2d12, magical, reach 15 feet), Damage 4d12+19 piercing
+Melee Ȱɵ claw +42 (agile, magical, reach 15 feet), Damage 4d8+19 slashing plus Improved
+Grab
+Melee Ȱɵ tail +42 (magical, reach 15 feet), Damage 4d10+19 bludgeoning plus Improved
+Knockdown
+Melee Ȱɵ wing +40 (magical, agile, reach 15 feet), Damage 4d8+19 bludgeoning
+Ranged Ȱɵ eyes of ﬂame +42 (ﬁre, magical, range increment 60 feet), Damage 10d6 ﬁre
+plus 4d6 persistent ﬁre
+Primal Innate Spells DC 43; Constant (10th) true seeing
+Burble ʚʖ The jabberwock creates a blast of strange noises and shouted nonsense
+in the various languages it knows (and invariably some languages it doesn’t know),
+creating one of two eﬀects. The jabberwock can’t Burble again for 1d4 rounds.
+• Confusion (aura, emotion, enchantment, mental, primal) 60 feet. Each creature in the
+emanation must succeed at a DC 46 Will save or become confused for 1d4 rounds.
+• Sonic Beam (evocation, primal, sonic) The jabberwock focuses its Burbling into a
+60-foot line of sonic energy that deals 24d6 sonic damage to creatures in the area
+(DC 46 basic Reﬂex save).
+Jaws That Bite If the jabberwock makes a jaws attack and rolls a natural 19 on the d20
+roll, the attack is a critical hit. This has no eﬀect if the 19 would be a failure.
+Whiﬄing Ǻȓ (aura) Trigger The jabberwock Flies or makes a wing Strike; Eﬀect The
+jabberwock’s wings whiﬄe, creating severe winds within a 30-foot emanation. These
+winds move outward from the jabberwock, and they persist until the start of the
+jabberwock’s next turn. During this time, ﬂight of any kind in the emanation requires a
+successful DC 43 Acrobatics check to Maneuver in Flight, and creatures ﬂying toward
+the jabberwock are moving through greater diﬃcult terrain. Creatures on the ground
+in the emanation must succeed at a DC 43 Athletics check to approach the jabberwock.
+
+================================================================================
+PAGE 153
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868650
+4425162
+Bestiary 2
+152
+152
+JELLYFISH SPECIES
+A large number of types of
+monstrous jellyﬁsh dwell in the
+world’s oceans, each with their
+own unusual specialty in hunting.
+The immense vampire jellyﬁsh is a
+blood-drinking monster that often
+attacks sailors aboard ships. Among
+the largest are the dreaded whaler
+jellyﬁsh, colossal creatures that feed
+on whales or even krakens.
+Jellyfish
+Many varieties of jellyﬁsh drift through the world’s oceans, feeding on ﬁsh and
+other tiny marine creatures. However, deadly species of monstrous jellyﬁsh pose a
+threat to unwary swimmers and sailors alike. Note that while jellyﬁsh are animals,
+they also have the mindless trait because they lack a centralized nervous system.
+FIRE JELLYFISH SWARM
+While individually one of these ﬁst-sized jellyﬁsh is merely a nuisance, in great
+numbers, ﬁre jellyﬁsh can form into dangerous swarms. Bobbing in the water,
+they create a cloud of stinging tentacles. They were named in part for their
+bright coloration, but those who are stung by ﬁre jellyﬁsh learn the larger reason
+for their name—the pain of their stings is comparable to being burned alive.
+FIRE JELLYFISH SWARM
+CREATURE 6
+N
+LARGE
+ANIMAL
+AQUATIC
+MINDLESS
+SWARM
+Perception +10; low-light vision
+Skills Acrobatics +15
+Str –4 Dex +5, Con +4, Int –5, Wis +0, Cha –5
+AC 13; Fort +16, Ref +15, Will +10
+HP 155; Immunities mental, precision, swarm mind; Weaknesses area damage 7, splash
+damage 7; Resistances bludgeoning 9, piercing 9, poison 10, slashing 5
+Speed swim 20 feet
+Agile Swimmer Fire jellyﬁsh swarms use Acrobatics to Swim.
+Burning Swarm Ȱɵ (poison) Each enemy in the swarm’s space takes 3d8 poison damage
+(DC 24 basic Reﬂex save) and is exposed to ﬁre jelly venom.
+Fire Jelly Venom (poison) Saving Throw DC 24 Fortitude; Maximum Duration 6
+rounds; Stage 1 clumsy 1 (1 round); Stage 2 clumsy 2 (1 round); Stage 3 clumsy
+3 (1 round)
+GIANT JELLYFISH
+Unlike its smaller cousins, the giant jellyﬁsh is an active
+predator that chases down its prey through reefs or
+open water. It can even squeeze its enormous
+bell-shaped body into the tight conﬁnes of
+shipwrecks to drape its mane of tentacles
+across the exposed ﬂesh of its prey.
+GIANT JELLYFISH
+CREATURE 7
+N
+LARGE
+ANIMAL
+AQUATIC
+MINDLESS
+Perception +12; darkvision
+Skills Acrobatics +15, Athletics +17, Stealth +15
+Str +6, Dex +4, Con +6, Int –5, Wis +0, Cha –5
+AC 15; Fort +17, Ref +15, Will +1
+HP
+165;
+Immunities
+mental,
+precision;
+Weaknesses piercing 5, slashing 5; Resistances
+bludgeoning 10, poison 10
+Speed swim 20 feet
+Melee Ȱɵ tentacle +18 (agile, reach 20 feet), Damage
+2d8+8 bludgeoning plus jellyﬁsh venom
+Jellyﬁsh Venom (poison) Saving Throw DC 25 Fortitude;
+Maximum Duration 6 rounds; Stage 1 2d8 poison
+damage and clumsy 1 (1 round); Stage 2 3d6
+poison damage and clumsy 2 (1 round); Stage 3
+2d10 poison damage and paralyzed (1 round)
+Squeeze A giant jellyﬁsh can ﬁt into tight spaces
+as if it were a Medium creature. It can move at
+its full Speed while Squeezing.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868650
+4425162
+
+PAGE 155
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868652
+4425164
+Bestiary 2
+154
+154
+KELPIE FOLKTALES
+Some fanciful stories about kelpies
+speak of them appearing in equine
+form wearing riding tack, complete
+with silver stirrups and bridle bit.
+These folktales claim that cutting
+the harness from the kelpie’s body
+grants the bearer power over it, or
+causes the kelpie to sicken and die.
+In truth, doing so has no ill eﬀect
+on a kelpie, suggesting these stories
+are spread by kelpies themselves
+to further trick prey into making
+foolish mistakes.
+Kelpie
+Kelpies are malevolent amphibious fey shapechangers intent on luring mortals
+to their doom. These cruel predators lurk in and around areas of water, slightly
+preferring freshwater over saltwater. Kelpies lure or drag their prey underwater
+then drown and devour them, leaving behind only the victim’s heart and liver—
+the only parts of a meal kelpies ﬁnd unpleasant. Kelpies are fond of magically
+disguising itself as ﬁne steeds or attractive strangers to draw in victims, but
+its true appearance takes the form of a hideous equine with slimy, green ﬂesh
+resembling aquatic plants.
+KELPIE
+CREATURE 4
+NE
+LARGE
+AMPHIBIOUS
+FEY
+Perception +11; low-light vision
+Languages Aquan, Common, Sylvan
+Skills Athletics +11, Deception +14, Stealth +10
+Str +5, Dex +2, Con +3, Int –1, Wis +3, Cha +4
+AC 21; Fort +11, Ref +12, Will +14
+HP 60; Weaknesses cold iron 5; Resistances ﬁre 5
+Speed 35 feet, swim 35 feet
+Melee Ȱɵ jaws +13, Damage 2d6+7 bludgeoning plus Grab
+Captivating Lure ʚʖ (concentrate, emotion, enchantment, incapacitation, mental,
+primal) The kelpie instills an overwhelming attraction to itself within the mind of a
+single creature within 60 feet. The target perceives the kelpie as a desirable person (if
+the kelpie is in humanoid form) or a valuable steed (if the kelpie is in equine form) and
+must attempt a DC 23 Will saving throw.
+Critical Success The creature is unaﬀected and is temporarily immune to Captivating
+Lure for 24 hours.
+Success The creature is stupeﬁed 1 for 1 round and is then temporarily immune to
+Captivating Lure for 24 hours.
+Failure The creature is fascinated, and it must spend each of its actions to move closer to
+the kelpie as expediently as possible while avoiding obvious dangers. If a captivated
+creature is adjacent to the kelpie, it either attempts to mount the kelpie
+(if the kelpie is in equine form) or stays still and
+doesn’t act. If the creature is attacked by the
+kelpie, or if it can’t breathe water and enters
+an area of water, the creature is freed from
+captivation at the end of the kelpie’s turn.
+Critical Failure As failure, but the target
+doesn’t consider water a danger and
+will enter an area of water even if
+it can’t swim or breathe water.
+If it is attacked by the kelpie or
+starts to drown, it can attempt
+a new save at the start of its
+next turn, but it isn’t freed
+automatically.
+Change Shape Ȱɵ (concentrate,
+polymorph,
+primal,
+transmutation)
+The
+kelpie
+can
+take
+on
+the appearance of any
+Medium or Large animal
+of an equine nature (such as
+a horse, hippocampus, or pony), or
+any Small or Medium humanoid. This doesn’t
+change its Speeds or its attack and damage
+modiﬁers with its Strikes.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868652
+4425164
+
+PAGE 269
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868766
+4425278
+Bestiary 2
+268
+268
+TROLLHOUND GENESIS
+The ﬁrst trollhounds were the
+unexpected result of occult
+experimentation on wargs with
+alchemically prepared troll blood in
+the hope of creating an ooze with
+limited regeneration. Most of the
+wargs died during the trials; the
+few survivors lost their cunning
+and intelligence in exchange for
+a troll’s voracious appetite and
+ability to regenerate. Successive
+generations of trollhounds often hunt
+alongside trolls, understanding on an
+instinctual level the bonds they share
+with these lumbering giants.
+Trollhound
+Trollhounds are squat, slavering beasts akin to trolls in canine form. Requiring
+vast quantities of meat to fuel their regenerative metabolisms, packs of wild
+trollhounds prowl the foothills of regions where trolls dwell, their voracious
+hunger driving them to slaughter and consume any prey they encounter. In some
+regions, trolls breed trollhounds as pets, utilizing the trollhounds’ keen sense of
+smell to aid in the hunt.
+Covered in fetid, weeping sores, trollhounds are carriers of a debilitating
+contagion known as bloodﬁre fever. Creatures that contract the disease through
+the bite of a trollhound experience deep internal pain, as if their blood were on
+ﬁre. Additional symptoms include loss of muscle coordination, pus-ﬁlled blisters,
+and overall lethargy and fatigue. Other than suffering from skin irritation, both
+trolls and trollhounds are immune to the major effects of the disease.
+Trollhounds are fearless on the hunt and in combat, relying on their ability to
+regenerate to carry them through. Not even the threat of ﬁre is enough to repel
+them, as the beasts don’t recognize the danger it represents. Nevertheless, ﬁre is
+one of the most effective tools in combating trollhounds; canny hunters know to
+burn every last remnant of a supposedly slain trollhound, for their regenerative
+powers are potent indeed.
+While trolls themselves have had great success in domesticating, training, and
+even befriending trollhounds, the same cannot be said for other would-be masters.
+Whether impeded by constant exposure to trollhounds’ diseased slobber, their
+ravenous hunger that never seems to be fully sated, or simply their foul personality
+and quick-to-bite temperament, most attempts to use trollhounds in place of more
+reliable guardians end in pain, misery, and a pack of feral trollhounds escaping
+into the hinterlands. Left to their own devices, a pack of escaped trollhounds
+can breed relatively quickly, and it can take less than a year for a small pack to
+multiply into a signiﬁcant threat to the countryside. Best to leave the trollhounds
+to the trolls, as they say!
+TROLLHOUND
+CREATURE 3
+N
+MEDIUM
+BEAST
+TROLL
+Perception +6; darkvision, scent (imprecise) 30 feet
+Skills Acrobatics +6, Athletics +11, Stealth +8,
+Survival +6
+Str +4, Dex +1, Con +5, Int –4, Wis +1,
+Cha –2
+AC 17; Fort +14, Ref +8, Will +6
+HP 65, regeneration 15 (deactivated
+by acid or ﬁre); Weaknesses
+ﬁre 10
+Speed 35 feet
+Melee Ȱɵ jaws +11, Damage 1d12+4
+piercing plus Knockdown and
+bloodﬁre fever
+Bloodﬁre Fever (disease); Saving
+Throw DC 18 Fortitude; Stage 1
+carrier with no ill eﬀect (1 day);
+Stage 2 enfeebled 1 (1 day); Stage
+3 enfeebled 1 and clumsy 1 (1 day);
+Stage 4 enfeebled 2 and clumsy
+2 (1 day); Stage 5 enfeebled 2,
+clumsy 2, and fatigued (1 day)
+Pack Attack The trollhound deals an
+extra 1d6 damage to any creature
+within reach of at least two of the
+trollhound’s allies.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868766
+4425278

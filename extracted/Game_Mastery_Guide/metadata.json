@@ -1,0 +1,70 @@
+{
+  "source_pdf": "Pathfinder-2e-Game-Mastery-Guide.pdf",
+  "book_name": "Game_Mastery_Guide",
+  "total_sections": 6,
+  "extraction_methods": [
+    "pymupdf"
+  ],
+  "total_pages": 258,
+  "pages_with_content": 258,
+  "sections": [
+    {
+      "type": "front_matter",
+      "number": 0,
+      "title": "Front Matter",
+      "start_page": 1,
+      "end_page": 8,
+      "filename": "00_front_matter.txt"
+    },
+    {
+      "type": "chapter",
+      "number": 1,
+      "title": "GAMEMASTERY BASICS",
+      "start_line": 340,
+      "end_line": 4953,
+      "start_page": 9,
+      "end_page": 56,
+      "filename": "01_chapter_1_gamemastery_basics.txt"
+    },
+    {
+      "type": "chapter",
+      "number": 2,
+      "title": "TOOLS",
+      "start_line": 4954,
+      "end_line": 16822,
+      "start_page": 57,
+      "end_page": 148,
+      "filename": "02_chapter_2_tools.txt"
+    },
+    {
+      "type": "chapter",
+      "number": 3,
+      "title": "SUBSYSTEMS",
+      "start_line": 16823,
+      "end_line": 20170,
+      "start_page": 149,
+      "end_page": 182,
+      "filename": "03_chapter_3_subsystems.txt"
+    },
+    {
+      "type": "chapter",
+      "number": 4,
+      "title": "VARIANT RULES",
+      "start_line": 20171,
+      "end_line": 22338,
+      "start_page": 183,
+      "end_page": 204,
+      "filename": "04_chapter_4_variant_rules.txt"
+    },
+    {
+      "type": "chapter",
+      "number": 5,
+      "title": "NPC GALLERY",
+      "start_line": 22339,
+      "end_line": 27058,
+      "start_page": 205,
+      "end_page": 258,
+      "filename": "05_chapter_5_npc_gallery.txt"
+    }
+  ]
+}

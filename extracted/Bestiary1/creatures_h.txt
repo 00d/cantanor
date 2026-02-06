@@ -1,0 +1,1110 @@
+# Bestiary - Creatures: H
+# Count: 13 creatures
+
+
+================================================================================
+# HIVE MOTHER
+================================================================================
+
+Armor-Rending Bite ʚʖ The ankhrav makes a mandibles Strike; if the Strike hits, the
+target’s armor takes the damage and the acid damage bypasses the armor’s Hardness.
+Spray Acid ʚʖ (acid) Frequency once per hour; Eﬀect The ankhrav spews acid in a
+30-foot cone, dealing 3d6 acid damage and 1d6 persistent acid damage (DC 20 basic
+Reﬂex save).
+Hive Mother
+Ankhrav hive mothers are fearsome predators that one can easily distinguish
+from the typical ankhrav not only by their greater size, but the presence of a
+large pair of razor-sharp, mantis-like arms.
+HIVE MOTHER
+CREATURE 8
+UNCOMMON
+N
+HUGE
+ANIMAL
+Perception +16; darkvision, tremorsense (imprecise) 90 feet
+Skills Acrobatics +13, Athletics +20, Stealth +11, Survival +16
+Str +6, Dex +1, Con +4, Int –4, Wis +2, Cha –2
+AC 29; Fort +18, Ref +15, Will +14
+HP 120
+Attack of Opportunity Ǻȓ
+Speed 25 feet, burrow 20 feet
+Melee Ȱɵ mandibles +20 (acid), Damage 2d8+6 piercing plus 2d6 acid
+Ranged Ȱɵ acid spit +17 (acid, range 30 feet), Damage 5d6 acid
+Armor-Rending Bite ʚʖ The hive mother makes a
+mandibles Strike; if the Strike hits, the target’s armor
+takes the damage and the acid damage bypasses the
+armor’s Hardness.
+Frenzy Pheromone ʚʖ The hive mother unleashes a
+pheromone that causes all other ankhravs within a 100-foot
+emanation to become quickened 1 until the start of the hive
+mother’s next turn, and they can use the extra action only
+for Burrow, Stride, or Strike actions. The hive mother
+can’t unleash the pheromone again for 1d4 rounds.
+Spray Acid ʚʖ (acid) The hive mother spews acid
+in a 60-foot cone, dealing 8d6 acid damage and 1d6
+persistent acid damage (DC 26 basic Reﬂex save). It
+can’t spew acid again for 1d4 rounds.
+ANKHRAV BURROWS
+As if the appearance of a hungry
+ankhrav in a stretch of farmland
+isn’t bad enough, it almost always
+indicates the proximity of an
+ankhrav hive nearby. A disturbing
+number of ankhravs can infest
+a lair. However, adventurers
+brave enough to crawl through
+the tangled burrows are often
+rewarded with large amounts of
+treasure as ankhravs have a habit
+of dragging their victims back
+to the deepest corners of their
+den to feast, usually discarding
+the remains with most of the
+gear intact.
+
+================================================================================
+PAGE 24
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668876
+4425033
+A-C
+23
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Ape
+While many apes exhibit peaceful or reclusive behavior, gorillas can be territorial,
+and the megaprimatus is especially aggressive and dangerous.
+Gorilla
+Gorillas can be territorial creatures, particularly if provoked by hunters or the
+presence of more dangerous monsters. A gorilla uses its fangs and powerful arms
+to bite and pummel trespassers with wild abandon.
+GORILLA
+CREATURE 3
+N
+LARGE
+ANIMAL
+Perception +8; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +9, Athletics +11, Stealth +7
+Str +4, Dex +2, Con +3, Int –4, Wis +1, Cha –2
+AC 19; Fort +12, Ref +9, Will +6
+HP 45
+Speed 30 feet, climb 30 feet
+Melee Ȱɵ ﬁst +11 (agile, reach 10 feet), Damage 2d6+4 bludgeoning
+Melee Ȱɵ jaws +11 (reach 5 feet), Damage 1d8+4 piercing
+Frightening Display ʚʖ (auditory, emotion, fear, mental) The
+gorilla beats its chest in a terrifying display. Creatures within
+30 feet must attempt a DC 20 Will save. While a creature is
+frightened by this ability, it is ﬂat-footed to the gorilla.
+Critical Success No eﬀect and temporarily immune for 1 minute.
+Success The creature is unaﬀected.
+Failure The creature is frightened 1.
+Critical Failure The creature is frightened 2.
+Megaprimatus
+The megaprimatus is among the mightiest of apes,
+quick to confront any perceived intrusions into its
+domain. With a height of 40 feet, it towers over even
+most giants, and is used to being the top-tier predator
+in the region.
+MEGAPRIMATUS
+CREATURE 8
+N
+GARGANTUAN
+ANIMAL
+Perception +15; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +14, Athletics +19
+Str +7, Dex +2, Con +5, Int –4, Wis +1, Cha +2
+AC 26; Fort +19, Ref +16, Will +13
+HP 150
+Speed 30 feet, climb 30 feet
+Melee Ȱɵ ﬁst +21 (agile, reach 20 feet), Damage 2d8+10 bludgeoning
+Melee Ȱɵ jaws +21 (reach 10 feet), Damage 2d10+10 piercing
+Mangling Rend ʚʖ A megaprimatus makes two ﬁst Strikes against the
+same target. If both hit, the attack deals an additional 2d6 bludgeoning
+damage, the target is ﬂat-footed, and the target takes a –20-foot status
+penalty to all Speeds until the end of its next turn.
+Terrifying Display ʚʖ (auditory, emotion, fear, mental) The megaprimatus
+beats its chest in a terrifying display. Creatures within 50 feet must attempt
+a DC 27 Will save. While a creature is frightened by this ability, it is ﬂat-footed to
+the megaprimatus and to gorillas.
+Critical Success No eﬀect and temporarily immune for 1 minute.
+Success The creature is unaﬀected.
+Failure The creature is frightened 1.
+Critical Failure The creature is frightened 2 and ﬂeeing until the end of its next turn.
+GIGANTOPITHECUS
+These ﬁerce kin of orangutans are
+three times heavier than a gorilla.
+They are level 4, with statistics
+roughly akin to an elite gorilla.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668876
+4425033
+
+PAGE 29
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668881
+4425038
+Bestiary
+28
+Legion Archon
+Despite their ﬂaming blades and heavy armor, legion archons are the diplomats of
+peace among the archons, preferring justice via compromise and mutual beneﬁt
+rather than justice by the sword. Nonetheless, when forced to ﬁght against ﬁendish
+powers—especially ﬁends that embody the sin of wrath—legion archons don’t
+hesitate in battle, mounting offensives under divine commanders like Iomedae.
+LEGION ARCHON
+CREATURE 7
+LG
+MEDIUM
+ARCHON
+CELESTIAL
+Perception +15; darkvision
+Languages Celestial, Draconic, Infernal; tongues
+Skills Acrobatics +13, Athletics +14, Diplomacy +16, Intimidation +16, Religion +13,
+Survival +14
+Str +5, Dex +2, Con +4, Int +1, Wis +2, Cha +5
+Items full plate
+AC 27; Fort +17, Ref +11, Will +15; +1 status to all saves vs. magic
+HP 100; Weaknesses evil 10; Resistances ﬁre 15
+Menacing Guardian (aura, divine, enchantment) As horned archon, but DC 23.
+Retributive Strike Ǻȓ A legion archon can also make a Retributive Strike by throwing
+its ﬂame of justice.
+Speed 30 feet, ﬂy 60 feet
+Melee Ȱɵ ﬂame of justice +18 (magical, versatile P), Damage
+2d10+5 slashing plus 1d6 ﬁre and 1d6 good
+Ranged Ȱɵ ﬂame of justice +15 (magical, range
+increment 30 feet, versatile P), Damage 2d10+5
+slashing plus 1d6 ﬁre and 1d6 good
+Divine Innate Spells DC 24; 4th dimension door (at
+will); 1st true strike (×3); Cantrips (4th) light,
+message; Constant (5th) tongues
+Archon’s Door As horned archon.
+Flame of Justice (divine, evocation)
+A
+legion
+archon’s
+spirit
+of
+righteousness manifests in its
+hands as a mighty two-handed
+sword
+called
+the
+ﬂame
+ARCHON AESTHETICS
+While archons do not seek to
+gather or maintain wealth, they
+do appreciate beauty and art, and
+their domains are often decorated
+with valuable crafts and creative
+works. Their armor and weapons
+are similarly ornate, and they
+always clean and polish their gear
+after battle. Archons value order—
+and thus tidiness—in all things.
+of justice. A legion archon can throw its ﬂame of justice as a ranged weapon. If
+disarmed or thrown, the ﬂame of justice vanishes after landing or dealing damage
+and reappears in the legion archon’s hands again instantly. On a critical hit, the ﬁre
+damage from the ﬂame of justice deals maximum damage (6 on the d6) before being
+doubled for the critical hit, and the target takes 1d10 persistent ﬁre damage.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668881
+4425038
+
+PAGE 206
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669058
+4425215
+H-K
+205
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+HELL HOUND MINIONS
+On the Material Plane, these ﬁends
+are sometimes found in the service
+of ﬁre-loving monsters such as
+ﬁre giants or efreet, as well as
+mortals who seek to tame some of
+the raw power of Hell. In Cheliax,
+Hellknights occasionally call
+upon hell hounds to track down
+fugitives and traitors.
+Hell Hound
+Hell hounds are ﬁendish, extraplanar canines hailing from the pit that can hunt
+down quarry and breathe supernatural gouts of ﬂame. They are temperamental
+and quick to aggressive behavior.
+Hell Hound
+A hell hound’s appearance dismisses any doubts as to its infernal origins—ﬂesh
+the color of burning pitch, teeth as sharp as any ﬁend’s pitchfork, and a shroud of
+ever-burning hellﬁre are all trademark features.
+HELL HOUND
+CREATURE 3
+LE
+MEDIUM
+BEAST
+FIEND
+FIRE
+Perception +9; darkvision, scent (imprecise) 60 feet
+Languages Infernal (can’t speak any language)
+Skills Acrobatics +8, Athletics +9, Stealth +8, Survival +9 (+11 to Track)
+Str +4, Dex +3, Con +2, Int –2, Wis +2, Cha –2
+AC 19; Fort +9, Ref +10, Will +7
+HP 40; Immunities ﬁre; Weaknesses cold 5
+Speed 40 feet
+Melee Ȱɵ jaws +13 (magical), Damage 1d8+4 piercing plus 1d6
+evil and 1d6 ﬁre
+Breath Weapon Ȱɵ (divine, evocation, ﬁre) The hell hound
+breathes ﬂames that deal 4d6 ﬁre damage to all creatures
+in a 15-foot cone (DC 19 basic Reﬂex save). The hell hound
+can’t use Breath Weapon again for 1d4 rounds. If the hell
+hound would take ﬁre damage or be targeted by a ﬁre eﬀect,
+its Breath Weapon recharges.
+Nessian Warhound
+Believed to be bred by the Prince of Darkness himself within
+vast kennels in the infernal realm of Nessus, Nessian
+warhounds are the favored guards and hunting hounds of
+powerful ﬁends and, rarely, those mortals who worship
+them and have earned their favor.
+NESSIAN WARHOUND
+CREATURE 9
+LE
+LARGE
+BEAST
+FIEND
+FIRE
+Perception +19; darkvision, scent (imprecise) 120 feet
+Languages Infernal (can’t speak any language)
+Skills Acrobatics +18, Athletics +19, Stealth +18, Survival +20
+(+22 to Track)
+Str +6, Dex +5, Con +5, Int –2, Wis +4, Cha –2
+AC 28; Fort +21, Ref +19, Will +16
+HP 150; Immunities ﬁre; Weaknesses cold 10
+Hellish Revenge Ǻȓ Trigger The Nessian warhound is
+critically hit by any Strike. Eﬀect The Nessian warhound’s
+Breath Weapon recharges. It can immediately use it as
+part of this reaction.
+Speed 40 feet
+Melee Ȱɵ jaws +21 (magical), Damage 2d8+6
+piercing plus 1d6 evil and 2d6 ﬁre
+Breath Weapon Ȱɵ (divine, evocation, ﬁre) The
+warhound breathes ﬂames that deal 10d6 ﬁre damage to all
+creatures in a 15-foot cone (DC 28 basic Reﬂex save.) The
+warhound can’t use Breath Weapon again for 1d4 rounds. If
+the Nessian warhound would take ﬁre damage or be targeted
+by a ﬁre eﬀect, its Breath Weapon recharges.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669058
+4425215
+
+PAGE 208
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669060
+4425217
+H-K
+207
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+LIVING WITH HOBGOBLINS
+With few exceptions, the only
+non-goblinoids in a hobgoblin
+settlement or army are slaves
+(or at least regarded as such).
+Hobgoblins occasionally make use
+of bugbears as assassins or spies,
+and most hobgoblin tribes include
+a small group of goblins who eke
+out a meager existence on the
+fringes of hobgoblin society.
+Hobgoblin Archer
+Bands of hobgoblin soldiers typically have at least one archer among their ranks.
+In smaller groups, the hobgoblin archer also serves as that band’s captain.
+HOBGOBLIN ARCHER
+CREATURE 4
+LE
+MEDIUM
+GOBLIN
+HUMANOID
+Perception +10; darkvision
+Languages Common, Goblin
+Skills Acrobatics +8, Athletics +8, Stealth +10
+Str +2, Dex +4, Con +2, Int +0, Wis +2, Cha –1
+Items crossbow (20 bolts), scale mail, shortsword
+AC 23; Fort +10, Ref +12, Will +8
+HP 50
+Formation As hobgoblin soldier.
+Speed 25 feet
+Melee Ȱɵ shortsword +12 (agile, versatile S), Damage 1d6+4 piercing
+Ranged Ȱɵ crossbow +14 (range increment 120 feet, reload 1), Damage 1d8+2 piercing
+plus crossbow precision
+Crossbow Precision [The ﬁrst time the archer hits with a crossbow attack in a
+round, it deals 1d8 extra precision damage.
+Perfect Aim The hobgoblin archer ignores the concealed condition. Their
+targets don’t beneﬁt from lesser cover, and they reduce the AC bonus from
+standard cover by 2 against the hobgoblin archer’s attack.
+Running Reload Ȱɵ The archer Strides, Steps, or Sneaks, then Interacts
+to reload.
+Hobgoblin General
+Hobgoblin generals serve as leaders of entire armies and rulers of hobgoblin
+settlements. A general does not permit the luxuries of rule to soften them. They
+lead their forces on the ﬁeld of battle and view this opportunity to excel in a
+ﬁght at the head of an army as the true reward for a life spent honing one’s skills
+in battle.
+HOBGOBLIN GENERAL
+CREATURE 6
+LE
+MEDIUM
+GOBLIN
+HUMANOID
+Perception +13; darkvision
+Languages Common, Goblin
+Skills Acrobatics +12, Athletics +15, Intimidation +14, Stealth +12
+Str +4, Dex +3, Con +2, Int +0, Wis +1, Cha +2
+Items composite shortbow (20 arrows), +1 glaive, half plate
+General’s Cry When a hobgoblin general rolls initiative, as long as they
+can perceive at least one foe, they can yell a mighty battle cry. The
+hobgoblin general attempts an Intimidate check to Demoralize
+a single foe within 60 feet as a free action. If successful, any
+ally with the goblin trait can, as its first action on its first
+turn of the combat, Stride up to double its speed as a
+single action.
+AC 25; Fort +12, Ref +15, Will +13
+HP 90
+Formation As hobgoblin soldier.
+Speed 25 feet
+Melee Ȱɵ glaive +17 (deadly 1d8, forceful, reach),
+Damage 1d8+10 slashing
+Ranged Ȱɵ composite shortbow +15 (brutal, deadly 1d10, propulsive, range increment
+60 feet, reload 0), Damage 1d6+8 piercing
+Polearm Critical Specialization On a critical hit, the target of the critical hit is moved
+5 feet in a direction of the hobgoblin general’s choice.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669060
+4425217
+
+PAGE 209
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669061
+4425218
+Bestiary
+208
+SOULBOUND HOMUNCULI
+Most homunculi use a dose of
+their creator’s blood as their spark
+of life, but it’s possible to use a
+technique similar to that used in
+the crafting of a soulbound doll
+(page 306) to give a homunculus
+a personality and the semblance
+of life. These homunculi gain the
+soulbound trait, can speak, and do
+not have a special link to a creator,
+yet the process tends to warp
+the soul used so that, more often
+than not, what rises in the new
+homunculus body is a parody of
+its prior life. As such, soulbound
+homunculi are generally created by
+cruel spellcasters as a method
+of humiliating and tormenting
+vanquished enemies.
+Homunculus
+A homunculus is a tiny servitor construct created by a crafter to serve as a spy,
+scout, messenger, or assistant. When a crafter ﬁrst begins to study the art of
+creating constructs, she often crafts a homunculus ﬁrst, since the creation process
+is simple and inexpensive due to a magical shortcut: the use of the creator’s own
+blood. This forges a link between the homunculus and its master, causing the
+homunculus to gain a spark of the creator’s intellect, as well as the same moral
+values and some of the creator’s basic personality traits. Homunculi left to their
+own devices never stray far from their masters.
+In most cases, a homunculus doesn’t survive the death of its master for long.
+Deprived of its creator, a homunculus loses focus and grows increasingly
+self-destructive, and some even end up battering themselves to destruction. Rarely,
+a homunculus with a slain master survives the trauma with its mind intact, often
+seeing itself as its deceased creator’s child or successor and attempting to further
+its creator’s legacy as best it can. In such cases, and if the
+homunculus was in close proximity to its master upon that
+creature’s death, a portion of the dead master’s soul “infects” the
+surviving homunculus as it passes on to the afterlife. This doesn’t result
+in a truly soulbound homunculus (see sidebar), since only a fragment of
+the soul is left behind, but this is still enough to grant the homunculus a
+greater personality, free will of its own, and perhaps most importantly, the
+ability to speak. Over time, a few of these “awakened” homunculi even go
+so far as to become convinced that they are the reincarnation of their prior
+masters, although their actual personalities never quite reach the depth and
+complexity of a truly living creature. They are, at best, caricatures of the master,
+and at worst they become awful, bitter-minded parodies of life itself. Still, a
+free-willed homunculus might pursue studies in its creator’s class, becoming
+a unique creature with the abilities of that class if time and fortune permit.
+Homunculi are created from a mixture of clay, ash, mandrake root,
+spring water, and a pint of the creator’s own blood. It is possible
+for a separate donor to provide the blood, but the process is
+more difﬁcult.
+HOMUNCULUS
+CREATURE 0
+N
+TINY
+CONSTRUCT
+Perception +3; darkvision
+Languages Common (can’t speak any language); master
+link
+Skills Acrobatics +5, Stealth +5
+Str –1, Dex +3, Con +0, Int +0, Wis +1, Cha –2
+Master Link (arcane, divination, mental) A homunculus can’t speak, but it
+is telepathically linked to its creator. It can share information back and
+forth, including its master’s knowledge and everything the homunculus
+hears. The range of this link is 1,500 feet. The homunculus adopts the
+same alignment as its creator and is utterly faithful. If the homunculus
+is destroyed, the master takes 2d10 mental damage. If the master is slain,
+the homunculus becomes mindless, claims its current location as its lair, and
+instinctively attacks anyone who comes near.
+AC 17; Fort +2, Ref +7, Will +3
+HP 17; Immunities bleed, death eﬀects, disease, doomed, drained, fatigued, healing,
+necromancy, nonlethal attacks, paralyzed, poison, sickened, unconscious
+Speed 15 feet, ﬂy 40 feet
+Melee Ȱɵ jaws +7 (ﬁnesse, magical), Damage 1d4 piercing plus homunculus poison
+Homunculus Poison (poison); A homunculus has one dose of poison in a reservoir in its
+head. It can reﬁll this poison from its reserves with an Interact action. Saving Throw
+DC 15 Fortitude; Maximum Duration 6 rounds; Stage 1 1d6 poison and enfeebled 1
+(1 round)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669061
+4425218
+
+PAGE 210
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669062
+4425219
+H-K
+209
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GOBLINS AND HORSES
+Goblins have many superstitions
+and quirks, but few of them are
+stronger than their fear and
+hatred of horses. This isn’t a
+one-sided aﬀair. Horses also fear
+and hate goblins, and some have
+been known to go out of their
+way to harm a goblin. A goblin
+trying to mount a horse is nearly
+always subject to a torrent of
+violent bucking, as the horse
+does everything in its power to
+ﬂing the goblin to the ground and
+within reach of its hooves.
+Horse
+Horses serve as mounts and beasts of burden in many societies. They are
+loyal and typically gentle creatures, and they are invaluable to those looking
+to travel long distances. Smaller folk, like gnomes and halﬂings, often utilize
+ponies as mounts, while horses are the favored steeds for humans and other
+Medium humanoids. Most horses that the average humanoid encounters are
+domesticated, though large herds of these powerful animals can be found in
+the wild.
+RIDING PONY
+CREATURE 0
+N
+MEDIUM
+ANIMAL
+Perception +4; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +4, Athletics +7
+Str +3, Dex +2, Con +3, Int –4, Wis +2, Cha +0
+AC 14; Fort +7, Ref +4, Will +4
+HP 16
+Buck Ǻȓ DC 15
+Speed 35 feet
+Melee Ȱɵ hoof +5, Damage 1d4+3 bludgeoning
+Gallop ʚʖ The riding pony Strides twice. It has a +10-foot circumstance bonus to its
+Speed during these Strides.
+RIDING HORSE
+CREATURE 1
+N
+LARGE
+ANIMAL
+Perception +5; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +6, Athletics +7
+Str +4, Dex +3, Con +4, Int –4, Wis +2, Cha –1
+AC 16; Fort +9, Ref +6, Will +5
+HP 22
+Buck Ǻȓ DC 16
+Speed 40 feet
+Melee Ȱɵ hoof +7, Damage 1d6+4 bludgeoning
+Gallop ʚʖ As riding pony.
+WAR PONY
+CREATURE 1
+N
+MEDIUM
+ANIMAL
+Perception +5; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +7, Athletics +7
+Str +4, Dex +4, Con +3, Int –4, Wis +2, Cha +0
+AC 16; Fort +8, Ref +7, Will +5
+HP 20
+Buck Ǻȓ DC 16
+Speed 35 feet
+Melee Ȱɵ hoof +7, Damage 1d4+4 bludgeoning
+Gallop ʚʖ As riding pony.
+WAR HORSE
+CREATURE 2
+N
+LARGE
+ANIMAL
+Perception +6; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +7, Athletics +11
+Str +5, Dex +3, Con +4, Int –4, Wis +2, Cha –2
+AC 17; Fort +8, Ref +7, Will +6
+HP 36
+Buck Ǻȓ DC 17
+Speed 40 feet
+Melee Ȱɵ hoof +9, Damage 1d6+5 bludgeoning
+Gallop ʚʖ As riding pony.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669062
+4425219
+
+PAGE 212
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669064
+4425221
+H-K
+211
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+HYENA LEGENDS
+The hyena’s intense cunning,
+combined with its unnerving
+laughter, has caused hyenas to
+become associated with all manner
+of evil—hyenas are claimed to rob
+graves, steal children, and wield
+sinister supernatural powers.
+Though normal hyenas are no
+more malicious than any other
+natural predator, their unearned
+reputation often causes witches,
+warlords, and ill-natured creatures
+to seek out hyenas as pets or
+guard animals. The fact that
+gnolls in particular have a special
+preference for hyenas, considering
+the animals to be close relatives,
+does little to improve the animal’s
+already-poor reputation.
+Hyena
+Hyenas are pack-hunting scavengers known for their unnerving, laughter-like
+cries, and they aren’t above supplementing their carrion diets with fresh prey.
+Hyena
+Hyenas are cunning, powerfully built carnivores that bear a heavy resemblance
+to dogs and other canines, though they are not themselves canines. Though all
+hyenas are often maligned as cowardly carrion eaters, their tactics depend on
+their speciﬁc breed: spotted hyenas are active pack hunters that kill most of
+their prey themselves, while striped and brown hyenas are more likely to be
+scavengers. Their jaws are exceptionally powerful, allowing hyenas to seize a
+victim and pull it to the rest of the pack.
+HYENA
+CREATURE 1
+N
+MEDIUM
+ANIMAL
+Perception +6; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +6, Athletics +7, Stealth +6
+Str +3, Dex +3, Con +2, Int –4, Wis +1, Cha –2
+AC 16; Fort +7, Ref +8, Will +4
+HP 20
+Speed 40 feet
+Melee Ȱɵ jaws +8, Damage 1d8+3 piercing plus Knockdown
+Drag Ȱɵ The hyena makes a jaws Strike against a prone enemy. If it hits, in addition to
+dealing damage, the hyena Strides up to 10 feet, dragging the enemy along.
+Pack Attack The hyena deals an extra 1d4 damage to any creature that’s within reach of
+at least two of the hyena’s allies.
+Hyaenodon
+Hyaenodons
+are
+the
+ferocious
+primeval cousins of the smaller hyena.
+Looming,
+shaggy-furred
+creatures
+nearly the size of a horse, hyaenodons
+are truly formidable predators to be
+reckoned with, due both to their
+size and to their bone-crushing
+jaws. Gnoll clans ﬁnd these
+creatures particularly useful as
+mounts and guardians.
+HYAENODON
+CREATURE 3
+N
+LARGE
+ANIMAL
+Perception +9; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +8, Athletics +12, Stealth +8
+Str +5, Dex +3, Con +3, Int –4, Wis +2, Cha –2
+AC 19; Fort +10, Ref +8, Will +7
+HP 45
+Speed 40 feet
+Melee Ȱɵ jaws +12, Damage 1d10+5
+piercing plus Knockdown and
+bonecrunching bite
+Bonecrunching Bite A creature
+that is critically hit by a
+hyaenodon must succeed at a DC 20 Fortitude save or become wounded 1 as the
+creature’s bones or cartilage are crushed by the beast’s jaws.
+Drag Ȱɵ As hyena.
+Pack Attack The hyaenodon deals an extra 1d6 damage to any
+creature within reach of at least two of the hyaenodon’s allies.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669064
+4425221
+
+PAGE 213
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669065
+4425222
+Bestiary
+212
+“WE ARE DRAGONS!”
+Kobolds consider themselves
+scions of dragonkind, and they
+are extremely proud of this
+purported heritage, no matter
+how laughable other creatures
+might consider these claims.
+Despite such skepticism, kobolds
+share more than a superﬁcial
+resemblance to true dragons, with
+scale colorations closely matching
+the colors seen among chromatic
+dragonkind. Some kobolds
+develop a strong propensity
+toward powerful draconic magic
+and manifest these chromatic
+traits with more intensity. These
+so-called dragon mages are highly
+respected by other kobolds, and
+often rise to leadership positions
+within the tribe.
+Kobold
+Kobolds are small, reptilian humanoids who carry physical similarities to true
+dragons. They lurk in dark spaces, usually tunnels and mines beneath the earth, in
+either warrens of their own design or complexes discovered and colonized after
+the original builders have moved on. Though kobolds are far more pragmatic
+than they are courageous, they use every inch of their cunning to even the playing
+ﬁeld between themselves and other, stronger creatures. They attack from the
+darkness and at range, and kobold artiﬁcers and engineers master the art of
+simple but effective traps, which they use to protect their lairs. Kobolds are skilled
+at working together by necessity, and they often set up ambushes or hit-and-run
+assaults that allow them to do the most damage possible without being harmed
+in return.
+Kobolds are diligent and hardworking creatures, though they often turn these
+virtues toward selﬁsh ends. While some kobolds live in communal collectives that
+maintain neutral relations with the creatures around them, they can be easily
+swayed into serving malevolent powers or megalomaniac leaders. This is in part
+due to kobolds’ innate pragmatism, as they would rather concede to servitude
+than risk being killed, but it is also in part due to a reverence for the power that
+kobolds generally lack. Dragons in particular are viewed with a deferential awe,
+and kobolds eagerly offer their services to such mighty and glorious creatures
+when they can. While kobolds may scheme against other leaders, especially those
+that control them via subjugation, dragons are usually viewed with adoration, no
+matter how brutal they might be to their kobold minions.
+Kobold Warrior
+The typical kobold trains with agile weaponry, favoring the light pick for
+its use in crafting new tunnels to expand their domains through
+underground reaches. Kobolds are capable of landing
+sneaky strikes against unsuspecting foes but are just as
+quick to scamper off to safety when they don’t, as a
+group, outnumber their enemies at least two to one.
+KOBOLD WARRIOR
+CREATURE –1
+LE
+SMALL
+HUMANOID
+KOBOLD
+Perception
++3;
+darkvision
+Languages Draconic
+Skills Acrobatics +5, Craft
++2 (+4 traps), Stealth +5
+Str +1, Dex +3, Con +0, Int +0, Wis +1,
+Cha –1
+Items leather armor, sling (20 bullets), spear
+AC 16; Fort +4, Ref +7, Will +3
+HP 8
+Speed 25 feet
+Melee Ȱɵ spear +3, Damage 1d6+1 piercing
+Ranged Ȱɵ sling +5 (propulsive, range increment 50 feet,
+reload 1), Damage 1d4 bludgeoning
+Ranged Ȱɵ spear +5 (thrown 20 feet), Damage 1d6+1 piercing
+Hurried Retreat Ȱɵ Requirements The kobold warrior
+is adjacent to at least one enemy. Eﬀect The kobold
+warrior Strides up to its Speed plus 5 feet and gains a
++2 circumstance bonus to AC against reactions triggered
+by this movement. It must end this movement in a space
+that’s not adjacent to any enemy.
+Sneak Attack The kobold warrior deals an extra 1d4
+precision damage to ﬂat-footed creatures.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669065
+4425222
+
+PAGE 214
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669066
+4425223
+H-K
+213
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DIABOLIC KOBOLDS
+Certain kobold tribes eschew any
+concept of draconic lineage entirely
+and instead place their faith in the
+archdevils of Hell. These diabolist
+kobolds view those of their kind
+who simper at the feet of dragons
+as pathetic wretches. That they
+perform the same fearful worship
+to their chosen devil does not strike
+these infernally minded kobolds as
+an irony at all.
+Kobold Scout
+Most kobolds encountered outside of a well-defended warren or lair are kobold
+scouts, creatures trained for stalking and the hunt.
+KOBOLD SCOUT
+CREATURE 1
+LE
+SMALL
+HUMANOID
+KOBOLD
+Perception +8; darkvision
+Languages Common, Draconic
+Skills Acrobatics +7, Crafting +3 (+5 traps), Nature +6, Stealth +7, Survival +6
+Str +0, Dex +4, Con +1, Int +0, Wis +3, Cha +1
+Items crossbow (20 bolts), leather armor, shortsword, snare kit
+AC 18; Fort +5, Ref +9, Will +6
+HP 16
+Speed 25 feet
+Melee Ȱɵ shortsword +9 (agile, ﬁnesse, versatile S), Damage 1d6 piercing
+Ranged Ȱɵ crossbow +9 (range increment 120 feet, reload 1), Damage 1d8 piercing
+Hurried Retreat Ȱɵ As kobold warrior.
+Sneak Attack The kobold scout deals an extra 1d6 precision damage to ﬂat-footed
+creatures.
+Kobold Dragon Mage
+Kobold dragon mages use magic to carry out their secret schemes. The
+presence of a dragon mage in a kobold warren is one of the greatest
+testaments to the kobolds’ claim to draconic heritage.
+KOBOLD DRAGON MAGE
+CREATURE 2
+LE
+SMALL
+HUMANOID
+KOBOLD
+Perception +5; darkvision
+Languages Common, Draconic
+Skills Arcana +6, Dragon Lore +10, Deception +8, Diplomacy
++8, Intimidation +8, Stealth +7
+Str –1, Dex +3, Con +0, Int +2, Wis +1, Cha +4
+Items staﬀ
+AC 17; Fort +4, Ref +7, Will +7
+HP 25; Resistances poison 5 (see dragonscaled)
+Dragonscaled A kobold dragon mage’s resistance depends on the color of
+its scales: Black acid 5, Blue electricity 5, Green poison 5, Red ﬁre 5,
+White cold 5.
+Speed 25 feet
+Melee Ȱɵ claw +7 (agile, ﬁnesse), Damage 1d6–1 slashing
+Melee Ȱɵ staﬀ +3 (two-hand d8), Damage 1d4–1 bludgeoning
+Arcane Spontaneous Spells DC 20; 1st (4 slots) fear, illusory
+object, magic missile; Cantrips (1st) detect magic, electric arc,
+ghost sound, mage hand, tanglefoot
+Illusory Retreat ̂ˬ (arcane, illusion, manipulate, move);
+Frequency once per hour; Requirements The kobold
+dragon mage is adjacent to at least one enemy. Eﬀect
+The dragon mage creates an illusion of itself in its
+square and then becomes invisible (with
+the eﬀects of a 2nd-level invisibility
+spell) for 1d4 rounds. The dragon mage
+can move up to half its Speed, but it
+must end its movement in a space that’s not
+adjacent to any enemies. This is a 1st-level spell that requires a
+somatic component.
+Sneak Attack The dragon mage deals an extra 1d6 precision damage to ﬂat-footed
+creatures.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669066
+4425223
+
+PAGE 308
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669160
+4425317
+S-T
+307
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+OTHER GIANT SPIDERS
+A staggering number of species
+of giant spider exist in the world.
+Some, like the dream spider,
+whose venom creates strange
+hallucinations, are relatively small.
+Others, like the lumbering ogre
+spider, are larger than horses.
+Hunting Spider Venom (poison); Saving Throw Fortitude DC 16; Maximum Duration 6 rounds;
+Stage 1 1d10 poison and ﬂat-footed (1 round); Stage 2 1d12 poison, clumsy 1, and ﬂat-footed
+(1 round); Stage 3 2d6 poison, clumsy 2, and ﬂat-footed (1 round).
+Web Trap A creature hit by the hunting spider’s web attack is immobilized and stuck to
+the nearest surface until it Escapes (DC 17).
+Giant Tarantula
+Tarantulas are ambush predators, but will attack prey in the open.
+GIANT TARANTULA
+CREATURE 6
+N
+LARGE
+ANIMAL
+Perception +14; darkvision
+Skills Acrobatics +9, Athletics +16, Stealth +11
+Str +6, Dex +1, Con +5, Int –5, Wis +2, Cha –4
+AC 21; Fort +15, Ref +13, Will +10
+HP 135
+Speed 30 feet, climb 30 feet
+Melee Ȱɵ fangs +17, Damage 2d8+8 piercing plus giant tarantula venom
+Melee Ȱɵ leg +17 (reach 10 feet), Damage 1d12+8 bludgeoning plus Knockdown
+Hair Barrage ʚʖ The tarantula ﬂicks its legs, ﬂinging spiky hairs in a 15-foot cone.
+This deals 4d6 piercing damage with a DC 25 basic Reﬂex save.
+Giant Tarantula Venom (poison); Saving Throw Fortitude DC 23; Maximum Duration
+8 rounds; Stage 1 1d6 poison (1 round); Stage 2 1d6 poison, ﬂat-footed, and clumsy
+1 (1 round); Stage 3 1d6 poison, ﬂat-footed, and clumsy 2; Stage 4 1d6 poison and
+paralyzed (1 round).
+Goliath Spider
+Goliath spiders dwell in the deepest jungles, where they build webs as big as
+temples and feast on prey as large as hippopotami.
+GOLIATH SPIDER
+CREATURE 11
+N
+GARGANTUAN
+ANIMAL
+Perception +22; darkvision, web sense
+Skills Acrobatics +18, Athletics +23, Stealth +22
+Str +8, Dex +5, Con +7, Int –5, Wis +3, Cha –4
+Web Sense As spider swarm.
+AC 30; Fort +25, Ref +21, Will +17
+HP 220
+Spring Upon Prey Ǻȓ (attack) As hunting spider.
+Speed 45 feet, climb 30 feet
+Melee Ȱɵ fangs +24 (reach 10 feet), Damage 2d12+12 piercing plus
+goliath spider venom
+Ranged Ȱɵ web +22 (range increment 60 feet), Eﬀect web tether
+Descend on a Web Ȱɵ (move) As hunting spider, but the
+goliath spider can descend 120 feet and the web has AC
+20, Hardness 5, and 20 HP.
+Goliath Spider Venom (incapacitation, poison); Saving
+Throw Fortitude DC 30; Maximum Duration 6 rounds;
+Stage 1 2d6 poison and slowed 1 (1 round); Stage 2 2d6 poison and
+slowed 2 (1 round); Stage 3 paralyzed for 2d4 hours.
+Web Tether A creature hit by the spider’s web Strike is
+restrained and tethered to the spider, preventing it from
+moving farther away from the spider. The spider can
+have one creature tethered at a time. The DC to
+Escape or Force Open the web is 30. The tether
+can be severed with a Strike (AC 20, Hardness 5,
+HP 20), but this doesn’t free the restrained creature.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669160
+4425317

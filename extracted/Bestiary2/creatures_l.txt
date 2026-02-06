@@ -1,0 +1,927 @@
+# Bestiary - Creatures: L
+# Count: 9 creatures
+
+
+================================================================================
+# LIVING THUNDERCLAP
+================================================================================
+
+Arc Lightning [(move, electricity, primal, transmutation) The spark bat transforms into
+lightning that arcs to a large piece of metal within 100 feet, such as a suit of metal
+armor or a metal weapon. The bat then returns to its normal form in a space adjacent
+to the metal. This movement doesn’t trigger reactions.
+LIVING THUNDERCLAP
+A living thunderclap is a humanoid-shaped storm cloud
+that cracks and booms with thunder.
+LIVING THUNDERCLAP
+CREATURE 4
+N
+MEDIUM
+AIR
+ELEMENTAL
+Perception +9; darkvision
+Skills Acrobatics +12, Stealth +12
+Languages Auran
+Str +3, Dex +4, Con +2, Int –3, Wis +1, Cha +0
+AC 22; Fort +10, Ref +12, Will +9
+HP 50; Immunities bleed, paralyzed, poison, sleep, sonic
+Speed ﬂy 50 feet; swiftness
+Melee Ȱɵ gust +14 (agile, ﬁnesse), Damage 2d6+6 bludgeoning plus Push
+5 feet
+Ranged Ȱɵ lightning bolt +14 (electricity, range increment 50 feet), Damage 2d12
+electricity
+Swiftness The living thunderclap doesn’t trigger reactions when it moves.
+Thunderbolt ʚʖ (electricity, evocation, primal, sonic) The living thunderclap emits a
+bolt of lightning that crashes with deafening thunder. The living thunderclap makes
+a lightning bolt Strike that deals 1d12 electricity damage. If it hits, the target and any
+creatures within a 15-foot emanation around the target take 2d6 sonic damage and
+must attempt a DC 18 basic Fortitude save. Any creature that fails its save is also
+deafened for 1d4 rounds.
+BELKER
+These reclusive elementals have glowing red eyes, leathery wings,
+and long, sharp claws. While they always retain their shape,
+belkers can control the solidity of their forms at will,
+transforming into clouds of smoke, ash, and dust.
+
+================================================================================
+# LIVING BOULDER
+================================================================================
+
+
+Bestiary 2
+LOOTING EARTH ELEMENTALS
+Earth elementals sometimes have
+valuable gemstones or minerals
+incorporated into their bodies,
+and once they are slain, these
+valuables can be scavenged as
+treasure. Gemstones, precious
+metals such as silver or gold ore,
+or rarer materials such as mithral
+or adamantine can be harvested
+from these creatures, although the
+more expensive finds tend to be
+incorporated into only the most
+powerful earth elementals.
+Elemental, Earth
+Certain earth elementals manifest as speciﬁc types of material, be they boulders,
+sand, or crystals.
+LIVING BOULDER
+Living boulders roll and glide through the Plane of Earth, gathering gemstones
+and metal shards until their surfaces resemble a ship’s hull covered in barnacles.
+Barely more intelligent than many animals, living boulders ﬁll much the same role
+on the Plane of Earth as the great herd animals found on Material Plane worlds.
+LIVING BOULDER
+CREATURE 2
+N
+SMALL
+EARTH
+ELEMENTAL
+Perception +6; darkvision, tremorsense 30 feet
+Skills Athletics +8, Stealth +5 (+7 in rocky areas)
+Str +4, Dex –1, Con +4, Int –4, Wis +2, Cha –1
+AC 17; Fort +10, Ref +5, Will +8
+HP 36; Immunities bleed, paralyzed, poison, sleep
+Speed 20 feet, burrow 20 feet; earth glide
+Melee Ȱɵ jaws +10, Damage 1d8+6 piercing
+Earth Glide A living boulder can Burrow through earthen matter, including rock.
+When it does so, it moves at its full burrow Speed, leaving no tunnels or signs
+of its passing.
+Rolling Charge ʚʖ The living boulder Strides twice, and can then make a Strike
+with its jaws. This jaws Strike gains Knockdown.
+EARTHEN DESTRIER
+This wave of dirt takes the crude likeness of the melded
+forequarters of a charging warhorse and a rocky knight
+wielding a rudimentary lance of gray stone.
+
+================================================================================
+# LENG SPIDER
+================================================================================
+
+
+WEB TEMPLES
+Leng spiders build complex lairs out
+of their webs, many of which serve a
+dual purpose as temples to the eldritch
+gods they venerate. Most Leng spiders
+worship deities of the Elder Mythos,
+such as Hastur, Nyarlathotep, or
+Yog-Sothoth, among others.
+Leng Spider
+The monstrous, bloated spiders from the windswept realm of Leng build eerie,
+dangerous lairs with the aid of magically compelled slaves. Leng spiders have
+anywhere from ﬁve to 13 legs, but never an even number.
+LENG SPIDER
+CREATURE 13
+UNCOMMON
+CE
+HUGE
+ABERRATION
+DREAM
+Perception +24; darkvision, detect magic, greater web sense
+Languages Aklo; tongues
+Skills Acrobatics +24, Athletics +27, Crafting +22 (+26 to make traps), Deception +22,
+Religion +24, Occultism +26, Stealth +26
+Str +6, Dex +7, Con +5, Int +7, Wis +5, Cha +5
+Greater Web Sense While touching its webs, the Leng spider has precise tremorsense to
+detect the vibrations of creatures touching its web.
+AC 34; Fort +22, Ref +26, Will +24; +1 status to all saves vs. magic
+HP 235, fast healing 10; Immunities cold, confused; Resistances poison 15, sonic 15
+Speed 40 feet, climb 40 feet; air walk
+Melee Ȱɵ web war ﬂail +27 (disarm, magical, reach 15 feet, sweep, trip), Damage 3d10+14
+bludgeoning
+Melee Ȱɵ fangs +27 (reach 10 feet), Damage 3d12+14 piercing plus
+Leng spider venom
+Melee Ȱɵ leg +27 (agile, reach 10 feet), Damage 3d8+14 slashing
+Ranged Ȱɵ web bola +28 (magical, nonlethal, ranged trip, thrown
+20 feet), Damage 2d6+14 bludgeoning
+Occult Innate Spells DC 33; 7th dispel magic, veil, warp
+mind; 6th illusory scene, mislead; 4th charm (×3),
+freedom of movement; Cantrips (7th) detect magic;
+Constant (7th) air walk, tongues
+Create Web Weaponry Ȱɵ (manipulate) The Leng spider
+creates a weapon by applying a cord of webbing to
+heavy objects, such as rocks or chunks of metal, either
+attaching two heavy objects together to create a web
+bola or fastening one to its leg to create a web war ﬂail.
+Descend on a Web Ȱɵ (move) The Leng spider moves
+straight down up to 120 feet, suspended by a web line. It can
+hang from the web or drop oﬀ. The distance it Descends
+on a Web doesn’t count when calculating falling
+damage. The web can be severed by a Strike that
+deals slashing damage (AC 30, Hardness 15,
+25 HP), causing the Leng spider to fall.
+Lay Web Trap Ȱɵ (manipulate) Frequency
+three times per day; Eﬀect The Leng spider
+spins a web within 20 feet of itself to
+create a grasping snare, stunning snare,
+or warning snare. The Leng spider’s web
+provides all the raw materials it needs. All
+save and Escape DCs associated with web
+traps use the Leng spider’s Crafting DC for traps
+(DC 36). A web trap decays after 24 hours.
+Leng Spider Venom (poison) Saving Throw DC 33
+Fortitude; Maximum Duration 6 rounds; Stage 1
+2d6 poison damage and drained 1 (1 round); Stage 2 2d6
+poison damage, confused, and drained 2 (1 round); the
+confused eﬀect has the emotion and mental traits.
+Ranged Trip A Leng spider can use a web bola to Trip a target
+with the Athletics skill. The skill check takes a –2 circumstance
+penalty. A web bola deals no damage when used to Trip.
+
+================================================================================
+PAGE 159
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868656
+4425168
+Bestiary 2
+158
+158
+POTS OF GOLD
+While it’s true that leprechauns
+typically return items they steal,
+they particularly love gold and often
+hoard gold coins and treasures in
+pots tucked away in hidden places.
+It’s rumored that a person who ﬁnds
+a gold coin in the forest and returns
+it to the leprechaun who dropped it
+will be granted a wish as a reward.
+Unfortunately, this rumor is false—a
+deception perpetrated by leprechauns
+to trick others into bringing them even
+more gold for their pots.
+Leprechaun
+Leprechauns are mostly jovial tricksters who prefer mischief over conﬂict. They
+ﬁll their days with as much fun, wine, and food as possible. Mostly found in
+forested regions, leprechauns respect nature and those who protect it.
+Leprechauns do not attack on sight. Rather, they engage in conversation and
+try to charm, cajole, or trick those they meet into doing favors for them or freely
+giving over a treasured item, usually in return for illusory wealth or false promises
+of wealth and success. These small tricksters are masters at discerning the desires of
+those they meet—a knack that puts them in a powerful position when bargaining
+for goods or favors. They aren’t above turning people against each other for their
+own beneﬁt but generally not to an extent that causes harm.
+In most cases, a leprechaun doesn’t keep a purloined possession for long. The
+leprechaun most often returns such stolen prizes just in time to defuse tensions,
+often as they point out the humor of the situation, hoping to share their amusement
+and mirth with the victim. In cases where a leprechaun’s trick goes too far and
+results in an incensed victim, the leprechaun quickly ﬂees the conﬂict rather
+than engage in combat. This willingness to return stolen goods or to ﬂee from
+battles fades as leprechauns grow older. Ancient leprechauns who have lived for
+thousands of years often spiral into dark bitterness and increasingly use their
+powers and illusions to lure those who offend them or fail to appreciate a
+joke into danger... or even death.
+LEPRECHAUN
+CREATURE 2
+CN
+SMALL
+FEY
+Perception +11; low-light vision
+Languages Common, Sylvan
+Skills Acrobatics +8, Deception +9, Gold Lore +7, Nature +7,
+Performance +9, Thievery +8
+Str +1, Dex +4, Con +1, Int +3, Wis +3, Cha +4
+AC 18; Fort +8, Ref +11, Will +10
+HP 25
+Speed 30 feet
+Melee Ȱɵ club +7, Damage 1d6+3 bludgeoning
+Primal Innate Spells DC 18, attack +10; 2nd illusory
+creature, illusory object, invisibility (self only);
+1st color spray, shillelagh, ventriloquism;
+Cantrips (2nd) dancing lights, ghost
+sound, mage hand, prestidigitation,
+telekinetic projectile
+Create
+Object
+ʚʖ
+(conjuration,
+manipulate, primal) Frequency three
+times per day; Eﬀect The leprechaun
+produces an item out of their hat,
+from behind their jacket, from within
+a hole in a tree stump, or from any other
+unexpected location. This conjured item must be no more than 1 Bulk
+and must be made of relatively commonplace material (such as cloth,
+wood, stone, or even low-value metal like iron or lead). It can’t rely on
+intricate artistry or complex moving parts, never fulﬁlls a
+Cost or the like, and can’t be made of precious materials
+or materials with a rarity of uncommon or higher. The
+created object is temporary and lasts for 1 hour or
+until the leprechaun creates a new item, whichever
+comes ﬁrst.
+Leprechaun Magic When a leprechaun uses their innate spells
+to deceive, trick, or humiliate a creature, the spell DC
+increases to 20 and the attack modiﬁer to +11.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868656
+4425168
+
+PAGE 160
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868657
+4425169
+L-N
+L-N
+159
+159
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+LERRITAN CAVALCADES
+Every few decades, lerritans gather in
+large bands to travel from one volcanic
+region to another, razing every sign
+of civilization they ﬁnd along the
+way. Lerritan cavalcades contain
+up to a dozen lerritans and their
+lackeys: crimson worms, powerful ﬁre
+elementals, and ﬁre giants.
+Lerritan
+Lerritans are unstoppable giants with skin of volcanic glass and blood of roiling
+lava. These malicious arsonists would see the world burned to a cinder. They pay
+homage to Ymeri, the evil elemental demigod of ﬁre, and they bully other ﬁery
+creatures. When the urge to immolate grows too great to ignore, lerritans burn
+forests, destroy villages, and boil rivers, but they avoid large bodies of water.
+LERRITAN
+CREATURE 21
+NE
+GARGANTUAN
+EARTH
+ELEMENTAL
+FIRE
+Perception +35; low-light vision
+Languages Common, Ignan, Jotun, Terran
+Skills Athletics +41, Crafting +33, Intimidation +35, Religion +36, Survival +38
+Str +10, Dex +5, Con +7, Int +2, Wis +7, Cha +4
+Items +3 greater striking warhammer
+AC 46; Fort +38, Ref +34, Will +36
+HP 490; Immunities ﬁre, paralyzed, poison, sleep; Weaknesses cold 20; Resistances
+piercing 20, slashing 20
+Tenacious Flames (aura, evocation, ﬁre, primal) 100 feet. Creatures in the emanation
+cannot recover from persistent ﬁre damage.
+Attack of Opportunity Ǻȓ
+Speed 50 feet
+Melee Ȱɵ warhammer +40 (magical, reach 25 feet, shove), Damage 4d12+18
+bludgeoning plus 2d6 persistent ﬁre damage
+Melee Ȱɵ jaws +39 (agile, reach 25 feet), Damage 4d10+18 piercing plus
+2d6 persistent ﬁre damage
+Ranged Ȱɵ rock +39 (brutal, range increment 120 feet), Damage
+4d6+18 bludgeoning plus 2d6 persistent ﬁre
+Primal Innate Spells DC 46; 10th cataclysm; 9th meteor swarm,
+ﬁreball; 8th earthquake; 7th plane shift (to the Material
+Plane, Plane of Fire, or Plane of Earth only); Cantrips (10th)
+produce ﬂame
+Throw Rock Ȱɵ A lerritan can break stony scales oﬀ its body to
+throw; these scales reform at the end of each round, so the
+lerritan is never without a supply of rocks to hurl.
+Volcanic Eruption ʚʖ (earth, evocation, ﬁre, primal) The volcano
+on the lerritan’s back erupts and sends lava bombs raining
+down in a 30-foot emanation, dealing 12d12 ﬁre damage.
+Each creature in the area must attempt a DC 46 Reﬂex
+saving throw. The lava globules quickly cool into heavy
+stones, transforming the area into greater diﬃcult
+terrain for non-lerritans. The lerritan can’t use
+Volcanic Eruption for 1d4 rounds.
+Critical Success The creature is unaﬀected.
+Success The creature takes half damage and is
+encumbered for 1 round.
+Failure The creature takes full damage and is immobilized
+(Escape DC 46).
+Critical Failure The creature takes double damage and is encased
+in a rocky crust with lava on
+the inside. The creature is
+restrained (Escape DC
+46), can’t breathe, takes
+3d12 persistent ﬁre
+damage, and can’t
+recover from this
+persistent ﬁre damage
+until freed.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868657
+4425169
+
+PAGE 161
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868658
+4425170
+Bestiary 2
+160
+160
+LESHY COMMUNITIES
+Leshys are fairly egalitarian when
+interacting with their own kind.
+Most communities are meritocracies,
+rewarding leshys who defend their
+communities and help each other
+succeed, and they see working together
+as the best path to a successful future.
+Leshy
+These intelligent plant creatures maintain complex societies in remote wildernesses
+and places of primal power. By working together, leshys help to defend powerful
+fey and druidic sites from interloping humanoids. They often have good relations
+with local fey and druidic orders but distrust most other humanoids.
+A primal spell caster, often a druid, can create a leshy by binding a nature spirit
+to a carefully crafted body grown from speciﬁc vegetation. The details of these
+rites vary based on the type of leshy, but all are carefully guarded secrets and tend
+to take place in sacred areas associated with nature or primal magic, such as a
+druid circle or dryad grove.
+SUNFLOWER LESHY
+Sunﬂower leshys are the ambassadors and social leaders of their kind.
+Their petals radiate from their heads in various hues with a
+serrated, leafy, beard-like ruff. When particularly excited, their
+eyes and petals glow with collected sunlight, and when they
+become depressed or saddened, their usually vibrant
+coloration grows correspondingly muted. These shifts
+in coloration are echoed in sunﬂower leshy art, which
+can lead to unexpected color palettes for artworks. For
+example, a human artist might illustrate Hell as a place
+of glowing lava and ﬂickering ﬂames, drawing upon
+many vibrant colors, but to a sunﬂower leshy, the only
+proper way to depict a place like Hell is in morose grays,
+blacks, and whites.
+The more adventurous sunﬂower leshys leave their
+communities to grow bonds with nearby settlements of
+humanoids. When interacting with humanoids,
+sunﬂower leshys are some of the most likely
+to act friendly and give strangers a chance to
+prove their good intentions, though they remain
+cautious. They’re often accompanied by other,
+more powerful leshys.
+SUNFLOWER LESHY
+CREATURE 1
+N
+SMALL
+LESHY
+PLANT
+Perception +7; darkvision
+Languages Common, Druidic, Sylvan; speak with plants (sunﬂowers only)
+Skills Acrobatics +6, Diplomacy +8, Nature +5, Stealth +7 (+9 in plains)
+Str +0, Dex +3, Con +1, Int +0, Wis +2, Cha +3
+AC 16; Fort +4, Ref +10, Will +7
+HP 20
+Heliotrope Ȳ˓ (aura, evocation, light, primal) 20 feet; Requirements The sunﬂower
+leshy begins its turn in an area of bright light; Eﬀect The sunﬂower leshy
+reﬂects the sun or another source of bright light from their face. Each
+creature that ends its turn in the emanation must attempt a DC 16 Will save.
+Success The creature is unaffected and is temporarily immune to heliotrope for
+24 hours.
+Failure The creature is distracted by the light, becoming ﬂat-footed for 1 round.
+Critical Failure As failure, but the creature is also dazzled for 1 round.
+Verdant Burst (healing) When a sunﬂower leshy dies, a burst of primal energy explodes
+from its body, restoring 1d8 Hit Points to each plant creature in a 30-foot emanation.
+This area immediately ﬁlls with sunﬂowers, becoming diﬃcult terrain. If the terrain is
+not a viable environment for these sunﬂowers, they wither after 24 hours.
+Speed 25 feet
+Melee Ȱɵ tendril +6 (agile, ﬁnesse), Damage 1d8 bludgeoning
+Ranged Ȱɵ seed +6 (range increment 20 feet), Damage 1d6 bludgeoning
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868658
+4425170
+
+PAGE 164
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868661
+4425173
+L-N
+L-N
+163
+163
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+LEYDROTH LEGACY
+On Golarion, the ﬁrst leydroths
+were created by a secret society of
+Azlanti sorcerers who drew their
+powers from elemental bloodlines.
+These sorcerers clashed often
+against various wizardly guilds who
+held power throughout the various
+regions of Azlant, and intended
+for leydroths to serve as weapons
+of terror against their foes. Today,
+leydroths remain isolated on certain
+particularly dangerous islands
+among the remnants of the shattered
+continent of Azlant, but now and
+then foolish explorers seek to
+transport them back to the mainland.
+Leydroth
+In ancient times, a cabal of primalists imbued an amalgam of beasts with both
+supernatural might and a hatred of magic itself, hoping to achieve a potent
+weapon for use against arcane spellcasters. Effective beyond expectation, the ﬁrst
+leydroths broke free and turned on their creators. Worse, the leydroths bred true,
+and these reclusive predators have long outlived their original creators.
+Leydroths look like distorted, apelike felines with many-branching horns growing
+from the backs of their heads. Their thickly muscled limbs end in glowing claws.
+LEYDROTH
+CREATURE 17
+UNCOMMON
+NE
+LARGE
+BEAST
+Perception +30; darkvision, magic sense (imprecise) 60 feet
+Languages Aklo
+Skills Acrobatics +32, Athletics + 33, Deception +28, Intimidation +28, Stealth +32,
+Survival +30
+Str +8, Dex +7, Con +9, Int –3, Wis +5, Cha +5
+Magic Sense (primal) The leydroth detects the source and school of
+each source of magic within 60 feet as an imprecise sense.
+AC 40, or 36 vs. non-magical; Fort +32, Ref +30, Will +28; +2 status
+to all saves vs. magic
+HP 315; Resistances all 15 (except
+non-magical)
+Menace to Magic Ǻȓ (abjuration,
+primal) Trigger A creature
+within 60 feet Casts a Spell;
+Eﬀect The leydroth attempts an
+Intimidation check to counteract
+the triggering spell.
+Speed 50 feet
+Melee Ȱɵ jaws +33 (magical, reach 10 feet),
+Damage 3d10+16 piercing plus 1d10 persistent bleed
+Melee Ȱɵ claw +33 (agile, magical, reach 10 feet),
+Damage 3d10+16 slashing
+Melee Ȱɵ horn sweep +33 (magical, reach 10 feet,
+sweep, versatile P), Damage 3d12+16 bludgeoning
+Primal Innate Spells DC 38; 9th disjunction (×2); 7th dispel
+magic (at will)
+Dispelling Roar ʚʖ (abjuration, auditory, emotion, fear,
+mental, primal) The leydroth unleashes a bestial roar
+that reverberates within a 30-foot emanation. It rolls
+an Intimidation check and compares the result to the
+Will DC of each creature in the area, with the eﬀects
+of Demoralize. It also uses this result to attempt
+to counteract each spell or magical eﬀect in the
+area, plus one item or eﬀect on each creature in
+the area, with the eﬀects of dispel magic. The
+leydroth can’t use Dispelling Roar again for
+1d4 rounds.
+Dispelling Strike Ȳ˓ (abjuration, primal) Frequency
+once per round; Trigger The leydroth hits a
+creature, object, or spell eﬀect with a Strike;
+Eﬀect The leydroth casts its innate dispel magic,
+targeting one eﬀect on the creature struck.
+Spell Feedback (primal) Any time a leydroth
+counteracts a spell or item, the spell’s caster
+or the creature holding the item takes 8d6
+mental damage (DC 38 basic Will save).
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868661
+4425173
+
+PAGE 165
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868662
+4425174
+Bestiary 2
+164
+164
+LINNORM LEGENDS
+Creatures as powerful as linnorms
+tend to spawn stories of their own,
+accurate or not. Critical failure on
+a check to Recall Knowledge on
+linnorms might suggest that you
+can avoid a linnorm’s death curse by
+closing your eyes as you deliver the
+fatal blow, or that rubbing poison
+oak on yourself can ward oﬀ a
+linnorm’s attention.
+Linnorm
+The powerful, serpentine beings known as linnorms may be distantly related
+to the more well-known chromatic and metallic dragons, but their draconic
+physiologies are where any such similarities end. Whereas true dragons boast
+incredible intellectual capabilities and far-reaching plans, linnorms are driven
+only by their insatiable hunger and desire to inﬂict cruelty on others. Linnorms
+are exceptionally difﬁcult to outwit due to their strong wills, and it’s not wise
+to try bargaining with them—when faced with one of these legendary beasts,
+one’s best option is ﬂight, pure and simple. Failing that, a noble death is a viable
+back-up plan.
+Extremely powerful linnorms dwell in remote parts of the world. One such
+creature is the legendary Fafnheir, the Father of All Linnorms, said to be the oldest
+and mightiest linnorm of them all. Fafnheir’s death curse causes anyone who
+would slay him to slowly erode away physically and mentally until they die, at
+which point the cursed victim’s body fuels Fafnheir’s resurrection.
+SHOAL LINNORM
+Shoal linnorms occupy rocky shoreline shallows and slither
+along lonely coastlines. While they do not intentionally seek
+out large settlements, these linnorms nonetheless beleaguer
+ﬁshers headed out from small coastal towns, and they may
+even follow skiffs back to their home port to appraise the
+town’s defenses and plan a raid. Shoal linnorms tend to hunt
+large prey, both underwater and on land. Their preferred
+quarries includes giant squid and grizzly bears—meals rich
+in fat, which the linnorms metabolize into the ﬁery steam that
+courses through their veins.
+SHOAL LINNORM
+CREATURE 15
+UNCOMMON
+CE
+GARGANTUAN
+AMPHIBIOUS
+DRAGON
+Perception +27; darkvision, scent (imprecise) 60 feet, true
+seeing
+Languages Aklo, Draconic, Sylvan
+Skills Acrobatics +28, Athletics +31, Stealth +28
+Str +8, Dex +5, Con +7, Int –3, Wis +6, Cha +7
+AC 38; Fort +29, Ref +25, Will +22; +1 status
+to all saves vs. magic
+HP 295, regeneration 10 (deactivated
+by cold iron); Immunities curse, ﬁre,
+paralyzed, sleep; Weaknesses cold iron 10
+Curse of Drowning (curse, primal, water)
+When a creature slays a shoal linnorm, it
+must succeed at a DC 38 Will save or become
+cursed. As long as the curse of drowning
+persists, the character must spend 3
+actions when drinking any liquid.
+Attempting to drink liquid
+faster causes the victim
+to
+begin
+drowning,
+immediately running out
+of air and falling unconscious.
+Attack of Opportunity Ǻȓ Tail only.
+Speed 35 feet, ﬂy 100 feet, swim 100
+feet; freedom of movement
+Melee Ȱɵ jaws +31 (magical, reach 20
+feet), Damage 3d12+16 piercing plus
+shoal linnorm venom
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868662
+4425174
+
+PAGE 171
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868668
+4425180
+Bestiary 2
+170
+170
+MANDRAGORA SUCKLINGS
+Sometimes a mandragora oﬀers its
+services to a spellcaster in exchange
+for sustenance. Tales tell of sorcerers
+or other magical creatures who keep
+mandragora “familiars” whose loyalty
+is sustained by feeding the little beasts
+with their own blood. These tales
+generally have gruesome endings
+wherein the mandragora is overcome
+with bloodlust and, unable to control
+itself, devours its master.
+Mandragora
+A mandragora looks like a freshly pulled tuber that has grown into the malformed
+shape of a child with a grotesque face and hideously bloated body. These insidious
+little plants typically form when a mandrake root is watered with a demon’s
+blood. Upon absorbing the otherworldly properties of the demon’s blood, the
+root animates and is forced to seek out blood to feast from, lest it die of thirst.
+Always famished and in search for sustenance, mandragoras live haunted, pained
+lives and perform vile and desperate acts to acquire the blood they crave. While
+they prefer magically infused blood such as that of unicorns, fey, or sorcerers, and
+they can also feed off of potions, alchemical bombs, and other magical elixirs,
+a mandragora can subsist on the blood of non-magical creatures. They ﬁnd the
+ﬂavor of mundane blood to be bland and bitter, and they do not blanch at voicing
+these complaints to the creatures from which they drink.
+While the typical mandragora is the size of a human child, some of these evil
+plants continue to grow and grow, reaching sizes more comparable to those of
+giants. Sometimes as they grow, they form additional limbs or rudimentary faces,
+eventually transforming into truly hideous mockeries of the human form.
+MANDRAGORA
+CREATURE 4
+CE
+SMALL
+PLANT
+Perception +11; blood scent, low-light vision
+Languages Abyssal, Common
+Skills Acrobatics +10, Athletics +10, Stealth +12 (+20 in vegetation)
+Str +2, Dex +5, Con +3, Int –1, Wis +2, Cha +0
+Blood Scent A mandragora can smell creatures with blood as an imprecise
+sense at a range of 30 feet, and it can smell demons, fey, and sorcerers
+with blood as a precise sense at a range of 30 feet.
+AC 21; Fort +11, Ref +13, Will +8
+HP 60; Weaknesses ﬁre 5; Resistances bludgeoning 5, electricity 5
+Vulnerability to Supernatural Darkness Whenever a mandragora
+begins its turn in an area of magical darkness, it is slowed 1 on
+that turn.
+Speed 30 feet, burrow 10 feet, climb 30 feet
+Melee Ȱɵ jaws +14 (ﬁnesse), Damage 2d8+4 piercing plus Grab
+Melee Ȱɵ thorny vine +14 (agile, ﬁnesse, reach 10 feet), Damage
+2d4+4 slashing plus mandragora venom
+Blood Drain Ȱɵ Requirements The mandragora has a creature
+grabbed; Eﬀect The mandragora drains blood from the creature it
+has grabbed, dealing 2d6 damage. If the creature is a demon, fey, or
+sorcerer, the mandragora gains temporary Hit Points equal to the
+damage dealt. A creature that has its blood drained by a mandragora
+is drained 1 until it receives healing of any kind or amount.
+Mandragora Venom (poison) Saving Throw DC 21 Fortitude;
+Maximum Duration 6 rounds; Stage 1 1d6 poison damage and
+stupeﬁed 1 (1 round); Stage 2 1d6 poison damage, confused, and
+stupeﬁed 1 (1 round); Stage 3 2d6 poison damage, confused, and
+stupeﬁed 1 (1 round)
+Piercing Shriek Ȱɵ (auditory, evocation, mental, primal) Frequency
+once per day; Eﬀect The mandragora emits an unsettling shriek.
+Each non-mandragora creature within 30 feet must attempt a
+DC 25 Will save.
+Critical Success The creature is unaﬀected.
+Success The creature is sickened 1.
+Failure The creature is sickened 2.
+Critical Failure The creature is sickened 2 and slowed 1. As
+long as the creature remains sickened, this slowed condition
+value can’t be reduced below 1.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868668
+4425180
+
+PAGE 180
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868677
+4425189
+L-N
+L-N
+179
+179
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+SPIRIT NAGA COVENS
+Like hags, spirit nagas occasionally
+form small groups of their own kind.
+They normally do this for mutual
+protection against a greater threat
+or to accomplish a goal that a single
+spirit naga cannot complete on their
+own. Sometimes, spirit nagas form
+a coven to bring groups of cultists
+together or take over a city or other
+large community, and in rare cases a
+spirit naga might even join a hag or
+witch coven.
+Lunar Naga Venom (poison, sleep) Saving Throw DC 24; Maximum Duration 6 rounds;
+Stage 1 stupeﬁed 1 (1 round); Stage 2 as stage 1 (1 round); Stage 3 stupeﬁed 2 (1 round);
+Stage 4 unconscious (1 round). Once a creature falls unconscious from lunar naga
+venom, they remain asleep for 1d8 hours unless woken.
+SPIRIT NAGA
+In naga culture, the foul-tempered, unkempt spirit naga holds a contemptible place
+similar to that of hags in humanoid cultures. These decrepit creatures live out lives
+of solitude, sought out only by those who are foolish or brave enough to think they
+can beneﬁt from the spirit naga’s powers without paying a heavy price—for most
+who dare to show such hubris, the price is their own lives.
+Spirit nagas seek out desolate ruins and places long associated with death and
+corruption. These sinister, serpentine beings can be found in abandoned graveyards,
+crumbled fortresses, rotting swamps, and blighted woodlands. Though they may
+know little of the actual history of such places, the nagas are nonetheless attracted to
+the psychic remnants of evil deeds and tormented spirits that remain within the earth
+and stones there.
+Despite their hideous appearance and treatment as pariahs by other nagas, spirit
+nagas feel a profound pride in their abilities and even in their hermetic existences.
+They see themselves as connected to a greater force whose mysteries are
+revealed only to those who can cast off the trappings and morals of
+“civilized” society. Even so, spirit nagas gleefully accept the worship
+of other creatures willing to bow to their capricious whims. They
+often form cults around themselves, using their charm spells and
+rituals to ensnare the minds of a few key individuals who spread
+the nagas’ foul inﬂuence throughout a community.
+SPIRIT NAGA
+CREATURE 9
+UNCOMMON
+NE
+LARGE
+ABERRATION
+Perception +18; darkvision
+Languages Aklo, Common
+Skills Acrobatics +18, Athletics +16, Deception +17,
+Intimidation +19, Occultism +20, Stealth +20
+Str +3, Dex +4, Con +3, Int +1, Wis +3, Cha +5
+Coven A spirit naga adds hallucination, mind probe, and
+suggestion to their coven’s spells.
+AC 28; Fort +15, Ref +20, Will +18
+HP 160
+Speed 25 feet, swim 15 feet
+Melee Ȱɵ fangs +19 (agile, ﬁnesse), Damage 2d8+9 piercing
+plus spirit naga venom
+Occult Spontaneous Spells DC 28, attack +20;
+5th (3 slots) black tentacles, sending,
+subconscious suggestion; 4th (4 slots)
+clairvoyance, confusion, ﬂy, modify
+memory; 3rd (4 slots) dream
+message, mind reading, paralyze,
+vampiric touch; 2nd (4 slots) blur,
+humanoid form, mirror image,
+telekinetic maneuver; 1st (4 slots)
+charm, command, grim tendrils,
+unseen servant; Cantrips (5th) daze,
+detect magic, mage hand, read aura, sigil
+Rituals DC 28; inveigle
+Spirit Naga Venom (poison) Saving Throw DC 28; Maximum Duration 6
+rounds; Stage 1 2d6 poison damage and stupeﬁed 1 (1 round); Stage 2 2d6
+poison damage and stupeﬁed 2 (1 round)
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868677
+4425189

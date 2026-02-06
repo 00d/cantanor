@@ -1,0 +1,4548 @@
+# Bestiary - Creatures: G
+# Count: 54 creatures
+
+
+================================================================================
+# GIANT ANIMATED STATUE
+================================================================================
+
+Giant Animated Statue
+As with any humanoid animated statues of Medium size, giant animated statues
+are used to guard locations of importance, but their increased size and power
+make them most useful in large vaults, spacious chambers, or outdoor locations.
+Animated objects of this strength and size are ideal for tasks and responsibilities
+usually performed by golems, and more powerful animated objects are thus all
+but unheard of.
+GIANT ANIMATED STATUE
+CREATURE 7
+N
+HUGE
+CONSTRUCT
+EARTH
+MINDLESS
+Perception +13; darkvision
+Skills Athletics +17
+Str +6, Dex –1, Con +6, Int –5, Wis +0, Cha –5
+AC 26 (22 when broken); construct armor; Fort +17,
+Ref +10, Will +9
+HP 100; Hardness 10; Immunities bleed, death eﬀects, disease, doomed,
+drained, fatigued, healing, mental, necromancy, nonlethal attacks,
+paralyzed, poison, sickened, unconscious
+Construct Armor As animated broom, but reduced to AC 22 when broken.
+Speed 30 feet
+Melee Ȱɵ stone ﬁst +19 (magical), Damage 2d12+6 bludgeoning plus Grab
+Ranged Ȱɵ ﬂaming coal +12 (ﬁre, magical, range increment 80 feet), Damage 2d6+6
+bludgeoning and 2d8 ﬁre
+Brazier The statue carries a wide brazier full of hot coals. To make ﬂaming coal Strikes
+or use Burn Alive, the statue must have the brazier held in one hand or otherwise
+have it within reach. Instead of targeting the statue with an attack, a creature can
+target the brazier directly. The brazier has the same AC and saves as the statue.
+Dealing 15 cold damage to the brazier
+or dousing it with at least 2 gallons of
+water extinguishes the coals. This
+prevents the statue from using
+Burn Alive and causes its
+ranged attacks to no longer
+deal 2d8 ﬁre damage.
+Burn Alive Ȱɵ
+(ﬁre)
+The
+statue grinds a creature it
+has grabbed into the redhot coals of its brazier.
+The target takes 3d8 ﬁre
+damage and 1d8 persistent
+ﬁre damage.
+GUARDED TREASURES
+Animated objects are mindless
+constructs. While this leaves
+them no concept of the value
+of treasure, they are often
+used as guardians for vaults or
+repositories of valuables. In these
+cases, the treasures they guard
+can vary wildly, but should be of a
+value appropriate for the animated
+object’s level.
+
+================================================================================
+PAGE 23
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668875
+4425032
+Bestiary
+22
+Ankhrav
+Ankhravs are immense, burrowing, and insectile predators, considered by
+inhabitants of the rural areas of the world to be an all-too-common plague.
+Ankhrav
+These horse-sized, burrowing monsters generally avoid heavily settled areas like
+cities, but ankhravs’ predilection for livestock and humanoid ﬂesh ensures that
+the creatures do not remain in the deep wilderness for long. Desperate farmers
+whose ﬁelds become infested by ankhravs often have little recourse but to seek
+the aid of adventurers.
+ANKHRAV
+CREATURE 3
+N
+LARGE
+ANIMAL
+Perception +7; darkvision, tremorsense (imprecise) 60 feet
+Skills Acrobatics +6, Athletics +11, Stealth +8
+Str +4, Dex +1, Con +3, Int –4, Wis +0, Cha –2
+AC 20; Fort +12, Ref +8, Will +7
+HP 40
+Speed 25 feet, burrow 20 feet
+Melee Ȱɵ mandibles +13 (acid), Damage 1d8+4 piercing plus 1d6 acid
+Ranged Ȱɵ acid spit +10 (acid, range 30 feet), Damage 3d6 acid
+Armor-Rending Bite ʚʖ The ankhrav makes a mandibles Strike; if the Strike hits, the
+target’s armor takes the damage and the acid damage bypasses the armor’s Hardness.
+Spray Acid ʚʖ (acid) Frequency once per hour; Eﬀect The ankhrav spews acid in a
+30-foot cone, dealing 3d6 acid damage and 1d6 persistent acid damage (DC 20 basic
+Reﬂex save).
+Hive Mother
+Ankhrav hive mothers are fearsome predators that one can easily distinguish
+from the typical ankhrav not only by their greater size, but the presence of a
+large pair of razor-sharp, mantis-like arms.
+HIVE MOTHER
+CREATURE 8
+UNCOMMON
+N
+HUGE
+ANIMAL
+Perception +16; darkvision, tremorsense (imprecise) 90 feet
+Skills Acrobatics +13, Athletics +20, Stealth +11, Survival +16
+Str +6, Dex +1, Con +4, Int –4, Wis +2, Cha –2
+AC 29; Fort +18, Ref +15, Will +14
+HP 120
+Attack of Opportunity Ǻȓ
+Speed 25 feet, burrow 20 feet
+Melee Ȱɵ mandibles +20 (acid), Damage 2d8+6 piercing plus 2d6 acid
+Ranged Ȱɵ acid spit +17 (acid, range 30 feet), Damage 5d6 acid
+Armor-Rending Bite ʚʖ The hive mother makes a
+mandibles Strike; if the Strike hits, the target’s armor
+takes the damage and the acid damage bypasses the
+armor’s Hardness.
+Frenzy Pheromone ʚʖ The hive mother unleashes a
+pheromone that causes all other ankhravs within a 100-foot
+emanation to become quickened 1 until the start of the hive
+mother’s next turn, and they can use the extra action only
+for Burrow, Stride, or Strike actions. The hive mother
+can’t unleash the pheromone again for 1d4 rounds.
+Spray Acid ʚʖ (acid) The hive mother spews acid
+in a 60-foot cone, dealing 8d6 acid damage and 1d6
+persistent acid damage (DC 26 basic Reﬂex save). It
+can’t spew acid again for 1d4 rounds.
+ANKHRAV BURROWS
+As if the appearance of a hungry
+ankhrav in a stretch of farmland
+isn’t bad enough, it almost always
+indicates the proximity of an
+ankhrav hive nearby. A disturbing
+number of ankhravs can infest
+a lair. However, adventurers
+brave enough to crawl through
+the tangled burrows are often
+rewarded with large amounts of
+treasure as ankhravs have a habit
+of dragging their victims back
+to the deepest corners of their
+den to feast, usually discarding
+the remains with most of the
+gear intact.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668875
+4425032
+
+PAGE 33
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668885
+4425042
+Bestiary
+32
+AZATA TREASURES
+While azatas would like to think
+they are above material wealth,
+the truth is that most azatas adore
+ﬁnery and displays of beauty or
+grandeur. They might explain away
+bejeweled weapons as necessary
+tools against the forces of evil,
+or the wild array of jewelry and
+silks they wear as important
+diplomatic tools.
+Lillend (Muse Azata)
+Lillends are tale-tellers, chroniclers, and champions of freedom of expression.
+They are generally peaceful, but are quick to act if a masterful piece of art
+is threatened or free speech is suppressed. They pride themselves on inspiring
+mortals to greater heights of expression and creativity, and more than one bard
+looks to a lillend as their personal inspiration. Lillends sometimes secretly
+follow the adventures of mortal heroes to record their stories as epic poems
+and songs, which they then perform in the packed mead halls of Elysium. When
+pursuing such goals, lillends take pains to use their innate spells to remain in
+hiding, as they would rather observe and record events without “polluting” them
+with their own intervention. Nevertheless, a lillend who sees their charge faced
+with certain death often cannot resist the urge to intervene and save the day.
+Inevitably, this brings a close to the lillend’s chronicles, as their relationship with
+their subject invariably shifts from one of detached observation to friendship
+or more. Yet lillends remain hesitant to involve themselves for
+overlong in a mortal’s life, in part because they fear what sort of
+ﬁendish attention their presence might attract, but mostly out
+of respect for the mortal’s own destiny. A lillend would, all
+things being equal, prefer to let mortals choose their own
+fate rather than run the risk of sending someone down
+a path to which their heart is not set.
+LILLEND
+CREATURE 7
+CG
+LARGE
+AZATA
+CELESTIAL
+Perception +16; darkvision
+Languages Celestial, Draconic, Infernal; speak
+with animals, speak with plants, tongues
+Skills Acrobatics +14, Deception +16, Diplomacy
++18, Nature +14, Performance +20, Religion
++14, Survival +12
+Str +4, Dex +3, Con +5, Int +2, Wis +3,
+Cha +5
+Items +1 longsword, virtuoso harp
+AC 25; Fort +14, Ref +16, Will +16
+HP 145; Weaknesses cold iron 10, evil 10
+Free Expression A lillend’s auditory and
+sonic eﬀects attempt to counteract
+any eﬀect that would directly control,
+manipulate, or prevent them from
+expressing themself freely, such as
+silence. She can also spend an action,
+which has concentrate trait, to speak
+forcefully and counteract such eﬀects.
+Speed 25 feet, ﬂy 45 feet
+Melee Ȱɵ longsword +18 (chaotic,
+magical, versatile P), Damage 1d8+10
+slashing plus 1d6 chaotic and 1d6 good
+Melee Ȱɵ tail +18 (agile, magical, reach 10 feet),
+Damage 2d6+10 bludgeoning plus 1d6 chaotic,
+1d6 good, and Grab
+Divine Innate Spells DC 26; 4th counter
+performance, hallucinatory terrain, heal, inspire
+heroics, sound burst, suggestion; 3rd sleep; 2nd
+darkness, invisibility; 1st charm; Cantrips (4th)
+daze, detect magic, ghost sound, inspire competence,
+inspire courage, light; Constant (5th) tongues; (4th)
+speak with plants; (2nd) speak with animals
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668885
+4425042
+
+PAGE 35
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668887
+4425044
+Bestiary
+34
+BORN FROM TRAGEDY
+The banshee represents one of the
+most tragic of undead, a soul so
+wracked with agony and fury over
+a betrayal in life that, in death, it
+lingers on as a great evil. That most
+of those who become banshees
+were not evil in life only deepens
+this tragic theme, and many elven
+adventurers see it as their duty
+not only to put banshees to rest,
+but to right the wrong that
+saw their creation in the
+ﬁrst place.
+Banshee
+Banshees are the furious, tormented souls of elves bound to the Material Plane
+by a betrayal that deﬁned the ﬁnal hours of their lives. Some banshees arise from
+elves who were slain by trusted friends and allies, or whose loved ones betrayed
+them on their deathbeds. Others spawn from elves whose treacherous deeds
+shortly before their deaths left a stain upon their souls. Regardless of their origin,
+banshees despise the living. This hatred of life is all too often a horriﬁc inversion
+of their personalities in life. Some speculate that the more kind-hearted the elf
+(and the more wrenching the betrayal), the crueler the banshee.
+Banshees rarely stray far from where they perished and typically haunt
+thick forests and canopied swamps where little light graces the ground. Many
+banshees can be found in the elven nation of Kyonin, speciﬁcally in Tanglebriar,
+the sinister domain of the demon Treerazer. Similarly, a large number of banshees
+can be found lurking about the edges of drow settlements in the Darklands, as
+plenty of cruelty and betrayal exists in drow culture.
+Banshees’ mere touch inﬂicts pain and primal fear, and those
+exposed to their wails of grief rarely survive the experience.
+BANSHEE
+CREATURE 17
+UNCOMMON
+CE
+MEDIUM
+INCORPOREAL
+SPIRIT
+UNDEAD
+Perception +32; hears heartbeats (imprecise) 60 feet, darkvision
+Languages Common, Elven
+Skills Acrobatics +31, Intimidation +32, Occultism +25
+Str –5, Dex +6, Con +2, Int +0, Wis +7, Cha +7
+Hears Heartbeats The banshee can hear heartbeats within 60 feet (imprecise).
+Sunlight Powerlessness If in direct sunlight, the banshee is slowed 1 and
+can’t use actions that have the attack trait.
+AC 39; Fort +25, Ref +29, Will +32
+HP 250, negative healing; Immunities disease, paralyzed, poison,
+precision, unconscious; Resistances all damage 12 (except force,
+ghost touch, or positive; double resistance vs. non-magical)
+Vengeful Spite Ǻȓ (evocation, occult); Trigger A foe critically hits
+the banshee, or the banshee critically fails their save against a foe’s
+damaging eﬀect. Eﬀect The banshee lashes back at their tormentor,
+dealing 4d10+14 mental damage (DC 38 basic Will save) and applying
+the eﬀects of terrifying touch based on the results of the same Will save.
+Speed ﬂy 60 feet
+Melee Ȱɵ hand +32 (ﬁnesse, magical), Damage 4d10+14 negative plus
+terrifying touch
+Spectral Ripple When a banshee Strides at least 10 feet, they’re
+concealed until the start of their next turn.
+Terrifying Touch (emotion, enchantment, fear, occult) A creature damaged
+by the banshee’s touch that isn’t already frightened must attempt a DC
+38 Will save (DC 43 if the attack was a critical hit). If the creature fails
+its save, it’s frightened 2; on a critical failure, the creature also cowers
+with fear and is stunned 4. If the creature is protected against fear by a
+spell or magic item, the banshee’s touch ﬁrst attempts to counteract the
+protection eﬀect, with the eﬀect of a 9th-level dispel magic spell.
+Wail ʚʖ (auditory, concentrate, death, necromancy, occult) The banshee
+unleashes a soul-chilling wail of the banshee (DC 38). This Wail overcomes
+silence and similar eﬀects of 5th level or lower. The banshee can instead
+use Wail as a three-action activity to overcome such eﬀects of up to
+8th level.
+The banshee’s Wail resonates for 1 round, and any creature that comes
+within the area during that time must attempt a save against the eﬀect. A
+creature can’t be aﬀected more than once by the same Wail. The banshee
+can’t Wail again for 1d4 rounds.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668887
+4425044
+
+PAGE 39
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668891
+4425048
+Bestiary
+38
+Basilisk
+The basilisk is an eight-legged reptile with a nasty disposition and the ability
+to turn creatures to stone with its gaze. Folklore holds that, much like for the
+cockatrice, the ﬁrst basilisks hatched from leathery eggs laid by snakes and
+incubated by roosters, but little in the basilisk’s physiology lends any credence
+to this claim.
+A basilisk prefers to eat petriﬁed ﬂesh. Once a victim has been turned to
+stone, the basilisk crunches the fossilized corpse with its powerful jaws and lets
+its potent stomach acids do the rest. This digestive process is extremely slow
+and inefﬁcient, causing the basilisk to move so lethargically that it appears as
+if in mid-petriﬁcation itself. This has even led to the saying “as slow as a well-
+fed basilisk.” Certainly basilisks are well-known for their slow gait and slothful
+nature, but a predator that can turn its prey to stone with a glance hardly has
+much need for speed.
+An adult basilisk is 13 feet long from head to tail and weighs roughly 300
+pounds. These reptiles make hissing sounds when moving about that turns to
+a guttural gurgle when they’re agitated. Though they are normally solitary
+creatures that come together only to mate and lay eggs, there are periodic reports
+of regions being infested with unusual numbers of basilisks. What causes these
+unusual congregations of basilisk activity is unknown.
+For unknown reasons, weasels and ferrets are immune to the basilisk’s stare,
+and they sometimes sneak into basilisk lairs while a parent is hunting in order
+to consume eggs or freshly hatched young. Some legends suggest that a
+basilisk’s blood can transmute common stones into other material, but this
+is likely a case of witnesses misinterpreting the magical restoration of
+previously petriﬁed creatures or body parts.
+BASILISK
+CREATURE 5
+N
+MEDIUM
+BEAST
+Perception +11; darkvision
+Skills Athletics +13, Stealth +8
+Str +4, Dex –1, Con +5, Int –3, Wis +2, Cha +1
+AC 22; Fort +14, Ref +8, Will +11
+HP 75
+Petrifying Glance Ǻȓ (arcane, aura, transmutation, visual); Trigger A
+creature within 30 feet that the basilisk can see starts its turn.
+Eﬀect The target must attempt a DC 20 Fortitude save. If it fails,
+it’s slow 1 for 1 minute as its body slowly stiﬀens.
+Speed 20 feet
+Melee Ȱɵ jaws +15, Damage 2d8+4 piercing
+Petrifying
+Gaze
+ʚʖ
+(arcane,
+concentrate,
+incapacitation, transmutation, visual); The basilisk
+stares at a creature it can see within 30 feet. That
+creature must attempt a DC 22 Fortitude save. If it
+fails and has not already been slowed by Petrifying
+Glance or this ability, it becomes slowed 1. If
+the creature was already slowed by this ability
+or Petrifying Glance, a failed save causes the
+creature to be petriﬁed permanently.
+A creature petriﬁed in this manner that
+is coated (not just splashed) with fresh
+basilisk blood (taken from a basilisk
+that has been dead no longer than
+1 hour) is instantly restored to
+ﬂesh. A single basilisk contains
+enough blood to coat 1d3 Medium
+creatures in this manner.
+BASILISK LAIRS
+Basilisks can be found in almost
+any terrestrial environment,
+including forests, hills, mountains,
+plains, and swamps. They tend
+to dwell in caves or sheltered
+areas, and their hides often bear
+complexions that allow them
+to more easily blend with their
+environments. As a result, forest-
+dwelling basilisks may have scales
+of a verdant emerald color to
+match surrounding vegetation,
+while a basilisk that lives in the
+desert may be a sandy brown or
+shale color.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668891
+4425048
+
+PAGE 41
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668893
+4425050
+Bestiary
+40
+Bear
+Bears are ferocious predators typically found in cold or temperate woodlands
+and hills. Many species of bear exist in addition to the two presented below,
+such as the smaller (but no less dangerous) black bear or the arctic-dwelling
+polar bear.
+Grizzly Bear
+This large and powerful omnivore inhabits forested hills. While it typically
+sustains itself on nuts, berries, ﬁsh, and small mammals, it’s ﬁercely territorial
+and will chase off or kill any creature it views as competition. Grizzly bears are
+especially temperamental when their young are nearby. In combat, a grizzly bear
+often attempts to grab and maul its foe with surprising ferocity. It continues its
+assault until its foe seems like it is no longer a threat, though if the bear is hungry,
+it will not hesitate to feed.
+GRIZZLY BEAR
+CREATURE 3
+N
+LARGE
+ANIMAL
+Perception +10; low-light vision, scent (imprecise) 30 feet
+Skills Athletics +11, Survival +8
+Str +4, Dex +1, Con +5, Int –4, Wis +1, Cha –2
+AC 19; Fort +12, Ref +6, Will +8
+HP 45
+Speed 35 feet
+Melee Ȱɵ jaws +11, Damage 2d8+4 piercing
+Melee Ȱɵ claw +11 (agile), Damage 1d10+4 slashing plus Grab
+Mauler The grizzly bear gains a +2 circumstance bonus to damage rolls against creatures
+it has grabbed.
+Rush ʚʖ The grizzly bear Strides and makes a Strike at the end of that movement.
+During the Stride, the grizzly bear gains a +10-foot circumstance bonus to its Speed.
+Cave Bear
+Larger, stronger, and far more aggressive than its smaller cousins, the cave
+bear is a behemoth that avoids civilized lands, preferring to dwell in
+remote places. As its name might suggest, the cave bear makes its den in
+natural caves, and like the grizzly bear, a cave bear is ﬁercely territorial.
+Unlike a grizzly bear, however, a cave bear is short tempered and will
+make sure its foe is dead before moving on, usually feasting on its
+prey’s soft ﬂesh once it has been incapacitated. Cave bears are often
+regarded as powerful guardian spirits by remote-dwelling people,
+while they are utilized as beasts of war by orcs or even giants—stone
+giants in particular have an afﬁnity for keeping trained cave bears as
+pets or guardians for their homes.
+CAVE BEAR
+CREATURE 6
+N
+LARGE
+ANIMAL
+Perception +13; low-light vision, scent (imprecise) 30 feet
+Skills Athletics +16, Survival +11
+Str +6, Dex +1, Con +6, Int –4, Wis +1, Cha –1
+AC 24; Fort +16, Ref +11, Will +13
+HP 95
+Speed 35 feet
+Melee Ȱɵ jaws +16, Damage 2d10+6 piercing
+Melee Ȱɵ claw +16 (agile), Damage 2d8+6 slashing plus Grab
+Mauler The bear gains a +4 circumstance bonus to damage rolls against creatures
+it has grabbed.
+Rush ʚʖ The cave bear Strides and makes a Strike at the end of that movement.
+During the Stride, it gains a +10-foot circumstance bonus to its Speed.
+BEAR RESOURCES
+A bear den can contain valuable
+treasures, such as the remains of
+less fortunate adventurers who
+stumbled into a hungry bear’s
+path. Bear furs themselves are
+valued as rugs, while their claws
+and fangs make for impressive
+jewelry or adornments for armor.
+Bear hide is an excellent resource
+for hide armor.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668893
+4425050
+
+PAGE 43
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668895
+4425052
+Bestiary
+42
+BLOODSEEKER TREASURE
+Bloodseekers have no interest in
+treasure, but their lairs tend to
+be scattered with the remains of
+adventurers—and their valuables.
+Bloodseeker
+Scourges of swamps and damp, abandoned places, bloodseekers are ravenous
+blood drinkers. Farmers curse the creatures for sucking their livestock dry. It
+is from such beleaguered people that the bloodseeker’s regional name “stirge,”
+possibly a corruption of the word “scourge,” comes. Folk wisdom holds that the
+appearance of bloodseekers in a region signals a healthy herd of livestock, but
+more often it means bogs or old buildings that haven’t been properly tended to.
+Certainly, no amount of folksy parable can assuage a farmer driven to destitution
+by a bloodseeker infestation. But despite their role as parasites, bloodseekers aren’t
+hated by all villages. In some cases, the inhabitants of remote backwoods thorps
+even keep the things as pets or use them as doubtful medicinal “tools” to drain
+away unwanted humors or test for evil spirits possessing the blood. Worshippers
+of gods of pestilence and parasites often view bloodseekers as sacred to their faith
+and allow the creatures to feed freely from their bodies. In such societies, those
+who accidentally give too much are considered to have been “blessed” by the
+village’s hungry god.
+Bloodseekers seem to be constantly hungry, but they are not inherently
+malevolent. They can be scared away fairly easily and prefer to swiftly retreat
+rather than risk death. Some adventurers report that these creatures can be
+scared away by waving torches at the ﬂying pests. However, bloodseekers are
+much bolder when encountered in larger numbers, as bringing down one victim
+lets an entire colony feed. Bloodseeker colonies are called clots, for obvious and
+disgusting reasons. If a lone bloodseeker ﬁnds a likely victim while its clot is
+nearby, it emits a high-pitched, keening noise to summon reinforcements.
+Most humanoids avoid bloodseekers, but boggards sometimes cultivate
+bloodseeker nests around the perimeter of their territory. These colonies serve
+as a deterrent to intruders, and the boggards sometimes check for bloodseeker
+prey, collecting the hides or bodies of animals killed by the pests. Meals prepared
+from slain bloodseekers that have gorged on the blood of speciﬁc creatures are a
+staple among certain boggard communities. The boggards not only eat the actual
+bloodseekers, but they also make a gelled slurry from the drained blood.
+A typical bloodseeker is about a foot long, with mottled, reddish-brown skin
+and a yellow underbelly. Its four wings resemble bat wings. When gorged with
+blood, the creature becomes bloated and pink, and it tends to wobble unsteadily
+in the air as it ﬂies off to digest its meal.
+BLOODSEEKER
+CREATURE –1
+N
+TINY
+ANIMAL
+Perception +6; darkvision, scent (imprecise) 60 feet
+Skills Acrobatics +6, Stealth +6
+Str –4, Dex +3, Con +0, Int –5, Wis +1, Cha –2
+AC 16; Fort +5, Ref +8, Will +4
+HP 6
+Speed 10 feet, ﬂy 30 feet
+Melee Ȱɵ barbed leg +8 (ﬁnesse), Eﬀect attach
+Attach When a bloodseeker hits a target larger than itself, its barbed legs attach
+it to that creature. This is similar to grabbing the creature, but the bloodseeker
+moves with that creature rather than holding it in place. The bloodseeker is ﬂat-
+footed while attached. If the bloodseeker is killed or pushed away while attached
+to a creature it has drained blood from, that creature takes 1 persistent bleed
+damage. Escaping the attach or removing the bloodseeker in other ways doesn’t
+cause bleed damage.
+Blood Drain Ȱɵ Requirements The bloodseeker is attached to a creature. Eﬀect The
+bloodseeker uses its proboscis to drain blood from the creature it’s attached to.
+This deals 1d4 damage, and the bloodseeker gains temporary Hit Points equal to the
+damage dealt. A creature that has its blood drained by a bloodseeker is drained 1 until
+it receives healing (of any kind or amount).
+BLOODSEEKER LOCATIONS
+Bloodseekers hunt close to
+their nests, which they make
+in fens, bogs, fetid pools, and
+abandoned buildings. A foot-wide
+amalgamation of mud and reeds is
+a telltale sign of a bloodseeker nest.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668895
+4425052
+
+PAGE 44
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668896
+4425053
+A-C
+43
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+BOAR RESOURCES
+A boar’s carcass typically provides
+enough meat for 100 meals or
+more, as well as hide and bristles
+that can be used for crafting.
+Boar
+While domesticated pigs are a staple of farm life, wild boars are much more
+dangerous. Foul-tempered warthogs are relatively common, while the lumbering,
+primeval beasts known as daeodons are less so. Voracious eaters, boars can
+ravage the countryside in which they live. Boars breed freely, and a pair of boars
+can rapidly grow to a large family. Boars are a particular nuisance to farmers, as
+they break into food stores and root through gardens to sate their hunger.
+Boar
+Boars are omnivorous mammals, hunted heavily because their meat is considered
+a delicacy. Boars are most likely to attack humanoids either in self-defense or
+during their mating season in the winter months, when the males grow an extra
+inch of tissue to protect their organs as they ﬁght off rivals. Of course, in some
+cultures boars are trained to become much more aggressive so they can ﬁll the
+roles of warbeast and guardian. When such boars escape back into the wild, they
+can become true terrors of the region.
+BOAR
+CREATURE 2
+N
+MEDIUM
+ANIMAL
+Perception +8; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +5, Athletics +8, Survival +8
+Str +4, Dex +1, Con +4, Int –4, Wis +2, Cha –3
+AC 18; Fort +10, Ref +5, Will +8
+HP 30
+Ferocity Ǻȓ
+Speed 40 feet
+Melee Ȱɵ tusk +10, Damage 2d6+4 piercing
+Boar Charge ʚʖ The boar Strides twice and then makes a tusk Strike. As long as it
+moved at least 20 feet, it gains a +2 circumstance bonus to its attack roll.
+Daeodon
+Where the typical boar is merely ill-tempered and generally unfriendly, the
+towering daeodon is legitimately hateful and ruthlessly violent. Although
+omnivorous, the daeodon (known in some regions simply as a giant boar)
+prefers to feed on ﬂesh. Primarily a scavenger, the daeodon isn’t adverse
+to attacking creatures it encounters while searching for easier meals, or
+to protect any perceived encroachment into its lair or feeding grounds.
+Particularly brave or skilled orcs are fond of using daeodons as
+mounts or war-trained battle beasts; orc cavalry mounted on
+daeodons is a fearsome force indeed.
+A typical adult daeodon is 10 feet long and 7 feet tall at
+the shoulder. It weighs approximately 2,000 pounds.
+DAEODON
+CREATURE 4
+N
+LARGE
+ANIMAL
+Perception +12; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +8, Athletics +12, Survival +10
+Str +6, Dex +0, Con +3, Int –4, Wis +2, Cha –1
+AC 21; Fort +13, Ref +9, Will +10
+HP 60
+Ferocity Ǻȓ
+Speed 40 feet
+Melee Ȱɵ tusk +14, Damage 2d8+6 piercing
+Daeodon Charge ʚʖ The daeodon Strides twice and then makes a tusk Strike. As
+long as it moved at least 20 feet, it gains a +2 circumstance bonus to its attack roll.
+A Medium or smaller creature struck by this attack must succeed at a DC 19 Reﬂex
+save or be knocked prone by the force of the blow.
+BOAR LOCATIONS
+Boars can be found in almost
+any environment, from forests to
+deserts, warm or cold, including
+even high-altitude mountainous
+regions. They tend to prefer
+forests, marshes, and meadows.
+Daeodons are likewise found
+in such regions but generally
+prefer remote reaches far from
+civilization.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668896
+4425053
+
+PAGE 71
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668923
+4425080
+Bestiary
+70
+Daemon
+Denizens of the bleak and terrible plane of Abaddon, daemons are shaped by and
+devoted to the destruction of life in all its forms. They seek the death of every mortal
+being by the most painful and horrible means possible, all in service to the apocalyptic
+entities known as the Four Horsemen. Each kind of daemon represents a different
+way to die, and their powers are nearly always aimed at spreading that particular
+form of death. Through the use of these powers, they seek to drag all existence down
+into a pit of hopelessness and despair, and to commit all souls to oblivion.
+While those who summon daemons to the Material Plane usually seek to use
+the creatures’ destructive and corrupting powers for their own ends, daemons
+always look for ways to spread fear, doubt, and despair wherever they go. Often,
+daemons disguise their plots as the workings of other ﬁends, knowing that such
+confusion compounds mortals’ fear.
+While all ﬁends seek to tempt mortals into lives of evil to increase their own
+numbers and power on their native planes, daemons are further driven by a
+supernatural hunger for mortal souls and use a variety of methods—not least
+of which is the cacodaemons’ soul gems—to entrap them. On Abaddon and in
+other forbidding places across the multiverse, souls are simultaneously a delicacy,
+a trade good, and a source of magical power, and the daemons are among the
+greatest gluttons, merchants, and abusers of this spiritual “resource.”
+Cacodaemon (Harvester Daemon)
+These embodiments of demented violence and spite are spawned from eddies of
+angry and warped souls amid Abaddon’s mists. Cacodaemons constantly hunger
+for mortal souls and yearn to create suffering. As gnashing spheres of teeth, ﬁns, and
+spines, they are the weakest of daemonkind, an amalgam of various petty forms of
+death without the strength that comes from focusing on a single cause of demise.
+CACODAEMON
+CREATURE 1
+NE
+TINY
+DAEMON
+FIEND
+Perception +6; darkvision
+Languages Common, Daemonic; telepathy 100 feet
+Skills Acrobatics +8, Deception +5, Religion +6, Stealth +8
+Str +0, Dex +3, Con +2, Int –1, Wis +1, Cha +2
+AC 16; Fort +7, Ref +8, Will +6
+HP 22; Immunities death eﬀects; Weaknesses good 3
+Speed 5 feet, ﬂy 40 feet
+Melee Ȱɵ jaws +8 (agile, disease, evil, ﬁnesse, magical)
+Damage 1d8 piercing plus 1d4 evil and cacodaemonia
+Divine Innate Spells DC 17; 4th read omens; 2nd invisibility
+(at will; self only); 1st detect alignment (at will; good only),
+fear; Cantrips (1st) detect magic (at will)
+Cacodaemonia (disease) The cacodaemon can telepathically
+communicate with the aﬄicted creature at any distance on the
+same plane; Saving Throw DC 17 Fortitude; Stage 1 carrier (1
+day); Stage 2 stupeﬁed 1 (1 day); Stage 3 stupeﬁed 2 (1 day)
+Change Shape Ȱɵ (concentrate, divine, polymorph, transmutation)
+•
+Lizard Speed 20 feet; Melee jaws +8 (agile, ﬁnesse), Damage 1d8+1
+piercing
+•	 Octopus size Small; Speed 20 feet, swim 30 feet; Melee tentacle +8
+(ﬁnesse), Damage 1d8+1 bludgeoning plus Grab; Melee beak +8 (agile,
+ﬁnesse), Damage 1d6 piercing plus 2 poison
+•	 Scorpion size Small; Speed 30 feet; Melee pincer +8 (agile, ﬁnesse), Damage
+1d6+1 bludgeoning plus Grab; Melee stinger +8 (agile, ﬁnesse), Damage 1d6+1
+piercing plus 1d4 poison
+Soul Lock ̂ˬ (death, divine, necromancy) Once per day, a cacodaemon can ingest the soul
+of a sentient creature within 30 feet that died within the last minute. When it does, the
+DAEMONIC DIVINITIES
+Numerous powerful and unique
+daemon demigods, known
+collectively as harbingers, rule
+over swaths of Abaddon. Above
+these demigods, though, are
+entities of even greater power—the
+four Horsemen of the Apocalypse.
+As the eons go on, the names and
+identities of speciﬁc horsemen
+change. Currently, they consist of
+Apollyon (Horseman of Pestilence),
+Charon (Horseman of Death),
+Szuriel (Horseman of War),
+and Trelmarixian (Horseman of
+Famine). Of these, only Charon has
+never fallen to an upstart. Some
+hold that a “Fifth Horseman” once
+ruled over the other four, while
+others maintain that the eternally
+eclipsed sun in the skies above
+Abaddon is all that remains of this
+long-dead god.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668923
+4425080
+
+PAGE 81
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668933
+4425090
+Bestiary
+80
+SINFUL DESTRUCTION
+While they enjoy causing
+destruction themselves, most
+demons prefer to trick and tempt
+mortals into falling to sin of their
+own volition.
+Melee Ȱɵ jaws +27 (evil, magical, reach 10 feet), Damage 3d12+13 piercing plus 1d6 evil
+Divine Innate Spells DC 34; 7th illusory disguise (at will), reverse gravity; 6th dispel magic (at
+will); 5th dimension door; 4th confusion (at will), dimension door (at will); 2nd mirror image
+(at will); Cantrips (7th) telekinetic projectile; Constant (6th) true seeing; (5th) tongues
+Divine Rituals DC 34; Abyssal pact
+Captive Rake Ȱɵ Requirements A creature is grabbed in the glabrezu’s pincer. Eﬀect The
+glabrezu pulls the grabbed creature up to 5 feet closer, then makes two claw Strikes
+against it. Those Strikes count as one attack when determining a treachery demon’s
+multiple attack penalty, and the penalty doesn’t increase until after both Strikes.
+Steady Spellcasting When a reaction would disrupt a glabrezu’s spell, the demon can
+attempt a DC 15 ﬂat check, avoiding the disruption on a success.
+Sudden Betrayal A glabrezu can always use Deception when rolling initiative as
+long as they’re aware of at least one opponent before initiative is rolled. When using
+Deception for initiative, the demon gains a +2 circumstance bonus to Deception.
+Treacherous Veil A glabrezu’s illusory disguise can allow it to appear as a creature of any size.
+Twisted Desires (divination, divine) Once per month, a glabrezu can grant a mortal
+humanoid the eﬀects of a miracle spell granted by an Abyssal patron, though the
+glabrezu always perverts the miracle according to their own treacherous nature.
+Shemhazian (Mutilation Demon)
+Shemhazians rise from the souls of torturers and those who reveled in
+mutilating the physical bodies of their victims. Standing 35 feet tall, a
+shemhazian is well equipped with a wide range of talons, claws, and fangs to
+continue inﬂicting such torments on those it encounters.
+Shemhazians delight in visiting torment upon mortals, of course, but
+more than most demons, these ﬁends revel in sharing the pain with their
+own kind. Other demons fear and hate shemhazians for this reason, with
+only the most powerful willing to work with a shemhazian to achieve a
+shared goal. Even then, the shemhazian is always on the watch for an opportunity
+to bring pain and suffering to its allies along with any foe.
+SHEMHAZIAN
+CREATURE 16
+CE
+GARGANTUAN
+DEMON
+FIEND
+Perception +30; darkvision, scent (imprecise) 60 feet, true seeing
+Languages Abyssal, Celestial, Draconic; telepathy 100 feet
+Skills Athletics +31, Deception +25, Intimidation +27, Medicine +28,
+Religion +30
+Str +9, Dex +5, Con +7, Int +0, Wis +6, Cha +3
+AC 39; Fort +32, Ref +26, Will +27; +1 status to all saves vs. magic
+HP 350; Weaknesses cold iron 15, good 15
+Paralyzing Gaze (aura, divine, enchantment, visual) 30 feet. A
+non-evil creature that ends its turn in the aura must attempt a
+DC 35 Fortitude save. If it fails, it’s slowed 1 for 1 round, and
+if it critically fails, it is instead paralyzed for 1 round.
+Succor Vulnerability A shemhazian’s mutilation is a
+part of them, and they can’t bear to see it reversed.
+The ﬁrst time each round that a creature heals from
+damage the shemhazian dealt on their last turn, the
+demon takes 3d6 mental damage.
+Tail Whip Ǻȓ Trigger A creature within reach of the
+shemhazian’s tail leaves a square during a move action it’s using. Eﬀect The
+shemhazian attempts to Trip the triggering creature. On a success, the creature also
+takes damage as if the shemhazian had hit with a tail Strike, and if the creature was
+ﬂying, it falls 30 feet.
+Speed 35 feet, climb 20 feet, ﬂy 35 feet (from ﬂy)
+Melee Ȱɵ jaws (evil, magical, reach 20 feet) +33, Damage 3d12+17 piercing plus 1d6 evil
+and enfeebling bite
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668933
+4425090
+
+PAGE 93
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668945
+4425102
+Bestiary
+92
+DEVIL SHAPING
+A pit ﬁend needs a minimum
+number of lemures in order to
+shape the roiling mass into a
+devil of a particular level, as
+summarized below.
+Devil Level
+Number of
+Lemures
+4 or below
+4
+5–6
+8
+7–8
+16
+9–10
+32
+11–12
+64
+13–14
+128
+15–16
+256
+17–18
+512
+19–20
+1,024
+Rituals DC 33; infernal pact
+Slowing Frost (cold, divine, evocation) The ice devil channels the extreme cold of its
+body through its appendages and weapons. A creature hit by an ice devil’s weapon
+or unarmed attack in melee must attempt a DC 32 Fortitude save or be slowed 1 for
+1d4 rounds. A weapon used by an ice devil gains the eﬀects of a frost rune while the
+gelugon holds it, and the ice devil can throw any such weapon with a 20-foot range
+increment, trailing motes of frost.
+Tactician of Cocytus Ȱɵ (concentrate) An ice devil’s logical mind devises genius tactics
+from its perfect memory. It can telepathically send a tactical repositioning to its
+allies, allowing all commanded or allied evil creatures in the range of its telepathy
+to immediately Stride (or Burrow, Climb, Fly, or Swim, if the creature has the
+corresponding Speed).
+Pit Fiend (Tyrant Devil)
+When an army of devils invades to bathe a region in bloodshed and hellﬁre, it
+is likely that one of Hell’s most powerful and diabolical generals, the pit ﬁend,
+masterminded the incursion. Cunning, powerful, and ruthless, pit ﬁends often
+serve the archdevils directly. They rule infernal duchies, subjugate mortal worlds,
+and usurp infernal rivals using unparalleled despotism and calculated ferocity. To
+realize their tyrannical machinations, pit ﬁends claim mortal souls that they corrupt
+into lemure servants, which can then be shaped and transformed through infernal
+manipulation into the terrifying devils that form Hell’s formidable legions. They
+often select the most wicked and vicious lemures for their armies, drawing upon
+these lesser devils’ depravity during powerful magical ceremonies to create hideous
+and terrifying abominations that can cow and eviscerate the pit ﬁend’s enemies.
+Pit ﬁends themselves are crafted deep within the nightmarish bowels of Nessus,
+the ninth layer of Hell, to serve the whims of archdevils and infernal dukes.
+Those pit ﬁends that don’t leave Nessus to command infernal legions in the upper
+layers of Hell often form the courts of Hell’s elite, gathering cabals and sects that
+shape Hell’s political landscape through subterfuge and manipulation. But many
+pit ﬁends see themselves as living embodiments of hellﬁre, the all-encompassing
+wrath of Hell, and thus prefer to dwell in realms consumed by ﬁre. In Avernus,
+Dis, Malebolge, Nessus, and Phlegethon, pit ﬁends build vast citadels of brimstone
+wreathed in ﬂame to lord over.
+Pit ﬁends tower over other devils, standing at least 16 feet tall, weighing over
+1,000 pounds, and brandishing wingspans in excess of 20 feet.
+INFERNAL DUKES
+Elite members of Hell’s political infrastructure and leadership hierarchy, the
+dukes of Hell are chosen from among the most tyrannical, oppressive, and
+conniving devils. While not all infernal dukes are pit ﬁends, a pit ﬁend’s natural
+disposition toward conquest and oppression often make it an ideal candidate
+for this position. To create an infernal duke, adjust the pit ﬁend to be between
+21st and 25th level. Because of their physical prowess, manipulative nature, and
+powerful spellcasting abilities, infernal dukes make excellent villains for long-
+running campaigns.
+PIT FIEND
+CREATURE 20
+LE
+LARGE
+DEVIL
+FIEND
+Perception +37; greater darkvision, true seeing
+Languages Celestial, Common, Draconic, Infernal; telepathy 100 feet
+Skills Acrobatics +34, Arcana +32, Athletics +33, Deception +39, Diplomacy +34,
+Intimidation +39, Religion +37, Society +36, Stealth +34
+Str +9, Dex +8, Con +9, Int +8, Wis +9, Cha +8
+AC 46; Fort +37, Ref +32, Will +35; +1 status to all saves vs. magic
+HP 335, regeneration 30 (deactivated by good); Immunities ﬁre; Weaknesses good 15;
+Resistances physical 15 (except silver), poison 15
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668945
+4425102
+
+PAGE 143
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668995
+4425152
+Bestiary
+142
+Eel
+Although these long, narrow ﬁsh share similarities in appearance, eels are a
+diverse group of creatures.
+Electric Eel
+Usually found in freshwater rivers and lakes, an electric eel is not particularly
+aggressive, but its ability to stun predators and prey alike can be dangerous to
+larger creatures searching for their next meals.
+ELECTRIC EEL
+CREATURE 1
+N
+SMALL
+ANIMAL
+AQUATIC
+Perception +4; low-light vision
+Skills Athletics +6, Stealth +7
+Str +1, Dex +2, Con +2, Int –5, Wis +1, Cha –1
+AC 16; Fort +7, Ref +7, Will +4
+HP 18; Resistances electricity 7
+Speed 5 feet, swim 30 feet
+Melee Ȱɵ jaws +6, Damage 1d6+3 piercing
+Melee Ȱɵ tail +6 (agile), Damage 1d4+1 bludgeoning plus 1d4 electricity and stunning shock
+Stunning Shock (incapacitation) A creature critically hit by the electric eel’s tail must
+attempt a DC 17 Fortitude save.
+Critical Success The creature is unaﬀected.
+Success The creature is stunned 1.
+Failure The creature is stunned 2.
+Critical Failure The creature is stunned 3.
+Giant Moray Eel
+Giant moray eels dwell in warm, tropical waters and build
+lairs in narrow, twisting caves made of coral. Their size,
+speed, and powerful bite make them dangerous to
+divers and ﬁshermen. Giant moray eels have rubbery
+hides that secrete a layer of mucus, making them
+difﬁcult to harm with some weapons.
+GIANT MORAY EEL
+CREATURE 5
+N
+LARGE
+ANIMAL
+AQUATIC
+Perception +11; low-light vision, scent (imprecise)
+30 feet
+Skills Acrobatics +9, Athletics +13, Stealth +13
+Str +6, Dex +2, Con +3, Int –4, Wis +2, Cha –1
+AC 21; Fort +14, Ref +13, Will +9
+HP 65; Resistances bludgeoning 5, piercing 5
+Ambush Ǻȓ Trigger A target creature passes within
+20 feet of the giant moray eel’s hiding place and has
+not detected the giant moray eel. Eﬀect The giant
+moray eel lunges out of its hiding place, Swims directly
+toward the triggering creature, and makes a jaws Strike
+against it. The target creature is ﬂat-footed to this attack.
+Speed 10 feet, swim 40 feet
+Melee Ȱɵ jaws +15 (reach 10 feet), Damage 2d6+8 piercing plus Grab
+Pharyngeal Jaws ʚʖ Requirements The giant moray eel has a creature
+grabbed in its jaws. Eﬀect The giant moray eel uses its second set of jaws to
+pull the prey into its gullet. The eel deals 1d6+4 piercing damage to the grabbed
+creature and gains a +2 circumstance bonus to its Swallow Whole attempts and to
+the DC for the creature to Escape. This eﬀect ends if the target Escapes or the giant
+moray eel Swallows it Whole.
+Swallow Whole Ȱɵ (attack) Small, 1d6+6 bludgeoning, Rupture 12
+EEL RESOURCES
+Hide harvested from electric eels
+can be used to create armor or
+items that provide protection
+from electricity.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668995
+4425152
+
+PAGE 144
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668996
+4425153
+E-G
+143
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+Elananx
+These strange, fey felines resemble large, broad bobcats from a distance, but a closer
+view reveals something amiss. Their forms ripple and billow with heat, and their
+eyes glow from within as if they contain tiny, ﬂickering ﬂames. The pungent scent
+of rotting leaves smoldering in a bonﬁre clings to their fur. Yet those who have the
+chance to watch elananxes hunt or attack prey witness the greatest indication that
+these creatures are something more than mere predators, for they act with cruel and
+savvy instincts, reveling in the pain they inﬂict.
+Elananxes typically hunt alone, but sometimes these cunning and malicious
+hunters of the First World roam in packs called “billows” to take down large prey.
+Like many house cats, elananxes are not content to merely track and devour prey,
+but prefer to toy with their victims, drawing joy and excitement from the fear and
+pain of those they capture. To this end, elananxes rarely use their cinder dispersal
+ability to evade their targets, instead opting to foil their quarry just before the end
+of the hunt—though, as selﬁsh creatures who wish to live to hunt again, elananxes
+often reserve one use of this ability, just in case.
+Because of their clever and malicious ways, elananxes are favored as hunting
+companions by redcaps (page 278), who go out of their way to befriend or make
+deals with these creatures. Redcaps also ﬁnd great sport in hunts where competing
+elananxes chase a single creature. Although they’re large enough to serve as mounts
+for redcaps, elananxes despise being ridden and resist such attempts—little is as sure
+to cause a supposedly friendly elananx to turn on its redcap ally than a foolhardy
+attempt to treat the fey cat as a horse!
+Elananxes have a strange afﬁnity to forest ﬁres. Because they are immune to
+the damage caused by ﬂickering ﬂames, they enjoy capering and caterwauling
+through the smoky, burning ruins of forest infernos. Some have even been known
+to use their burning bites to deliberately light undergrowth on ﬁre, simply so they
+might experience the beauty of the ﬂames combined with the inevitable pain such
+disasters inﬂict on other creatures.
+ELANANX
+CREATURE 6
+NE
+MEDIUM
+FEY
+FIRE
+Perception +14; darkvision
+Languages Sylvan (can’t speak any language)
+Skills Acrobatics +14, Athletics +14, Survival +14 (+17 to Track)
+Str +4, Dex +4, Con +2, Int –3, Wis+2, Cha –2
+AC 24; Fort +12, Ref +16, Will +12
+HP 95; Immunities ﬁre; Weaknesses cold iron 5
+Cinder Dispersal Ǻȓ (ﬁre, primal, transmutation); Frequency
+once per day. Trigger The elananx takes damage from
+a hostile source. Eﬀect The elananx disperses into a
+cloud of smoke and cinders, ﬁlling its space and a 20-
+foot emanation. While in this form, the elananx can’t
+be attacked or targeted, and it doesn’t take up space.
+Anything inside this cloud is concealed, and any creature
+ending its turn there takes 2d6 ﬁre damage. At the start of
+its turn, the elananx returns to its normal form in any square
+the cloud covered. If the elananx Strikes a creature using its
+ﬁrst action after returning to its normal form, the target is ﬂat-
+footed and the Strike deals an extra 1d6 ﬁre damage.
+Speed 30 feet
+Melee Ȱɵ jaws +16 (magical), Damage 2d6+8 piercing and 1d6 ﬁre
+Melee Ȱɵ claw +16 (agile), Damage 2d6+8 slashing
+Pack Attack The elananx’s Strikes deal an extra 1d6 damage to creatures
+within the reach of at least two of its allies.
+Pounce Ȱɵ The elananx Strides and makes a Strike at the end of that movement. If
+the elananx began this action hidden, it remains hidden until after the attack.
+ELANANX LOCATIONS
+Although many elananxes dwell
+in the strange realm of the First
+World, some are also natives of the
+Material Plane. Elananxes prefer
+to dwell in regions where there
+are ample intelligent creatures
+to chase, hunt, and eat, and they
+favor woodlands and hills as their
+primary hunting grounds.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19668996
+4425153
+
+PAGE 160
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669012
+4425169
+E-G
+159
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+OTHER FLESHWARPS
+Grothluts may be the weakest
+example of a ﬂeshwarp, and
+driders the most successful, but
+others exist as well. Ghonhatines
+are lumbering ﬂeshwarps formed
+from xulgaths, while the tentacled
+irnakurses are formed from surface-
+dwelling elves. Sinspawn (pages
+296–297) are ﬂeshwarps as well, of
+course, although their methods of
+creation diﬀer drastically from the
+techniques mastered by drow.
+Drider
+The ﬁrst ﬂeshwarping process mastered by the drow remains both their most
+successful and most infamous: the drider. Fusing the body of a drow with that
+of a giant spider, driders are a sexually dimorphic ﬂeshwarp—the only ﬂeshwarp
+known to be able to produce young. While female driders have the upper torsos
+of elegant drow women with mouths featuring sharp poisoned fangs, male driders
+have hideous, mutated countenances that further blend the humanoid form
+with that of a spider; the difference in appearance is perhaps a reﬂection on the
+matriarchal nature of drow society. In combat, all driders are equally dangerous.
+Although the ﬂeshwarping process was originally intended to be a punishment
+for drow who fell from grace, the signiﬁcant powers and strengths gained from the
+horrifying transformation are attractive to some drow, and an increasing number of
+lower-ranking citizens in drow cities volunteer themselves for the painful procedure.
+In return for mandatory time (typically measured in decades) serving as a guardian,
+soldier, or other public servant, such volunteer driders are later allowed to lead
+their own lives, typically in caverns located in a city’s periphery. The painful truth is
+that for most driders, they do not live long enough to see this reward, for the drow
+have a penchant for working their ﬂeshwarped slaves to death or deploying them in
+deadly war missions in which survival is a only a remote possibility.
+Most driders use arcane magic, but driders who use divine magic are well
+known, while a rare few use occult or primal magic. A drider’s innate spells
+remain the same regardless of the magical tradition, but those who use different
+types of magic as prepared spells may well have entirely different spells prepared
+than the drider presented below.
+DRIDER
+CREATURE 6
+CE
+LARGE
+ABERRATION
+Perception +13; darkvision
+Languages Elven, Undercommon
+Skills Arcana +14, Athletics +12, Intimidation +14, Religion +13, Stealth +15
+Str +4, Dex +3, Con +3, Int +2, Wis +3, Cha +4
+Items +1 composite longbow (20 arrows), glaive
+AC 24; Fort +13, Ref +13, Will +15; +1 status to all saves vs. magic
+HP 95; Immunities sleep
+Speed 30 feet, climb 20 feet
+Melee Ȱɵ glaive +16 (deadly 1d8, forceful, reach 10 feet), Damage
+1d8+10 slashing
+Melee Ȱɵ fangs +16, Damage 1d6+10 piercing plus drider venom
+Ranged Ȱɵ composite longbow +16 (deadly d10, magical, propulsive, range
+increment 100 feet, reload 0, volley 50 feet), Damage 1d8+8 piercing
+Ranged Ȱɵ web +15 (range increment 30 feet), Eﬀect web trap
+Arcane Innate Spells DC 20; 4th clairvoyance, suggestion;
+3rd clairaudience, dispel magic, levitate; 2nd darkness
+(at will), faerie ﬁre (at will); Cantrips (3rd) dancing lights,
+detect magic
+Arcane Prepared Spells DC 24, attack +17; 3rd ﬁreball;
+2nd acid arrow, invisibility; 1st magic missile (×2),
+ray of enfeeblement; Cantrips (3rd) ghost sound,
+mage hand, ray of frost
+Drider Venom (poison); Saving Throw DC 23
+Fortitude; Maximum Duration 6 rounds;
+Stage 1 1d8 poison damage and
+enfeebled 1 (1 round)
+Web Trap A creature hit by
+a drider’s web attack is
+immobilized and stuck to
+the nearest surface (Escape DC 21).
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669012
+4425169
+
+PAGE 162
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669014
+4425171
+E-G
+161
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GARGOYLE TREASURE
+The obsessive nature of gargoyles
+can result in a variety of treasure
+hoards and grim trophy collections,
+ranging from stockpiles of arcane
+tomes to alchemical potions and
+apparatuses to simple trinkets.
+Gargoyle
+Gargoyles are monstrous hunters made of elemental stone. They use their
+resemblance to decorative statues to hide in plain sight in cities during the day and
+descend upon unlucky pedestrians at night. Their most common form is that of a
+horned humanoid with bat-like wings, but individual gargoyles show a great deal
+of variation, with some appearing more or less humanoid and others resembling
+no known creature. A gargoyle’s features are not ﬁxed; city-dwelling gargoyles
+who remain in the same locale long enough slowly morph, day by day, to match
+the style of the local architecture. These patient monsters can stay disguised for
+long stretches of time as they patiently await an opportunity to strike.
+Gargoyles tend to be lone hunters, though sometimes they band into fearsome
+tribes called “wings” for protection or sport. On rare occasions, wings become
+relatively stable communities, and gargoyles in wings may even ally with other
+creatures such as demons and intelligent aberrations, though these alliances
+exist on a razor’s edge. The majority of gargoyles are treacherous, vindictive,
+and petty—traits that preclude lasting partnerships. Many tend to be obsessive
+and compulsive. Some are collectors, focusing on anything from books to grim
+trophies, while others are ritualistic or overly passionate about niche intellectual
+subjects or certain artistic motifs. These tendencies often contribute to the
+dissolution of wings as individuals’ obsessions and compulsions clash.
+Kapoacinth
+Kapoacinths dwell not amid cliffs or rooftops, but beneath
+the sea, using their wings to swim. These water-dwelling
+gargoyles often dwell in shallow coastal regions
+and shamble forth from the sea to attack prey.
+Kapoacinths are less individualistic and tend to
+create more stable wings for longer periods
+of time. Kapoacinths have the same
+abilities as the gargoyle presented below,
+but with the following adjustments:
+they have the aquatic trait, they have
+a swim Speed of 40 feet instead of
+a ﬂy Speed, and their Clawed Feat
+reaction triggers when they are
+Swimming instead of Flying.
+GARGOYLE
+CREATURE 4
+CE
+MEDIUM
+BEAST
+EARTH
+Perception +10; darkvision
+Languages Common, Terran
+Skills Acrobatics +10, Athletics +9,
+Stealth +12
+Str +3, Dex +2, Con +3, Int –2, Wis +2,
+Cha –2
+AC 21; Fort +13, Ref +10, Will +10
+HP 40; Resistances physical 5 (except
+adamantine)
+Clawed Feet Ǻȓ (attack); Trigger The gargoyle
+is Flying, and a creature moves into an adjacent
+square below it. Eﬀect The gargoyle makes a claw Strike against the triggering creature.
+Speed 25 feet, ﬂy 40 feet
+Melee Ȱɵ jaws +13, Damage 2d8+3 piercing
+Melee Ȱɵ claw +13 (agile), Damage 2d6+3 slashing
+Statue Ȱɵ (concentrate) Until the next time it acts, the gargoyle appears to
+be a statue. It has an automatic result of 32 on Deception checks and
+DCs to pass as a statue.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669014
+4425171
+
+PAGE 163
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669015
+4425172
+Bestiary
+162
+Genie
+A unique type of genie exists for each Elemental Plane, and the bodies of genies
+are formed out of elemental matter corresponding to their native plane: djinn
+are formed from wind, clouds, and storms; efreet are ﬁre made ﬂesh; marids are
+beings of water; and shaitans are composed of metal, gems, and stone. Lastly, the
+jann are formed out of all four elements, and are the weakest of geniekind.
+Genie Nobles
+Genie nobles with titles unique to their kind (as detailed in each sidebar) rule genie
+society. Genie nobles are generally at least 5 levels higher than a typical example
+of their kind. In addition to the increased statistics afforded by their higher levels,
+genie nobles gain additional spells. But the most wondrous (and
+notorious) of a genie noble’s powers is their ability to grant
+wishes. Any genie noble (save for jann, who lack this power)
+can grant a mortal or undead creature up to three wishes within
+a year’s time. Many unscrupulous creatures compel genie nobles
+to serve them, tricking them or entrapping them with magic. However,
+once a genie noble grants a third wish to a single creature, they are
+freed from service to that creature forever.
+Janni
+Jann are genies composed of all four elements, meaning they are not
+quite home on any of the Elemental Planes. Instead, jann reside on the
+Material Plane, making only brief forays to the other parts
+of the Inner Sphere. Although they are human in size and
+appearance, jann are not at all related to humans and
+bristle at any claims to this effect. They are a proud people
+and take great care to maintain their honor—restoring that
+honor with the edge of a sword, if necessary.
+JANNI
+CREATURE 4
+N
+MEDIUM
+ELEMENTAL
+GENIE
+Perception +11; darkvision
+Languages Common, one elemental language (Aquan,
+Auran, Ignan, or Terran), one planar language (Abyssal,
+Celestial, or Infernal); telepathy 100 feet
+Skills Acrobatics +8, Arcana +10, Crafting +8,
+Deception +7, Survival +11
+Str +4, Dex +2, Con +2, Int +2, Wis +3, Cha +1
+Items composite shortbow (20 arrows), scimitar
+AC 20; Fort +12, Ref +10, Will +11
+HP 60; Resistances ﬁre 5
+Elemental Endurance A janni can survive on any Elemental
+Plane for up to 48 hours, after which it takes 1 damage per hour
+until it leaves or dies.
+Speed 20 feet, ﬂy 15 feet
+Melee Ȱɵ scimitar +14 (forceful +1, sweep), Damage 1d6+10 slashing
+Melee Ȱɵ ﬁst +14 (agile, magical, nonlethal), Damage 1d4+10 bludgeoning
+Ranged
+Ȱɵ
+composite
+shortbow
++12
+(deadly
+1d10,
+propulsive,
+range increment 60 feet, reload 0), Damage 1d6+5 piercing
+Arcane Innate Spells DC 21; 7th plane shift (to Astral Plane,
+Elemental Planes, or Material Plane only); 2nd create food,
+invisibility (×3), speak with animals; 1st create water
+Change Size ʚʖ (arcane, concentrate, polymorph, transmutation);
+Frequency Once per day. Eﬀect The janni changes a creature’s
+size. This works as a 4th-level enlarge or shrink spell but can target
+an unwilling creature (DC 21 Fortitude save negates).
+DJINNI VIZIERS
+Djinni viziers prefer to manifest
+wishes in physical, often gaudy
+displays, but cut corners in
+quality. Wished-for gold, for
+example, might only be gold
+plated (and still valuable), not
+solid gold. Djinni viziers add the
+following to their innate spells:
+5th summon giants, tongues.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669015
+4425172
+
+PAGE 169
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669021
+4425178
+Bestiary
+168
+THE FIRST GHOULS
+Legend holds that the ﬁrst
+humanoid (an elf, as it so
+happened) to feed upon the ﬂesh
+of his brother rose as a ghoul
+after death, in time embracing his
+new life and ascending to great
+power as a demon lord of ghouls,
+graves, and secrets kept by the
+dead. That ghouls of humanoids
+warp and twist to take vaguely
+elven features, and that elves
+themselves are immune to ghoul
+paralysis, are unusual side eﬀects
+of this ancient source, yet today,
+ghouls are as likely to worship
+other vile gods—or simply eschew
+faith entirely—as they are to honor
+the ﬁrst of their kind.
+Ghoul
+Few creatures are more ubiquitous to sinister locations such as lonely graveyards
+and ruined crypts than the ﬂesh-eating undead known as ghouls.
+Creating Ghouls
+You can turn a living creature into a ghoul by completing the following steps. When
+creating a ghast, double these numerical adjustments. The monsters in this section
+are built from the ground up, so their numbers don’t match these guidelines exactly.
+Custom-building ghouls is recommended if you have time, using the special abilities
+listed here but creating the other statistics to match what you want the ghoul to be.
+First, increase the creature’s level by 1 and change its statistics as follows.
+•	 Increase its AC, attack bonuses, DCs, saving throws, and skill modiﬁers by 1.
+•	 Increase its damage with Strikes and other offensive abilities by 1. If the
+creature is limited in how often it can use an ability (such as a breath
+weapon), increase the damage by 2 instead.
+GHOUL ABILITIES
+A ghoul gains the undead and ghoul traits, and it usually becomes evil. If the base
+creature has any abilities that come from it being a living creature, it loses them. It
+also loses any traits that represented its life as a living creature, such as human and
+humanoid. You might also need to adjust abilities that conﬂict with the theme of a
+ghoul. All ghouls gain the following abilities. The save DC for all abilities uses the DC
+of the ghoul’s level (Core Rulebook 503).
+Darkvision
+Negative Healing
+Immunities death eﬀects, disease, paralyzed, poison, unconscious
+Claws If the creature had hands, it gains a claw Strike (an agile
+unarmed attack that deals slashing damage plus paralysis). If
+it had any agile attacks, the damage dealt by its claws should
+be roughly the same as the damage dealt by those attacks. If it
+had only non-agile attacks, its claws should deal three-
+quarters that damage.
+Jaws If the creature had a mouth, it gains a jaws
+Strike (an unarmed attack that deals slashing damage
+plus ghoul fever and paralysis). The damage amount
+should be the same as the creature’s non-agile attacks.
+Consume Flesh Ȱɵ (manipulate) Requirements The
+ghoul is adjacent to the corpse of a creature that died
+within the last hour. Eﬀect The ghoul devours a chunk of
+the corpse and regains 1d6 Hit Points plus 1d6 for every 2 levels it has. It
+can regain Hit Points from any given corpse only once.
+Ghoul Fever (disease) Saving Throw Fortitude; Stage 1 carrier with no ill
+eﬀect (1 day); Stage 2 2d6 negative damage and regains half as many Hit Points from
+all healing (1 day); Stage 3 as stage 2 (1 day); Stage 4 2d6 negative damage and gains
+no beneﬁt from healing (1 day); Stage 5 as stage 4 (1 day); Stage 6 dead, and rises as a
+ghoul the next midnight.
+Paralysis (incapacitation, occult, necromancy) Any living, non-elf creature hit by a ghoul’s
+attack must succeed at a Fortitude save or become paralyzed. It can attempt a new save
+at the end of each of its turns, and the DC cumulatively decreases by 1 on each such save.
+Swift Leap Ȱɵ (move) The ghoul jumps up to half its Speed. This movement doesn’t
+trigger reactions.
+GHaST ABILITIES
+A ghast has all the abilities above, plus following additions.
+Stench (aura, olfactory) 10 feet A creature entering the aura or
+starting its turn in the aura must succeed at a Fortitude save
+(use a DC based on the monster’s level; Core Rulebook 503)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669021
+4425178
+
+PAGE 170
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669022
+4425179
+E-G
+169
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GHOULISH SOCIETY
+Ghouls are quite intelligent and,
+more so than almost any other
+undead, prone to forming societies
+and cultures (if vile and repugnant
+ones centered around ﬂesh eating
+and acts of depravity) in tangled
+warrens below boneyards, or even
+entire cities hidden away in the
+depths of the Darklands.
+or become sickened 1 (plus slowed 1 as long as itʼs sickened on a critical failure). While
+within the aura, the creature takes a –2 circumstance penalty to saves against disease
+and to recover from the sickened condition. A creature that succeeds at its save is
+temporarily immune for 1 minute.
+Claws and Jaws As ghoul, but apply ghast fever instead of ghoul fever.
+Consume Flesh Ȱɵ As ghoul, but it regains 1d6 additional Hit Points.
+Ghast Fever (disease) Saving Throw Fortitude; Stage 1 carrier with no ill eﬀect (1 day); Stage 2
+3d8 negative damage and regains half as many Hit Points from all healing (1 day); Stage 3
+as stage 2 (1 day); Stage 4 3d8 negative damage and gains no beneﬁt from healing (1 day);
+Stage 5 as stage 4 (1 day); Stage 6 dead, and rises as a ghast the next midnight
+Paralysis (incapacitation, occult, necromancy) As ghoul, but elves are not immune.
+Ghoul
+Ghouls are ravenous undead who haunt graveyards and eat corpses.
+GHOUL
+CREATURE 1
+CE
+MEDIUM
+GHOUL
+UNDEAD
+Perception +7; darkvision
+Languages Common, Necril
+Skills Acrobatics +7, Athletics +4, Stealth +7,
+Survival +5
+Str +1, Dex +4, Con +1, Int +1, Wis +2, Cha +2
+AC 16; Fort +4, Ref +9, Will +5
+HP 20, negative healing; Immunities
+death eﬀects, disease, paralyzed, poison, unconscious
+Speed 30 feet, burrow 5 feet
+Melee Ȱɵ jaws +9 (ﬁnesse), Damage 1d6+1 piercing plus ghoul fever
+and paralysis
+Melee Ȱɵ claw +9 (agile, ﬁnesse), Damage 1d4+1 slashing plus
+paralysis
+Consume Flesh Ȱɵ (manipulate) See Ghoul Abilities. The ghoul
+regains 1d6 Hit Points.
+Ghoul Fever (disease) See Ghoul Abilities; DC 15.
+Paralysis (incapacitation, occult, necromancy) See Ghoul Abilities;
+DC 15.
+Swift Leap Ȱɵ (move) See Ghoul Abilities.
+Ghast
+Ghasts—feral, foul-smelling, and constantly hungry—are the more powerful kin of
+ghouls. They are relentless in the pursuit of their prey.
+GHAST
+CREATURE 2
+CE
+MEDIUM
+GHOUL
+UNDEAD
+Perception +8; darkvision
+Languages Common, Necril
+Skills Acrobatics +10, Athletics +7, Stealth +10, Survival +8
+Str +3, Dex +4, Con +2, Int +1, Wis +2, Cha +3
+AC 18; Fort +6, Ref +10, Will +8
+HP 30, negative healing; Immunities death eﬀects, disease, paralyzed, poison, unconscious
+Stench (aura, olfactory) 10 feet. See Ghast Abilities; DC 16.
+Speed 30 feet, burrow 5 feet
+Melee Ȱɵ jaws +11 (ﬁnesse), Damage 1d6+5 piercing plus ghast fever and paralysis
+Melee Ȱɵ claw +11 (agile, ﬁnesse), Damage 1d4+5 slashing plus paralysis
+Consume Flesh Ȱɵ (manipulate) See Ghast Abilities. The ghast regains 3d6 Hit Points.
+Ghast Fever (disease) See Ghast Abilities; DC 16.
+Paralysis (incapacitation, occult, necromancy) See Ghast Abilities; DC 16.
+Swift Leap Ȱɵ (move) See Ghast Abilities.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669022
+4425179
+
+PAGE 171
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669023
+4425180
+Bestiary
+170
+OVERSIZED THEMES
+Giants are larger-than-life foes.
+While many giants have themes
+that tie them to elemental or
+magical forces, the primary theme
+giants share is that they embody a
+classic cultural trope as their basis.
+Fire giants, for example, can be
+seen as oversized smiths, while
+hill giants should evoke the
+ﬂavor of an oversized bully.
+Giant
+Giants are massive humanoid creatures who live in remote regions throughout
+the world. They are divided into a number of subtypes.
+Hill Giant
+Selﬁsh and crude, these rough-skinned raiders are bullies and ultimately cowards.
+Quick-tempered and fond of violence, a hill giant gladly raids and pillages the
+defenseless but is quick to ﬂee from those who are bigger, stronger, or better
+organized than they are. A hill giant is never above shoving or tricking one of their
+own kind to slow down their opponent or get the best loot.
+HILL GIANT
+CREATURE 7
+CE
+LARGE
+EARTH
+GIANT
+HUMANOID
+Perception +13; low-light vision
+Language Common, Jotun
+Skills Athletics +19, Intimidation +11
+Str +6, Dex +0, Con +4, Int –2, Wis +2, Cha +0
+Items greatclub, hide armor, sack with 5 rocks
+AC 24; Fort +17, Ref +12, Will +13
+HP 140
+Catch Rock Ǻȓ
+Speed 35 feet
+Melee Ȱɵ greatclub +19 (backswing, reach 10 feet, shove), Damage 1d10+14 bludgeoning
+Melee Ȱɵ ﬁst +19 (agile, reach 10 feet), Damage 1d6+4 bludgeoning
+Ranged Ȱɵ rock +19 (brutal, range increment 120 feet), Damage 1d8+14 bludgeoning
+Throw Rock Ȱɵ
+Wide Swing Ȱɵ The hill giant makes a single greatclub Strike and compares the attack
+roll result to the ACs of up to two foes within its reach. This counts as two attacks
+for the hill giant’s multiple attack penalty.
+Stone Giant
+Stone giants are stoic, reclusive herders and artists who have a rich
+history and collection of traditions. They dwell in caves in tall
+mountains and craggy ranges, where their grayish skin allows
+them to blend in with their surroundings and go unnoticed by
+imperceptive adventurers. Those benign travelers who come
+across a tribe of stone giants need not worry much, however,
+for stone giants do not actively invite confrontation or strife.
+They are, by and large, a peaceful people who seek wisdom
+through exploration of nature and long meditations on
+the elements of the natural world. Their elders are the wisest of stone
+giants, and use their charisma and druidic magic to lead their tribes to
+prosperity and harmony with nature.
+A typical stone giant stands 12 feet in height and weighs about
+1,500 pounds.
+STONE GIANT
+CREATURE 8
+N
+LARGE
+EARTH
+GIANT
+HUMANOID
+Perception +16; darkvision
+Languages Common, Jotun
+Skills Acrobatics +14, Athletics +20, Intimidation +14, Stealth +14 (+18 in rocky terrain)
+Str +6, Dex +2, Con +4, Int +0, Wis +1, Cha +0
+Items +1 striking greatclub, sack with 5 rocks
+AC 27; Fort +18, Ref +14, Will +14
+HP 150
+Catch Rock Ǻȓ
+Speed 35 feet
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669023
+4425180
+
+PAGE 178
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669030
+4425187
+E-G
+177
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GIMMERLING TREASURE
+Gimmerlings collect weapons,
+traps, mechanical novelties,
+and dangerous magic items.
+A gimmerling is likely found
+with tools (like artisan’s tools,
+repair kits, and thieves’ tools)
+and items it can use to appear
+more vulnerable, such as locks,
+manacles, and snare kits (which it
+feigns being trapped by).
+Gimmerling
+Gimmerlings are small, shapeshifting fey who stage ambushes to sate their
+endless hunger and childish greed. These cruelly curious fey obsess over ﬁnding
+and making unusual traps and sadistic weapons, and their favorite amusement is
+seeing these traps sprung or the weapons wielded. When on the Material Plane,
+they are frequently found in urban areas, particularly slums or other parts of
+town where they can either go unnoticed or be easily forgotten—and have plenty
+of victims to choose from.
+A typical gimmerling disguises itself as an endangered child, doing so in hopes
+of drawing creatures close enough to rob. The gimmerling puts itself in apparent
+danger using a trap, construct, or bribed ally, or even a coerced monster like
+a redcap (page 278).
+Because gimmerlings sometimes trade obscure smithing or trapping techniques
+in exchange for gifts that sate their curiosity, their greed, or their hunger, they
+have at times been worshipped as minor gods of the forge. Some disciplined
+gimmerlings work as honored artisans, elite guards, or spies for the demigods
+known as the Eldest who dwell in the depths of the First World.
+GIMMERLING
+CREATURE 12
+UNCOMMON
+LE
+SMALL
+FEY
+Perception +21; hungersense (imprecise) 30 feet, low-light vision
+Languages Aklo, Common, Sylvan
+Skills Crafting +23, Deception +25, Nature +21, Stealth +25, Thievery +25
+Str +4, Dex +7, Con +4, Int +5, Wis +3, Cha +4
+Items +1 striking hand crossbow (20 bolts)
+Hungersense Hungersense allows the gimmerling to sense creatures
+that require food to live.
+AC 34; Fort +22, Ref +25, Will +19
+HP 235; Weaknesses cold iron 10
+Treacherous Aura (aura, primal, transmutation) 15 feet. Tangled
+roots, jagged divots, sharp rocks and other hazards appear
+on surfaces in the aura, creating diﬃcult terrain.
+Trip Up Ǻȓ Trigger A creature critically fails a melee attack
+to hit the gimmerling or moves into a space within the
+gimmerling’s treacherous aura. Eﬀect The triggering creature
+must attempt a DC 32 Reﬂex save.
+Critical Success The target is unaﬀected.
+Success The target is ﬂat-footed until the start of its next turn.
+Failure The target takes 2d10 bludgeoning damage and is ﬂat-footed until the
+start of its next turn.
+Critical Failure As failure, and the target is knocked prone.
+Speed 30 feet; trickster’s step
+Melee Ȱɵ claw +26 (agile, ﬁnesse), Damage 2d8+7 slashing plus Disarm
+Melee Ȱɵ jaws +26 (ﬁnesse), Damage 3d8+7 piercing plus 2d6 poison
+Ranged Ȱɵ hand crossbow +28 (range increment 60 feet, reload 1), Damage 2d6+3
+piercing plus 2d6 poison
+Change Shape Ȱɵ (concentrate, polymorph, primal, transmutation) The gimmerling
+changes into its natural form or that of any humanoid. In humanoid form, it loses its
+treacherous aura, and its equipment appears to be trinkets or toys. As a humanoid
+that lacks claws or fangs, it loses the matching Strike. If it loses its claw Strike, it
+gains a ﬁst Strike that is identical except that it deals bludgeoning damage.
+Disarm ʚʖ Requirement The gimmerling’s last action was a success with a Strike
+that has Disarm in its damage entry. Eﬀect The gimmerling knocks a held or carried
+weapon to the ground in the target’s space.
+Sneak Attack The gimmerling deals 2d6 extra precision damage to ﬂat-footed creatures.
+Trickster’s Step The gimmerling ignores diﬃcult terrain and doesn’t trigger traps with
+its movement.
+GIMMERLING LOCATIONS
+Gimmerlings are more common
+in the First World than on the
+Material Plane and favor hunting
+grounds on the verges of dangerous
+places where they might encounter
+protective creatures to mislead with
+their disguises.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669030
+4425187
+
+PAGE 179
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669031
+4425188
+Bestiary
+178
+Gnoll
+Gnolls are short, hyena-headed humanoids who dwell in warm grasslands,
+savannas, and arid hills. Given their appearance, their afﬁnity for hyenas
+should not be surprising; gnolls share their homes, food, and even many of their
+own behaviors with these animals. Much like hyenas, gnolls have a notorious
+reputation—they are known as bloodthirsty gluttons and slavers who worship
+demons or other reprehensible powers. Though these rumors are often true, the
+behavior of gnoll clans varies widely. Some groups are composed of capable
+hunters who rarely clash with other humanoids unless there is a conﬂict over
+territory. Others hew closer to the unsavory stories, preferring to raid settlements
+and enslave innocents, snatching the fruits of others’ hard labor by strength of
+arms and forcing their victims to perform the hard, demeaning labor necessary to
+maintain the brutal clan.
+Gnolls lack any particular reverence for the remains of the dead, which adds
+to their reputation as scavengers or even cannibals. They willingly eat nearly any
+other creature, including dead gnolls, which can evoke strong reactions from
+people and cultures with a strong taboo against cannibalism or desecrating the
+dead. To a gnoll, it is almost more offensive to not eat a dead body, no matter its
+origin; gnolls see no point in wasting precious meat in a harsh and challenging
+world. Worse still is the refusal to eat the ﬂesh of a dead gnoll, which they
+consider an insult to that gnoll’s memory and sacriﬁce and an implication
+that the gnoll’s ﬂesh is unworthy of consumption. In fact, they refuse
+to eat the bodies of particularly hated foes; particularly warmongering
+gnolls even spike the bodies or heads of such despised enemies on tall
+spears, which they place around their tribal holdings to dishonor the
+dead and intimidate would-be invaders.
+Gnoll women are far stronger and more aggressive than gnoll men
+and are typically considered the leaders of their hunting packs and
+clans. Though gnolls tend to be disorganized when it comes to
+practical matters or negotiations, they are extremely efﬁcient at
+working together to hunt down prey or overwhelm a group
+of foes. Much like hyenas, they prefer to hunt in packs, and
+are exceptionally skilled at setting up ambushes or separating
+individual targets from larger groups.
+Gnoll Hunter
+Gnoll hunters serve their clans by hunting for food in
+the wilds, marauding along well-traveled roads, and
+tracking down escaped slaves.
+GNOLL HUNTER
+CREATURE 2
+CE
+MEDIUM
+GNOLL
+HUMANOID
+Perception +7; darkvision
+Skills Acrobatics +7, Athletics +8, Intimidation +4, Stealth +7, Survival +5
+Languages Gnoll
+Str +4, Dex +3, Con +2, Int –1, Wis +1, Cha +0
+Items battle axe, leather armor, shortbow (20 arrows)
+AC 18; Fort +8, Ref +7, Will +7
+HP 29
+Speed 25 feet
+Melee Ȱɵ battle axe +10 (sweep), Damage 1d8+4 slashing
+Melee Ȱɵ jaws +10 (agile), Damage 1d8+2 piercing
+Ranged Ȱɵ shortbow +10 (deadly 1d10, range increment 60 feet), Damage 1d6 piercing
+Pack Attack A gnoll hunter deals 1d4 extra damage to any creature
+that’s within reach of at least two of the gnoll hunter’s allies.
+Rugged Travel A gnoll ignores the ﬁrst square of diﬃcult
+terrain it moves into each time it Steps or Strides.
+GNOLL CLANS
+The most commonly encountered
+gnoll clans are slavers, who travel
+far and wide to acquire chattel
+and auction oﬀ their living goods.
+Although not all clans engage in
+slavery, most are still violent toward
+other creatures in general. Some
+clans hunt people for food, others
+capture innocents to sacriﬁce to evil
+deities, and still others simply wish
+to wet their blades with blood.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669031
+4425188
+
+PAGE 180
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669032
+4425189
+E-G
+179
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GNOLL LAIRS
+Gnolls dwell primarily on dry
+savannas and windswept plains.
+Thanks to their sturdy constitutions
+and strong survival instincts,
+they have few qualms about
+setting up holdings out in the
+open. Many gnolls establish their
+encampments—typically made up of
+hide lean-tos and tents—atop sloping
+hills to better survey the region for
+potential prey. Gnolls rarely dwell
+in caverns or similar enclosures,
+knowing that it is all too easy to get
+cornered when there is only
+one exit.
+Gnoll Cultist
+Gnoll cultists serve as their clans’ spiritual guides and conduits to the divine. As
+often as not, their inﬂuence drives entire gnoll civilizations to commit atrocious
+acts of violence and enslavement. Lamashtu and Rovagug are favored deities of
+gnoll cultists, and many gnolls believe their kind was in fact birthed from the
+womb of the Mother of Monsters. Some gnoll clans worship lesser-known demon
+lords or entire pantheons of sinister patrons.
+GNOLL CULTIST
+CREATURE 3
+CE
+MEDIUM
+GNOLL
+HUMANOID
+Perception +8; darkvision
+Skills Intimidation +7, Medicine +7, Religion +10, Stealth +7, Survival +8
+Languages Abyssal, Common, Gnoll
+Str +2, Dex +2, Con +0, Int +0, Wis +3, Cha +2
+Items falchion, hide armor, wooden religious symbol
+AC 19; Fort +8, Ref +6, Will +10
+HP 45
+Speed 25 feet
+Melee Ȱɵ falchion +10 (forceful, sweep), Damage 1d10+3 slashing
+Melee Ȱɵ jaws +10 (agile), Damage 1d6+3 piercing
+Divine Prepared Spells DC 22, spell attack +10; 2nd darkness, harm (×4),
+spiritual weapon; 1st command, fear, magic weapon; Cantrips (2nd) daze,
+detect magic, light, read aura, sigil
+Pack Attack As gnoll hunter.
+Rugged Travel As gnoll hunter.
+Gnoll Sergeant
+When gnolls band together to form hunting or raiding
+parties, the strongest among them is often designated the
+leader or sergeant. These gnolls train extensively in the art of
+war. Their skill at arms and the respect they command make
+them powerful adversaries. In smaller clans or single family
+units, a gnoll sergeant might also serve as the group’s leader
+in other affairs, such as sorting out domestic disputes or
+negotiating with rival gnoll clans.
+GNOLL SERGEANT
+CREATURE 4
+CE
+MEDIUM
+GNOLL
+HUMANOID
+Perception +10; darkvision
+Skills Athletics +13, Intimidation +9, Stealth +11, Survival +10
+Languages Common, Gnoll
+Str +4, Dex +2, Con +2, Int +0, Wis +1, Cha +0
+Items composite shortbow (20 arrows), hide armor, scimitar
+AC 21; Fort +12, Ref +10, Will +8
+HP 60
+Attack of Opportunity Ǻȓ
+Speed 25 feet
+Melee Ȱɵ scimitar +14 (forceful, sweep), Damage 1d6+7
+slashing
+Melee Ȱɵ jaws +14 (agile), Damage 1d6+7 piercing
+Ranged Ȱɵ composite shortbow +12 (deadly 1d10, propulsive, range
+increment 60 feet, reload 0), Damage 1d6+4 piercing
+Bark Orders Ȱɵ (auditory, linguistic) The gnoll sergeant commands its
+allies to reposition. Any allies who hear and understand this order can
+use a reaction to Step.
+Pack Attack As gnoll hunter.
+Rugged Travel As gnoll hunter.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669032
+4425189
+
+PAGE 181
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669033
+4425190
+Bestiary
+180
+GOBLIN TREASURE
+Although goblin warrens are
+generally ﬁlthy dumps, they
+sometimes contain actual
+treasures stolen from longshanks
+or other goblin tribes. Typical
+treasures include small pieces of
+jewelry, shiny items such as hand
+mirrors, and gold teeth. As they
+rarely trust each other, many
+goblins keep their most cherished
+baubles on their persons; these,
+might include useful weapons or
+minor magic items.
+Goblin
+These small humanoids have green or gray skin and large heads with wide ears.
+While some goblins are civilized and have worked hard to be considered upstanding
+members of humanoid communities, most are impetuous and vicious creatures who
+delight in wreaking havoc. These goblins think nothing of slaughtering livestock,
+stealing infants, or burning down a building purely for momentary delight. They
+revel in playing malicious tricks on taller humanoids, whom they call “longshanks.”
+Goblins are superstitious, with an intense awe of magic and a fascination with
+ﬁre; goblins who master magic or ﬁre earn great respect from their kin. Most other
+humanoids ﬁnd it difﬁcult to understand goblins’ outlook: they hate canines but
+eagerly share their lairs with so-called “goblin dogs,” they fearlessly attack larger
+creatures but are terriﬁed of horses, and they despise vegetables yet consider pickles
+a delicacy. To a goblin, of course, these are all perfectly sensible life choices.
+Goblin Warrior
+The frontline ﬁghters of goblin tribes prefer to ﬁght in large groups—especially
+when they can outnumber their foes at least three to one.
+GOBLIN WARRIOR
+CREATURE –1
+CE
+SMALL
+GOBLIN
+HUMANOID
+Perception +2; darkvision
+Languages Goblin
+Skills Acrobatics +5, Athletics +2, Nature +1, Stealth +5
+Str +0, Dex +3, Con +1, Int +0, Wis –1, Cha +1
+Items dogslicer, leather armor, shortbow (10 arrows)
+AC 16; Fort +5, Ref +7, Will +3
+HP 6
+Goblin Scuttle Ǻȓ Trigger A goblin ally ends a move action adjacent
+to the warrior. Eﬀect The goblin warrior Steps.
+Speed 25 feet
+Melee Ȱɵ dogslicer +8 (agile, backstabber, ﬁnesse), Damage
+1d6 slashing
+Ranged Ȱɵ shortbow +8 (deadly 1d10, range increment 60
+feet, reload 0), Damage 1d6 piercing
+Goblin Commando
+The theoretical leaders of goblin raids are called goblin
+commandos. In practice, goblin commandos rarely
+continue to lead their comrades once a battle has begun.
+Most shirk their responsibilities in favor of wading into
+the fray and claiming more glory from their tribe-mates.
+GOBLIN COMMANDO
+CREATURE 1
+CE
+SMALL
+GOBLIN
+HUMANOID
+Perception +5; darkvision
+Languages Common, Goblin
+Skills Acrobatics +6, Athletics +6, Intimidation +5, Nature +5, Stealth +6
+Str +3, Dex +3, Con +2, Int –1, Wis +0, Cha +2
+Items horsechopper, leather armor, shortbow (20 arrows)
+AC 17; Fort +7, Ref +8, Will +5
+HP 18
+Goblin Scuttle Ǻȓ As goblin warrior.
+Speed 25 feet
+Melee Ȱɵ horsechopper +8 (reach 10 feet, trip, versatile P), Damage
+1d8+3 slashing
+Ranged Ȱɵ shortbow +8 (deadly 1d10, range increment
+60 feet, reload 0), Damage 1d6 piercing
+GOBLIN LOCATIONS
+Goblins construct warrens in
+forests and coastal regions,
+usually near the settlements
+of other humanoids for ease of
+scavenging and raiding.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669033
+4425190
+
+PAGE 182
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669034
+4425191
+E-G
+181
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+THE GOBLIN SONG
+The following ditty is perhaps the
+most infamous of goblin songs.
+Goblins chew and goblins bite,
+Goblins cut and goblins ﬁght.
+Stab the dog and cut the horse,
+Goblins eat and take by force!
+Goblins race and goblins jump.
+Goblins slash and goblins bump.
+Burn the skin and mash the head,
+Goblins here and you be dead!
+Chase the baby, catch the pup.
+Bonk the head to shut it up.
+Bones be cracked, ﬂesh be stewed,
+We be goblins! You be food!
+Goblin Pyro
+Some goblins take their people’s admiration of ﬁre fully into the realm of deadly
+obsession. These pyromaniacs can be a great boon to a band of goblin raiders
+eager to torch their enemies and wreak havoc. More often, however, their presence
+is a double-edged sword; in the heat of the moment, goblin pyros sometimes lose
+sight of their tribe’s goals and simply set ﬁre to anything that will burn—including
+their own allies.
+GOBLIN PYRO
+CREATURE 1
+CE
+SMALL
+GOBLIN
+HUMANOID
+Perception +4; darkvision
+Languages Common, Goblin
+Skills Acrobatics +7, Fire Lore +7, Stealth +7
+Str +0, Dex +4, Con +2, Int +0, Wis –1, Cha +3
+Items torch
+AC 17; Fort +5, Ref +9, Will +4
+HP 15
+Goblin Scuttle Ǻȓ As goblin warrior.
+Speed 25 feet
+Melee Ȱɵ torch +7 (ﬁre), Damage 1d4 bludgeoning plus 1 ﬁre
+Arcane Spontaneous Spells DC 16, attack +6; 1st (3 slots) burning hands, grease; Cantrips
+(1st) light, mage hand, produce ﬂame, tanglefoot
+Goblin War Chanter
+While all goblins enjoy singing, goblin war chanters pride
+themselves on mastering the art of vocal performance.
+Their ballads and jingles are undeniably catchy,
+though whether they are actually enjoyable is
+entirely subjective.
+GOBLIN WAR CHANTER
+CREATURE 1
+CE
+SMALL
+GOBLIN
+HUMANOID
+Perception +5; darkvision
+Languages Common, Goblin
+Skills Acrobatics +6, Deception +7, Occultism +4,
+Performance +7, Stealth +6
+Str +2, Dex +3, Con +2, Int +1, Wis +0, Cha +4
+Items dogslicer, leather armor, shortbow (10 arrows)
+AC 17; Fort +7, Ref +8, Will +5
+HP 16
+Goblin Scuttle Ǻȓ As goblin warrior.
+Speed 25 feet
+Melee Ȱɵ dogslicer +8 (agile, backstabber, ﬁnesse), Damage 1d6+2
+slashing
+Ranged Ȱɵ shortbow +8 (deadly 1d10, range increment 60 feet,
+reload 0), Damage 1d6 piercing
+Occult Spontaneous Spells DC 17, attack +7; 1st (2 slots) bless, soothe; Cantrips
+(1st) ghost sound, inspire courage, mage hand, message, telekinetic projectile
+Goblin Song Ȱɵ The war chanter sings annoying goblin songs, distracting
+foes with silly and repetitive lyrics. The chanter attempts a Performance
+check against the Will DCs of up to two enemies within 30 feet. This has
+the usual traits and restrictions for a Performance check.
+Critical Success The target takes a –1 status penalty to Perception checks and
+Will saves for 1 minute.
+Success As critical success, but the target is aﬀected for only 1 round.
+Critical Failure The target is temporarily immune to Goblin Song
+for 1 hour.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669034
+4425191
+
+PAGE 183
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669035
+4425192
+Bestiary
+182
+GOBLIN DOG STORIES
+Goblins adore their goblin dog
+pets, and crafting stories about
+goblin dog antics is a time-
+honored pursuit among many
+goblin clans. Goblins often seek to
+outdo prior stories by increasing
+the audacity, ridiculousness,
+and surreality of their tales.
+Examples of popular goblin dog
+tales include goblin dogs holding
+fancy dinners in high society
+among unwitting humans, goblin
+dogs tainting dwarven ale in
+unmentionable ways, and goblins
+who transform into barghests
+as a result of a goblin dog bite.
+This last plot, in particular, has
+some truth to it, as many credible
+accounts point to the existence
+of goblin dog werecreatures in
+certain goblin tribes.
+Goblin Dog
+Goblins’ eponymous pets aren’t true canines at all, but rather large, blunt-nosed
+rodents with thin bodies and long legs. As cowardly as they are ugly, goblin dogs
+prefer to lurk behind bushes or in deep shadows, pouncing upon lone or wounded
+prey. Goblin dogs frequently lair and roam in packs, but they are likely to ﬂee
+from a ﬁght if injured, even if it means abandoning their pack-mates.
+Goblin dogs take their name from their long association with goblins, who
+breed the beasts as guard animals and mounts. Most goblins take issue with
+the name, as the average goblin is appalled at the suggestion that these, their
+favored mounts, have anything at all to do with actual dogs. Of course, being
+goblins, they haven’t bothered to come up with their own, unique name for
+goblin dogs.
+Even the most pampered goblin dogs have itchy mange and proliﬁc dander
+that tenaciously affects those who come in contact with them. This “goblin
+pox” causes itchy hives and festering sores that are as unsightly as they are
+irritating and distracting. Goblin dog dander causes allergic reactions in nearly
+all other creatures that don’t share the goblin dogs’ terrible hygiene—with the
+notable exception, of course, of goblins, who remain entirely immune to the
+disease regardless of cleanliness.
+Hunger can drive goblin dogs to bouts of uncharacteristic violence; many
+goblins purposefully starve their pets to make them more aggressive in battle.
+Goblin dogs subsist on whatever organic material they can scavenge, and they
+particularly enjoy fresh carrion. Although goblins are far from picky eaters,
+they value goblin dogs as pets because the noisome animals will consume
+food that even goblins won’t dare to eat. “Will it eat?” is one of several games
+goblins enjoy playing with their goblin dog pets, where a wide range of mouth-
+sized morsels (not always edible or safe to consume) are dangled before a
+goblin dog’s snout. “Will it die?” is often a game played after “Will it eat?”
+Goblin dogs who survive the second game earn renown for their digestive
+prowess and often become favored tribal pets treated better than most of the
+rank-and-ﬁle goblins.
+GOBLIN DOG
+CREATURE 1
+N
+MEDIUM
+ANIMAL
+Perception +6; low-light vision, scent (imprecise) 30 feet
+Skills Athletics +6, Stealth +7
+Str +3, Dex +2, Con +2, Int –4, Wis +1, Cha –1
+AC 17; Fort +8, Ref +8, Will +5
+HP 17
+Buck Ǻȓ DC 17
+Irritating Dander A creature that hits the goblin dog
+with an unarmed attack, tries to Grapple it, or otherwise
+touches it is exposed to goblin pox.
+Juke Ǻȓ Requirement A creature must be mounted on the goblin
+dog. Trigger The rider issues a command to the goblin dog. Eﬀect
+The goblin dog Steps before following the command.
+Speed 40 feet
+Melee Ȱɵ jaws +9, Damage 1d6+3 piercing plus goblin pox
+Goblin Pox (disease); Goblins and goblin dogs are
+immune to goblin pox. Saving Throw DC 17 Fortitude;
+Stage 1 sickened 1 (1 round); Stage 2 sickened 1 and
+slowed 1 (1 round); Stage 3 sickened 2 and
+can’t reduce its sickened value below 1
+(1 day).
+Scratch ʚʖ (manipulate) The goblin
+dog vigorously scratches itself, exposing
+all adjacent creatures to goblin pox.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669035
+4425192
+
+PAGE 184
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669036
+4425193
+E-G
+183
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GREAT GOGITETHS
+As deadly as gogiteths are, rumors
+persist of even more terrifying
+threats known as great gogiteths.
+Said to be nearly a hundred feet
+across and capable of spawning
+their own hordes of gogiteths in
+reaction to being attacked, great
+gogiteths are also reputed to be
+unusually intelligent. The rumors
+claim that great gogiteths are
+largely content to lurk in their
+deep, remote caverns and spend
+the ages dreaming of sadism
+and violence.
+Gogiteth
+A gogiteth is a slavering nightmare of teeth, eyes, and hairy spiderlike legs, and
+its appearance is invariably seared into the minds of any who witness it. Hives of
+these skittering monsters haunt the lowest reaches of the Darklands, competing
+with cave worms and other subterranean horrors for food and resources. A
+gogiteth is rarely seen alone, as these oversized vermin learned long ago that
+the best means of survival is sticking close to others of their own kind. Even the
+haughty drow know to seek cover when a gogiteth is spotted, for where there is
+one, a swarm is sure to follow.
+Gogiteths make a clacking sound as they move about. The joints in their many
+legs pop and crack with each movement, though they can suppress this sound
+voluntarily so that they can hunt without giving away their presence. The odd
+creatures can also make a high-pitched whistling sound that echoes throughout
+the caverns where they live. Some Darklands natives report that groups of
+gogiteths sometimes join together in eerie, discordant songs.
+Gogiteths’ alien anatomies have inspired no shortage of speculative origin
+stories. Some believe they are the result of a ﬂeshwarping experiment gone
+horribly wrong. Others think they may be related in some way to the Dominion
+of the Black—possibly the distant cousins or some strange exile of that alien
+entity; according to this mythos, once they made their way to this planet, the
+gogiteths crawled into the depths of the earth, shying away from the blazing
+sun above.
+Gogiteths are a menace to every other denizen of the Darklands. Drow
+and duergars in gogiteth-infested regions of Sekamina or Orv frequently
+organize hunting parties to eradicate the terrors, even
+calling for temporary truces with unlikely allies in times
+when a gogiteth presence must be addressed. Since even
+an average gogiteth hive can host up to two dozen of the
+horrors, missions to eradicate them when they become
+established are dangerous quests indeed.
+GOGITETH
+CREATURE 12
+CE
+LARGE
+ABERRATION
+Perception +21; darkvision
+Languages Undercommon (can’t speak)
+Skills Acrobatics +19, Athletics +24, Stealth +21, Survival +17
+(+24 to Track)
+Str +6, Dex +3, Con +4, Int –2, Wis +1, Cha +0
+AC 31; all-around vision; Fort +25, Ref +22, Will +20
+HP 250; Resistances poison 10
+Skittering Reposition Ǻȓ (move) Trigger A creature that
+starts its move outside the gogiteth’s reach moves into its
+reach. Eﬀect The gogiteth moves 10 feet. This does not
+trigger reactions.
+Speed 40 feet; climb 30 feet
+Melee Ȱɵ jaws +26, Damage 3d10+12 piercing plus Improved
+Grab
+Melee Ȱɵ leg +26 (agile, reach 10 feet), Damage 3d6+12 piercing
+Carry Oﬀ Prey The gogiteth can move at its full Speed while it has a
+creature grabbed in its jaws, bringing the grabbed creature along.
+Constrict Ȱɵ 3d6+12 bludgeoning, DC 32
+Skittering Assault ʚʖ The gogiteth Strides three times. Once per
+Stride, it can attempt a leg Strike against a creature in its
+reach at any point during the Stride; it must make each attack
+against a diﬀerent creature, but it doesn’t apply its multiple
+attack penalty until after making all its Strikes. If any of the
+Strikes result in a critical failure, Skittering Assault ends.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669036
+4425193
+
+PAGE 185
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669037
+4425194
+Bestiary
+184
+FLESH GOLEMS
+Few buyers want anything to do
+with the remains of a destroyed
+ﬂesh golem. An adventurer’s best
+bet for proﬁting oﬀ of a ﬂesh
+golem body is to disassemble it
+piece by piece, extract the few
+contraptions of steel and copper
+meant to harness electricity, and
+sell the parts to tinkerers who ask
+few questions.
+Golem
+Crafted of base materials and then magically animated into a powerful guardian, the
+legendary golem is a living construct that mindlessly obeys its creator’s commands—
+often continuing to do so for years or even centuries after its creator’s death. There
+exist two known methods of animating a golem. The traditional method involves
+harvesting and implanting an elemental soul or essence within the newly crafted host
+statue, a procedure seen as vile and blasphemous to those who value the sanctity
+of the soul; evil or amoral golem crafters tend to prefer this method. The other,
+less disreputable technique involves siphoning pure positive energy into the statue
+to artiﬁcially imitate the creation of a soul. The result does not give the golem a
+true soul and is generally a more costly and time-consuming method of creation.
+Regardless of the method used, the resulting golem functions the same. A golem’s
+unique animating force leaves it susceptible to certain forms of magic, but apart from
+these few weaknesses, it is impervious to magic and difﬁcult to damage with weapons.
+Golems work best in play as foes to vanquish rather than allies to accompany
+player characters on adventures. The process of creating a golem is time-consuming,
+expensive, and difﬁcult, and only the most talented spellcasters or artisans can even
+hope to accomplish such an undertaking. While certain magical texts—so-called
+“golem manuals”—are said to aid golems crafters, for the most part the creation of
+a golem should be something left in the hands of the Game Master.
+Golems have components that can be harvested as trophies or magical
+components; the value depends on the golem in question. Examples of components
+that can be harvested from golems are listed in the sidebars.
+Golem Antimagic
+A golem is immune to spells and magical abilities other
+than its own, but each type of golem is affected by a few
+types of magic in special ways. These exceptions are
+listed in shortened form in the golem’s stat block,
+with the full rules appearing here. If an entry
+lists multiple types (such as “cold and water”),
+either type of spell can affect the golem.
+•  Harmed By Any magic of this type that
+targets the golem causes it to take the listed amount of damage (this damage
+has no type) instead of the usual eﬀect. If the golem starts its turn in an area of
+magic of this type or is aﬀected by a persistent eﬀect of the appropriate type, it
+takes the damage listed in the parenthetical.
+•	 Healed By Any magic of this type that targets the golem makes the golem
+lose the slowed condition and gain HP equal to half the damage the spell
+would have dealt. If the golem starts its turn in an area of this type of
+magic, it gains the HP listed in the parenthetical.
+•  Slowed By Any magic of this type that targets the golem causes
+it to be slowed 1 for 2d6 rounds instead of the usual eﬀect. If the
+golem starts its turn in an area of this type of magic, it’s slowed 1
+for that round.
+•
+Vulnerable To Each golem is vulnerable to one or more
+speciﬁc spells, with the eﬀects described in its stat block.
+Flesh Golem
+Made of odd scraps of skin and muscle, a ﬂesh golem
+is a grotesque parody of life. Though it has no mind,
+it can still go into a berserk rage when harmed, giving
+it a faint semblance of emotion. Flesh golems guard
+the laboratories and charnel houses of ﬂeshwarpers
+and necromancers who feel no compunctions about
+desecrating corpses for their own ends. Though the
+ﬁrst ﬂesh golem is believed to have been a misguided
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669037
+4425194
+
+PAGE 186
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669038
+4425195
+E-G
+185
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+ALCHEMICAL GOLEMS
+When an alchemical golem is
+defeated or disabled, if any of its
+ﬁrst four alchemical chambers
+(1–4) remain intact, the chamber
+can be salvaged and used as a
+lesser alchemical bomb of the
+corresponding type: acid ﬂask,
+frost vial, bottled lightning, or
+alchemist's ﬁre, respectively.
+attempt to create from simple base elements, these monstrosities are far from
+human. In isolated cases, echoes of a personality might rise in a ﬂesh golem if
+the brain used as part of its construction belonged to a particularly powerful
+personality, but such tragic instances are (thankfully) rare in the extreme.
+FLESH GOLEM
+CREATURE 8
+UNCOMMON
+N
+LARGE
+CONSTRUCT
+GOLEM
+MINDLESS
+Perception +12; darkvision
+Skills Athletics +19
+Str +5, Dex –1, Con +3, Int –5, Wis +0, Cha –5
+AC 26; Fort +18, Ref +14, Will +15
+HP 140; Immunities bleed, disease, death eﬀects, electricity, doomed, drained, fatigued,
+healing, magic (see below), mental, necromancy, nonlethal attacks, paralyzed,
+poison, sickened, unconscious; Resistances physical 5 (except adamantine)
+Berserk A severely damaged ﬂesh golem has a chance of going berserk. If it has 40 or
+fewer HP at the start of its turn, the golem must succeed at a DC 5 ﬂat check or go
+berserk. A berserk golem wildly attacks the nearest living creature, or the nearest
+object if no creatures are nearby.
+Golem Antimagic harmed by ﬁre (5d8, 3d4 from areas or persistent damage); healed by
+electricity (area 2d4 HP); slowed by cold
+Vulnerable to Flesh to Stone Casting a ﬂesh to stone spell on the ﬂesh golem aﬀects
+the golem normally.
+Electric Reﬂexes Ǻȓ Trigger The golem takes electricity damage and a creature is
+adjacent to it. Eﬀect The golem lashes out and tries to grab a nearby creature. The
+golem attempts an Athletics check to Grapple an adjacent creature. The creature
+also takes 3d6 electricity damage on a success, or 6d6 electricity damage on a
+critical success.
+Speed 25 feet
+Melee Ȱɵ ﬁst +20 (magical, reach 10 feet), Damage 2d10+7 bludgeoning
+Berserk Slam Ȱɵ Requirement The ﬂesh golem is berserk. Eﬀect The ﬂesh golem Strikes
+with its ﬁst at a –1 circumstance penalty. If it hits, it deals 1d6 extra damage and
+knocks the target prone.
+Alchemical Golem
+This golem is a walking alchemical nightmare capable of inﬂicting all
+manner of painful wounds. Its ability to follow orders is granted
+by the otherwise mindless humanoid brain that ﬂoats in its
+dome-like head. In exceptionally rare cases, the brain used
+in its creation might retain fragments of memories or
+even actual intellect, resulting in an alchemical golem
+with a personality and agenda of its own.
+ALCHEMICAL GOLEM
+CREATURE 9
+UNCOMMON
+N
+LARGE
+ALCHEMICAL
+CONSTRUCT
+GOLEM
+MINDLESS
+Perception +15; darkvision
+Skills Athletics +22
+Str +6, Dex +4, Con +3, Int –5, Wis +0, Cha –5
+AC 27; Fort +20, Ref +19, Will +15
+HP 150; Immunities acid, bleed, death eﬀects, disease, doomed, drained, fatigued,
+healing, magic (see below), mental, necromancy, nonlethal attacks, paralyzed, poison,
+sickened, unconscious; Resistances physical 12 (except adamantine or bludgeoning)
+Alchemical Chambers An alchemical golem’s body contains six alchemical chambers ﬁlled
+with diﬀerent substances. When an alchemical golem ability calls upon a randomly
+determined alchemical eﬀect, roll 1d6 and consult the following (if you roll the result of
+a chamber that was shattered, there is no alchemical eﬀect):
+1 acid damage; 2 cold damage; 3 electricity damage; 4 ﬁre damage; 5 poison damage;
+6 sickness: DC 26 Fortitude save or sickened 1 (sickened 2 on a critical failure)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669038
+4425195
+
+PAGE 196
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669048
+4425205
+E-G
+195
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GRIKKITOG ORIGINS
+Grikkitogs are the subject of
+countless scary stories told among
+denizens of the Plane of Earth,
+many of which speculate upon
+their origin. Some who remember
+the wars between the elemental
+lords believe the ﬁrst grikkitog
+was an experiment created to
+serve as a weapon for Ayrzul,
+the evil Fossilized King of the
+Elemental Plane of Earth, but its
+hunger and power was so great
+that it escaped containment,
+infested an earth elemental
+warden, and began to spread
+throughout the plane.
+Grikkitog
+Grikkitogs, also known as “hungry earth,” are strange parasites from the Plane
+of Earth that infest and possess earth, rock, and stone in order to feed their
+endless hunger. A young grikkitog is a formless apparition until it corrupts an
+earth elemental host, forming the grikkitog’s core. A grikkitog can then infest
+the earth and stone nearby with its voracious essence, forming maws and eyes
+all around it. These creatures are particularly dangerous to small creatures that
+lair within gaps and holes among rocks, as well as mountain climbers searching
+for the perfect handhold.
+GRIKKITOG
+CREATURE 14
+NE
+HUGE
+ABERRATION
+EARTH
+Perception +29; darkvision, manifold vision, tremorsense (imprecise) 30 feet
+Languages Terran
+Skills Athletics +28, Deception +27 (+31 to imitate stone), Survival +25
+Str +8, Dex +4, Con +5, Int +2, Wis +5, Cha +5
+Implant Core ̂ˬ (manipulate) The grikkitog implants its core into an adjacent section
+of earth or stone, melding seamlessly and changing its visual appearance to match
+the surrounding rock. It’s immobilized but automatically succeeds at its Deception
+check to Impersonate the stone around it; creatures actively searching for it can
+still attempt Perception checks against its Deception DC as normal. A grikkitog can
+release its implantation as a free action, which has the manipulate trait. A grikkitog’s
+infestation aura and manifold vision are only active while implanted.
+Manifold Vision While its core is implanted, the grikkitog can see through the eyes
+it creates throughout the area of its infestation aura, gaining the beneﬁts of all-
+around vision.
+AC 36; Fort +28, Ref +23, Will +24
+HP 200, Resistances 10 (except adamantine)
+Infestation Aura (aura, earth, occult) 120 feet. While its core is implanted, a
+grikkitog infests all earth and stone within 120 feet, as long as there
+is a contiguous physical connection between the earth, including
+stone objects touching on the ground. This eﬀect spreads even if
+the grikkitog does not have line of eﬀect, though it can aﬀect
+earth or stone on the surface and exposed to the air only
+if at least part of its core is exposed as well. Within the
+aura, it can grow maws and eyes everywhere. It can make
+jaws attacks against any creature, originating from any
+earth or stone in the aura adjacent to that creature.
+Determine cover from the origin point of the attack,
+not from the grikkitog’s core.
+Speed 20 feet; burrow 20 feet
+Melee Ȱɵ jaws +29 (magical), Damage 3d12+14
+piercing plus barbed maw
+Barbed Maw Upon Striking a creature with
+its jaws, the grikkitog can extend its
+barbed teeth, immobilizing the target
+unless it succeeds at a DC 34 Reﬂex
+save. While immobilized, the victim takes
+3d8 persistent bleed damage and the
+grikkitog feeds upon its ﬂesh. The creature is
+immobilized until the grikkitog ends the eﬀect
+as a free action or the target succeeds at a DC
+38 check to Escape. The grikkitog can immobilize
+any number of creatures with these maws.
+Earth Glide The grikkitog can Burrow through dirt and
+stone at its full burrow Speed, leaving no tunnels or
+signs of its passing.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669048
+4425205
+
+PAGE 197
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669049
+4425206
+Bestiary
+196
+DEAD MAN’S HAND
+Decks of cards are a traditional
+method used to tell a person’s
+fortune, but legends hold that
+certain cards or combinations of
+unfortunate draws can attract
+the attention of the grim reaper.
+Specialized fortune-telling decks,
+such as the Harrow, might
+not feature the visage of the
+grim reaper directly, but to the
+paranoid, death could lurk in any
+unfortunate hand of cards.
+Grim Reaper
+The Grim Reaper is the unﬂinching personiﬁcation of death. Silent as the grave and
+as inevitable as time itself, this legendary being hunts down and ﬁnishes creatures
+that have evaded death for far too long. Sometimes the Grim Reaper comes
+without warning, while at others it comes to ﬁnish the work that other creatures
+could not. The Grim Reaper serves no god, ﬁend, or aeon. It is both despised
+and feared by psychopomps and celestials, but few—if any—dare to stand in its
+way. Like some eternal plague, it kills those who try to cure the multiverse of its
+presence. It stands alone and holds only its own council, and the pleading and
+reasoning of mortals and immortals alike fall on deaf ears once the Grim Reaper
+closes on its quarry. Its own reasoning is silent to mortal ears and inscrutable to
+the mortal mind, but no matter the reason, the result is unyielding and ﬁnal.
+While some legends hold that the Grim Reaper appears before everyone as
+they die, the truth is quite a bit more disturbing. Such vigils in fact lie within the
+providence of the psychopomps, a race of immortals charged with the protection
+and guidance of mortal souls through the afterlife. The Grim Reaper has little
+interest in protecting souls or guiding them. It is instead compelled by sinister
+agendas arising within the nighted realm of Abaddon, where the Horsemen of the
+Apocalypse rule. Indeed there are many similarities in shape and form between
+the Grim Reaper and Charon, the Horseman of Death, but no recorded instance
+exists of these two powerful entities working together. Instead, the Grim Reaper
+serves as something of a manifestation of Abaddon itself, and in this regard is
+believed by some to be an incarnation of the mysterious First Horseman. When
+the Grim Reaper comes to a world, it does so not as an angel of mercy, but as a
+relentless harvester of life. Those who fall to the Grim Reaper were not destined
+to die as much as they were selected, hunted, and murdered.
+Perhaps the most frightening legends surrounding the Grim Reaper concern
+its nature as a singular entity, for some believe that more than one grim reaper
+exists in the Great Beyond. These whispers tell of a cabal of at least nine of
+these creatures that stalk reality, culling the living as inexplicable servants of
+true entropy. According to the teaching of some death cults, the ﬁnal goal of the
+Grim Reaper is to end the entire cycle of life and death and serve as a silent lord
+of an empty universe.
+GRIM REAPER
+CREATURE 21
+UNIQUE
+NE
+MEDIUM
+UNDEAD
+Perception +41; darkvision, see invisibility, status sight, true seeing
+Languages Common, Necril
+Skills Acrobatics +43, Athletics +38, Deception +40, Intimidation +43, Religion +39,
+Society +36, Stealth +43
+Str +8, Dex +10, Con +8, Int +5, Wis +7, Cha +8
+Items scythe
+Death’s Grace The grim reaper can choose whether or not it counts as undead for eﬀects
+that aﬀect undead diﬀerently. Even if it does not count as undead, the grim reaper still
+never counts as a living creature.
+Status Sight The grim reaper automatically knows the Hit Points, conditions, aﬄictions,
+and emotions of all creatures it can see.
+AC 47; Fort +37, Ref +41, Will +38; +1 status to all saves vs. magic
+HP 320, negative healing; Immunities death eﬀects, disease, paralyzed, poison,
+unconscious; Resistances all damage 15
+Aura of Misfortune (aura, divination, divine, misfortune) 20 feet. Living creatures in the
+aura must roll twice on all d20 rolls and use the lower result.
+Negative Healing The grim reaper can choose whether or not it takes positive damage.
+Lurking Death Ǻȓ (teleportation); Trigger A creature within 100 feet makes a ranged
+attack or uses an action that has the concentrate, manipulate, or move trait. Eﬀect
+The grim reaper teleports to a square adjacent to the triggering creature and makes a
+melee Strike against it. If the Strike hits, the grim reaper disrupts the triggering action.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669049
+4425206
+
+PAGE 198
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669050
+4425207
+E-G
+197
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GRIM REAPER TREASURE
+The grim reaper keeps no treasure,
+but sometimes lesser deaths hang
+on to strange keepsakes from
+those whom they have slain—
+especially in cases where a lesser
+death has set its unholy sight on
+an extended family or faction.
+Speed 50 feet, ﬂy 75 feet
+Melee Ȱɵ keen scythe +40 (agile, deadly 3d10, magical, reach 10 feet, trip), Damage
+4d10+23 slashing plus death strike and energy drain
+Divine Innate Spells DC 47, attack +37; 10th ﬁnger of death (×4); 7th plane shift; Constant
+(6th) true seeing; (3rd) haste; (2nd) see invisibility
+Death Strike (death) A creature critically hit by any of the grim reaper’s attacks or that
+critically fails against any of its spells must succeed at a DC 47 Fortitude save or die.
+Energy Drain When the grim reaper hits and deals damage with its scythe, it regains 20 Hit
+Points, and the target must succeed at a DC 43 Fortitude save or become doomed 1. If the
+target is already doomed, the doomed value increases by 1 (to a maximum of doomed 3).
+Final Death A creature killed by the grim reaper can’t be brought back to life by any
+means short of divine intervention.
+Infuse Weapon (divine, evocation) Any scythe gains the agile trait, can’t be disarmed,
+and becomes a +3 major striking keen scythe while the grim reaper wields it. If the
+grim reaper Strikes a creature with a weakness to any speciﬁc type of damage, the
+scythe’s damage counts as that type of damage, in addition to slashing.
+Lesser Death
+No one is quite sure what lesser deaths are, though some
+claim that they are avatars of the grim reaper. Unlike that
+strange hunter, however, lesser deaths hunt in packs on
+rare occasions. More often than not, they manifest from
+cursed magic items. Other times, they are just the enactors
+of death, hunting in the same way the grim reaper does—
+silently, with neither remorse nor quarter. Rarely, multiple
+lesser deaths work together to cull a large population, their
+scythes cutting through crowds and leaving entire cities
+devoid of life, inspiring (hopefully) false rumors of
+multiple grim reapers.
+LESSER DEATH
+CREATURE 16
+RARE
+NE
+MEDIUM
+UNDEAD
+Perception +32; darkvision, see invisibility,
+status sight, true seeing
+Languages Common, Necril
+Skills Acrobatics +33, Athletics +28, Deception +30,
+Intimidation +32, Religion +30, Society +26, Stealth +35
+Str +6, Dex +9, Con +6, Int +4, Wis +6, Cha +6
+Items scythe
+Death’s Grace As grim reaper.
+Status Sight As grim reaper.
+AC 39; Fort +30, Ref +33, Will +32, +1 status to all saves
+vs. magic
+HP 255, negative healing; Immunities death eﬀects, disease,
+paralyzed, poison, unconscious
+Aura of Misfortune (aura, divination, divine, misfortune) 20 feet.
+As grim reaper.
+Negative Healing A lesser death can choose whether or not it takes
+positive damage.
+Lurking Death Ǻȓ (teleportation) As grim reaper, except the triggering
+creature must be within 60 feet.
+Speed 50 feet, ﬂy 40 feet
+Melee Ȱɵ keen scythe +32 (agile, deadly 2d10, magical, reach 10 feet, trip), Damage
+3d10+14 slashing plus 1d12 negative
+Divine Innate Spells DC 38; Constant (6th) true seeing; (3rd) haste; (2nd) see invisibility
+Infuse Weapon (divine, evocation) Any scythe gains the agile trait, can’t be disarmed,
+and becomes a +2 greater striking keen scythe while the lesser death wields it.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669050
+4425207
+
+PAGE 200
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669052
+4425209
+E-G
+199
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+GUTHALLATH SLUMBER
+Entire civilizations have been
+swept oﬀ the face of Golarion due
+to the devastating rampage of a
+guthallath. But there is a light at
+the end of the tunnel, for after
+some time the guthallath ends its
+massacre in a swift yet seemingly
+random way. The colossus then
+ﬁnds a remote location deep in the
+wilderness, where it buries itself,
+entering a deep slumber for years—
+if not centuries—before awakening
+and beginning the destructive cycle
+once more.
+Guthallath
+A guthallath is an enormous construct created long ago by some unknown empire,
+probably as a war machine. Nearly 100 feet tall, this massive stone statue typically
+resembles a stalwart warrior wearing only a loincloth and skullcap. Few have seen
+the entire body of a guthallath, though; most of the time such a relic is buried up to its
+neck, covered in moss and stranded in some forgotten place. Yet, every so often, one
+of these harbingers of destruction reactivates in response to some unknown stimulus
+or rallying call, and when this happens, woe be unto any who stand in its way.
+While the guthallath’s ancient enemies are gone, it is an engine of pure destruction,
+designed to rampage for weeks or even months. While not intelligent enough to enjoy
+or regret its acts, the guthallath cannot be reasoned with—it is unaffected by most
+magic, and is unpredictable in how it selects its targets (and creatures it spares).
+GUTHALLATH
+CREATURE 19
+RARE
+N
+GARGANTUAN
+CONSTRUCT
+Perception +30; darkvision, true seeing
+Skills Acrobatics +25, Athletics +40
+Str +10, Dex +2, Con +8, Int –4, Wis +0, Cha –1
+AC 43; Fort +38, Ref +32, Will +30
+HP 325; Immunities bleed, death eﬀects, disease, doomed, drained, fatigued, healing,
+magic (see below), necromancy, nonlethal attacks, paralyzed, poison, sickened,
+unconscious; Resistances physical 15 (except adamantine)
+Erosion Aura (aura, primal) 120 feet. The guthallath erodes away the physical integrity
+of all around it. Creatures and objects in the emanation other than the guthallath have
+their hardness and resistances reduced by 10. At the start of its turn, a creature in the
+erosion aura's area takes 6d6 bludgeoning damage (basic Fortitude DC 39).
+Immunity to Magic The guthallath is immune to spells of lower than 7th level and the
+activated eﬀects of magic items of lower than 14th level.
+Speed 40 feet, burrow 50 feet
+Melee Ȱɵ ﬁst +38 (deadly 3d12, magical, reach 20 feet), Damage 4d12+18 bludgeoning plus
+Improved Grab or Improved Push 20 feet
+Melee Ȱɵ foot +38 (deadly 3d12, magical, reach 20 feet), Damage 4d8+18 bludgeoning
+plus Improved Knockdown
+Innate Primal Spells DC 37; Constant (8th) true seeing; (3rd) haste
+Annihilation Beams ʚʖ A guthallath releases two beams of destruction from
+its eyes. Each beam is a 120-foot line.
+Everything in either line takes the
+eﬀect of a hit from a 10th-level
+disintegrate spell (DC 41 Fortitude).
+There is no additional eﬀect on
+creatures in any area where the
+beams overlap. The guthallath can’t
+use this ability again for 1d4 rounds.
+Deadly Throw Ȱɵ Requirements The
+guthallath has a creature grabbed.
+Eﬀect The guthallath throws the
+creature into the air, 100 feet high and
+50 feet away. If the ﬂung creature lands on
+another creature, the creature it lands on takes
+the same amount of bludgeoning damage. The
+creature being landed on can attempt a DC 41
+basic Reﬂex save.
+Powerful Blows If a guthallath hits with an
+attack and rolls a natural 19 on the d20 roll,
+the attack is a critical hit. This has no eﬀect if
+the 19 would be a failure.
+Trample ̂ˬ Huge or smaller, foot, DC 45
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669052
+4425209
+
+PAGE 201
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669053
+4425210
+Bestiary
+200
+HATERS OF HUMANITY
+Hags loathe all humanoid races,
+but not equally—the brunt of their
+wrath is leveled against humans.
+Hags prey on human society the
+most, adding human ﬂesh to their
+cauldron and snatching newborn
+children before replacing the
+babes with their own progeny as
+changelings (page 62).
+Hag
+Malevolent crones who lurk at the edges of civilization, hags use their deceptive,
+magical abilities to prey upon humanoids, manipulating and corrupting them.
+Some say hags arose from fey that became twisted by their inner selﬁshness.
+Hags gather together in covens for greater power, craft unique magical items
+known as hag eyes, and are known to replace infant humanoids with their own
+offspring—these children are changelings (page 62) who have the potential to
+become hags themselves.
+Sea Hag
+Sea hags kill and eat ﬁshers and sailors who come near their lairs, torment coastal
+dwellers with dark promises and vague threats, and enjoy the act of causing
+distress and discord in small towns. They generally avoid making their lairs too
+close to civilization, however, to avoid drawing enemies to their homes. Sea hags
+are known for tempting desperate victims into tragic and inescapable bargains,
+deals which the hag has already secretly stacked in her favor. Despite their
+voracious appetites, sea hags appear hideously emaciated,
+and unlike more powerful hags, they lack the ability
+to magically disguise their form.
+Sea hags can join covens, but their aquatic nature
+often prevents them from joining mixed covens
+with other kinds of hags.
+SEA HAG
+CREATURE 3
+CE
+MEDIUM
+AMPHIBIOUS
+HAG
+HUMANOID
+Perception +10; darkvision
+Languages Aklo, Common, Jotun
+Skills Acrobatics +8, Athletics +11, Deception +10,
+Occultism +8, Stealth +8
+Str +4, Dex +3, Con +4, Int +1, Wis +3, Cha +3
+Coven A sea hag adds acid arrow, mariner’s curse, and water
+walk to her coven’s spells.
+Sea Hag’s Bargain (necromancy, occult)
+The sea hag can make a bargain with
+a willing creature, who must be of
+sound mind. The creature gives away
+a special or cherished quality—such
+as its courage, its beauty, or its voice—in
+exchange for a boon or a promise from the sea hag. As long as the sea hag keeps her
+end of the bargain, the only way to restore the lost quality is to defeat the sea hag
+or make another bargain for its return.
+AC 19; Fort +11, Ref +8, Will +10, +1 status to all saves vs. magic
+HP 45; Weaknesses cold iron 3
+Speed 25 feet, swim 35 feet
+Melee Ȱɵ claw +12 (agile, magical), Damage 1d10+4 slashing
+Dread Gaze ʚʖ (curse, emotion, fear, mental, occult) The hag gazes upon a
+creature, aﬄicting it with intense distress and a gnawing sense of impending
+doom, with a result depending on its Will save (DC 20). The target does not
+need to be able to see the sea hag.
+Critical Success No eﬀect.
+Success Frightened 1.
+Failure Frightened 1 and slowed 1 for 1 round. If the target was dying, it remains
+unconscious for 1 day. At the end of the day, it must attempt a Fortitude save against
+the same DC; if it fails, it dies.
+Critical Failure Frightened 2 and slowed 1 for 1 minute. If the target was dying, it remains
+unconscious for 1 day. At the end of the day, it must attempt a Fortitude save against
+the same DC; if it fails, it dies.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669053
+4425210
+
+PAGE 203
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669055
+4425212
+Bestiary
+202
+THE NATURE OF HAGS
+Some believe that hags possess
+no true form or body of their
+own, but instead manifest from
+society’s fear of aging. That no
+known male hags exist has also
+puzzled scholars, but perhaps
+this is but another way in which
+hags mock society—by presenting
+themselves as awful stereotypes
+of elderly women.
+ANNIS HAG
+CREATURE 6
+CE
+LARGE
+HAG
+HUMANOID
+Perception +15; darkvision
+Languages Aklo, Common, Jotun
+Skills Acrobatics +10, Athletics +14 (+16 to Grapple), Deception +11, Diplomacy +9,
+Intimidation +11, Stealth +14
+Str +6, Dex +4, Con +4, Int +1, Wis +4, Cha +3
+Coven An annis hag adds earthbind, passwall, and spellwrack to her coven’s spells.
+AC 24; Fort +16, Ref +12, Will +14, +1 status to all saves vs. magic
+HP 85; Resistances physical 5 (except bludgeoning)
+Speed 40 feet
+Melee Ȱɵ claw +16 (agile, cold iron, magical, reach 10 feet), Damage 2d8+6 slashing
+plus Grab
+Bonds of Iron ʚʖ (attack, conjuration, occult) Once per day, an annis
+hag can cause a cage built of cold iron ﬁngernails to spring out of
+nothingness at a range of up to 30 feet, attempting an Athletics
+check to Grapple against the target’s Fortitude DC; if the target has a
+weakness to cold iron, the annis hag gains a +2 circumstance bonus
+to this check. Unlike a normal Grapple, the annis hag doesn’t need
+to be within reach and can move as she pleases, and a successful
+attempt lasts until the creature escapes (DC 24), causing the cage to
+crumble into rust. Any creature can attempt to destroy the cage by
+attacking it. It has an AC of 19, Hardness 10, and 40 Hit Points.
+Change Shape Ȱɵ (concentrate, occult, polymorph, transmutation) The
+hag can take on the appearance of any Medium female humanoid. This
+doesn’t change her Speed or her attack and damage bonuses with her
+Strikes but might change the damage type her Strikes deal (typically to
+bludgeoning).
+Rend Ȱɵ claw
+Night Hag
+Night hags are thieves and merchants of mortal souls.
+These foul creatures collect souls in dark gems or
+crystalline jars to sell in ﬁendish markets, and are
+themselves empowered by potent magic jewels known
+as heartstones. They haunt the Ethereal Plane, where
+they prey upon mortals in their dreams, debilitating
+them with horriﬁc nightmares as they rest. A night
+hag may ﬁnd a particular target and haunt them
+continuously over the course of weeks, slowly and
+cruelly breaking down the victim’s will and ability to
+resist, until their soul is forfeit.
+A night hag is a canny mastermind and soul broker, willing to
+consider any deal as long as she is convinced she has the upper hand.
+Although a night hag ﬁnds it easy to travel the Ethereal Plane and
+prey upon helpless souls that can’t ﬁght back, these souls are also the
+least desirable to the evil outsiders the night hag bargains with, and
+so a night hag gathers allies and minions that allow her to prey on
+more potent souls without personally risking herself. Their favored
+minions are nightmares, with whom they share a special bond.
+Above all, night hags avoid ﬁghting foes that can harry them on the Ethereal
+Plane, picking ﬁghts only when they are certain they can escape.
+NIGHT HAG
+CREATURE 9
+NE
+MEDIUM
+FIEND
+HAG
+HUMANOID
+Perception +18; darkvision
+Languages Abyssal, Aklo, Celestial, Common, Infernal
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669055
+4425212
+
+PAGE 220
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669072
+4425229
+L-N
+219
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DEAD LESHYS
+When a leshy dies, its body
+explodes in a wave of vegetation
+as its spirit returns to the natural
+world. Though leshy spirits that
+are called into new bodies after
+death typically keep only vague
+recollections of their pasts, they
+retain many of the values and
+habits of their former life.
+Languages Common, Druidic, Sylvan; speak with plants (gourds only)
+Skills Nature +5, Stealth +7
+Str +2, Dex +4, Con +2, Int –1, Wis +2, Cha +0
+Keepsake (abjuration, primal) The leshy can store an item of light Bulk or less in its head,
+concealing it as nondetection. If stored for 24 hours, the item beneﬁts from mending.
+AC 17; Fort +5, Ref +9, Will +7
+HP 20
+Verdant Burst (healing) As leaf leshy, except plants regain 1d8 Hit Points and the area
+sprouts gourds instead of tree saplings.
+Speed 25 feet
+Melee Ȱɵ ﬁst +7 (agile, ﬁnesse), Damage 1d4+2 bludgeoning plus ensnare
+Ranged Ȱɵ seed +9 (range increment 30 feet), Damage 1d6+2 bludgeoning plus ensnare
+Primal Innate Spells DC 15; 4th speak with plants
+Change Shape Ȱɵ (concentrate, polymorph, primal, transmutation) As leaf leshy, except
+the gourd leshy transforms into a gourd-bearing plant.
+Ensnare When the gourd leshy damages a creature with a ﬁst or seed Strike, vines lash
+out from the leshy (or seed) and wrap around the target’s limbs. The target must
+attempt a DC 17 Reﬂex save. On a failure, the target takes a –10-foot status penalty to
+its Speed for 1 round; on a critical failure, the target is immobilized for 1 round and the
+penalty to Speed lasts for 1 minute.
+Fungus Leshy
+Fungus leshys guard caves, bogs, and damp, dark places.
+Their fungus gardens are bizarre by most standards, but
+fungus leshys are extremely proud of their works.
+FUNGUS LESHY 
+CREATURE 2
+N
+SMALL
+FUNGUS
+LESHY
+Perception +6; darkvision
+Languages Common, Druidic, Sylvan; speak with
+plants (fungi only)
+Skills Athletics +6, Nature +6, Stealth +8
+Str +2, Dex +4, Con +2, Int –1, Wis +2, Cha +0
+AC 19; Fort +8, Ref +10, Will +6
+HP 30
+Verdant Burst (healing) As leaf leshy, except only fungi are healed,
+they regain 2d8 Hit Points, and the area sprouts fungi.
+Speed 25 feet
+Melee Ȱɵ ﬁst +10 (agile, ﬁnesse), Damage 1d6+2 bludgeoning
+Ranged Ȱɵ spore pod +10 (range increment 30 feet),
+Damage 1d6+2 bludgeoning plus spores
+Primal Innate Spells DC 16; 4th speak with plants
+Change Shape Ȱɵ (concentrate, polymorph,
+primal, transmutation) As leaf leshy, except
+the fungus leshy transforms into a giant
+mushroom or patch of fungi.
+Spore Cloud ʚʖ (poison) A fungus leshy can unleash a cloud of
+spores that irritates the eyes and throats of non-fungi
+creatures in a 15-foot emanation. Each creature must
+succeed at a DC 16 Fortitude save or take 1 persistent
+poison damage. A creature has its vision reduced as long
+as the persistent damage continues and can see only
+within 20 feet (or 10 feet, on a critical failure).
+Spores A creature that takes damage from a fungus
+leshy’s spore pod Strike must attempt a saving
+throw with the same DC and eﬀect as its Spore
+Cloud ability.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669072
+4425229
+
+PAGE 230
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669082
+4425239
+L-N
+229
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+OTHER GIANT LIZARDS
+The three species of giant lizard
+presented here are but the most
+common of their kind encountered
+in the wilds. Stories of much
+larger lizards persist, including
+the immense, 20-foot-long
+monster known as a megalania,
+a truly enormous version of the
+giant monitor lizard capable of
+swallowing creatures whole. Less
+dangerous is the giant chameleon,
+although its ability to blend into
+its environs makes it a much more
+insidious and stealthy threat than
+the lumbering, mighty megalania.
+GIANT MONITOR LIZARD
+CREATURE 2
+N
+MEDIUM
+ANIMAL
+Perception +7; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +6, Athletics +9, Stealth +6
+Str +3, Dex +2, Con +3, Int –4, Wis +1, Cha –2
+AC 18; Fort +9, Ref +8, Will +5
+HP 30
+Gnashing Grip Ǻȓ Trigger A creature grabbed by the giant monitor lizard’s jaws fails a
+check to Escape. Eﬀect The giant monitor lizard’s jaws deal 1d6 piercing damage and
+the triggering creature is exposed to monitor lizard venom.
+Speed 30 feet, swim 30 feet
+Melee Ȱɵ jaws +11, Damage 1d10+3 piercing plus Grab and monitor lizard venom
+Lurching Charge ʚʖ The giant monitor lizard Strides twice and then makes a jaws
+Strike. If the lizard moved at least 20 feet away from its starting position, it gains a +2
+circumstance bonus to this attack roll.
+Monitor Lizard Venom (poison); Saving Throw DC 17 Fortitude; Maximum Duration
+6 rounds; Stage 1 enfeebled 1 (1 round); Stage 2 1d6 poison damage and enfeebled 2
+(1 round)
+Giant Frilled Lizard
+Found in warm and tropical forests and savannas, these immense lizards are a
+deadly threat to the unsuspecting traveler. When they aren’t sleeping or stalking
+prey, giant frilled lizards bask in the sunlight for hours at a time. Explorers
+sometimes mistakenly think them related to dragons due to their
+large size, elaborate neck frills (which, when displayed in a show
+of aggression and dominance, can be mistaken for wings), and
+ferocious hissing vocalizations used to frighten away creatures
+too large to eat.
+A giant frilled lizard’s primary food sources are oversized
+arthropods and other invertebrates, but it won’t hesitate to
+augment its diet with vertebrates, including other lizards,
+monkeys, and just about anything it can ﬁt into its
+mouth—even humanoids. Although capable of short
+bursts of speed, a giant frilled lizard normally lies
+perfectly still while hunting, hoping to ambush
+its prey.
+GIANT FRILLED LIZARD
+CREATURE 5
+N
+LARGE
+ANIMAL
+Perception +11; low-light vision, scent (imprecise) 30 feet
+Skills Acrobatics +10, Athletics +14, Stealth +10
+Str +5, Dex +1, Con +4, Int –4, Wis +2, Cha +0
+AC 22; Fort +13, Ref +12, Will +9
+HP 75
+Speed 30 feet, climb 30 feet
+Melee Ȱɵ jaws +16 (reach 10 feet), Damage 2d8+7 piercing
+Melee Ȱɵ tail +16 (agile, reach 10 feet), Damage 2d6+7
+bludgeoning
+Intimidating Display ʚʖ (auditory, emotion, fear, mental,
+visual) The giant frilled lizard Strides. If it ends that
+Stride adjacent to at least one other creature, it
+suddenly displays its colorful neck frills and issues
+a frightening hiss. Each adjacent creature must
+succeed at a DC 21 Will save or become frightened
+2 (or frightened 3 on a critical failure). The creature
+is then temporarily immune to Intimidating Display for
+1 minute.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669082
+4425239
+
+PAGE 231
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669083
+4425240
+Bestiary
+230
+LIZARDFOLK RELATIONS
+Though most are neutral in
+alignment, the typical iruxi’s pride
+in their traditions, suspicion of
+others, and need to protect their kin
+can make them seem standoﬃsh or
+even aggressive when encountered.
+However, most are eager to learn
+from visitors, trade stories
+and equipment, and
+forge alliances.
+Lizardfolk
+When human scholars speak of ancient civilizations, they usually turn their
+focus to themselves, researching and lecturing on the ﬁrst human empires.
+When they drift to others, they invariably look to cultures that had conﬂicts
+or alliances with ancient humanity. That the culture of the people called
+lizardfolk often gets ignored or forgotten even by well-meaning researchers is
+thus no surprise, but to the lizardfolk themselves it is no matter. They know
+their history and value its integrity and privacy—if younger ancestries like
+humanity aren’t interested in learning from lizardfolk empires dating back
+to before the ﬁrst human knocked two rocks together to make their ﬁrst
+campﬁre, that’s ﬁne with them.
+The word “lizardfolk” is an excellent example of humanity’s narrow-
+sighted view of this culture. The name of their people is “iruxi,”
+but these reptilian humanoids have patiently and
+good-naturedly accepted the name “lizardfolk” as
+a variant, and they generally resist urges
+to call humans and other mammalians
+similarly derivative names in return.
+Iruxis dwell and thrive in all
+tropical and temperate biomes, but
+they are most at home in swamplands,
+coastal regions, and riverlands, for they
+are talented swimmers, and ﬁsh and
+aquatic plants make up a large part of their
+preferred diets.
+Lizardfolk Defender
+The lizardfolk defender serves as a protector of the young,
+guardian of the settlement, and when no other options are available,
+soldier in time of war. They eagerly rise to the defense of their kin but
+do not revel in battle. An iruxi defender would rather turn back intruders
+and allow them to ﬂee with the knowledge they were beaten, in hopes that
+such word prevents further invasions, but they are not naive. The iruxi
+understand the need for revenge, and when they allow a foe to escape,
+they do not forget.
+LIZARDFOLK DEFENDER
+CREATURE 1
+N
+MEDIUM
+HUMANOID
+LIZARDFOLK
+Perception +7
+Languages Draconic, Iruxi
+Skills Acrobatics +5, Athletics +6, Survival +5
+Str +3, Dex +2, Con +3, Int –1, Wis +2, Cha +0
+Items ﬂail, javelin (3), wooden shield (Hardness 3, HP 12, BT 6)
+AC 16 (18 with shield raised); Fort +8, Ref +7, Will +5
+HP 21
+Attack of Opportunity Ǻȓ
+Shield Block Ǻȓ
+Speed 25 feet, swim 15 feet
+Melee Ȱɵ ﬂail +8 (disarm, sweep, trip), Damage 1d6+3 bludgeoning
+Melee Ȱɵ jaws +8, Damage 1d6+3 piercing
+Melee Ȱɵ tail +8 (agile), Damage 1d4+3 bludgeoning
+Ranged Ȱɵ javelin +7 (thrown 30 feet), Damage 1d6+3 piercing
+Deep Breath A lizardfolk defender can hold their breath for 175 rounds
+(17-1/2 minutes).
+Terrain Advantage Non-lizardfolk creatures in diﬃcult terrain and non-
+lizardfolk creatures that are in water and lack a swim Speed are ﬂat-footed
+to the lizardfolk defender.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669083
+4425240
+
+PAGE 245
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669097
+4425254
+Bestiary
+244
+NIGHTMARE STEEDS
+Nightmares allow only the evilest
+of creatures to ride them and are
+willing partners in destruction
+those creatures inﬂict. Night hags
+are particularly well known to
+associate with nightmares.
+Nightmare
+Nightmares are ﬂaming equine harbingers of death.
+NIGHTMARE
+CREATURE 6
+NE
+LARGE
+BEAST
+FIEND
+Perception +14; darkvision
+Languages Abyssal, Daemonic, Infernal
+Skills Acrobatics +13, Athletics +16, Intimidation +14, Survival +12
+Str +6, Dex +3, Con +3, Int +1, Wis +4, Cha +2
+Smoke (aura) 15 feet. The nightmare continually exhales black smoke that creates
+concealment in an aura around it. Nightmares and their riders can see through
+this smoke. A creature that begins its turn in the area becomes sickened 2 (DC 23
+Fortitude negates) and is then temporarily immune sickness from the smoke
+for 1 minute. The nightmare, its rider, any creature currently holding
+its breath (or that does not need to breathe), and any creature
+immune to poison are immune to the aura’s sickened eﬀect but
+not the concealment.
+AC 24; Fort +15, Ref +15, Will +12
+HP 100; Resistances ﬁre 10
+Speed 40 feet, ﬂy 90 feet
+Melee Ȱɵ jaws +16 (evil, magical), Damage 2d10+6 piercing plus
+1d6 evil
+Melee Ȱɵ hoof +16 (agile, evil, ﬁre, magical), Damage
+1d8+6 bludgeoning plus 1d6 evil and 1d8 ﬁre
+Divine Innate Spells DC 24; 7th plane shift (self and
+rider only)
+Flaming Gallop ʚʖ (ﬁre) The nightmare
+Strides or Flies up to triple its Speed.
+Its hooves burst with intense
+ﬂame, dealing 3d6 ﬁre damage
+(DC 24 basic Reﬂex save) once
+to each creature other than
+the nightmare’s rider that the
+nightmare moves adjacent to during its gallop.
+Greater Nightmare
+The enormous greater nightmare is a more dangerous variety
+of nightmare, particularly valued for its ability to invade
+other realities with its rider.
+GREATER NIGHTMARE
+CREATURE 11
+NE
+HUGE
+BEAST
+FIEND
+Perception +22; darkvision
+Languages Abyssal, Daemonic, Infernal
+Skills Acrobatics +23, Athletics +24, Intimidation +22, Survival +20
+Str +7, Dex +4, Con +5, Int +2, Wis +5, Cha +3
+Smoke (aura) 20 feet. As nightmare, but DC 28.
+AC 31; Fort +25, Ref +24, Will +21
+HP 200; Resistances ﬁre 15
+Speed 60 feet, ﬂy 120 feet
+Melee Ȱɵ jaws +24 (evil, magical), Damage 2d10+11 piercing plus 1d6 evil
+Melee Ȱɵ hoof +24 (agile, evil, ﬁre, magical), Damage 1d8+11 bludgeoning plus
+1d6 evil and 2d8 ﬁre
+Divine Innate Spells DC 30; 7th ethereal jaunt (self and rider only), plane
+shift (self and rider only)
+Flaming Gallop ʚʖ (ﬁre) As nightmare, but 6d6 ﬁre damage and DC 30.
+Trample ̂ˬ Large or smaller, hoof, DC 30
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669097
+4425254
+
+PAGE 246
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669098
+4425255
+L-N
+245
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+FROM THE DREAMLANDS
+The nilith’s association with the
+remote and little-understood
+Dreamlands, also known as the
+Dimension of Dreams, is unusual.
+They draw power from a latent
+dreaming connection to that
+realm, but they are native to the
+Material Plane.
+Nilith
+The sleek, dark niliths resemble hairless, emaciated tree sloths. These creatures
+are intensely dangerous and fearsome, with red glowing eyes, wicked claws, and
+mouths full of needlelike teeth. Niliths feed off the emotions, fears, and ﬂesh of
+the living, and folktales posit that those who have nightmares of these creatures
+are fated to one day be eaten by them. Niliths draw intense joy from tormenting
+sapient creatures, often focusing their predations on the pious and the just, from
+whom they draw forth their most basic fears and worst thoughts and revel in their
+victims’ subsequent terror. More often than not, these despicable manipulators
+wish to drive their victims into madness and even to suicide. Most niliths lack the
+patience to spend too much time fully tearing down an individual, and when a
+nilith tires of its current plaything and becomes bored with its particular thoughts
+and fears, it murders the quarry before feeding on its ﬂesh and moving onto the
+next victim.
+Niliths are actually extensions of much deadlier creatures that dwell in a distant
+dimension beyond dreams—in a way, niliths are little more than remote feeding
+machines for the unknown alien entities to which they are connected. Scholars
+and dimensional travelers have attempted to uncover the exact mechanisms of
+this mysterious connection, but they have yet to decipher the truth. Indeed, many
+who investigate the nature of the nilith’s bond are driven to madness before
+getting anywhere close. The odd connection to otherworldly beings might help
+explain the longevity of these creatures, as it is believed that niliths can live for
+thousands of years.
+Thankfully for others, niliths are solitary creatures that hate the company of
+their own kind, likely because these harbingers of nightmares have no wish to
+taste the horrors they bring to others.
+NILITH
+CREATURE 10
+NE
+MEDIUM
+ABERRATION
+Perception +19; darkvision
+Languages Aklo, Common; telepathy 30 feet
+Skills Acrobatics +21, Athletics +17, Intimidation +23,
+Occultism +19, Stealth +21, Survival +17
+Str +3, Dex +5, Con +4, Int +3, Wis +3, Cha +5
+AC 32; Fort +17, Ref +20, Will +20
+HP 150; Resistances mental 10, physical 5
+(except silver)
+Speed 25 feet, climb 30 feet
+Melee Ȱɵ claw +23 (agile, ﬁnesse, magical),
+Damage 2d10+9 slashing plus Grab
+Melee Ȱɵ fangs +23 (ﬁnesse, magical),
+Damage 2d12+9 piercing
+Occult
+Innate
+Spells
+DC
+29;
+5th
+hallucination, mind probe; 4th blink,
+confusion,
+crushing
+despair,
+dream
+message, invisibility (at will, self only),
+nightmare; 3rd mind reading (at will);
+Cantrips (5th) mage hand, message, read
+aura, shield
+Mind Crush Ȱɵ (enchantment, mental, occult);
+Requirements The nilith has a creature grabbed.
+Eﬀect The nilith reaches into the mind of the grabbed
+creature and implants disjointed images of the victim’s
+worst fears and nightmares. The grabbed creature takes 6d6
+mental damage (DC 31 basic Will save). On a critical failure, the target is also
+aﬀected as though by feeblemind, and it must attempt a second Will save against
+that eﬀect.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669098
+4425255
+
+PAGE 252
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669104
+4425261
+O-R
+251
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+FILTH FLINGERS
+Ofalths prefer to remain in their
+middens and sewers, for in such
+environs they have a constantly
+renewing source of not only food,
+but refuse to ﬂing at foes. An
+ofalth encountered outside of
+such wretched environs cannot
+ﬂing rubbish as a ranged attack
+unless it rips ﬁlth from its own
+body. Each time it does so, it
+takes 2d6 damage.
+Ofalth
+Found in castle dung heaps, city dumps, and sewers, ofalths are thought to be cousins
+of shamblers. But whereas shamblers are living heaps of soggy vegetation, ofalths are
+living heaps of matter from an altogether more unpleasant source: these monsters
+look like 9-foot-tall amalgamations of wet detritus, sewage, and rubbish with long
+tentacular arms and stout legs. It can be difﬁcult to tell where an ofalth’s body ends
+and the foul contents of the cesspit they wallow within begins. They move through
+refuse heaps in search of organic material in their endless quest to sate their hunger.
+Though ofalths have a limited intellect, they still exhibit a vile curiosity. They
+are no strangers to dissecting their prey after it has succumbed to their wasting
+disease—a terrible and aptly named afﬂiction that causes the victim’s blood to
+seep from its pores. When an ofalth manages to secure a victim alive, it may even
+torture its food by consuming it bit by bit while it shrieks for mercy.
+Ofalths’ domains typically overlap with those of otyughs, who fear ofalths, though
+otyughs have also been known to band together in order to take down an ofalth for
+its rubbery ﬂesh, which the otyughs consider an intoxicating delicacy. On the other
+hand, ofalths seem to particularly enjoy taking otyughs apart one piece at a time.
+They have been known to keep a captured otyugh alive for days or even weeks,
+forcing the otyugh to endure the cloying scent of its own body decaying before the
+ofalth feeds.
+OFALTH
+CREATURE 10
+CE
+LARGE
+ABERRATION
+Perception +18; darkvision
+Languages Common (can’t speak any language)
+Skills Athletics +23, Stealth +19 (+23 in trash and rubbish)
+Str +7, Dex +3, Con +6, Int –2, Wis +2, Cha –2
+Refuse Pile When it’s not in danger, an ofalth can spend 1 minute settling
+into a 10-foot pile that looks like a heap of garbage. While doing so,
+the ofalth gains a +2 circumstance bonus to AC but can’t use attack,
+manipulate, or move actions. A creature that enters the area of the
+garbage heap or interacts with it must attempt a save against
+the ofalth’s putrid stench and wretched weeps disease. An
+ofalth can leave this form using a single action.
+AC 31; Fort +22, Ref +17, Will +18
+HP 170, ﬁlth wallow; Immunities disease, poison
+Putrid Stench (aura) 30 feet. A creature entering the
+aura must succeed at a DC 28 Fortitude save or
+become sickened 1 until the end of its turn (plus slowed
+1 for as long as it is sickened on a critical failure).
+While within the aura, an aﬀected creature takes
+a –2 circumstance penalty to saves against disease and
+to recover from the sickened condition. A creature that
+succeeds at its save is temporarily immune for 1 minute.
+Filth Wallow A ofalth gains fast healing 2 when in an area
+with a high concentration of debris, junk, or excrement,
+such as a refuse heap or sewer.
+Speed 30 feet
+Melee Ȱɵ ﬁst +23 (reach 10 feet), Damage 2d12+13 bludgeoning
+plus wretched weeps
+Ranged Ȱɵ ﬂing oﬀal +19 (range increment 30 feet), Damage
+2d10+7 bludgeoning plus wretched weeps
+Wretched Weeps (disease); Saving Throw DC 26 Fortitude;
+Stage 1 carrier with no ill eﬀect (1 day); Stage 2 2d8
+persistent bleed damage every hour and enfeebled 1
+(1 day); Stage 3 2d8 persistent bleed damage every
+hour and enfeebled 2 (1 day)
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669104
+4425261
+
+PAGE 256
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669108
+4425265
+O-R
+255
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+OTHER OOZES
+Many varieties of these nearly
+mindless predators exist in the
+world. Some are mere variants,
+with diﬀerent colored puddings,
+jellies, and oozes with little to
+diﬀerentiate them from those
+presented here other than
+their habitat. Others are more
+specialized, or even dangerously
+intelligent. The shoggoth
+(page 297) is one such example,
+but another variety of deadly and
+powerful ooze is the thankfully
+rare blight, a creature composed of
+protoplasm and eyes that curses
+entire regions with its presence.
+ancient cultures would entomb bodies in stone sarcophaguses with ochre jellies to
+allow the ooze to break down the ﬂesh and clean and polish the bones.
+OCHRE JELLY
+CREATURE 5
+N
+LARGE
+MINDLESS
+OOZE
+Perception +7; motion sense 60 feet, no vision
+Skills Athletics +13
+Str +4, Dex –5, Con +6, Int –5, Wis +0, Cha –5
+Motion Sense As sewer ooze.
+AC 12; Fort +15, Ref +4, Will +7
+HP 150; Immunities acid, critical hits, electricity, mental, piercing, precision, slashing,
+unconscious, visual
+Split Whenever an ochre jelly is hit by an attack or eﬀect that would deal slashing,
+piercing, or electricity damage and the ochre jelly has at least 10 HP, the jelly splits
+into two identical jellies with half the original’s HP. One jelly is in the same space as
+the original, and the other appears in an adjacent unoccupied space. If no adjacent
+space is unoccupied, it automatically pushes creatures and objects out of the way to
+ﬁll a space (the GM decides if an object or creature is too big or sturdy to push).
+Speed 15 feet, climb 10 feet
+Melee Ȱɵ pseudopod +15, Damage 1d8+7 bludgeoning plus 2d4 acid and Grab
+Constrict Ȱɵ 1d8+3 bludgeoning plus 1d4 acid, DC 23
+Ochre Acid An ochre jelly’s acid damages only ﬂesh—not bone, stone, wood, or
+other materials.
+Black Pudding
+Most often found below ground, these oozes scour caves for objects to dissolve
+with their corrosive secretions. This caustic acid is particularly dangerous to
+creatures that attack a pudding, as it can quickly damage and destroy gear.
+BLACK PUDDING
+CREATURE 7
+N
+HUGE
+MINDLESS
+OOZE
+Perception +9; motion sense 60 feet, no vision
+Skills Athletics +18
+Str +7, Dex –5, Con +7, Int –5, Wis +0, Cha –5
+Motion Sense As sewer ooze.
+AC 14; Fort +18, Ref +6, Will +11
+HP 165; Immunities acid, critical hits, mental, piercing, precision, slashing, unconscious, visual
+Corrosive Mass A creature that hits the pudding with a metal or wooden weapon must
+succeed at a DC 22 Reﬂex save or the weapon takes 2d6 acid damage (after dealing
+damage to the black pudding as normal). Thrown weapons and ammunition take
+this damage automatically with no save.
+Split When the black pudding is hit by an attack that would deal slashing or
+piercing damage and has 10 or more HP, it splits into two identical puddings,
+each with half the original’s HP. One pudding is in the same space as the
+original, and the other appears in an adjacent unoccupied space. If no
+adjacent space is unoccupied, it automatically pushes creatures and
+objects out of the way to ﬁll a space (the GM decides if an object or
+creature is too big or sturdy to push).
+Speed 20 feet, climb 20 feet; suction
+Melee Ȱɵ pseudopod +18 (reach 10 feet), Damage 2d8+7 bludgeoning
+plus 2d6 acid, corrosive touch, and Grab
+Constrict Ȱɵ 1d8+7 bludgeoning plus 1d6 acid, DC 26
+Corrosive Touch When the pudding hits a creature with its
+pseudopod, any acid damage is dealt to the creature’s armor or
+clothing as well as the creature.
+Suction The pudding can climb on ceilings and other inverted surfaces,
+though such surfaces are diﬃcult terrain for it.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669108
+4425265
+
+PAGE 291
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669143
+4425300
+Bestiary
+290
+SHAMBLER TREASURE
+Shamblers collect trinkets from
+their previous victims and store
+them in small hollows within their
+bodies. They particularly prize
+gems, but also like alchemical
+or magical items that produce
+electrical eﬀects such as bottled
+lightning and shock runes.
+Shambler
+Shamblers are cunning carnivorous plants that resemble heaps of wet, rotting
+vegetation. Even when standing erect on their stumpy legs, shamblers don’t have
+much in the way of identiﬁable anatomy; they are tangles of parasitic vines that
+lash out at prey with their longest creepers, entwined together to deliver powerful
+blows. Sometimes called “shambling mounds,” these ambush predators have a
+particular fondness for ﬂesh, and are most well known for their ability to hunker
+down and hide in plain sight. A shambler can draw nutrients from plant matter
+or soil, but won’t do so if it suspects meat might soon wander near, and indeed
+may lie in wait for days in anticipation of such a meal.
+Shamblers are usually solitary creatures. Fierce thunderstorms are among the
+few events that bring numerous shamblers together. During such gatherings, the
+plants gather around strange but seemingly sacred earthen mounds in remote
+jungles and swamps and cavort and caper excitedly, stretching their tendrils
+toward the sky to hope for—or perhaps to summon—intense lightning strikes.
+Not only are these strange plants unharmed by even the most powerful electrical
+strikes, but they seem to become supernaturally empowered by such bursts of
+raw energy. Shamblers consider being struck by lightning a sign of divine favor,
+and those shamblers frequently blasted by bolts of electricity become respected
+(and powerful) elders among their kind. Shambler elders are few and far between
+and may possess a wide array of abilities; some can cast
+primal spells, others can empathically call upon the aid
+of other shamblers in the area, and still others wield
+awesome powers over electricity.
+Other types of shamblers exist, including those composed
+not of plant matter but fungal growth. These creatures, known
+as “spore mounds,” discharge clouds of toxic spores from their
+bodies when struck in combat. In semiarid deserts, shambler-like
+plants called tanglethorns dwell amid sagebrush and rock
+formations; they resemble bunches of tumbleweeds and cacti and
+inﬂict deep, bloody lacerations with their attacks.
+SHAMBLER
+CREATURE 6
+N
+LARGE
+PLANT
+Perception +12; darkvision
+Languages Common, Elven, Sylvan (can’t speak any language)
+Skills Athletics +16, Stealth +12 (+18 in forests or swamps)
+Str +6, Dex +1, Con +5, Int –2, Wis +2, Cha –1
+Mound When it’s not in danger, the shambler spends 1 minute settling
+into a pile that looks like a lump of loose vegetation. While it is in
+this form, creatures must actively Seek and succeed at a DC 22
+Perception check (DC 28 in forests or swamps) to detect the
+shambler’s true nature.
+AC 22; Fort +17, Ref +11, Will +14
+HP 120; Immunities electricity; Resistances ﬁre 5
+Electric Surge Whenever the shambler would take electricity damage
+or is targeted with an electricity eﬀect, it gains 12 temporary HP and
+is quickened until the end of its next turn. It can use its extra
+action to Stride, Strike, or Swim.
+Shamble Ǻȓ Requirements The shambler is in mound
+form. Trigger A creature unaware of the shambler’s true
+nature comes within 10 feet. Eﬀect The shambler makes a vine
+Strike against the creature. Then roll initiative.
+Speed 20 feet, swim 20 feet
+Melee Ȱɵ vine +17 (reach 10 feet), Damage 2d8+8 bludgeoning plus Grab
+Vine Lash ʚʖ The shambler makes a vine Strike against each creature within reach.
+Its multiple attack penalty increases only after all the attacks.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669143
+4425300
+
+PAGE 305
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669157
+4425314
+Bestiary
+304
+INNATE SPELLS
+A soulbound doll’s additional
+3rd-level innate spell depends on
+its alignment, as listed below.
+Lawful Good: zone of truth
+Neutral Good: heroism
+Chaotic Good: heal
+Lawful Neutral: nondetection
+Neutral: wall of thorns
+Chaotic Neutral: grease
+Lawful Evil: chilling darkness
+Neutral Evil: harm
+Chaotic Evil: vampiric touch
+Soulbound Doll
+Soulbound dolls are eerie mannequins or playthings that have been imbued with a
+small piece of a deceased mortal’s soul. These little constructs are created for a variety
+of reasons—such as to serve as companions or servants—but their free will means
+their obedience to their creators is hardly a given. Followers of Pharasma generally
+abhor soulbound dolls, viewing them as a perversion of the natural cycle of souls,
+and those who worship the Lady of Graves see the destruction of a soulbound doll,
+regardless of the construct’s alignment, as an important service to the Great Beyond.
+Soulbound dolls are the simplest in a series of soulbound constructs including
+human-sized soulbound mannequins, powerful soulbound shells, and sentinel
+soulbound terra-cotta warriors. Creating them from unwilling living creatures
+is evil, and an unwilling donor can resist the process with a successful Will save
+against the creator’s Craft DC, ruining the doll if not preventing the donor’s
+death. A non-evil doll can only be crafted from the soul of a person who has given
+consent to such use before their death occurred.
+Soulbound dolls encountered by adventurers are typically guardians of some
+sort; despite their diminutive size, the soul fragment’s power makes the doll’s
+ﬁst more dangerous than a casual observer would expect. Further, it grants the
+doll a single spell of outsized power given its stature. Because of their autonomy
+and remarkable intelligence, soulbound dolls are occasionally employed by their
+crafters as administrators over much more powerful but mindless constructs such
+as golems, allowing such dolls to control defenses far beyond their own capabilities.
+Though soulbound dolls contain a small fragment of a soul extracted
+during or shortly after a person’s death, this doesn’t affect the deceased’s
+resurrection or progress to the afterlife. This extraction process is lethal
+to otherwise-living prospective soul donors, though there are rumors of
+more expensive processes that allows someone to donate a fragment
+of a living soul without repercussions.
+The soul fragment resides in a soul focus gem (Hardness 10) typically
+embedded in the doll’s neck or chest. The soul fragment isn’t static, and
+the doll continues to learn from its initial state, meaning its personality
+and abilities can change, possibly growing closer to the donor’s or
+moving farther aﬁeld on its own individual path. The soulbound doll’s
+focus gem retains the doll’s memories even after the doll’s destruction.
+The the intact soul focus gem of a destroyed doll can even be placed
+into a new doll body by someone knowledgeable in the creation of
+soulbound creatures, effectively reconstituting the soulbound doll.
+SOULBOUND DOLL
+CREATURE 2
+ANY
+TINY
+CONSTRUCT
+SOULBOUND
+Perception +8; darkvision
+Languages one spoken by its creator (typically Common)
+Skills Acrobatics +8, Occultism +4, Stealth +8
+Str –2, Dex +4, Con +3, Int +0, Wis +2, Cha +0
+Personality Fragments A soulbound doll shares fragments of its
+donor soul’s personality, though none of that creature’s memories. This
+causes a soulbound doll to match the donor soul’s alignment and gain the
+corresponding alignment traits.
+AC 20; Fort +7, Ref +10, Will +6
+HP 23; Immunities bleed, death eﬀects, disease, doomed, drained,
+fatigued, healing, mental, necromancy, nonlethal attacks, paralyzed,
+poison, sickened, unconscious
+Speed 20 feet
+Melee Ȱɵ ﬁst +10 (agile, ﬁnesse, magical), Damage 1d6+2 bludgeoning
+Occult Innate Spells DC 18, attack +8; 3rd levitate, one additional spell
+depending on the donor soul’s alignment (see sidebar); Cantrips (1st) light,
+mage hand, prestidigitation
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669157
+4425314
+
+PAGE 309
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669161
+4425318
+Bestiary
+308
+SPRITE PRANKS
+Sprite pranks tend to be
+kind-hearted in nature; they might
+use their abilities to embarrass
+a braggart or to trick them into
+a convoluted scheme to help
+someone notice an admirer who
+has been there for them all along.
+Their plans are often half-baked;
+sprites’ mercurial nature means
+they can easily become distracted
+by something new before following
+through on a previous plan.
+Sprite
+Elusive, ﬂighty, and ebullient, sprites are what many villagers ﬁrst imagine when
+they hear the terms “fey” or “fairy.” While their dispositions vary from the
+benevolent grig to the trickster pixie, all sprites share a connection to magic and
+diminutive size. This family of fey shares its name with its slightest and most
+populous member, the common sprite.
+Sprite
+Common sprites are primeval guardians that latch onto a person, place, or object
+and defend it for their own inscrutable reasons. Their dispositions vary from kind
+to spiteful, but all sprites have a capricious streak. Being only about 9 inches tall,
+they are wary of animals that might hunt them, particularly house cats, and prefer
+ﬂight to a ﬁght. On the other hand, sprites are incredibly curious about all forms
+of magic and heedlessly gather around ley line nexuses or other places of power.
+SPRITE
+CREATURE –1
+CN
+TINY
+FEY
+SPRITE
+Perception +4; low-light vision
+Languages Common, Sylvan
+Skills Acrobatics +6, Stealth +6
+Str –3, Dex +4, Con +0, Int –2, Wis +0, Cha +2
+Items rapier
+Luminous Fire (evocation, light, primal) A sprite naturally sheds light like a
+torch. The sprite can extinguish, rekindle, or change the color of this
+light using a single action, which has the concentrate trait. While
+this light is extinguished, the sprite’s Strikes don’t deal fire damage
+and they can’t use their luminous spark Strike.
+AC 15; Fort +2, Ref +8, Will +4
+HP 11; Weaknesses cold iron 3
+Speed 10 feet, ﬂy 40 feet
+Melee Ȱɵ rapier +8 (deadly 1d8, disarm, ﬁnesse, ﬁre, magical), Damage
+1d6–3 piercing plus 1 ﬁre
+Ranged Ȱɵ luminous spark +8 (ﬁre, light, range 20 feet), Damage 1d4 ﬁre
+Primal Innate Spells DC 16; 1st color spray; Cantrips (1st) dancing
+lights, daze, detect magic
+Grig
+Grigs are kindly musicians of the fey,
+often getting themselves into trouble due
+to their penchant for confronting evil well
+beyond their ability to vanquish. Even so, they
+ﬁght bravely and with great cunning, using their
+magic and ranged sonic attacks while ﬂying
+and leaping using their wings and powerful
+cricket-like lower torsos to stay out of reach.
+GRIG
+CREATURE 1
+CN
+TINY
+FEY
+SPRITE
+Perception +7; low-light vision
+Languages Common, Sylvan
+Skills Acrobatics +7, Athletics +2 (+6 to High Jump or Long Jump),
+Performance +7, Stealth +7
+Str –2, Dex +4, Con +1, Int +0, Wis +2, Cha +4
+AC 17; Fort +6, Ref +9, Will +9
+HP 20; Weaknesses cold iron 5
+Speed 25 feet, ﬂy 30 feet
+Melee Ȱɵ ﬁst +9 (agile, ﬁnesse, magical), Damage 1d4–2 bludgeoning
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669161
+4425318
+
+PAGE 310
+================================================================================
+
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669162
+4425319
+S-T
+309
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+VARIANT PIXIE ARROWS
+Pixies can enchant their
+arrows with a wide variety of
+eﬀects, though nearly all such
+enchantments are designed to
+charm or bewilder, never maim.
+Some arrows may emulate the
+eﬀects of spells such as confusion,
+fear, hideous laughter, and
+even suggestion.
+Ranged Ȱɵ dissonant note +9 (evocation, magical, range 30 feet, sonic), Damage 1d8 sonic
+Primal Innate Spells DC 18; 2nd glitterdust, invisibility (self only); 1st illusory disguise;
+Cantrips (2nd) ghost sound
+Fiddle Ȱɵ (auditory, emotion, enchantment, mental, primal) A grig can rub its legs
+together to create a catchy ﬁddling tune that compels others within 30 feet to dance
+about, with varying eﬀects depending on a DC 18 Will save. A listener is temporarily
+immune for 10 minutes on a success, but otherwise, if the grig continues to Fiddle
+each round, the creature receives no additional saves.
+Success No eﬀect.
+Failure Flat-footed and –10-foot status penalty to Speeds.
+Critical Failure As failure, and also slowed 1.
+Pixie
+Insatiably curious, overly excitable, and just a bit puckish,
+pixies are wanderers and tricksters who use their pixie
+dust to create all sorts of whimsical situations, as well as
+to defend themselves. Other creatures often have trouble
+understanding a pixie’s rapid, rambling way of speaking.
+PIXIE
+CREATURE 4
+CN
+SMALL
+FEY
+SPRITE
+Perception +12; low-light vision
+Languages Common, Sylvan
+Skills Acrobatics +13, Deception +11, Nature +10, Stealth +11
+Str –1, Dex +5, Con +1, Int +3, Wis +2, Cha +3
+Items longbow (60 arrows), shortsword
+AC 23; Fort +8, Ref +14, Will +12; +1 status to
+all saves vs. magic
+HP 40; Weaknesses cold iron 5
+Speed 15 feet, ﬂy 45 feet
+Melee Ȱɵ shortsword +13 (agile, ﬁnesse, magical,
+versatile S), Damage 1d6+4 piercing
+Ranged Ȱɵ longbow +13 (deadly 1d10, magical, range increment
+100 feet, reload 0, volley 20 feet), Damage 1d8+4 piercing
+Primal Innate Spells DC 21; 4th invisibility (at will; self
+only); 3rd dispel magic; 2nd entangle, faerie ﬁre; 1st illusory
+disguise; Cantrips (2nd) dancing lights, detect magic,
+ghost sound, shield
+Sprinkle Pixie Dust Ȱɵ (manipulate) The pixie
+sprinkles pixie dust onto one of its arrows.
+If the pixie hits a creature with that
+arrow before the pixie’s next
+turn, the arrow inﬂicts one of
+the following special eﬀects instead of dealing damage.
+Each eﬀect depends on the target’s DC 21 Will save. On
+a critical hit, the target treats its save result as one
+degree worse.
+•	 Charm (emotion, enchantment, incapacitation,
+mental) The target suﬀers the eﬀects of a charm spell, except it doesn’t gain a
+bonus to its save if the only hostile act was the pixie ﬁring its bow, and the pixie can
+choose to direct the target’s adoration toward another creature rather than itself.
+•	 Memory Loss (divination, mental) On a failed Will save, the target loses the last 5
+minutes of its memory.
+•	 Sleep (enchantment, incapacitation, mental, sleep) The target suﬀers the eﬀects of
+a 3rd-level sleep spell.
+•	 Subdual (enchantment, mental, nonlethal) The target takes 4d6 mental damage,
+depending on its basic Will save.
+p
+,
+g
+ggyj ggyj
+g
+,
+,
+19669162
+4425319
