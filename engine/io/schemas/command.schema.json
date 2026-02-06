@@ -14,7 +14,10 @@
         "save_damage",
         "area_save_damage",
         "apply_effect",
-        "trigger_hazard_source"
+        "trigger_hazard_source",
+        "run_hazard_routine",
+        "set_flag",
+        "spawn_unit"
       ]
     },
     "actor": {"type": "string"},
@@ -36,6 +39,15 @@
     "hazard_id": {"type": "string"},
     "source_name": {"type": "string"},
     "source_type": {"type": "string"},
-    "model_path": {"type": ["string", "null"]}
+    "model_path": {"type": ["string", "null"]},
+    "target_policy": {
+      "type": "string",
+      "enum": ["as_configured", "explicit", "nearest_enemy", "nearest_enemy_area_center", "all_enemies"]
+    },
+    "flag": {"type": "string"},
+    "value": {"type": "boolean"},
+    "unit": {"type": "object"},
+    "placement_policy": {"type": "string", "enum": ["exact", "nearest_open"]},
+    "spend_action": {"type": "boolean"}
   }
 }

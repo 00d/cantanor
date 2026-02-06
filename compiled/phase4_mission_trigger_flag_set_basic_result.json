@@ -1,0 +1,156 @@
+{
+  "battle_id": "phase4_mission_trigger_flag_set_basic",
+  "seed": 713,
+  "executed_commands": 1,
+  "auto_executed_commands": 2,
+  "stop_reason": "battle_end",
+  "event_count": 8,
+  "replay_hash": "81675e14487a3ba25fd1398f4e9d006d393800c97501019d9de521ad575fb57d",
+  "final_state": {
+    "battle_id": "phase4_mission_trigger_flag_set_basic",
+    "round": 1,
+    "active_unit": "hazard_core",
+    "units": {
+      "hazard_alarm_guard": {
+        "team": "hazard",
+        "hp": 14,
+        "max_hp": 14,
+        "position": [
+          1,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          2,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 30,
+        "max_hp": 30,
+        "position": [
+          5,
+          5
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    },
+    "flags": {
+      "alarm": true,
+      "alarm_response_spawned": true
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_obj_0000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "alarm_response_complete": false
+        },
+        "victory_met": false,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "set_flag",
+      "payload": {
+        "actor": "hazard_core",
+        "flag": "alarm",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_mission_0001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "mission_event",
+      "payload": {
+        "id": "alarm_response",
+        "trigger": "flag_set",
+        "branch": "default",
+        "command_count": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "spawn_unit",
+      "payload": {
+        "actor": "hazard_core",
+        "unit_id": "hazard_alarm_guard",
+        "team": "hazard",
+        "position": [
+          1,
+          2
+        ],
+        "placement_policy": "exact",
+        "spend_action": false,
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "set_flag",
+      "payload": {
+        "actor": "hazard_core",
+        "flag": "alarm_response_spawned",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_obj_0003",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "alarm_response_complete": true
+        },
+        "victory_met": true,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_done_0003",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "battle_end",
+      "payload": {
+        "reason": "objectives",
+        "outcome": "victory",
+        "objective_statuses": {
+          "alarm_response_complete": true
+        }
+      }
+    }
+  ]
+}

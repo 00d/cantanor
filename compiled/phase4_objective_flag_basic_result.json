@@ -1,0 +1,106 @@
+{
+  "battle_id": "phase4_objective_flag_basic",
+  "seed": 606,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "battle_end",
+  "event_count": 5,
+  "replay_hash": "01d12a169c939fdc70762740919c213aa6d27fa7d0dbba06acfc5431b9b3c554",
+  "final_state": {
+    "battle_id": "phase4_objective_flag_basic",
+    "round": 1,
+    "active_unit": "hazard_core",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          2,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc": {
+        "team": "pc",
+        "hp": 20,
+        "max_hp": 20,
+        "position": [
+          3,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    },
+    "flags": {
+      "gate_open": true
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_obj_0000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "open_gate": false,
+          "keep_pc_alive": false
+        },
+        "victory_met": false,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "set_flag",
+      "payload": {
+        "actor": "hazard_core",
+        "flag": "gate_open",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_obj_0001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "open_gate": true,
+          "keep_pc_alive": false
+        },
+        "victory_met": true,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_done_0001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "battle_end",
+      "payload": {
+        "reason": "objectives",
+        "outcome": "victory",
+        "objective_statuses": {
+          "open_gate": true,
+          "keep_pc_alive": false
+        }
+      }
+    }
+  ]
+}

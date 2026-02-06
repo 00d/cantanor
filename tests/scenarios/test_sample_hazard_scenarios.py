@@ -14,6 +14,14 @@ SCENARIOS = [
     Path("scenarios/smoke/m2_save_effect_basic.json"),
     Path("scenarios/smoke/m3_trigger_hazard_source_basic.json"),
     Path("scenarios/smoke/m35_affliction_tick_basic.json"),
+    Path("scenarios/smoke/phase4_objective_flag_basic.json"),
+    Path("scenarios/smoke/phase4_hazard_routine_auto_basic.json"),
+    Path("scenarios/smoke/phase4_hazard_routine_cadence_basic.json"),
+    Path("scenarios/smoke/phase4_hazard_routine_no_script_basic.json"),
+    Path("scenarios/smoke/phase4_mission_event_spawn_basic.json"),
+    Path("scenarios/smoke/phase4_mission_trigger_flag_set_basic.json"),
+    Path("scenarios/smoke/phase4_mission_trigger_unit_dead_basic.json"),
+    Path("scenarios/smoke/phase4_mission_branching_waves_basic.json"),
 ]
 
 

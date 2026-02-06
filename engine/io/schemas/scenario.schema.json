@@ -7,6 +7,181 @@
   "properties": {
     "battle_id": {"type": "string"},
     "seed": {"type": "integer"},
+    "flags": {
+      "type": "object",
+      "additionalProperties": {"type": "boolean"}
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "properties": {
+          "id": {"type": "string"},
+          "type": {"type": "string"},
+          "result": {"type": "string", "enum": ["victory", "defeat"]},
+          "team": {"type": "string"},
+          "unit_id": {"type": "string"},
+          "x": {"type": "integer"},
+          "y": {"type": "integer"},
+          "flag": {"type": "string"},
+          "value": {"type": "boolean"},
+          "round": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "objective_packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "id": {"type": "string"},
+          "type": {"type": "string", "enum": ["eliminate_team", "escape_unit", "holdout"]},
+          "team": {"type": "string"},
+          "unit_id": {"type": "string"},
+          "x": {"type": "integer"},
+          "y": {"type": "integer"},
+          "round": {"type": "integer", "minimum": 1},
+          "protect_team": {"type": "string"},
+          "defeat_on_death": {"type": "boolean"},
+          "result": {"type": "string", "enum": ["victory", "defeat"]}
+        }
+      }
+    },
+    "hazard_routines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["unit_id", "hazard_id", "source_name"],
+        "properties": {
+          "id": {"type": "string"},
+          "unit_id": {"type": "string"},
+          "hazard_id": {"type": "string"},
+          "source_name": {"type": "string"},
+          "source_type": {"type": "string"},
+          "target_policy": {
+            "type": "string",
+            "enum": ["as_configured", "explicit", "nearest_enemy", "nearest_enemy_area_center", "all_enemies"]
+          },
+          "priority": {"type": "integer"},
+          "cadence_rounds": {"type": "integer", "minimum": 1},
+          "max_triggers": {"type": "integer", "minimum": 1},
+          "center_x": {"type": "integer"},
+          "center_y": {"type": "integer"},
+          "target": {"type": "string"},
+          "model_path": {"type": "string"},
+          "start_round": {"type": "integer", "minimum": 1},
+          "end_round": {"type": "integer", "minimum": 1},
+          "once": {"type": "boolean"},
+          "enabled_flag": {"type": "string"},
+          "disabled_flag": {"type": "string"},
+          "auto_end_turn": {"type": "boolean"}
+        }
+      }
+    },
+    "mission_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "trigger": {"type": "string", "enum": ["turn_start", "round_start", "unit_dead", "unit_alive", "flag_set"]},
+          "round": {"type": "integer", "minimum": 1},
+          "start_round": {"type": "integer", "minimum": 1},
+          "end_round": {"type": "integer", "minimum": 1},
+          "active_unit": {"type": "string"},
+          "enabled_flag": {"type": "string"},
+          "disabled_flag": {"type": "string"},
+          "unit_id": {"type": "string"},
+          "flag": {"type": "string"},
+          "value": {"type": "boolean"},
+          "if_flag": {"type": "string"},
+          "if_flag_value": {"type": "boolean"},
+          "once": {"type": "boolean"},
+          "commands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {"type": "string"},
+                "actor": {"type": "string"}
+              }
+            }
+          },
+          "then_commands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {"type": "string"},
+                "actor": {"type": "string"}
+              }
+            }
+          },
+          "else_commands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {"type": "string"},
+                "actor": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "reinforcement_waves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["units"],
+        "properties": {
+          "id": {"type": "string"},
+          "trigger": {"type": "string", "enum": ["turn_start", "round_start"]},
+          "round": {"type": "integer", "minimum": 1},
+          "start_round": {"type": "integer", "minimum": 1},
+          "end_round": {"type": "integer", "minimum": 1},
+          "active_unit": {"type": "string"},
+          "enabled_flag": {"type": "string"},
+          "disabled_flag": {"type": "string"},
+          "once": {"type": "boolean"},
+          "placement_policy": {"type": "string", "enum": ["exact", "nearest_open"]},
+          "spend_action": {"type": "boolean"},
+          "set_flag": {"type": "string"},
+          "set_flag_value": {"type": "boolean"},
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "team", "hp", "position", "initiative", "attack_mod", "ac", "damage"],
+              "properties": {
+                "id": {"type": "string"},
+                "team": {"type": "string"},
+                "hp": {"type": "integer", "minimum": 1},
+                "position": {
+                  "type": "array",
+                  "prefixItems": [{"type": "integer"}, {"type": "integer"}],
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "initiative": {"type": "integer"},
+                "attack_mod": {"type": "integer"},
+                "ac": {"type": "integer"},
+                "damage": {"type": "string"},
+                "fortitude": {"type": "integer"},
+                "reflex": {"type": "integer"},
+                "will": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
     "map": {
       "type": "object",
       "required": ["width", "height"],

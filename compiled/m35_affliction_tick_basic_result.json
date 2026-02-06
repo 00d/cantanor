@@ -2,8 +2,9 @@
   "battle_id": "m35_affliction_tick_basic",
   "seed": 888,
   "executed_commands": 3,
+  "auto_executed_commands": 0,
   "event_count": 9,
-  "replay_hash": "7a50847d6552e2424987fdfdd916d908a71db1174a139f157821af2a81e6d0dc",
+  "replay_hash": "2e3d085957701204a58e59b83e4f5d10f8b516a7c93fe8bec4052cb0c37203f9",
   "final_state": {
     "battle_id": "m35_affliction_tick_basic",
     "round": 2,
@@ -33,7 +34,8 @@
           "clumsy": 3
         }
       }
-    }
+    },
+    "flags": {}
   },
   "events": [
     {
@@ -128,6 +130,8 @@
               "value": 2
             }
           ],
+          "cleared_conditions": [],
+          "stage_rounds": 1,
           "target_hp": 31
         }
       }
@@ -203,6 +207,8 @@
               "value": 3
             }
           ],
+          "cleared_conditions": [],
+          "stage_rounds": 1,
           "target_hp": 17
         }
       }

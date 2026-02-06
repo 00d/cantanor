@@ -66,6 +66,31 @@ class TriggerHazardSourceCommand(BaseCommand):
     model_path: str | None
 
 
+class RunHazardRoutineCommand(BaseCommand):
+    type: Literal["run_hazard_routine"]
+    hazard_id: str
+    source_name: str
+    source_type: str
+    target_policy: Literal["as_configured", "explicit", "nearest_enemy", "nearest_enemy_area_center", "all_enemies"]
+    center_x: int | None
+    center_y: int | None
+    target: str | None
+    model_path: str | None
+
+
+class SetFlagCommand(BaseCommand):
+    type: Literal["set_flag"]
+    flag: str
+    value: bool
+
+
+class SpawnUnitCommand(BaseCommand):
+    type: Literal["spawn_unit"]
+    unit: dict
+    placement_policy: Literal["exact", "nearest_open"]
+    spend_action: bool
+
+
 Command = (
     MoveCommand
     | StrikeCommand
@@ -74,4 +99,7 @@ Command = (
     | AreaSaveDamageCommand
     | ApplyEffectCommand
     | TriggerHazardSourceCommand
+    | RunHazardRoutineCommand
+    | SetFlagCommand
+    | SpawnUnitCommand
 )

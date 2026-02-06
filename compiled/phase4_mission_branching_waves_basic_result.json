@@ -1,0 +1,211 @@
+{
+  "battle_id": "phase4_mission_branching_waves_basic",
+  "seed": 710,
+  "executed_commands": 2,
+  "auto_executed_commands": 3,
+  "stop_reason": "battle_end",
+  "event_count": 13,
+  "replay_hash": "11eccca4999f19a9dbfe696ca38c1370934cd64dd8398ab2dc800a3cb5a80102",
+  "final_state": {
+    "battle_id": "phase4_mission_branching_waves_basic",
+    "round": 2,
+    "active_unit": "hazard_core",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          2,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "hazard_wave_low": {
+        "team": "hazard",
+        "hp": 16,
+        "max_hp": 16,
+        "position": [
+          1,
+          3
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 30,
+        "max_hp": 30,
+        "position": [
+          5,
+          5
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    },
+    "flags": {
+      "alarm": false,
+      "route_high": false,
+      "route_low": true,
+      "wave_high_spawned": false,
+      "wave_low_spawned": true
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_obj_0000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "low_wave_spawned": false
+        },
+        "victory_met": false,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_1",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_1",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_mission_0002",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "mission_event",
+      "payload": {
+        "id": "branch_route",
+        "trigger": "round_start",
+        "branch": "else",
+        "command_count": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "set_flag",
+      "payload": {
+        "actor": "hazard_core",
+        "flag": "route_low",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_mission_0003",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "mission_event",
+      "payload": {
+        "id": "wave_low",
+        "trigger": "round_start",
+        "branch": "default",
+        "command_count": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "spawn_unit",
+      "payload": {
+        "actor": "hazard_core",
+        "unit_id": "hazard_wave_low",
+        "team": "hazard",
+        "position": [
+          1,
+          3
+        ],
+        "placement_policy": "exact",
+        "spend_action": false,
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "set_flag",
+      "payload": {
+        "actor": "hazard_core",
+        "flag": "wave_low_spawned",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_obj_0005",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "low_wave_spawned": true
+        },
+        "victory_met": true,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_done_0005",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "battle_end",
+      "payload": {
+        "reason": "objectives",
+        "outcome": "victory",
+        "objective_statuses": {
+          "low_wave_spawned": true
+        }
+      }
+    }
+  ]
+}

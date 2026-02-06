@@ -1,0 +1,123 @@
+{
+  "battle_id": "phase4_hazard_routine_no_script_basic",
+  "seed": 708,
+  "executed_commands": 0,
+  "auto_executed_commands": 1,
+  "stop_reason": "battle_end",
+  "event_count": 3,
+  "replay_hash": "b82b4329439714221fa02cdc7406d85c26d2b88f504114a577c7a83a4bf35e4f",
+  "final_state": {
+    "battle_id": "phase4_hazard_routine_no_script_basic",
+    "round": 1,
+    "active_unit": "hazard_core",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          3,
+          3
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 0,
+        "max_hp": 35,
+        "position": [
+          3,
+          4
+        ],
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        }
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "run_hazard_routine",
+      "payload": {
+        "actor": "hazard_core",
+        "hazard_id": "fireball-rune",
+        "source_type": "trigger_action",
+        "source_name": "Fireball",
+        "target_policy": "nearest_enemy_area_center",
+        "center": [
+          3,
+          4
+        ],
+        "explicit_target": null,
+        "target_ids": [
+          "pc_1"
+        ],
+        "effect_kinds": [
+          "damage",
+          "save_check"
+        ],
+        "results": [
+          {
+            "actor": "hazard_core",
+            "target": "pc_1",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 4,
+              "modifier": 5,
+              "total": 9,
+              "degree": "critical_failure"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 23,
+              "rolls": [
+                6,
+                6,
+                3,
+                3,
+                2,
+                3
+              ],
+              "flat_modifier": 0,
+              "multiplier": 2.0,
+              "applied_total": 46
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 0
+          }
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_done_0001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "battle_end",
+      "payload": {
+        "winner_team": "hazard"
+      }
+    }
+  ]
+}

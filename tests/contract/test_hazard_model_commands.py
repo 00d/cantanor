@@ -582,6 +582,94 @@ class TestHazardModelCommands(unittest.TestCase):
         self.assertIn("enemy_clear", targets)
         self.assertNotIn("enemy_blocked", targets)
 
+    def test_run_hazard_routine_nearest_enemy_area_center(self) -> None:
+        scenario = {
+            "battle_id": "routine_area_center",
+            "seed": 2020,
+            "map": {"width": 12, "height": 12, "blocked": []},
+            "units": [
+                {
+                    "id": "hazard_core",
+                    "team": "hazard",
+                    "hp": 999,
+                    "position": [3, 3],
+                    "initiative": 30,
+                    "attack_mod": 0,
+                    "ac": 10,
+                    "damage": "1d1",
+                    "fortitude": 0,
+                    "reflex": 0,
+                    "will": 0,
+                },
+                {
+                    "id": "pc_a",
+                    "team": "pc",
+                    "hp": 30,
+                    "position": [4, 3],
+                    "initiative": 10,
+                    "attack_mod": 7,
+                    "ac": 17,
+                    "damage": "1d8+3",
+                    "fortitude": 6,
+                    "reflex": 5,
+                    "will": 4,
+                },
+                {
+                    "id": "pc_b",
+                    "team": "pc",
+                    "hp": 30,
+                    "position": [5, 3],
+                    "initiative": 9,
+                    "attack_mod": 7,
+                    "ac": 17,
+                    "damage": "1d8+3",
+                    "fortitude": 6,
+                    "reflex": 6,
+                    "will": 4,
+                },
+            ],
+            "commands": [],
+        }
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+
+        state, events = apply_command(
+            state,
+            {
+                "type": "run_hazard_routine",
+                "actor": "hazard_core",
+                "hazard_id": "fireball-rune",
+                "source_name": "Fireball",
+                "source_type": "trigger_action",
+                "target_policy": "nearest_enemy_area_center",
+            },
+            rng,
+        )
+        payload = events[0]["payload"]
+        self.assertEqual(events[0]["type"], "run_hazard_routine")
+        self.assertEqual(payload["target_policy"], "nearest_enemy_area_center")
+        self.assertIn("pc_a", payload["target_ids"])
+        self.assertIn("pc_b", payload["target_ids"])
+        self.assertEqual(state.units["hazard_core"].actions_remaining, 2)
+
+    def test_set_flag_updates_battle_state(self) -> None:
+        state = battle_state_from_scenario(_base_scenario())
+        rng = DeterministicRNG(seed=state.seed)
+        self.assertNotIn("alarm_triggered", state.flags)
+
+        state, events = apply_command(
+            state,
+            {
+                "type": "set_flag",
+                "actor": "hazard_core",
+                "flag": "alarm_triggered",
+                "value": True,
+            },
+            rng,
+        )
+        self.assertTrue(state.flags["alarm_triggered"])
+        self.assertEqual(events[0]["type"], "set_flag")
+
 
 if __name__ == "__main__":
     unittest.main()

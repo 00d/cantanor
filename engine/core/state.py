@@ -58,6 +58,7 @@ class BattleState:
     units: Dict[str, UnitState]
     battle_map: MapState
     effects: Dict[str, EffectState] = field(default_factory=dict)
+    flags: Dict[str, bool] = field(default_factory=dict)
     event_sequence: int = 0
 
     @property

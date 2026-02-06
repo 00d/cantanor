@@ -1,0 +1,243 @@
+{
+  "battle_id": "phase4_mission_trigger_unit_dead_basic",
+  "seed": 712,
+  "executed_commands": 0,
+  "auto_executed_commands": 3,
+  "stop_reason": "battle_end",
+  "event_count": 9,
+  "replay_hash": "91897bc5db583fff023c3e1ca58a894ba6012ac0d7aa84d6b8fe3ec35ab87ced",
+  "final_state": {
+    "battle_id": "phase4_mission_trigger_unit_dead_basic",
+    "round": 1,
+    "active_unit": "pc_tank",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          3,
+          3
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_low": {
+        "team": "pc",
+        "hp": 0,
+        "max_hp": 10,
+        "position": [
+          3,
+          4
+        ],
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        }
+      },
+      "pc_tank": {
+        "team": "pc",
+        "hp": 157,
+        "max_hp": 180,
+        "position": [
+          8,
+          8
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    },
+    "flags": {
+      "casualty_confirmed": true
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_obj_0000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "confirm_casualty": false
+        },
+        "victory_met": false,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "run_hazard_routine",
+      "payload": {
+        "actor": "hazard_core",
+        "hazard_id": "fireball-rune",
+        "source_type": "trigger_action",
+        "source_name": "Fireball",
+        "target_policy": "nearest_enemy_area_center",
+        "center": [
+          3,
+          4
+        ],
+        "explicit_target": null,
+        "target_ids": [
+          "pc_low",
+          "pc_tank"
+        ],
+        "effect_kinds": [
+          "damage",
+          "save_check"
+        ],
+        "results": [
+          {
+            "actor": "hazard_core",
+            "target": "pc_low",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 10,
+              "modifier": 0,
+              "total": 10,
+              "degree": "critical_failure"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 24,
+              "rolls": [
+                5,
+                4,
+                4,
+                1,
+                6,
+                4
+              ],
+              "flat_modifier": 0,
+              "multiplier": 2.0,
+              "applied_total": 48
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 0
+          },
+          {
+            "actor": "hazard_core",
+            "target": "pc_tank",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 7,
+              "modifier": 8,
+              "total": 15,
+              "degree": "failure"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 23,
+              "rolls": [
+                1,
+                6,
+                3,
+                4,
+                6,
+                3
+              ],
+              "flat_modifier": 0,
+              "multiplier": 1.0,
+              "applied_total": 23
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 157
+          }
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc_tank",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_tank",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_mission_0002",
+      "round": 1,
+      "active_unit": "pc_tank",
+      "type": "mission_event",
+      "payload": {
+        "id": "casualty_hook",
+        "trigger": "unit_dead",
+        "branch": "default",
+        "command_count": 1
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "pc_tank",
+      "type": "set_flag",
+      "payload": {
+        "actor": "pc_tank",
+        "flag": "casualty_confirmed",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_obj_0003",
+      "round": 1,
+      "active_unit": "pc_tank",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "confirm_casualty": true
+        },
+        "victory_met": true,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_done_0003",
+      "round": 1,
+      "active_unit": "pc_tank",
+      "type": "battle_end",
+      "payload": {
+        "reason": "objectives",
+        "outcome": "victory",
+        "objective_statuses": {
+          "confirm_casualty": true
+        }
+      }
+    }
+  ]
+}

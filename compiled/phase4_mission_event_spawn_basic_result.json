@@ -1,0 +1,184 @@
+{
+  "battle_id": "phase4_mission_event_spawn_basic",
+  "seed": 709,
+  "executed_commands": 2,
+  "auto_executed_commands": 2,
+  "stop_reason": "battle_end",
+  "event_count": 11,
+  "replay_hash": "0fb093e603978838a11ebd9083cb0e45a33d19555ba16625a5d4394d8b588b18",
+  "final_state": {
+    "battle_id": "phase4_mission_event_spawn_basic",
+    "round": 2,
+    "active_unit": "hazard_core",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          2,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "hazard_reinforcement_1": {
+        "team": "hazard",
+        "hp": 16,
+        "max_hp": 16,
+        "position": [
+          1,
+          2
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 30,
+        "max_hp": 30,
+        "position": [
+          5,
+          5
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    },
+    "flags": {
+      "wave_spawned": true
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_obj_0000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "wave_spawned": false
+        },
+        "victory_met": false,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_1",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_1",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_mission_0002",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "mission_event",
+      "payload": {
+        "id": "spawn_wave_2",
+        "trigger": "round_start",
+        "branch": "default",
+        "command_count": 2
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "spawn_unit",
+      "payload": {
+        "actor": "hazard_core",
+        "unit_id": "hazard_reinforcement_1",
+        "team": "hazard",
+        "position": [
+          1,
+          2
+        ],
+        "placement_policy": "exact",
+        "spend_action": false,
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "set_flag",
+      "payload": {
+        "actor": "hazard_core",
+        "flag": "wave_spawned",
+        "value": true
+      }
+    },
+    {
+      "event_id": "ev_obj_0004",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "objective_update",
+      "payload": {
+        "statuses": {
+          "wave_spawned": true
+        },
+        "victory_met": true,
+        "defeat_met": false
+      }
+    },
+    {
+      "event_id": "ev_done_0004",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "battle_end",
+      "payload": {
+        "reason": "objectives",
+        "outcome": "victory",
+        "objective_statuses": {
+          "wave_spawned": true
+        }
+      }
+    }
+  ]
+}

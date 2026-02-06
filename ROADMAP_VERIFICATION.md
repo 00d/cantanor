@@ -18,6 +18,21 @@ Verified on February 6, 2026.
   - Corner pinch blocking and strike cover bonuses (`standard`/`greater`) in LOS/LOE flow.
   - Affliction edge handling: stage-duration pacing, persistence exceptions, and condition recovery transitions.
   - Deterministic regression matrix with 10 hazard-derived scenarios and locked replay hashes.
+- Phase 4 complete:
+  - Objective evaluation runtime (`victory`/`defeat` objective sets) with objective-driven battle end.
+  - Scenario flags + script command (`set_flag`) for mission state transitions.
+  - Hazard routine command (`run_hazard_routine`) with target policies for automated hazard actions.
+  - Auto hazard routine scheduling in scenario runner via `hazard_routines` (no explicit scripted routine command required).
+  - Scenario runner supports routine execution even when scripted command list is empty (`commands: []`).
+  - Objective pack expansion (`eliminate_team`, `escape_unit`, `holdout`) into runtime objective sets.
+  - Spawn scripting via `spawn_unit` command, including deterministic `nearest_open` placement policy.
+  - Mission event triggers (`turn_start` / `round_start`) that can execute scripted command blocks with objective-aware battle end checks.
+  - Conditional mission-event branching (`if_flag` with `then_commands` / `else_commands`) for encounter state-driven scripting.
+  - Reinforcement-wave packs (`reinforcement_waves`) compiled into mission-event command blocks for scheduled multi-wave spawns.
+  - Advanced mission-event triggers (`unit_dead`, `unit_alive`, `flag_set`) for state-reactive encounter scripting.
+  - Hazard routine cadence controls (`cadence_rounds`, `max_triggers`, `priority`) for complex hazard turn behavior.
+  - Strict command-variant scenario validation for loader contracts (required per-command fields + supported command types).
+  - Deterministic Phase 4 regression matrix with locked replay hashes.
 
 ## Verification Evidence
 
@@ -31,6 +46,15 @@ Verified on February 6, 2026.
   - `scenarios/smoke/m3_trigger_hazard_source_basic.json` exercises `trigger_hazard_source` against phase 2.5 data.
   - `scenarios/smoke/m35_affliction_tick_basic.json` exercises modeled affliction apply + tick lifecycle flow.
   - `tests/scenarios/test_phase35_regression_matrix.py` validates 10 phase 3.5 hazard regressions against `scenarios/regression_phase35/expected_hashes.json`.
+  - `scenarios/smoke/phase4_objective_flag_basic.json` exercises objective completion via scripted flag transitions.
+  - `scenarios/smoke/phase4_hazard_routine_auto_basic.json` exercises auto hazard routine execution via `hazard_routines`.
+  - `scenarios/smoke/phase4_hazard_routine_cadence_basic.json` exercises cadence-limited + max-trigger hazard routine scheduling.
+  - `scenarios/smoke/phase4_hazard_routine_no_script_basic.json` exercises autonomous hazard routine execution with no scripted commands.
+  - `scenarios/smoke/phase4_mission_event_spawn_basic.json` exercises round-start mission event triggers with reinforcement spawn + flag transition.
+  - `scenarios/smoke/phase4_mission_trigger_flag_set_basic.json` exercises `flag_set` mission trigger flow with reactionary spawning.
+  - `scenarios/smoke/phase4_mission_trigger_unit_dead_basic.json` exercises `unit_dead` mission trigger flow for state-reactive objectives.
+  - `scenarios/smoke/phase4_mission_branching_waves_basic.json` exercises branch-driven wave selection and wave-pack scheduling in the same round-start window.
+  - `tests/scenarios/test_phase4_regression_matrix.py` validates 8 phase 4 encounter regressions against `scenarios/regression_phase4/expected_hashes.json`.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -57,11 +81,10 @@ Cross-check focus:
 
 3. Content/runtime integration
 - Build a versioned content pack compiler (book-scoped bundles + compatibility tags).
-- Add strict schema validation for command variants with per-command required fields.
+- Extend JSON schema to enforce per-command required fields via discriminated command variants (currently enforced in loader runtime validation).
 
 4. Encounter systems
-- Hazard initiative/routine behavior for complex hazards.
-- Objective logic, victory/defeat conditions, spawn scripting, and mission event scripting.
+- Expand from deterministic scripted encounter logic to richer enemy decision policies and hazard subsystem state machines.
 
 5. Frontend game layer
 - Tile renderer, animation timing model, input/UI overlays, forecast panels, and build-management UI.
@@ -74,7 +97,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 4 should focus on encounter runtime breadth:
-- complex hazard initiative/routine behavior,
-- mission objectives and scripted encounter state transitions,
-- broader content execution (class/feat/spell/item interactions) on top of the deterministic core.
+Phase 5 should focus on gameplay breadth beyond encounter scaffolding:
+- class/feat/spell/item execution pipelines on top of the deterministic core,
+- resistance/weakness/immunity and persistent recovery depth,
+- browser gameplay loop integration (rendering, forecasting, and UX command layers).

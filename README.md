@@ -16,4 +16,13 @@ Run Phase 3 M2 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smo
 Run Phase 3 M3 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/m3_trigger_hazard_source_basic.json --out compiled/m3_trigger_hazard_source_basic_result.json`
 Run Phase 3.5 affliction smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/m35_affliction_tick_basic.json --out compiled/m35_affliction_tick_basic_result.json`
 Run Phase 3.5 regression matrix: `python3 -m unittest tests/scenarios/test_phase35_regression_matrix.py -v`
+Run Phase 4 objective smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_objective_flag_basic.json --out compiled/phase4_objective_flag_basic_result.json`
+Run Phase 4 auto-routine smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_hazard_routine_auto_basic.json --out compiled/phase4_hazard_routine_auto_basic_result.json`
+Run Phase 4 cadence-limited auto-routine smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_hazard_routine_cadence_basic.json --out compiled/phase4_hazard_routine_cadence_basic_result.json`
+Run Phase 4 zero-script auto-routine smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_hazard_routine_no_script_basic.json --out compiled/phase4_hazard_routine_no_script_basic_result.json`
+Run Phase 4 mission-event spawn smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_mission_event_spawn_basic.json --out compiled/phase4_mission_event_spawn_basic_result.json`
+Run Phase 4 flag-trigger mission smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_mission_trigger_flag_set_basic.json --out compiled/phase4_mission_trigger_flag_set_basic_result.json`
+Run Phase 4 unit-death trigger smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_mission_trigger_unit_dead_basic.json --out compiled/phase4_mission_trigger_unit_dead_basic_result.json`
+Run Phase 4 branching + wave-pack smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_mission_branching_waves_basic.json --out compiled/phase4_mission_branching_waves_basic_result.json`
+Run Phase 4 regression matrix: `python3 -m unittest tests/scenarios/test_phase4_regression_matrix.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

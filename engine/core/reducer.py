@@ -9,10 +9,12 @@ from typing import Dict, List, Tuple
 from engine.core.commands import Command
 from engine.core.ids import event_id
 from engine.core.rng import DeterministicRNG
-from engine.core.state import BattleState, EffectState
+from engine.core.state import BattleState, EffectState, UnitState
+from engine.core.turn_order import build_turn_order
 from engine.core.turn_order import next_turn_index
 from engine.effects.lifecycle import on_apply, process_timing
 from engine.grid.areas import cone_points, line_points, radius_points
+from engine.grid.map import in_bounds, is_blocked, is_occupied
 from engine.grid.loe import cover_ac_bonus_for_units, cover_grade_for_units, has_tile_line_of_effect
 from engine.grid.los import has_line_of_sight
 from engine.grid.movement import can_step_to
@@ -87,6 +89,20 @@ def _alive_unit_ids(state: BattleState) -> List[str]:
     return [u.unit_id for u in state.units.values() if u.alive]
 
 
+def _enemy_unit_ids(state: BattleState, actor_id: str) -> List[str]:
+    actor = state.units[actor_id]
+    return [u.unit_id for u in state.units.values() if u.alive and u.unit_id != actor_id and u.team != actor.team]
+
+
+def _nearest_enemy_unit_id(state: BattleState, actor_id: str) -> str | None:
+    actor = state.units[actor_id]
+    enemies = [u for u in state.units.values() if u.alive and u.unit_id != actor_id and u.team != actor.team]
+    if not enemies:
+        return None
+    nearest = sorted(enemies, key=lambda u: (abs(u.x - actor.x) + abs(u.y - actor.y), u.unit_id))[0]
+    return nearest.unit_id
+
+
 def _tiles_from_feet(feet: int) -> int:
     return max(1, (feet + 4) // 5)
 
@@ -109,6 +125,23 @@ def _units_within_radius_feet(
         if (unit.x, unit.y) in area:
             out.append(unit.unit_id)
     return out
+
+
+def _nearest_open_tile(state: BattleState, x: int, y: int) -> tuple[int, int] | None:
+    tiles = [
+        (tx, ty)
+        for tx in range(state.battle_map.width)
+        for ty in range(state.battle_map.height)
+    ]
+    for tx, ty in sorted(tiles, key=lambda p: (abs(p[0] - x) + abs(p[1] - y), p[1], p[0])):
+        if not in_bounds(state, tx, ty):
+            continue
+        if is_blocked(state, tx, ty):
+            continue
+        if is_occupied(state, tx, ty):
+            continue
+        return tx, ty
+    return None
 
 
 def _units_in_cone_feet(
@@ -707,6 +740,196 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                 "actions_remaining": actor.actions_remaining,
             },
         )
+        return next_state, events
+
+    if command_type == "set_flag":
+        flag = str(command["flag"])
+        value = bool(command.get("value", True))
+        next_state.flags[flag] = value
+        _append_event(
+            events,
+            next_state,
+            "set_flag",
+            {
+                "actor": actor_id,
+                "flag": flag,
+                "value": value,
+            },
+        )
+        return next_state, events
+
+    if command_type == "spawn_unit":
+        unit_raw = dict(command.get("unit") or {})
+        unit_id = str(unit_raw.get("id") or "")
+        if not unit_id:
+            raise ReductionError("spawn_unit requires unit.id")
+        if unit_id in next_state.units:
+            raise ReductionError(f"cannot spawn duplicate unit id: {unit_id}")
+
+        if "position" not in unit_raw or not isinstance(unit_raw["position"], list) or len(unit_raw["position"]) != 2:
+            raise ReductionError("spawn_unit unit.position must be [x, y]")
+
+        spawn_x = int(unit_raw["position"][0])
+        spawn_y = int(unit_raw["position"][1])
+        policy = str(command.get("placement_policy") or "exact")
+        if policy == "nearest_open":
+            placement = _nearest_open_tile(next_state, spawn_x, spawn_y)
+            if placement is None:
+                raise ReductionError("spawn_unit found no open tile for nearest_open placement")
+            spawn_x, spawn_y = placement
+        elif policy == "exact":
+            if not in_bounds(next_state, spawn_x, spawn_y):
+                raise ReductionError(f"spawn position out of bounds: ({spawn_x}, {spawn_y})")
+            if is_blocked(next_state, spawn_x, spawn_y):
+                raise ReductionError(f"spawn position blocked: ({spawn_x}, {spawn_y})")
+            if is_occupied(next_state, spawn_x, spawn_y):
+                raise ReductionError(f"spawn position occupied: ({spawn_x}, {spawn_y})")
+        else:
+            raise ReductionError(f"unsupported spawn placement policy: {policy}")
+
+        hp = int(unit_raw.get("hp") or 0)
+        if hp <= 0:
+            raise ReductionError("spawn_unit unit.hp must be > 0")
+
+        spawned = UnitState(
+            unit_id=unit_id,
+            team=str(unit_raw.get("team") or ""),
+            hp=hp,
+            max_hp=int(unit_raw.get("max_hp") or hp),
+            x=spawn_x,
+            y=spawn_y,
+            initiative=int(unit_raw.get("initiative") or 0),
+            attack_mod=int(unit_raw.get("attack_mod") or 0),
+            ac=int(unit_raw.get("ac") or 10),
+            damage=str(unit_raw.get("damage") or "1d1"),
+            fortitude=int(unit_raw.get("fortitude") or 0),
+            reflex=int(unit_raw.get("reflex") or 0),
+            will=int(unit_raw.get("will") or 0),
+            actions_remaining=3,
+            reaction_available=True,
+            conditions={str(k): int(v) for k, v in dict(unit_raw.get("conditions", {})).items()},
+        )
+        if not spawned.team:
+            raise ReductionError("spawn_unit unit.team is required")
+
+        active_unit_id = next_state.active_unit_id
+        next_state.units[unit_id] = spawned
+        next_state.turn_order = build_turn_order(next_state.units)
+        next_state.turn_index = next_state.turn_order.index(active_unit_id)
+
+        spend_action = bool(command.get("spend_action", False))
+        if spend_action:
+            if actor.actions_remaining <= 0:
+                raise ReductionError("actor has no actions remaining")
+            actor.actions_remaining -= 1
+
+        _append_event(
+            events,
+            next_state,
+            "spawn_unit",
+            {
+                "actor": actor_id,
+                "unit_id": unit_id,
+                "team": spawned.team,
+                "position": [spawned.x, spawned.y],
+                "placement_policy": policy,
+                "spend_action": spend_action,
+                "actions_remaining": actor.actions_remaining,
+            },
+        )
+        return next_state, events
+
+    if command_type == "run_hazard_routine":
+        if actor.actions_remaining <= 0:
+            raise ReductionError("actor has no actions remaining")
+
+        hazard_id = str(command["hazard_id"])
+        source_name = str(command["source_name"])
+        source_type = str(command.get("source_type") or "trigger_action")
+        model_path = str(command.get("model_path") or DEFAULT_EFFECT_MODEL_PATH)
+        policy = str(command.get("target_policy") or "nearest_enemy")
+
+        center_x = command.get("center_x")
+        center_y = command.get("center_y")
+        explicit_target = command.get("target")
+
+        if policy == "nearest_enemy":
+            explicit_target = _nearest_enemy_unit_id(next_state, actor_id)
+        elif policy == "nearest_enemy_area_center":
+            nearest_id = _nearest_enemy_unit_id(next_state, actor_id)
+            explicit_target = None
+            if nearest_id is not None:
+                nearest = next_state.units[nearest_id]
+                center_x = nearest.x
+                center_y = nearest.y
+        elif policy == "explicit":
+            pass
+        elif policy == "all_enemies":
+            explicit_target = None
+        elif policy == "as_configured":
+            pass
+        else:
+            raise ReductionError(f"unsupported target policy: {policy}")
+
+        try:
+            source = lookup_hazard_source(
+                hazard_id=hazard_id,
+                source_name=source_name,
+                source_type=source_type,
+                model_path=model_path,
+            )
+        except KeyError as exc:
+            raise ReductionError(str(exc)) from exc
+
+        effects = list(source.get("effects", []))
+        target_ids = _choose_model_targets(
+            state=next_state,
+            actor_id=actor_id,
+            effects=effects,
+            explicit_target_id=explicit_target,
+            center_x=int(center_x) if center_x is not None else None,
+            center_y=int(center_y) if center_y is not None else None,
+        )
+        if policy == "all_enemies":
+            actor_team = next_state.units[actor_id].team
+            target_ids = [uid for uid in target_ids if next_state.units[uid].team != actor_team]
+
+        per_target = []
+        lifecycle_events: List[Tuple[str, dict]] = []
+        for target_id in target_ids:
+            if target_id not in next_state.units or not next_state.units[target_id].alive:
+                continue
+            result, target_events = _apply_modeled_effects_to_target(
+                state=next_state,
+                rng=rng,
+                actor_id=actor_id,
+                target_id=target_id,
+                effects=effects,
+                source_label=f"{hazard_id}:{source_name}",
+            )
+            per_target.append(result)
+            lifecycle_events.extend(target_events)
+
+        actor.actions_remaining -= 1
+        _append_event(
+            events,
+            next_state,
+            "run_hazard_routine",
+            {
+                "actor": actor_id,
+                "hazard_id": hazard_id,
+                "source_type": source_type,
+                "source_name": source_name,
+                "target_policy": policy,
+                "center": [center_x, center_y] if center_x is not None and center_y is not None else None,
+                "explicit_target": explicit_target,
+                "target_ids": target_ids,
+                "effect_kinds": sorted({str(e.get("kind")) for e in effects if "kind" in e}),
+                "results": per_target,
+                "actions_remaining": actor.actions_remaining,
+            },
+        )
+        _emit_lifecycle_events(events, next_state, lifecycle_events)
         return next_state, events
 
     if command_type == "trigger_hazard_source":

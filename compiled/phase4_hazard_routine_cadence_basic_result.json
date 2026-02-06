@@ -1,0 +1,273 @@
+{
+  "battle_id": "phase4_hazard_routine_cadence_basic",
+  "seed": 711,
+  "executed_commands": 3,
+  "auto_executed_commands": 4,
+  "stop_reason": "script_exhausted",
+  "event_count": 13,
+  "replay_hash": "308726a295dbba7f5708c43f5d008af4d53aa9108b95db8ea212f48b9e4faa87",
+  "final_state": {
+    "battle_id": "phase4_hazard_routine_cadence_basic",
+    "round": 3,
+    "active_unit": "pc_1",
+    "units": {
+      "hazard_core": {
+        "team": "hazard",
+        "hp": 999,
+        "max_hp": 999,
+        "position": [
+          3,
+          3
+        ],
+        "alive": true,
+        "conditions": {}
+      },
+      "pc_1": {
+        "team": "pc",
+        "hp": 250,
+        "max_hp": 250,
+        "position": [
+          3,
+          4
+        ],
+        "alive": true,
+        "conditions": {}
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "run_hazard_routine",
+      "payload": {
+        "actor": "hazard_core",
+        "hazard_id": "fireball-rune",
+        "source_type": "trigger_action",
+        "source_name": "Fireball",
+        "target_policy": "nearest_enemy_area_center",
+        "center": [
+          3,
+          4
+        ],
+        "explicit_target": null,
+        "target_ids": [
+          "pc_1"
+        ],
+        "effect_kinds": [
+          "damage",
+          "save_check"
+        ],
+        "results": [
+          {
+            "actor": "hazard_core",
+            "target": "pc_1",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 20,
+              "modifier": 18,
+              "total": 38,
+              "degree": "critical_success"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 23,
+              "rolls": [
+                4,
+                4,
+                6,
+                4,
+                3,
+                2
+              ],
+              "flat_modifier": 0,
+              "multiplier": 0.0,
+              "applied_total": 0
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 250
+          }
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_1",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "pc_1",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_1",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 2,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 2,
+      "active_unit": "pc_1",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_1",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 2,
+      "active_unit": "pc_1",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_1",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000009",
+      "round": 3,
+      "active_unit": "hazard_core",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "hazard_core",
+        "round": 3
+      }
+    },
+    {
+      "event_id": "ev_000010",
+      "round": 3,
+      "active_unit": "hazard_core",
+      "type": "run_hazard_routine",
+      "payload": {
+        "actor": "hazard_core",
+        "hazard_id": "fireball-rune",
+        "source_type": "trigger_action",
+        "source_name": "Fireball",
+        "target_policy": "nearest_enemy_area_center",
+        "center": [
+          3,
+          4
+        ],
+        "explicit_target": null,
+        "target_ids": [
+          "pc_1"
+        ],
+        "effect_kinds": [
+          "damage",
+          "save_check"
+        ],
+        "results": [
+          {
+            "actor": "hazard_core",
+            "target": "pc_1",
+            "save": {
+              "dc": 22,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 14,
+              "modifier": 18,
+              "total": 32,
+              "degree": "critical_success"
+            },
+            "damage": {
+              "formula": "6d6",
+              "damage_type": "fire",
+              "rolled_total": 20,
+              "rolls": [
+                2,
+                2,
+                3,
+                4,
+                6,
+                3
+              ],
+              "flat_modifier": 0,
+              "multiplier": 0.0,
+              "applied_total": 0
+            },
+            "applied_conditions": [],
+            "special_flags": [],
+            "affliction": null,
+            "target_hp": 250
+          }
+        ],
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000011",
+      "round": 3,
+      "active_unit": "hazard_core",
+      "type": "end_turn",
+      "payload": {
+        "actor": "hazard_core",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000012",
+      "round": 3,
+      "active_unit": "pc_1",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_1",
+        "round": 3
+      }
+    }
+  ]
+}
