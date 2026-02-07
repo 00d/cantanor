@@ -11,6 +11,7 @@ Verify Phase 2 consistency: `python3 scripts/verify_phase2_consistency.py`
 Build Phase 2.5 effect models: `python3 scripts/build_tactical_effect_models.py`
 Verify Phase 2.5 consistency: `python3 scripts/verify_phase25_consistency.py`
 Phase 3 execution plan: `PHASE3_IMPLEMENTATION_PLAN.md`
+Phase 6 execution plan: `PHASE6_IMPLEMENTATION_PLAN.md`
 Run Phase 3 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/hidden_pit_basic.json --out compiled/hidden_pit_basic_result.json`
 Run Phase 3 M2 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/m2_save_effect_basic.json --out compiled/m2_save_effect_basic_result.json`
 Run Phase 3 M3 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/m3_trigger_hazard_source_basic.json --out compiled/m3_trigger_hazard_source_basic_result.json`
@@ -37,4 +38,5 @@ Run Phase 5 temp-HP expire smoke scenario: `python3 -m engine.cli.run_scenario s
 Run Phase 5 temp-HP source-policy smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_source_policy_basic.json --out compiled/phase5_temp_hp_source_policy_basic_result.json`
 Run Phase 5 persistent recovery smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_persistent_recovery_basic.json --out compiled/phase5_persistent_recovery_basic_result.json`
 Run Phase 5 condition immunity smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_condition_immunity_basic.json --out compiled/phase5_condition_immunity_basic_result.json`
+Run Phase 5 regression matrix: `python3 -m unittest tests/scenarios/test_phase5_regression_matrix.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

@@ -33,7 +33,7 @@ Verified on February 7, 2026.
   - Hazard routine cadence controls (`cadence_rounds`, `max_triggers`, `priority`) for complex hazard turn behavior.
   - Strict command-variant scenario validation for loader contracts (required per-command fields + supported command types).
   - Deterministic Phase 4 regression matrix with locked replay hashes.
-- Phase 5 started:
+- Phase 5 complete:
   - Damage mitigation baseline for resistances, weaknesses, and immunities in `strike`, `save_damage`, `area_save_damage`, and modeled hazard damage resolution.
   - Overlapping resistance/weakness precedence now resolves to the highest applicable value (exact, grouped tag, or `all`) instead of stacking totals.
   - Affliction stage damage now routes through the same mitigation layer (resistance/weakness/immunity + temp-HP-first consumption) as other damage sources.
@@ -45,6 +45,7 @@ Verified on February 7, 2026.
   - Persistent damage recovery checks (flat-check style) with immediate effect expiration on successful recovery.
   - Condition immunity support in direct condition effects, affliction stage application, and modeled hazard condition events.
   - Spawn runtime now preserves unit-level condition immunity metadata (`condition_immunities`).
+  - Deterministic Phase 5 regression matrix with 12 mitigation/lifecycle scenarios and locked replay hashes.
 
 ## Verification Evidence
 
@@ -84,6 +85,7 @@ Verified on February 7, 2026.
   - `tests/contract/test_effect_lifecycle.py` includes persistent recovery success/failure coverage.
   - `scenarios/smoke/phase5_condition_immunity_basic.json` exercises condition immunity handling for condition effects.
   - `tests/contract/test_affliction_edge_cases.py` and `tests/contract/test_hazard_model_commands.py` include condition immunity coverage for afflictions and modeled hazard conditions.
+  - `tests/scenarios/test_phase5_regression_matrix.py` validates 12 phase 5 mitigation/lifecycle regressions against `scenarios/regression_phase5/expected_hashes.json`.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -105,8 +107,8 @@ Cross-check focus:
 - Add parser normalization for class progression, feat prerequisites, spell targeting, and trait interactions.
 
 2. Tactical correctness depth
-- Extend mitigation beyond baseline resistance/weakness/immunity (for example broader edge-case interaction rules and source-specific exceptions), plus persistent damage recovery checks and full affliction stage progression.
-- Add real area shapes (cone/burst/emanation geometry) and stricter line-of-effect rules.
+- Expand mitigation to cover additional rules interactions (for example non-damage effects, conditional bypass exceptions, and source trait layering).
+- Deepen tactical geometry and visibility fidelity beyond current baseline LOE/LOS behavior for high-density maps.
 
 3. Content/runtime integration
 - Build a versioned content pack compiler (book-scoped bundles + compatibility tags).
@@ -126,7 +128,6 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 5 should focus on gameplay breadth beyond encounter scaffolding:
+Phase 6 should focus on gameplay breadth beyond encounter scaffolding:
 - class/feat/spell/item execution pipelines on top of the deterministic core,
-- resistance/weakness/immunity and persistent recovery depth,
 - browser gameplay loop integration (rendering, forecasting, and UX command layers).
