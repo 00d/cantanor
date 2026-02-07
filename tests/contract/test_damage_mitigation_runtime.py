@@ -437,6 +437,64 @@ class TestDamageMitigationRuntime(unittest.TestCase):
         self.assertGreater(damage["applied_total"], 0)
         self.assertEqual(state.units["target"].hp, 40 - damage["applied_total"])
 
+    def test_area_save_damage_can_bypass_matching_immunity(self) -> None:
+        scenario = {
+            "battle_id": "damage_mitigation_bypass_area_save_damage",
+            "seed": 618,
+            "map": {"width": 6, "height": 6, "blocked": []},
+            "units": [
+                {
+                    "id": "caster",
+                    "team": "pc",
+                    "hp": 25,
+                    "position": [1, 1],
+                    "initiative": 20,
+                    "attack_mod": 6,
+                    "ac": 18,
+                    "damage": "1d8+2",
+                },
+                {
+                    "id": "target",
+                    "team": "enemy",
+                    "hp": 40,
+                    "position": [2, 1],
+                    "initiative": 10,
+                    "attack_mod": 5,
+                    "ac": 16,
+                    "damage": "1d8+2",
+                    "immunities": ["fire"],
+                    "reflex": -10,
+                },
+            ],
+            "commands": [],
+        }
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+        state, events = apply_command(
+            state,
+            {
+                "type": "area_save_damage",
+                "actor": "caster",
+                "center_x": 1,
+                "center_y": 1,
+                "radius_feet": 10,
+                "dc": 30,
+                "save_type": "Reflex",
+                "damage": "10",
+                "damage_type": "fire",
+                "damage_bypass": ["fire"],
+                "mode": "basic",
+            },
+            rng,
+        )
+
+        resolution = events[0]["payload"]["resolutions"][0]
+        damage = resolution["damage"]
+        self.assertEqual(damage["bypass"], ["fire"])
+        self.assertFalse(damage["immune"])
+        self.assertGreater(damage["applied_total"], 0)
+        self.assertEqual(state.units["target"].hp, 40 - damage["applied_total"])
+
     def test_strike_consumes_temp_hp_before_hp(self) -> None:
         scenario = {
             "battle_id": "damage_temp_hp_strike",

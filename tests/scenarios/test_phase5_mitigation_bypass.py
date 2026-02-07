@@ -12,6 +12,7 @@ class TestPhase5MitigationBypass(unittest.TestCase):
         event_types = [e["type"] for e in result["events"]]
         self.assertIn("save_damage", event_types)
         self.assertIn("strike", event_types)
+        self.assertIn("area_save_damage", event_types)
         self.assertNotIn("command_error", event_types)
 
         strike_event = [e for e in result["events"] if e["type"] == "strike"][-1]
@@ -28,6 +29,14 @@ class TestPhase5MitigationBypass(unittest.TestCase):
         self.assertEqual(save_damage["bypass"], ["fire"])
         self.assertFalse(save_damage["immune"])
         self.assertGreater(save_damage["applied_total"], 0)
+
+        area_event = [e for e in result["events"] if e["type"] == "area_save_damage"][-1]
+        area_results = {entry["target"]: entry for entry in area_event["payload"]["resolutions"]}
+        self.assertIn("target_area", area_results)
+        area_damage = area_results["target_area"]["damage"]
+        self.assertEqual(area_damage["bypass"], ["fire"])
+        self.assertFalse(area_damage["immune"])
+        self.assertGreater(area_damage["applied_total"], 0)
 
 
 if __name__ == "__main__":

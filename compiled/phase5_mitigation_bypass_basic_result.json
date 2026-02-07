@@ -1,11 +1,11 @@
 {
   "battle_id": "phase5_mitigation_bypass_basic",
   "seed": 617,
-  "executed_commands": 2,
+  "executed_commands": 3,
   "auto_executed_commands": 0,
   "stop_reason": "script_exhausted",
-  "event_count": 3,
-  "replay_hash": "5ab6479025c88a6f05a91139ca2875b9a7fe6cdc9f5a5c39be76d15f546ee990",
+  "event_count": 4,
+  "replay_hash": "97a2fd410209129d79e6461e54790fbadd6df061e0c85d3f73792c12b1a8d7b8",
   "final_state": {
     "battle_id": "phase5_mitigation_bypass_basic",
     "round": 1,
@@ -28,14 +28,14 @@
         "weaknesses": {},
         "immunities": []
       },
-      "target_save": {
+      "target_area": {
         "team": "enemy",
         "hp": 20,
         "max_hp": 40,
         "temp_hp": 0,
         "temp_hp_source": null,
         "position": [
-          1,
+          2,
           2
         ],
         "alive": true,
@@ -47,9 +47,30 @@
           "fire"
         ]
       },
+      "target_save": {
+        "team": "enemy",
+        "hp": 0,
+        "max_hp": 40,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          2
+        ],
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": [
+          "fire"
+        ]
+      },
       "target_strike": {
         "team": "enemy",
-        "hp": 20,
+        "hp": 0,
         "max_hp": 40,
         "temp_hp": 0,
         "temp_hp_source": null,
@@ -57,8 +78,10 @@
           2,
           1
         ],
-        "alive": true,
-        "conditions": {},
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        },
         "attack_damage_type": "physical",
         "resistances": {
           "fire": 5
@@ -154,6 +177,119 @@
         },
         "target_hp": 20,
         "actions_remaining": 1
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "area_save_damage",
+      "payload": {
+        "actor": "caster",
+        "center": [
+          1,
+          1
+        ],
+        "radius_feet": 10,
+        "save_type": "Reflex",
+        "dc": 30,
+        "mode": "basic",
+        "damage_formula": "10",
+        "targets": [
+          "target_strike",
+          "target_save",
+          "target_area"
+        ],
+        "resolutions": [
+          {
+            "target": "target_strike",
+            "save": {
+              "dc": 30,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 9,
+              "modifier": 4,
+              "total": 13,
+              "degree": "critical_failure"
+            },
+            "damage": {
+              "formula": "10",
+              "damage_type": "fire",
+              "rolled_total": 10,
+              "rolls": [],
+              "flat_modifier": 10,
+              "multiplier": 2.0,
+              "raw_total": 20,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
+              "applied_total": 20,
+              "bypass": [
+                "fire"
+              ]
+            },
+            "target_hp": 0
+          },
+          {
+            "target": "target_save",
+            "save": {
+              "dc": 30,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 11,
+              "modifier": -10,
+              "total": 1,
+              "degree": "critical_failure"
+            },
+            "damage": {
+              "formula": "10",
+              "damage_type": "fire",
+              "rolled_total": 10,
+              "rolls": [],
+              "flat_modifier": 10,
+              "multiplier": 2.0,
+              "raw_total": 20,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
+              "applied_total": 20,
+              "bypass": [
+                "fire"
+              ]
+            },
+            "target_hp": 0
+          },
+          {
+            "target": "target_area",
+            "save": {
+              "dc": 30,
+              "save_type": "Reflex",
+              "mode": "basic",
+              "die": 3,
+              "modifier": -10,
+              "total": -7,
+              "degree": "critical_failure"
+            },
+            "damage": {
+              "formula": "10",
+              "damage_type": "fire",
+              "rolled_total": 10,
+              "rolls": [],
+              "flat_modifier": 10,
+              "multiplier": 2.0,
+              "raw_total": 20,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
+              "applied_total": 20,
+              "bypass": [
+                "fire"
+              ]
+            },
+            "target_hp": 20
+          }
+        ],
+        "actions_remaining": 0
       }
     }
   ]

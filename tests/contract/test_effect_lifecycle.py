@@ -209,6 +209,37 @@ class TestEffectLifecycle(unittest.TestCase):
         self.assertEqual(state.units["enemy"].temp_hp, 0)
         self.assertEqual(state.units["enemy"].hp, 17)
 
+    def test_persistent_damage_can_bypass_matching_immunity(self) -> None:
+        scenario = _base_scenario()
+        scenario["units"][1]["immunities"] = ["fire"]
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+
+        state, _ = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "pc",
+                "target": "enemy",
+                "effect_kind": "persistent_damage",
+                "payload": {
+                    "formula": "2",
+                    "damage_type": "fire",
+                    "bypass": ["fire"],
+                    "recovery_check": False,
+                },
+                "duration_rounds": 1,
+                "tick_timing": "turn_start",
+            },
+            rng,
+        )
+        state, events = apply_command(state, {"type": "end_turn", "actor": "pc"}, rng)
+        tick = [e for e in events if e["type"] == "effect_tick"][-1]["payload"]
+        self.assertEqual(tick["damage"]["bypass"], ["fire"])
+        self.assertFalse(tick["damage"]["immune"])
+        self.assertEqual(tick["damage"]["total"], 2)
+        self.assertEqual(state.units["enemy"].hp, 16)
+
     def test_temp_hp_effect_grants_temp_hp(self) -> None:
         state = battle_state_from_scenario(_base_scenario())
         rng = DeterministicRNG(seed=state.seed)
