@@ -44,6 +44,7 @@ SCENARIOS = [
     Path("scenarios/smoke/phase8_pack_cast_spell_basic.json"),
     Path("scenarios/smoke/phase8_pack_use_feat_basic.json"),
     Path("scenarios/smoke/phase8_enemy_policy_pack_spell_basic.json"),
+    Path("scenarios/smoke/phase9_enemy_policy_rationale_basic.json"),
 ]
 
 

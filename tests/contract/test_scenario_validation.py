@@ -187,6 +187,7 @@ class TestScenarioValidation(unittest.TestCase):
             "action": "cast_spell_entry_nearest",
             "content_entry_id": "spell.arc_flash",
             "dc": 21,
+            "include_rationale": True,
             "auto_end_turn": True,
         }
         validate_scenario(scenario)
@@ -204,6 +205,12 @@ class TestScenarioValidation(unittest.TestCase):
             "action": "cast_spell_entry_nearest",
             "content_entry_id": "spell.arc_flash",
         }
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
+    def test_rejects_enemy_policy_include_rationale_non_bool(self) -> None:
+        scenario = _base_scenario()
+        scenario["enemy_policy"] = {"enabled": True, "action": "strike_nearest", "include_rationale": "yes"}
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 

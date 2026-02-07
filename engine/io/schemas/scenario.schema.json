@@ -79,6 +79,7 @@
         },
         "content_entry_id": {"type": "string"},
         "dc": {"type": "integer", "minimum": 1},
+        "include_rationale": {"type": "boolean"},
         "auto_end_turn": {"type": "boolean"}
       }
     },

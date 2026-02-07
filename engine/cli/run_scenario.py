@@ -288,67 +288,112 @@ def _normalize_enemy_policy(scenario: Dict[str, object]) -> dict:
         "action": str(raw.get("action") or "strike_nearest"),
         "content_entry_id": raw.get("content_entry_id"),
         "dc": raw.get("dc"),
+        "include_rationale": bool(raw.get("include_rationale", False)),
         "auto_end_turn": bool(raw.get("auto_end_turn", True)),
     }
 
 
-def _nearest_enemy_for_actor(state, actor_id: str) -> str | None:
+def _enemy_candidates_for_actor(state, actor_id: str) -> List[Tuple[str, int]]:
     actor = state.units[actor_id]
     enemies = [u for u in state.units.values() if u.alive and u.team != actor.team and u.unit_id != actor_id]
     if not enemies:
-        return None
-    nearest = sorted(enemies, key=lambda u: (abs(u.x - actor.x) + abs(u.y - actor.y), u.unit_id))[0]
-    return nearest.unit_id
+        return []
+    ranked = sorted(
+        ((u.unit_id, abs(u.x - actor.x) + abs(u.y - actor.y)) for u in enemies),
+        key=lambda item: (item[1], item[0]),
+    )
+    return ranked
 
 
-def _enemy_policy_command(state, policy: dict) -> dict:
+def _enemy_policy_decision(state, policy: dict) -> Tuple[dict, dict]:
     actor_id = state.active_unit_id
     actor = state.units[actor_id]
-    if not actor.alive or actor.actions_remaining <= 0:
-        return {"type": "end_turn", "actor": actor_id}
+    if not actor.alive:
+        return {"type": "end_turn", "actor": actor_id}, {"reason_code": "actor_not_alive"}
+    if actor.actions_remaining <= 0:
+        return {"type": "end_turn", "actor": actor_id}, {"reason_code": "no_actions_remaining"}
 
     if actor.team not in set(policy.get("teams", [])):
-        return {"type": "end_turn", "actor": actor_id}
+        return {"type": "end_turn", "actor": actor_id}, {"reason_code": "team_not_controlled"}
 
     action = str(policy.get("action") or "strike_nearest")
+    candidates = _enemy_candidates_for_actor(state, actor_id)
     if action == "strike_nearest":
-        target_id = _nearest_enemy_for_actor(state, actor_id)
-        if target_id:
-            return {"type": "strike", "actor": actor_id, "target": target_id}
-        return {"type": "end_turn", "actor": actor_id}
+        if candidates:
+            target_id, distance = candidates[0]
+            return (
+                {"type": "strike", "actor": actor_id, "target": target_id},
+                {
+                    "reason_code": "nearest_enemy",
+                    "selected_target": target_id,
+                    "distance": distance,
+                    "candidate_count": len(candidates),
+                },
+            )
+        return {"type": "end_turn", "actor": actor_id}, {"reason_code": "no_enemy_target"}
     if action == "cast_spell_entry_nearest":
-        target_id = _nearest_enemy_for_actor(state, actor_id)
-        if target_id:
-            return {
-                "type": "cast_spell",
+        if candidates:
+            target_id, distance = candidates[0]
+            return (
+                {
+                    "type": "cast_spell",
+                    "actor": actor_id,
+                    "content_entry_id": str(policy.get("content_entry_id") or ""),
+                    "target": target_id,
+                    "dc": int(policy.get("dc") or 0),
+                },
+                {
+                    "reason_code": "nearest_enemy_for_spell",
+                    "selected_target": target_id,
+                    "distance": distance,
+                    "candidate_count": len(candidates),
+                    "content_entry_id": str(policy.get("content_entry_id") or ""),
+                },
+            )
+        return {"type": "end_turn", "actor": actor_id}, {"reason_code": "no_enemy_target"}
+    if action == "use_feat_entry_self":
+        return (
+            {
+                "type": "use_feat",
                 "actor": actor_id,
                 "content_entry_id": str(policy.get("content_entry_id") or ""),
-                "target": target_id,
-                "dc": int(policy.get("dc") or 0),
-            }
-        return {"type": "end_turn", "actor": actor_id}
-    if action == "use_feat_entry_self":
-        return {
-            "type": "use_feat",
-            "actor": actor_id,
-            "content_entry_id": str(policy.get("content_entry_id") or ""),
-            "target": actor_id,
-        }
+                "target": actor_id,
+            },
+            {
+                "reason_code": "self_target_feat",
+                "selected_target": actor_id,
+                "content_entry_id": str(policy.get("content_entry_id") or ""),
+            },
+        )
     if action == "use_item_entry_self":
-        return {
-            "type": "use_item",
-            "actor": actor_id,
-            "content_entry_id": str(policy.get("content_entry_id") or ""),
-            "target": actor_id,
-        }
+        return (
+            {
+                "type": "use_item",
+                "actor": actor_id,
+                "content_entry_id": str(policy.get("content_entry_id") or ""),
+                "target": actor_id,
+            },
+            {
+                "reason_code": "self_target_item",
+                "selected_target": actor_id,
+                "content_entry_id": str(policy.get("content_entry_id") or ""),
+            },
+        )
     if action == "interact_entry_self":
-        return {
-            "type": "interact",
-            "actor": actor_id,
-            "content_entry_id": str(policy.get("content_entry_id") or ""),
-            "target": actor_id,
-        }
-    return {"type": "end_turn", "actor": actor_id}
+        return (
+            {
+                "type": "interact",
+                "actor": actor_id,
+                "content_entry_id": str(policy.get("content_entry_id") or ""),
+                "target": actor_id,
+            },
+            {
+                "reason_code": "self_target_interact",
+                "selected_target": actor_id,
+                "content_entry_id": str(policy.get("content_entry_id") or ""),
+            },
+        )
+    return {"type": "end_turn", "actor": actor_id}, {"reason_code": "unknown_action"}
 
 
 def _check_battle_end(
@@ -645,7 +690,7 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
                 break
 
             policy_actor_id = state.active_unit_id
-            policy_cmd_raw = _enemy_policy_command(state, enemy_policy)
+            policy_cmd_raw, policy_rationale = _enemy_policy_decision(state, enemy_policy)
             try:
                 policy_cmd = _materialize_content_entry_command(policy_cmd_raw, content_context)
             except ReductionError as exc:
@@ -666,7 +711,11 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
                     "round": state.round_number,
                     "active_unit": state.active_unit_id,
                     "type": "enemy_policy_decision",
-                    "payload": {"command": policy_cmd},
+                    "payload": (
+                        {"command": policy_cmd, "rationale": policy_rationale}
+                        if bool(enemy_policy.get("include_rationale", False))
+                        else {"command": policy_cmd}
+                    ),
                 }
             )
 

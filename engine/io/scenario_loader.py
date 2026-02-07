@@ -357,6 +357,8 @@ def validate_scenario(data: Dict[str, Any]) -> None:
             )
         if action == "cast_spell_entry_nearest":
             _require(isinstance(enemy_policy.get("dc"), int) and int(enemy_policy["dc"]) > 0, "enemy_policy.dc must be positive int for cast_spell_entry_nearest")
+        if "include_rationale" in enemy_policy:
+            _require(isinstance(enemy_policy["include_rationale"], bool), "enemy_policy.include_rationale must be bool")
         if "auto_end_turn" in enemy_policy:
             _require(isinstance(enemy_policy["auto_end_turn"], bool), "enemy_policy.auto_end_turn must be bool")
 

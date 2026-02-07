@@ -70,6 +70,8 @@ Verified on February 7, 2026.
 - Phase 9 started:
   - M9.1 browser command-authoring baseline added (`engine/io/command_authoring.py`) with deterministic content-entry option catalogs and intent builders for `cast_spell` / `use_feat` / `use_item` / `interact`.
   - Scenario result payload now includes `command_authoring_catalog` for UI command builders.
+  - M9.2 deterministic enemy-policy rationale payload baseline added (optional `enemy_policy.include_rationale` with stable `reason_code`/target-distance metadata on `enemy_policy_decision` events).
+  - Phase 9-compatible sample content pack added at `corpus/content_packs/phase9_baseline_v1.json`.
 
 ## Verification Evidence
 
@@ -127,6 +129,7 @@ Verified on February 7, 2026.
   - `tests/scenarios/test_phase8_regression_matrix.py` validates 5 phase 8 regressions against `scenarios/regression_phase8/expected_hashes.json`.
   - `tests/contract/test_command_authoring.py` validates phase 9 command-authoring catalog and UI intent builder contracts.
   - `tests/scenarios/test_phase7_content_pack_integration.py` validates `command_authoring_catalog` exposure in scenario results.
+  - `scenarios/smoke/phase9_enemy_policy_rationale_basic.json` + `tests/scenarios/test_phase9_enemy_policy_rationale.py` validate deterministic enemy-policy rationale payload emission.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -169,7 +172,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Continue Phase 9 with M9.2 and M9.3:
-- deterministic enemy-policy rationale payloads (why a policy action was selected),
+Continue Phase 9 with M9.3:
 - phase 9 regression matrix + expected hash lock after rationale payload contracts stabilize,
-- expanded direct-intent helpers for non-template commands (`move` / `strike`) in command-authoring API.
+- expanded direct-intent helpers for non-template commands (`move` / `strike`) in command-authoring API,
+- broader policy rationale parity for fallback/error decisions.

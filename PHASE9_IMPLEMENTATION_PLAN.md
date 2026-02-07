@@ -2,7 +2,7 @@
 
 This phase begins after Phase 8 completion and targets browser command-authoring contracts plus tactical policy explainability.
 
-Status: In progress as of February 7, 2026 (M9.1 complete).
+Status: In progress as of February 7, 2026 (M9.1 and M9.2 complete).
 
 ## Phase 9 Goal
 
@@ -39,7 +39,7 @@ Out of scope (Phase 10+):
 M9.1: Command-authoring baseline (complete)
 - Exit criteria: catalog + intent builder + tests + scenario payload exposure.
 
-M9.2: Tactical policy rationale payloads
+M9.2: Tactical policy rationale payloads (complete)
 - Exit criteria: richer policy decision trace with deterministic rationale fields.
 
 M9.3: Regression lock
@@ -47,6 +47,6 @@ M9.3: Regression lock
 
 ## Immediate Next Actions
 
-1. Add deterministic policy rationale payload contracts for Phase 9 M9.2.
-2. Create `scenarios/regression_phase9` and lock hashes after rationale payloads stabilize.
-3. Expand UI command authoring coverage to include move/strike direct-intent helpers.
+1. Create `scenarios/regression_phase9` and lock hashes after rationale payload contracts stabilize.
+2. Expand UI command authoring coverage to include move/strike direct-intent helpers.
+3. Add policy rationale parity across all policy action families and fallback paths.
