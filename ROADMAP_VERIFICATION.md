@@ -1,6 +1,6 @@
 # Roadmap Verification
 
-Verified on February 6, 2026.
+Verified on February 7, 2026.
 
 ## Current Status (Implemented)
 
@@ -33,6 +33,15 @@ Verified on February 6, 2026.
   - Hazard routine cadence controls (`cadence_rounds`, `max_triggers`, `priority`) for complex hazard turn behavior.
   - Strict command-variant scenario validation for loader contracts (required per-command fields + supported command types).
   - Deterministic Phase 4 regression matrix with locked replay hashes.
+- Phase 5 started:
+  - Damage mitigation baseline for resistances, weaknesses, and immunities in `strike`, `save_damage`, `area_save_damage`, and modeled hazard damage resolution.
+  - Grouped mitigation tags for umbrella damage categories (`physical`, `energy`) alongside specific damage types.
+  - Temporary HP runtime consumption layer (damage applies to temp HP before HP across strike/save/area/modeled/persistent/affliction damage flows).
+  - Source-aware temporary HP grant effect baseline (`apply_effect` with `effect_kind=temp_hp`) with same-source refresh, cross-source precedence (`higher_only`/`replace`/`ignore`), configurable stack mode (`max`/`add`), and expiration cleanup (`remove_on_expire`).
+  - Unit-level mitigation metadata in scenario/runtime contracts (`attack_damage_type`, `resistances`, `weaknesses`, `immunities`).
+  - Persistent damage recovery checks (flat-check style) with immediate effect expiration on successful recovery.
+  - Condition immunity support in direct condition effects, affliction stage application, and modeled hazard condition events.
+  - Spawn runtime now preserves unit-level condition immunity metadata (`condition_immunities`).
 
 ## Verification Evidence
 
@@ -55,6 +64,17 @@ Verified on February 6, 2026.
   - `scenarios/smoke/phase4_mission_trigger_unit_dead_basic.json` exercises `unit_dead` mission trigger flow for state-reactive objectives.
   - `scenarios/smoke/phase4_mission_branching_waves_basic.json` exercises branch-driven wave selection and wave-pack scheduling in the same round-start window.
   - `tests/scenarios/test_phase4_regression_matrix.py` validates 8 phase 4 encounter regressions against `scenarios/regression_phase4/expected_hashes.json`.
+  - `scenarios/smoke/phase5_damage_mitigation_basic.json` exercises mitigation-aware save damage with resistance/weakness interaction.
+  - `scenarios/smoke/phase5_grouped_mitigation_basic.json` exercises grouped-type mitigation (`fire -> energy`, `slashing -> physical`).
+  - `scenarios/smoke/phase5_temp_hp_basic.json` exercises temp-HP-first damage consumption for strike damage.
+  - `scenarios/smoke/phase5_temp_hp_effect_basic.json` exercises temp-HP grant via effect lifecycle and later strike absorption.
+  - `scenarios/smoke/phase5_temp_hp_expire_basic.json` exercises temp-HP effect expiration and cleanup of remaining pool.
+  - `tests/contract/test_effect_lifecycle.py` includes source-aware temp-HP behavior checks (same-source refresh and cross-source higher-only precedence).
+  - `tests/contract/test_damage_mitigation_runtime.py` validates modeled/strike/save command mitigation behavior.
+  - `scenarios/smoke/phase5_persistent_recovery_basic.json` exercises persistent damage recovery and expiration flow.
+  - `tests/contract/test_effect_lifecycle.py` includes persistent recovery success/failure coverage.
+  - `scenarios/smoke/phase5_condition_immunity_basic.json` exercises condition immunity handling for condition effects.
+  - `tests/contract/test_affliction_edge_cases.py` and `tests/contract/test_hazard_model_commands.py` include condition immunity coverage for afflictions and modeled hazard conditions.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -76,7 +96,7 @@ Cross-check focus:
 - Add parser normalization for class progression, feat prerequisites, spell targeting, and trait interactions.
 
 2. Tactical correctness depth
-- Implement resistances/weaknesses/immunities, persistent damage recovery checks, and full affliction stage progression.
+- Extend mitigation beyond baseline resistance/weakness/immunity (for example typed exceptions and more nuanced stacking rules), plus persistent damage recovery checks and full affliction stage progression.
 - Add real area shapes (cone/burst/emanation geometry) and stricter line-of-effect rules.
 
 3. Content/runtime integration

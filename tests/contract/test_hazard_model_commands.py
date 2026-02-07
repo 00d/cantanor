@@ -652,6 +652,85 @@ class TestHazardModelCommands(unittest.TestCase):
         self.assertIn("pc_b", payload["target_ids"])
         self.assertEqual(state.units["hazard_core"].actions_remaining, 2)
 
+    def test_trigger_hazard_source_skips_immune_modeled_condition(self) -> None:
+        scenario = {
+            "battle_id": "hazard_condition_immunity",
+            "seed": 909,
+            "map": {"width": 6, "height": 6, "blocked": []},
+            "units": [
+                {
+                    "id": "hazard_core",
+                    "team": "hazard",
+                    "hp": 999,
+                    "position": [1, 1],
+                    "initiative": 20,
+                    "attack_mod": 0,
+                    "ac": 10,
+                    "damage": "1d1",
+                },
+                {
+                    "id": "pc_immune",
+                    "team": "pc",
+                    "hp": 30,
+                    "position": [2, 1],
+                    "initiative": 10,
+                    "attack_mod": 6,
+                    "ac": 16,
+                    "damage": "1d8+2",
+                    "condition_immunities": ["slowed"],
+                },
+            ],
+            "commands": [],
+        }
+        model = {
+            "hazards": {
+                "entries": [
+                    {
+                        "hazard_id": "condition-immunity-demo",
+                        "hazard_name": "Condition Immunity Demo",
+                        "sources": [
+                            {
+                                "source_type": "trigger_action",
+                                "source_name": "Lingering Mist",
+                                "effects": [
+                                    {"kind": "apply_condition", "condition": "slowed", "value": 1},
+                                ],
+                            }
+                        ],
+                    }
+                ]
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+            json.dump(model, tmp)
+            model_path = tmp.name
+
+        try:
+            state = battle_state_from_scenario(scenario)
+            rng = DeterministicRNG(seed=state.seed)
+            state, events = apply_command(
+                state,
+                {
+                    "type": "trigger_hazard_source",
+                    "actor": "hazard_core",
+                    "hazard_id": "condition-immunity-demo",
+                    "source_name": "Lingering Mist",
+                    "source_type": "trigger_action",
+                    "model_path": model_path,
+                },
+                rng,
+            )
+        finally:
+            os.unlink(model_path)
+
+        result = events[0]["payload"]["results"][0]
+        self.assertEqual(result["target"], "pc_immune")
+        self.assertEqual(result["applied_conditions"], [])
+        self.assertEqual(result["skipped_conditions"][0]["name"], "slowed")
+        self.assertEqual(result["skipped_conditions"][0]["reason"], "condition_immune")
+        self.assertNotIn("slowed", state.units["pc_immune"].conditions)
+
     def test_set_flag_updates_battle_state(self) -> None:
         state = battle_state_from_scenario(_base_scenario())
         rng = DeterministicRNG(seed=state.seed)

@@ -2,8 +2,10 @@
   "battle_id": "poisoned_dart_gallery_basic",
   "seed": 303,
   "executed_commands": 6,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
   "event_count": 10,
-  "replay_hash": "018a557579f725a6504131bb85297470b73cc3b0fa0c89a127a6443de15e99b9",
+  "replay_hash": "3e19c237efd62f5f97ef2c3fa55566eb1184b8545a892039b3adb4ec364d5bbc",
   "final_state": {
     "battle_id": "poisoned_dart_gallery_basic",
     "round": 2,
@@ -18,7 +20,11 @@
           3
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_ranger": {
         "team": "pc",
@@ -29,9 +35,14 @@
           3
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
-    }
+    },
+    "flags": {}
   },
   "events": [
     {
@@ -57,6 +68,9 @@
           "die": 2,
           "modifier": 7,
           "total": 9,
+          "base_dc": 14,
+          "cover_grade": "none",
+          "cover_bonus": 0,
           "dc": 14
         },
         "damage": null,
@@ -97,6 +111,9 @@
           "die": 8,
           "modifier": 4,
           "total": 12,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
           "dc": 16
         },
         "damage": null,
@@ -137,15 +154,23 @@
           "die": 7,
           "modifier": 7,
           "total": 14,
+          "base_dc": 14,
+          "cover_grade": "none",
+          "cover_bonus": 0,
           "dc": 14
         },
         "damage": {
           "formula": "1d6+4",
+          "damage_type": "physical",
           "rolls": [
             1
           ],
           "flat_modifier": 4,
           "multiplier": 1,
+          "raw_total": 5,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
           "total": 5
         },
         "target_hp": 14,

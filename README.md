@@ -25,4 +25,11 @@ Run Phase 4 flag-trigger mission smoke scenario: `python3 -m engine.cli.run_scen
 Run Phase 4 unit-death trigger smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_mission_trigger_unit_dead_basic.json --out compiled/phase4_mission_trigger_unit_dead_basic_result.json`
 Run Phase 4 branching + wave-pack smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase4_mission_branching_waves_basic.json --out compiled/phase4_mission_branching_waves_basic_result.json`
 Run Phase 4 regression matrix: `python3 -m unittest tests/scenarios/test_phase4_regression_matrix.py -v`
+Run Phase 5 mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_damage_mitigation_basic.json --out compiled/phase5_damage_mitigation_basic_result.json`
+Run Phase 5 grouped-mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_grouped_mitigation_basic.json --out compiled/phase5_grouped_mitigation_basic_result.json`
+Run Phase 5 temp-HP mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_basic.json --out compiled/phase5_temp_hp_basic_result.json`
+Run Phase 5 temp-HP effect smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_effect_basic.json --out compiled/phase5_temp_hp_effect_basic_result.json`
+Run Phase 5 temp-HP expire smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_expire_basic.json --out compiled/phase5_temp_hp_expire_basic_result.json`
+Run Phase 5 persistent recovery smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_persistent_recovery_basic.json --out compiled/phase5_persistent_recovery_basic_result.json`
+Run Phase 5 condition immunity smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_condition_immunity_basic.json --out compiled/phase5_condition_immunity_basic_result.json`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

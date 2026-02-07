@@ -1,0 +1,97 @@
+{
+  "battle_id": "phase5_damage_mitigation_basic",
+  "seed": 801,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 2,
+  "replay_hash": "0de2a217c36c8323a5b4e5f712bba781bda301ae42798cbfe0fed9efd50c740b",
+  "final_state": {
+    "battle_id": "phase5_damage_mitigation_basic",
+    "round": 1,
+    "active_unit": "caster",
+    "units": {
+      "caster": {
+        "team": "pc",
+        "hp": 25,
+        "max_hp": 25,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target": {
+        "team": "enemy",
+        "hp": 22,
+        "max_hp": 40,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {
+          "fire": 5
+        },
+        "weaknesses": {
+          "fire": 3
+        },
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "caster",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "save_damage",
+      "payload": {
+        "actor": "caster",
+        "target": "target",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "roll": {
+          "die": 4,
+          "modifier": -10,
+          "total": -6,
+          "dc": 30,
+          "degree": "critical_failure"
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "fire",
+          "rolled_total": 10,
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2.0,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 5,
+          "weakness_total": 3,
+          "applied_total": 18
+        },
+        "target_hp": 22,
+        "actions_remaining": 2
+      }
+    }
+  ]
+}

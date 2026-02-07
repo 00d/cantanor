@@ -1,12 +1,12 @@
 {
-  "01_hidden_pit.json": "03337e7deabb8b4cfef3e76e981bf8ab1dd878d4f0372f139b813efe3f1837f4",
-  "02_slamming_door.json": "861662073b1ade8c8bc7660029c3fb134b5e0546fc7eb12402b5c91ff8b9c351",
-  "03_electric_latch_rune.json": "763e54f1feb37584fa8f1627ce7a32e6b655a6cd4403d431db631d16d7d58e94",
-  "04_fireball_rune.json": "3f5c51ac2a727ed634718716daab287cd8cd0802492b815fcd923a21ccb5a176",
+  "01_hidden_pit.json": "302fac7a781361b2fe956c76e27e804e3ab2a94e01b7ec1a9fdf4db5f8a40c80",
+  "02_slamming_door.json": "8f4f0a5d0f7a4869080938defeeb835cfc90a68cac807a9492c2854dc1f5802d",
+  "03_electric_latch_rune.json": "a3eee831547a7c94fb35e3a6d80ec9077306667c67dbac69f6c0a4eabb133d1a",
+  "04_fireball_rune.json": "b6fc47485ba9fb78510dd2fbaaf1ae59d04beb5a01f6793cf15100be3fa1db18",
   "05_hallucination_powder.json": "1e16ba51131e2bc9cb48a39cf327f237d64ecee00c967eb444bf3b15c404a1ce",
-  "06_pharaohs_ward.json": "e548a14300534c46e33a0010b39f55db5e87932f0173d6dfd2ca140cdd9f2047",
-  "07_yellow_mold_spore.json": "5bc2f700ad2fb4acd88ed4a4e2ae99966ee59255ba081372dbb074ce6a15293d",
-  "08_planar_rift.json": "6530e78e74403b421e0ef6025ae13c3fdedf24d7c0a42375e0e6ec9471a0607f",
-  "09_armageddon_orb.json": "9c53e6188500de5c4150018caee0d711ad376b8b1a877038985056347ef9bb8b",
-  "10_poisoned_dart_barrage.json": "faa1424608995f9f951001117341eab0dedcda731cbf6ca6d196e3938ae43d47"
+  "06_pharaohs_ward.json": "fff6bcbf0080adb770b115d7755032cd93458300c4bf39a05078733681ed66eb",
+  "07_yellow_mold_spore.json": "d8c998e5455327be6d20a6af1fa85f318ef3ad009a07f82399982eeabb11d07e",
+  "08_planar_rift.json": "fb8285c78a922500631f822a94bdd6d2b147df48f358fcdb67259cf064d4a417",
+  "09_armageddon_orb.json": "860fa87901a396687c2bbe716a82e28e7199464c88c84b9744ca9f832402a88e",
+  "10_poisoned_dart_barrage.json": "ed5d4db0045a992351a6037cc183a4faa87c623af008057cc7ba4b5d42b48351"
 }

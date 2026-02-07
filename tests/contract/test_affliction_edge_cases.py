@@ -193,6 +193,46 @@ class TestAfflictionEdgeCases(unittest.TestCase):
         self.assertEqual(tick["stage_from"], 2)
         self.assertEqual(tick["stage_to"], 1)
 
+    def test_affliction_stage_skips_condition_when_target_is_immune(self) -> None:
+        scenario = _scenario(seed=404)
+        scenario["units"][1]["condition_immunities"] = ["clumsy"]
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+
+        state, events = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "caster",
+                "target": "target",
+                "effect_kind": "affliction",
+                "payload": {
+                    "name": "immune_stage_test",
+                    "save": {"dc": 99, "save_type": "Fortitude"},
+                    "maximum_duration": {"amount": 2, "unit": "round"},
+                    "stages": [
+                        {
+                            "stage": 1,
+                            "damage": [],
+                            "conditions": [{"condition": "clumsy", "value": 2}],
+                            "duration": {"amount": 1, "unit": "round"},
+                        }
+                    ],
+                    "current_stage": 1,
+                },
+                "duration_rounds": 2,
+                "tick_timing": "turn_end",
+            },
+            rng,
+        )
+
+        self.assertNotIn("clumsy", state.units["target"].conditions)
+        apply_events = [e for e in events if e["type"] == "effect_apply"]
+        self.assertTrue(apply_events)
+        stage_result = apply_events[0]["payload"]["stage_result"]
+        self.assertEqual(stage_result["skipped_conditions"][0]["name"], "clumsy")
+        self.assertEqual(stage_result["skipped_conditions"][0]["reason"], "condition_immune")
+
 
 if __name__ == "__main__":
     unittest.main()

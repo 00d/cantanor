@@ -20,7 +20,11 @@
           2
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc": {
         "team": "pc",
@@ -31,7 +35,11 @@
           2
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
     },
     "flags": {

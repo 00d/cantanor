@@ -1,10 +1,10 @@
 {
   "01_objective_flag.json": "01d12a169c939fdc70762740919c213aa6d27fa7d0dbba06acfc5431b9b3c554",
-  "02_hazard_routine_auto.json": "5d8d79416357a7006a9fec0bf85ae0c0b1a2be68439a50d5f0a54d043d2563fa",
-  "03_hazard_routine_cadence.json": "308726a295dbba7f5708c43f5d008af4d53aa9108b95db8ea212f48b9e4faa87",
-  "04_hazard_routine_no_script.json": "b82b4329439714221fa02cdc7406d85c26d2b88f504114a577c7a83a4bf35e4f",
+  "02_hazard_routine_auto.json": "8ef055aee834cd64052ff55b2d472dfa621024b72598211e4cb43eccc3afa039",
+  "03_hazard_routine_cadence.json": "cb91824f66b6489601c7f59aa2f167eb9082ab0fe98f114f0481190102c97bed",
+  "04_hazard_routine_no_script.json": "c8259ae0bde4e536fb45f6d6717604b5fcecdf5bfb92ef1a0784d14192a21ab3",
   "05_mission_event_spawn.json": "0fb093e603978838a11ebd9083cb0e45a33d19555ba16625a5d4394d8b588b18",
   "06_mission_trigger_flag_set.json": "81675e14487a3ba25fd1398f4e9d006d393800c97501019d9de521ad575fb57d",
-  "07_mission_trigger_unit_dead.json": "91897bc5db583fff023c3e1ca58a894ba6012ac0d7aa84d6b8fe3ec35ab87ced",
+  "07_mission_trigger_unit_dead.json": "94ac55705f0019549b6c15e867e3b9bda052affb5a7d6e950d8f9b4ec47e6571",
   "08_mission_branching_waves.json": "11eccca4999f19a9dbfe696ca38c1370934cd64dd8398ab2dc800a3cb5a80102"
 }

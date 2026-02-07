@@ -28,9 +28,15 @@ def _state_snapshot(state) -> Dict[str, object]:
                 "team": u.team,
                 "hp": u.hp,
                 "max_hp": u.max_hp,
+                "temp_hp": u.temp_hp,
+                "temp_hp_source": u.temp_hp_source,
                 "position": [u.x, u.y],
                 "alive": u.alive,
                 "conditions": u.conditions,
+                "attack_damage_type": u.attack_damage_type,
+                "resistances": u.resistances,
+                "weaknesses": u.weaknesses,
+                "immunities": u.immunities,
             }
             for uid, u in sorted(state.units.items())
         },

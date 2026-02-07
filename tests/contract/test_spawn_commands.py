@@ -109,6 +109,39 @@ class TestSpawnCommands(unittest.TestCase):
 
         self.assertEqual((state.units["ally_2"].x, state.units["ally_2"].y), (3, 2))
 
+    def test_spawn_unit_preserves_condition_immunities(self) -> None:
+        state = battle_state_from_scenario(_spawn_base_scenario())
+        rng = DeterministicRNG(seed=state.seed)
+
+        state, _events = apply_command(
+            state,
+            {
+                "type": "spawn_unit",
+                "actor": "summoner",
+                "placement_policy": "exact",
+                "unit": {
+                    "id": "ally_immune",
+                    "team": "pc",
+                    "hp": 14,
+                    "temp_hp": 2,
+                    "position": [1, 2],
+                    "initiative": 12,
+                    "attack_mod": 5,
+                    "ac": 15,
+                    "damage": "1d6+2",
+                    "fortitude": 4,
+                    "reflex": 5,
+                    "will": 5,
+                    "condition_immunities": ["Frightened", "all_conditions"],
+                },
+            },
+            rng,
+        )
+
+        spawned = state.units["ally_immune"]
+        self.assertEqual(spawned.condition_immunities, ["frightened", "all_conditions"])
+        self.assertEqual(spawned.temp_hp, 2)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,94 @@
+{
+  "battle_id": "phase5_temp_hp_basic",
+  "seed": 608,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 2,
+  "replay_hash": "5699ef3d84ee941d220adc072405a5f2c42f625df5f856df9cef9d7627e25fca",
+  "final_state": {
+    "battle_id": "phase5_temp_hp_basic",
+    "round": 1,
+    "active_unit": "attacker",
+    "units": {
+      "attacker": {
+        "team": "pc",
+        "hp": 25,
+        "max_hp": 25,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "slashing",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target": {
+        "team": "enemy",
+        "hp": 24,
+        "max_hp": 40,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "attacker",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "attacker",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "attacker",
+      "type": "strike",
+      "payload": {
+        "actor": "attacker",
+        "target": "target",
+        "degree": "critical_success",
+        "roll": {
+          "die": 5,
+          "modifier": 100,
+          "total": 105,
+          "base_dc": 10,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 10
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "slashing",
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 20,
+          "temp_hp_absorbed": 4
+        },
+        "target_hp": 24,
+        "actions_remaining": 2
+      }
+    }
+  ]
+}

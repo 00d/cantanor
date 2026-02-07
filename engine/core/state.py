@@ -18,12 +18,20 @@ class UnitState:
     attack_mod: int
     ac: int
     damage: str
+    temp_hp: int = 0
+    temp_hp_source: Optional[str] = None
+    temp_hp_owner_effect_id: Optional[str] = None
+    attack_damage_type: str = "physical"
     fortitude: int = 0
     reflex: int = 0
     will: int = 0
     actions_remaining: int = 3
     reaction_available: bool = True
     conditions: Dict[str, int] = field(default_factory=dict)
+    condition_immunities: List[str] = field(default_factory=list)
+    resistances: Dict[str, int] = field(default_factory=dict)
+    weaknesses: Dict[str, int] = field(default_factory=dict)
+    immunities: List[str] = field(default_factory=list)
 
     @property
     def alive(self) -> bool:

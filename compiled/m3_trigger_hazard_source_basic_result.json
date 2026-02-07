@@ -2,8 +2,10 @@
   "battle_id": "m3_trigger_hazard_source_basic",
   "seed": 777,
   "executed_commands": 2,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
   "event_count": 4,
-  "replay_hash": "011b52567e20914a940c97a265f37f58a538df663c80021d7d04492cc053cfd8",
+  "replay_hash": "503291e235166f7ea743342d57875152ee54f41b5de755d16e343633ebfc6e03",
   "final_state": {
     "battle_id": "m3_trigger_hazard_source_basic",
     "round": 1,
@@ -18,7 +20,11 @@
           3
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_1": {
         "team": "pc",
@@ -31,7 +37,11 @@
         "alive": false,
         "conditions": {
           "unconscious": 1
-        }
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_2": {
         "team": "pc",
@@ -42,9 +52,14 @@
           4
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
-    }
+    },
+    "flags": {}
   },
   "events": [
     {
@@ -107,6 +122,10 @@
               ],
               "flat_modifier": 0,
               "multiplier": 2.0,
+              "raw_total": 44,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
               "applied_total": 44
             },
             "applied_conditions": [],
@@ -140,6 +159,10 @@
               ],
               "flat_modifier": 0,
               "multiplier": 0.5,
+              "raw_total": 12,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
               "applied_total": 12
             },
             "applied_conditions": [],

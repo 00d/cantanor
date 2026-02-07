@@ -27,6 +27,7 @@
     "dc": {"type": "integer"},
     "save_type": {"type": "string", "enum": ["Fortitude", "Reflex", "Will"]},
     "damage": {"type": "string"},
+    "damage_type": {"type": "string"},
     "mode": {"type": "string"},
     "effect_kind": {"type": "string"},
     "payload": {"type": "object"},

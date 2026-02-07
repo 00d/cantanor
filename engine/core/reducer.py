@@ -20,8 +20,8 @@ from engine.grid.los import has_line_of_sight
 from engine.grid.movement import can_step_to
 from engine.io.effect_model_loader import DEFAULT_EFFECT_MODEL_PATH, lookup_hazard_source
 from engine.rules.checks import resolve_check
-from engine.rules.conditions import apply_condition
-from engine.rules.damage import roll_damage
+from engine.rules.conditions import apply_condition, condition_is_immune, normalize_condition_name
+from engine.rules.damage import apply_damage_modifiers, apply_damage_to_pool, roll_damage
 from engine.rules.saves import SaveProfile, basic_save_multiplier, resolve_save
 
 
@@ -407,8 +407,24 @@ def _apply_modeled_effects_to_target(
                 multiplier = basic_save_multiplier(save.degree)
             elif save_mode == "negates":
                 multiplier = 0.0 if save.degree in ("success", "critical_success") else 1.0
-            applied = int(base_roll.total * multiplier)
-            target.hp = max(0, target.hp - applied)
+            raw_total = int(base_roll.total * multiplier)
+            adjustment = apply_damage_modifiers(
+                raw_total=raw_total,
+                damage_type=str(damage_event.get("damage_type") or "").lower() or None,
+                resistances=target.resistances,
+                weaknesses=target.weaknesses,
+                immunities=target.immunities,
+            )
+            applied_damage = apply_damage_to_pool(
+                hp=target.hp,
+                temp_hp=target.temp_hp,
+                damage_total=adjustment.applied_total,
+            )
+            target.hp = applied_damage.new_hp
+            target.temp_hp = applied_damage.new_temp_hp
+            if target.temp_hp == 0:
+                target.temp_hp_source = None
+                target.temp_hp_owner_effect_id = None
             damage_detail = {
                 "formula": damage_event["formula"],
                 "damage_type": damage_event.get("damage_type"),
@@ -416,11 +432,33 @@ def _apply_modeled_effects_to_target(
                 "rolls": base_roll.rolls,
                 "flat_modifier": base_roll.flat_modifier,
                 "multiplier": multiplier,
-                "applied_total": applied,
+                "raw_total": adjustment.raw_total,
+                "immune": adjustment.immune,
+                "resistance_total": adjustment.resistance_total,
+                "weakness_total": adjustment.weakness_total,
+                "applied_total": adjustment.applied_total,
             }
+            if applied_damage.absorbed_by_temp_hp > 0:
+                damage_detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
     elif damage_event is not None:
         base_roll = roll_damage(rng, str(damage_event["formula"]))
-        target.hp = max(0, target.hp - base_roll.total)
+        adjustment = apply_damage_modifiers(
+            raw_total=base_roll.total,
+            damage_type=str(damage_event.get("damage_type") or "").lower() or None,
+            resistances=target.resistances,
+            weaknesses=target.weaknesses,
+            immunities=target.immunities,
+        )
+        applied_damage = apply_damage_to_pool(
+            hp=target.hp,
+            temp_hp=target.temp_hp,
+            damage_total=adjustment.applied_total,
+        )
+        target.hp = applied_damage.new_hp
+        target.temp_hp = applied_damage.new_temp_hp
+        if target.temp_hp == 0:
+            target.temp_hp_source = None
+            target.temp_hp_owner_effect_id = None
         damage_detail = {
             "formula": damage_event["formula"],
             "damage_type": damage_event.get("damage_type"),
@@ -428,17 +466,27 @@ def _apply_modeled_effects_to_target(
             "rolls": base_roll.rolls,
             "flat_modifier": base_roll.flat_modifier,
             "multiplier": 1.0,
-            "applied_total": base_roll.total,
+            "raw_total": adjustment.raw_total,
+            "immune": adjustment.immune,
+            "resistance_total": adjustment.resistance_total,
+            "weakness_total": adjustment.weakness_total,
+            "applied_total": adjustment.applied_total,
         }
+        if applied_damage.absorbed_by_temp_hp > 0:
+            damage_detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
 
     applied_conditions = []
+    skipped_conditions = []
     if should_apply_secondary:
         for cond in condition_events:
-            name = str(cond.get("condition", "")).replace(" ", "_")
+            name = normalize_condition_name(str(cond.get("condition", "")))
             value = int(cond.get("value") or 1)
             if name:
-                target.conditions = apply_condition(target.conditions, name, value)
-                applied_conditions.append({"name": name, "value": value})
+                if condition_is_immune(name, target.condition_immunities):
+                    skipped_conditions.append({"name": name, "value": value, "reason": "condition_immune"})
+                else:
+                    target.conditions = apply_condition(target.conditions, name, value)
+                    applied_conditions.append({"name": name, "value": value})
 
     special_flags: List[str] = []
     if death_events and should_apply_secondary:
@@ -462,6 +510,7 @@ def _apply_modeled_effects_to_target(
             "save": save_detail,
             "damage": damage_detail,
             "applied_conditions": applied_conditions,
+            "skipped_conditions": skipped_conditions,
             "special_flags": special_flags,
             "affliction": None,
             "target_hp": target.hp,
@@ -532,15 +581,38 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         damage_detail = None
         if multiplier > 0:
             dmg = roll_damage(rng, actor.damage, multiplier=multiplier)
-            damage_total = dmg.total
+            adjustment = apply_damage_modifiers(
+                raw_total=dmg.total,
+                damage_type=actor.attack_damage_type,
+                resistances=target.resistances,
+                weaknesses=target.weaknesses,
+                immunities=target.immunities,
+            )
+            damage_total = adjustment.applied_total
             damage_detail = {
                 "formula": actor.damage,
+                "damage_type": actor.attack_damage_type,
                 "rolls": dmg.rolls,
                 "flat_modifier": dmg.flat_modifier,
                 "multiplier": multiplier,
+                "raw_total": adjustment.raw_total,
+                "immune": adjustment.immune,
+                "resistance_total": adjustment.resistance_total,
+                "weakness_total": adjustment.weakness_total,
                 "total": damage_total,
             }
-            target.hp = max(0, target.hp - damage_total)
+            applied_damage = apply_damage_to_pool(
+                hp=target.hp,
+                temp_hp=target.temp_hp,
+                damage_total=damage_total,
+            )
+            target.hp = applied_damage.new_hp
+            target.temp_hp = applied_damage.new_temp_hp
+            if target.temp_hp == 0:
+                target.temp_hp_source = None
+                target.temp_hp_owner_effect_id = None
+            if applied_damage.absorbed_by_temp_hp > 0:
+                damage_detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
             if target.hp == 0:
                 target.conditions = apply_condition(target.conditions, "unconscious", 1)
 
@@ -606,6 +678,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         dc = int(command["dc"])
         save_type = command["save_type"]
         damage_formula = str(command["damage"])
+        damage_type = str(command.get("damage_type") or "").lower() or None
         mode = command.get("mode", "basic")
         if mode != "basic":
             raise ReductionError(f"unsupported save_damage mode: {mode}")
@@ -618,10 +691,43 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         )
         multiplier = basic_save_multiplier(save.degree)
         damage_roll = roll_damage(rng, damage_formula)
-        damage_total = int(damage_roll.total * multiplier)
-        target.hp = max(0, target.hp - damage_total)
+        raw_total = int(damage_roll.total * multiplier)
+        adjustment = apply_damage_modifiers(
+            raw_total=raw_total,
+            damage_type=damage_type,
+            resistances=target.resistances,
+            weaknesses=target.weaknesses,
+            immunities=target.immunities,
+        )
+        damage_total = adjustment.applied_total
+        applied_damage = apply_damage_to_pool(
+            hp=target.hp,
+            temp_hp=target.temp_hp,
+            damage_total=damage_total,
+        )
+        target.hp = applied_damage.new_hp
+        target.temp_hp = applied_damage.new_temp_hp
+        if target.temp_hp == 0:
+            target.temp_hp_source = None
+            target.temp_hp_owner_effect_id = None
         if target.hp == 0:
             target.conditions = apply_condition(target.conditions, "unconscious", 1)
+
+        damage_payload = {
+            "formula": damage_formula,
+            "damage_type": damage_type,
+            "rolled_total": damage_roll.total,
+            "rolls": damage_roll.rolls,
+            "flat_modifier": damage_roll.flat_modifier,
+            "multiplier": multiplier,
+            "raw_total": adjustment.raw_total,
+            "immune": adjustment.immune,
+            "resistance_total": adjustment.resistance_total,
+            "weakness_total": adjustment.weakness_total,
+            "applied_total": damage_total,
+        }
+        if applied_damage.absorbed_by_temp_hp > 0:
+            damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
 
         actor.actions_remaining -= 1
         _append_event(
@@ -640,14 +746,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                     "dc": save.dc,
                     "degree": save.degree,
                 },
-                "damage": {
-                    "formula": damage_formula,
-                    "rolled_total": damage_roll.total,
-                    "rolls": damage_roll.rolls,
-                    "flat_modifier": damage_roll.flat_modifier,
-                    "multiplier": multiplier,
-                    "applied_total": damage_total,
-                },
+                "damage": damage_payload,
                 "target_hp": target.hp,
                 "actions_remaining": actor.actions_remaining,
             },
@@ -664,6 +763,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         dc = int(command["dc"])
         save_type = str(command["save_type"])
         damage_formula = str(command["damage"])
+        damage_type = str(command.get("damage_type") or "").lower() or None
         mode = command.get("mode", "basic")
         if mode != "basic":
             raise ReductionError(f"unsupported area_save_damage mode: {mode}")
@@ -693,11 +793,43 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
             )
             multiplier = basic_save_multiplier(save.degree)
             roll = roll_damage(rng, damage_formula)
-            applied = int(roll.total * multiplier)
+            raw_total = int(roll.total * multiplier)
             target = next_state.units[target_id]
-            target.hp = max(0, target.hp - applied)
+            adjustment = apply_damage_modifiers(
+                raw_total=raw_total,
+                damage_type=damage_type,
+                resistances=target.resistances,
+                weaknesses=target.weaknesses,
+                immunities=target.immunities,
+            )
+            applied = adjustment.applied_total
+            applied_damage = apply_damage_to_pool(
+                hp=target.hp,
+                temp_hp=target.temp_hp,
+                damage_total=applied,
+            )
+            target.hp = applied_damage.new_hp
+            target.temp_hp = applied_damage.new_temp_hp
+            if target.temp_hp == 0:
+                target.temp_hp_source = None
+                target.temp_hp_owner_effect_id = None
             if target.hp == 0:
                 target.conditions = apply_condition(target.conditions, "unconscious", 1)
+            damage_payload = {
+                "formula": damage_formula,
+                "damage_type": damage_type,
+                "rolled_total": roll.total,
+                "rolls": roll.rolls,
+                "flat_modifier": roll.flat_modifier,
+                "multiplier": multiplier,
+                "raw_total": adjustment.raw_total,
+                "immune": adjustment.immune,
+                "resistance_total": adjustment.resistance_total,
+                "weakness_total": adjustment.weakness_total,
+                "applied_total": applied,
+            }
+            if applied_damage.absorbed_by_temp_hp > 0:
+                damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
             resolutions.append(
                 {
                     "target": target_id,
@@ -710,14 +842,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                         "total": save.total,
                         "degree": save.degree,
                     },
-                    "damage": {
-                        "formula": damage_formula,
-                        "rolled_total": roll.total,
-                        "rolls": roll.rolls,
-                        "flat_modifier": roll.flat_modifier,
-                        "multiplier": multiplier,
-                        "applied_total": applied,
-                    },
+                    "damage": damage_payload,
                     "target_hp": target.hp,
                 }
             )
@@ -790,6 +915,9 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         hp = int(unit_raw.get("hp") or 0)
         if hp <= 0:
             raise ReductionError("spawn_unit unit.hp must be > 0")
+        temp_hp = int(unit_raw.get("temp_hp", 0))
+        if temp_hp < 0:
+            raise ReductionError("spawn_unit unit.temp_hp must be >= 0")
 
         spawned = UnitState(
             unit_id=unit_id,
@@ -802,12 +930,20 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
             attack_mod=int(unit_raw.get("attack_mod") or 0),
             ac=int(unit_raw.get("ac") or 10),
             damage=str(unit_raw.get("damage") or "1d1"),
+            temp_hp=temp_hp,
+            temp_hp_source=f"spawn:{unit_id}" if temp_hp > 0 else None,
+            temp_hp_owner_effect_id=None,
+            attack_damage_type=str(unit_raw.get("attack_damage_type") or "physical").lower(),
             fortitude=int(unit_raw.get("fortitude") or 0),
             reflex=int(unit_raw.get("reflex") or 0),
             will=int(unit_raw.get("will") or 0),
             actions_remaining=3,
             reaction_available=True,
             conditions={str(k): int(v) for k, v in dict(unit_raw.get("conditions", {})).items()},
+            condition_immunities=[str(x).lower().replace(" ", "_") for x in list(unit_raw.get("condition_immunities", []))],
+            resistances={str(k).lower(): int(v) for k, v in dict(unit_raw.get("resistances", {})).items()},
+            weaknesses={str(k).lower(): int(v) for k, v in dict(unit_raw.get("weaknesses", {})).items()},
+            immunities=[str(x).lower() for x in list(unit_raw.get("immunities", []))],
         )
         if not spawned.team:
             raise ReductionError("spawn_unit unit.team is required")

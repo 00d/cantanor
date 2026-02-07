@@ -3,6 +3,7 @@
   "seed": 888,
   "executed_commands": 3,
   "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
   "event_count": 9,
   "replay_hash": "2e3d085957701204a58e59b83e4f5d10f8b516a7c93fe8bec4052cb0c37203f9",
   "final_state": {
@@ -19,7 +20,11 @@
           3
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_1": {
         "team": "pc",
@@ -32,7 +37,11 @@
         "alive": true,
         "conditions": {
           "clumsy": 3
-        }
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
     },
     "flags": {}

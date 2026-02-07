@@ -5,7 +5,7 @@
   "auto_executed_commands": 4,
   "stop_reason": "script_exhausted",
   "event_count": 13,
-  "replay_hash": "308726a295dbba7f5708c43f5d008af4d53aa9108b95db8ea212f48b9e4faa87",
+  "replay_hash": "cc4463a741056fa071d51c1da03d9e0e3e94a742bc9d2e98a326f60a90de1fa7",
   "final_state": {
     "battle_id": "phase4_hazard_routine_cadence_basic",
     "round": 3,
@@ -20,7 +20,11 @@
           3
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_1": {
         "team": "pc",
@@ -31,7 +35,11 @@
           4
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
     },
     "flags": {}
@@ -97,6 +105,10 @@
               ],
               "flat_modifier": 0,
               "multiplier": 0.0,
+              "raw_total": 0,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
               "applied_total": 0
             },
             "applied_conditions": [],
@@ -238,6 +250,10 @@
               ],
               "flat_modifier": 0,
               "multiplier": 0.0,
+              "raw_total": 0,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
               "applied_total": 0
             },
             "applied_conditions": [],

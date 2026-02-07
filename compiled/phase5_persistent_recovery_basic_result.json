@@ -1,0 +1,151 @@
+{
+  "battle_id": "phase5_persistent_recovery_basic",
+  "seed": 802,
+  "executed_commands": 2,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 7,
+  "replay_hash": "e70c182c84d4057fa7e8f64635e433dc98f63b92a315966136e19cb6d8f07f60",
+  "final_state": {
+    "battle_id": "phase5_persistent_recovery_basic",
+    "round": 1,
+    "active_unit": "enemy",
+    "units": {
+      "enemy": {
+        "team": "enemy",
+        "hp": 18,
+        "max_hp": 18,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {
+          "fire": 1
+        },
+        "weaknesses": {},
+        "immunities": []
+      },
+      "pc": {
+        "team": "pc",
+        "hp": 20,
+        "max_hp": 20,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "pc",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "pc",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "pc",
+        "target": "enemy",
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "duration_rounds": 10,
+        "tick_timing": "turn_start",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "target": "enemy"
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "pc",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "enemy",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "enemy",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "enemy",
+      "type": "effect_tick",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "target": "enemy",
+        "damage": {
+          "formula": "1d1",
+          "rolls": [
+            1
+          ],
+          "flat_modifier": 0,
+          "raw_total": 1,
+          "total": 0,
+          "damage_type": "fire",
+          "immune": false,
+          "resistance_total": 1,
+          "weakness_total": 0
+        },
+        "recovery": {
+          "dc": 1,
+          "modifier": 0,
+          "die": 18,
+          "total": 18,
+          "degree": "critical_success",
+          "recovered": true
+        },
+        "target_hp": 18
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 1,
+      "active_unit": "enemy",
+      "type": "effect_expire",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "target": "enemy"
+      }
+    }
+  ]
+}

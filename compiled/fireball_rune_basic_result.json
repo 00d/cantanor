@@ -2,8 +2,10 @@
   "battle_id": "fireball_rune_basic",
   "seed": 202,
   "executed_commands": 6,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
   "event_count": 10,
-  "replay_hash": "46db5e117d9457a8972de20f5b488d3204ae7c91d680961b2b568e86b5fa2b8e",
+  "replay_hash": "b6041baf4a8f7dd49afd6cbcfea373c48ec2eddeae9dd50788e3f6b3b4e15d08",
   "final_state": {
     "battle_id": "fireball_rune_basic",
     "round": 2,
@@ -18,7 +20,11 @@
           2
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_mage": {
         "team": "pc",
@@ -29,9 +35,14 @@
           1
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
-    }
+    },
+    "flags": {}
   },
   "events": [
     {
@@ -57,15 +68,23 @@
           "die": 13,
           "modifier": 8,
           "total": 21,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
           "dc": 16
         },
         "damage": {
           "formula": "1d10+2",
+          "damage_type": "physical",
           "rolls": [
             8
           ],
           "flat_modifier": 2,
           "multiplier": 1,
+          "raw_total": 10,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
           "total": 10
         },
         "target_hp": 12,
@@ -143,15 +162,23 @@
           "die": 14,
           "modifier": 8,
           "total": 22,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
           "dc": 16
         },
         "damage": {
           "formula": "1d10+2",
+          "damage_type": "physical",
           "rolls": [
             4
           ],
           "flat_modifier": 2,
           "multiplier": 1,
+          "raw_total": 6,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
           "total": 6
         },
         "target_hp": 6,

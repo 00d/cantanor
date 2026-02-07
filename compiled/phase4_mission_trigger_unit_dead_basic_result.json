@@ -5,7 +5,7 @@
   "auto_executed_commands": 3,
   "stop_reason": "battle_end",
   "event_count": 9,
-  "replay_hash": "91897bc5db583fff023c3e1ca58a894ba6012ac0d7aa84d6b8fe3ec35ab87ced",
+  "replay_hash": "cf4c8a21f04716d32be376b362fb72845c5bd38e5a5ffa804adf17de8d8d3b73",
   "final_state": {
     "battle_id": "phase4_mission_trigger_unit_dead_basic",
     "round": 1,
@@ -20,7 +20,11 @@
           3
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_low": {
         "team": "pc",
@@ -33,7 +37,11 @@
         "alive": false,
         "conditions": {
           "unconscious": 1
-        }
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_tank": {
         "team": "pc",
@@ -44,7 +52,11 @@
           8
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
     },
     "flags": {
@@ -126,6 +138,10 @@
               ],
               "flat_modifier": 0,
               "multiplier": 2.0,
+              "raw_total": 48,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
               "applied_total": 48
             },
             "applied_conditions": [],
@@ -159,6 +175,10 @@
               ],
               "flat_modifier": 0,
               "multiplier": 1.0,
+              "raw_total": 23,
+              "immune": false,
+              "resistance_total": 0,
+              "weakness_total": 0,
               "applied_total": 23
             },
             "applied_conditions": [],

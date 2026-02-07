@@ -163,6 +163,7 @@
                 "id": {"type": "string"},
                 "team": {"type": "string"},
                 "hp": {"type": "integer", "minimum": 1},
+                "temp_hp": {"type": "integer", "minimum": 0},
                 "position": {
                   "type": "array",
                   "prefixItems": [{"type": "integer"}, {"type": "integer"}],
@@ -173,9 +174,26 @@
                 "attack_mod": {"type": "integer"},
                 "ac": {"type": "integer"},
                 "damage": {"type": "string"},
+                "attack_damage_type": {"type": "string"},
                 "fortitude": {"type": "integer"},
                 "reflex": {"type": "integer"},
-                "will": {"type": "integer"}
+                "will": {"type": "integer"},
+                "condition_immunities": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "resistances": {
+                  "type": "object",
+                  "additionalProperties": {"type": "integer", "minimum": 0}
+                },
+                "weaknesses": {
+                  "type": "object",
+                  "additionalProperties": {"type": "integer", "minimum": 0}
+                },
+                "immunities": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
               }
             }
           }
@@ -208,6 +226,7 @@
           "id": {"type": "string"},
           "team": {"type": "string"},
           "hp": {"type": "integer", "minimum": 1},
+          "temp_hp": {"type": "integer", "minimum": 0},
           "position": {
             "type": "array",
             "prefixItems": [{"type": "integer"}, {"type": "integer"}],
@@ -218,9 +237,26 @@
           "attack_mod": {"type": "integer"},
           "ac": {"type": "integer"},
           "damage": {"type": "string"},
+          "attack_damage_type": {"type": "string"},
           "fortitude": {"type": "integer"},
           "reflex": {"type": "integer"},
-          "will": {"type": "integer"}
+          "will": {"type": "integer"},
+          "condition_immunities": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "resistances": {
+            "type": "object",
+            "additionalProperties": {"type": "integer", "minimum": 0}
+          },
+          "weaknesses": {
+            "type": "object",
+            "additionalProperties": {"type": "integer", "minimum": 0}
+          },
+          "immunities": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
         }
       }
     },

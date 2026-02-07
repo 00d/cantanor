@@ -26,9 +26,36 @@ def _validate_unit_shape(unit: Dict[str, Any], context: str) -> None:
     _require(isinstance(unit.get("id"), str) and bool(unit["id"]), f"{context}.id must be non-empty string")
     _require(isinstance(unit.get("team"), str) and bool(unit["team"]), f"{context}.team must be non-empty string")
     _require(isinstance(unit.get("hp"), int) and int(unit["hp"]) > 0, f"{context}.hp must be positive int")
+    temp_hp = unit.get("temp_hp")
+    if temp_hp is not None:
+        _require(isinstance(temp_hp, int) and temp_hp >= 0, f"{context}.temp_hp must be non-negative int")
     pos = unit.get("position")
     _require(isinstance(pos, list) and len(pos) == 2, f"{context}.position must be [x, y]")
     _require(isinstance(pos[0], int) and isinstance(pos[1], int), f"{context}.position values must be ints")
+    attack_damage_type = unit.get("attack_damage_type")
+    if attack_damage_type is not None:
+        _require(isinstance(attack_damage_type, str) and bool(attack_damage_type), f"{context}.attack_damage_type must be non-empty string")
+    for field_name in ("resistances", "weaknesses"):
+        raw = unit.get(field_name)
+        if raw is None:
+            continue
+        _require(isinstance(raw, dict), f"{context}.{field_name} must be object")
+        for k, v in raw.items():
+            _require(isinstance(k, str) and bool(k), f"{context}.{field_name} keys must be non-empty strings")
+            _require(isinstance(v, int) and v >= 0, f"{context}.{field_name}[{k}] must be non-negative int")
+    immunities = unit.get("immunities")
+    if immunities is not None:
+        _require(isinstance(immunities, list), f"{context}.immunities must be list")
+        for idx, item in enumerate(immunities):
+            _require(isinstance(item, str) and bool(item), f"{context}.immunities[{idx}] must be non-empty string")
+    condition_immunities = unit.get("condition_immunities")
+    if condition_immunities is not None:
+        _require(isinstance(condition_immunities, list), f"{context}.condition_immunities must be list")
+        for idx, item in enumerate(condition_immunities):
+            _require(
+                isinstance(item, str) and bool(item),
+                f"{context}.condition_immunities[{idx}] must be non-empty string",
+            )
 
 
 def _validate_command(
@@ -76,12 +103,16 @@ def _validate_command(
         for key in ("target", "dc", "save_type", "damage"):
             _require(key in cmd, f"{context} save_damage missing key: {key}")
         _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} save_damage save_type invalid")
+        if "damage_type" in cmd:
+            _require(isinstance(cmd.get("damage_type"), str) and bool(cmd["damage_type"]), f"{context} save_damage damage_type must be non-empty string")
         if "mode" in cmd:
             _require(str(cmd["mode"]) == "basic", f"{context} save_damage mode must be basic")
     elif ctype == "area_save_damage":
         for key in ("center_x", "center_y", "radius_feet", "dc", "save_type", "damage"):
             _require(key in cmd, f"{context} area_save_damage missing key: {key}")
         _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} area_save_damage save_type invalid")
+        if "damage_type" in cmd:
+            _require(isinstance(cmd.get("damage_type"), str) and bool(cmd["damage_type"]), f"{context} area_save_damage damage_type must be non-empty string")
         if "mode" in cmd:
             _require(str(cmd["mode"]) == "basic", f"{context} area_save_damage mode must be basic")
     elif ctype == "apply_effect":
@@ -307,6 +338,7 @@ def battle_state_from_scenario(data: Dict[str, Any]) -> BattleState:
     units = {}
     for raw in data["units"]:
         x, y = raw["position"]
+        temp_hp = int(raw.get("temp_hp", 0))
         units[raw["id"]] = UnitState(
             unit_id=raw["id"],
             team=raw["team"],
@@ -318,9 +350,17 @@ def battle_state_from_scenario(data: Dict[str, Any]) -> BattleState:
             attack_mod=raw["attack_mod"],
             ac=raw["ac"],
             damage=raw["damage"],
+            temp_hp=temp_hp,
+            temp_hp_source="initial" if temp_hp > 0 else None,
+            temp_hp_owner_effect_id=None,
+            attack_damage_type=str(raw.get("attack_damage_type", "physical")).lower(),
             fortitude=int(raw.get("fortitude", 0)),
             reflex=int(raw.get("reflex", 0)),
             will=int(raw.get("will", 0)),
+            condition_immunities=[str(x).lower().replace(" ", "_") for x in list(raw.get("condition_immunities", []))],
+            resistances={str(k).lower(): int(v) for k, v in dict(raw.get("resistances", {})).items()},
+            weaknesses={str(k).lower(): int(v) for k, v in dict(raw.get("weaknesses", {})).items()},
+            immunities=[str(x).lower() for x in list(raw.get("immunities", []))],
         )
 
     turn_order = build_turn_order(units)

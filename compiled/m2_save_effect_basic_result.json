@@ -2,8 +2,10 @@
   "battle_id": "m2_save_effect_basic",
   "seed": 404,
   "executed_commands": 5,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
   "event_count": 11,
-  "replay_hash": "6d34163c6c1d6686e6541f7d3bebddcdb93f46937700f04636554a1b7a1315ab",
+  "replay_hash": "6396f2b470f4b107ec188f91b896778e0a7025055aae343a32582da97bb2e9db",
   "final_state": {
     "battle_id": "m2_save_effect_basic",
     "round": 2,
@@ -18,7 +20,11 @@
           0
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       },
       "pc_cleric": {
         "team": "pc",
@@ -29,9 +35,14 @@
           0
         ],
         "alive": true,
-        "conditions": {}
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
       }
-    }
+    },
+    "flags": {}
   },
   "events": [
     {
@@ -111,12 +122,17 @@
         },
         "damage": {
           "formula": "1d6+2",
+          "damage_type": null,
           "rolled_total": 6,
           "rolls": [
             4
           ],
           "flat_modifier": 2,
           "multiplier": 2.0,
+          "raw_total": 12,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
           "applied_total": 12
         },
         "target_hp": 9,
@@ -179,6 +195,9 @@
           "die": 1,
           "modifier": 6,
           "total": 7,
+          "base_dc": 15,
+          "cover_grade": "none",
+          "cover_bonus": 0,
           "dc": 15
         },
         "damage": null,
