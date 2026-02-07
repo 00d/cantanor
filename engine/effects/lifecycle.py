@@ -75,11 +75,19 @@ def _apply_affliction_stage(
         formula = str(dmg.get("formula", ""))
         if not formula:
             continue
+        damage_type = str(dmg.get("damage_type") or "").lower() or None
         roll = roll_damage(rng, formula)
+        adjustment = apply_damage_modifiers(
+            raw_total=roll.total,
+            damage_type=damage_type,
+            resistances=target.resistances,
+            weaknesses=target.weaknesses,
+            immunities=target.immunities,
+        )
         applied_damage = apply_damage_to_pool(
             hp=target.hp,
             temp_hp=target.temp_hp,
-            damage_total=roll.total,
+            damage_total=adjustment.applied_total,
         )
         target.hp = applied_damage.new_hp
         target.temp_hp = applied_damage.new_temp_hp
@@ -88,10 +96,14 @@ def _apply_affliction_stage(
             target.temp_hp_owner_effect_id = None
         detail = {
             "formula": formula,
-            "damage_type": dmg.get("damage_type"),
+            "damage_type": damage_type or "untyped",
             "rolls": roll.rolls,
             "flat_modifier": roll.flat_modifier,
-            "total": roll.total,
+            "raw_total": adjustment.raw_total,
+            "total": adjustment.applied_total,
+            "immune": adjustment.immune,
+            "resistance_total": adjustment.resistance_total,
+            "weakness_total": adjustment.weakness_total,
         }
         if applied_damage.absorbed_by_temp_hp > 0:
             detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp

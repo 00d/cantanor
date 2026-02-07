@@ -36,6 +36,7 @@ Verified on February 7, 2026.
 - Phase 5 started:
   - Damage mitigation baseline for resistances, weaknesses, and immunities in `strike`, `save_damage`, `area_save_damage`, and modeled hazard damage resolution.
   - Overlapping resistance/weakness precedence now resolves to the highest applicable value (exact, grouped tag, or `all`) instead of stacking totals.
+  - Affliction stage damage now routes through the same mitigation layer (resistance/weakness/immunity + temp-HP-first consumption) as other damage sources.
   - Grouped mitigation tags for umbrella damage categories (`physical`, `energy`) alongside specific damage types.
   - Temporary HP runtime consumption layer (damage applies to temp HP before HP across strike/save/area/modeled/persistent/affliction damage flows).
   - Source-aware temporary HP grant effect baseline (`apply_effect` with `effect_kind=temp_hp`) with same-source refresh, cross-source precedence (`higher_only`/`replace`/`ignore`), configurable stack mode (`max`/`add`), and expiration cleanup (`remove_on_expire`).
@@ -66,6 +67,7 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase4_mission_branching_waves_basic.json` exercises branch-driven wave selection and wave-pack scheduling in the same round-start window.
   - `tests/scenarios/test_phase4_regression_matrix.py` validates 8 phase 4 encounter regressions against `scenarios/regression_phase4/expected_hashes.json`.
   - `scenarios/smoke/phase5_damage_mitigation_basic.json` exercises mitigation-aware save damage with resistance/weakness interaction.
+  - `scenarios/smoke/phase5_affliction_mitigation_basic.json` exercises mitigation-aware affliction stage damage.
   - `scenarios/smoke/phase5_grouped_mitigation_basic.json` exercises grouped-type mitigation (`fire -> energy`, `slashing -> physical`).
   - `scenarios/smoke/phase5_mitigation_precedence_basic.json` exercises overlap precedence (highest-only) across exact/grouped/`all` keys.
   - `scenarios/smoke/phase5_temp_hp_basic.json` exercises temp-HP-first damage consumption for strike damage.
@@ -74,6 +76,7 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase5_temp_hp_source_policy_basic.json` exercises cross-source temp-HP precedence (`ignore` then `replace`).
   - `tests/contract/test_effect_lifecycle.py` includes source-aware temp-HP behavior checks (same-source refresh and cross-source higher-only precedence).
   - `tests/contract/test_damage_mitigation_runtime.py` validates modeled/strike/save command mitigation behavior.
+  - `tests/contract/test_affliction_edge_cases.py` includes affliction-stage damage mitigation coverage.
   - `scenarios/smoke/phase5_persistent_recovery_basic.json` exercises persistent damage recovery and expiration flow.
   - `tests/contract/test_effect_lifecycle.py` includes persistent recovery success/failure coverage.
   - `scenarios/smoke/phase5_condition_immunity_basic.json` exercises condition immunity handling for condition effects.

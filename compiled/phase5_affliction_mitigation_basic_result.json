@@ -1,0 +1,116 @@
+{
+  "battle_id": "phase5_affliction_mitigation_basic",
+  "seed": 613,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 3,
+  "replay_hash": "c80874020f940f79d058d63268d25d6d7473a4cdb5191956469ac50081758f54",
+  "final_state": {
+    "battle_id": "phase5_affliction_mitigation_basic",
+    "round": 1,
+    "active_unit": "caster",
+    "units": {
+      "caster": {
+        "team": "pc",
+        "hp": 25,
+        "max_hp": 25,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target": {
+        "team": "enemy",
+        "hp": 13,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {
+          "poison": 4
+        },
+        "weaknesses": {
+          "poison": 1
+        },
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "caster",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "caster",
+        "target": "target",
+        "effect_id": "eff_0001",
+        "kind": "affliction",
+        "duration_rounds": 2,
+        "tick_timing": "turn_end",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "affliction",
+        "target": "target",
+        "stage": 1,
+        "stage_result": {
+          "stage": 1,
+          "applied": true,
+          "damage": [
+            {
+              "formula": "10",
+              "damage_type": "poison",
+              "rolls": [],
+              "flat_modifier": 10,
+              "raw_total": 10,
+              "total": 7,
+              "immune": false,
+              "resistance_total": 4,
+              "weakness_total": 1
+            }
+          ],
+          "conditions": [],
+          "skipped_conditions": [],
+          "cleared_conditions": [],
+          "stage_rounds": 1,
+          "target_hp": 13
+        }
+      }
+    }
+  ]
+}

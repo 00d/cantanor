@@ -233,6 +233,48 @@ class TestAfflictionEdgeCases(unittest.TestCase):
         self.assertEqual(stage_result["skipped_conditions"][0]["name"], "clumsy")
         self.assertEqual(stage_result["skipped_conditions"][0]["reason"], "condition_immune")
 
+    def test_affliction_stage_damage_uses_mitigation_modifiers(self) -> None:
+        scenario = _scenario(seed=505)
+        scenario["units"][1]["resistances"] = {"poison": 4}
+        scenario["units"][1]["weaknesses"] = {"poison": 1}
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+
+        state, events = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "caster",
+                "target": "target",
+                "effect_kind": "affliction",
+                "payload": {
+                    "name": "mitigation_stage_test",
+                    "maximum_duration": {"amount": 2, "unit": "round"},
+                    "stages": [
+                        {
+                            "stage": 1,
+                            "damage": [{"formula": "10", "damage_type": "poison"}],
+                            "conditions": [],
+                            "duration": {"amount": 1, "unit": "round"},
+                        }
+                    ],
+                    "current_stage": 1,
+                },
+                "duration_rounds": 2,
+                "tick_timing": "turn_end",
+            },
+            rng,
+        )
+
+        self.assertEqual(state.units["target"].hp, 13)
+        apply_events = [e for e in events if e["type"] == "effect_apply"]
+        self.assertTrue(apply_events)
+        damage = apply_events[0]["payload"]["stage_result"]["damage"][0]
+        self.assertEqual(damage["raw_total"], 10)
+        self.assertEqual(damage["resistance_total"], 4)
+        self.assertEqual(damage["weakness_total"], 1)
+        self.assertEqual(damage["total"], 7)
+
 
 if __name__ == "__main__":
     unittest.main()
