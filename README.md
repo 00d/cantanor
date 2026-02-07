@@ -68,4 +68,5 @@ Run Phase 8 regression matrix: `python3 -m unittest tests/scenarios/test_phase8_
 Run Phase 9 command-authoring contract tests: `python3 -m unittest tests/contract/test_command_authoring.py -v`
 Run Phase 9 enemy-policy rationale smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase9_enemy_policy_rationale_basic.json --out compiled/phase9_enemy_policy_rationale_basic_result.json`
 Run Phase 9 enemy-policy rationale tests: `python3 -m unittest tests/scenarios/test_phase9_enemy_policy_rationale.py -v`
+Run Phase 9 regression matrix: `python3 -m unittest tests/scenarios/test_phase9_regression_matrix.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

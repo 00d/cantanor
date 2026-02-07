@@ -67,11 +67,12 @@ Verified on February 7, 2026.
   - Deterministic mismatch handling added for content-entry command-type conflicts (runtime `command_error` path).
   - M8.2 pack-driven enemy policy actions added (`cast_spell_entry_nearest`, `use_feat_entry_self`, `use_item_entry_self`, `interact_entry_self`) with deterministic template materialization through content packs.
   - M8.3 deterministic Phase 8 regression matrix added with locked replay hashes.
-- Phase 9 started:
+- Phase 9 complete:
   - M9.1 browser command-authoring baseline added (`engine/io/command_authoring.py`) with deterministic content-entry option catalogs and intent builders for `cast_spell` / `use_feat` / `use_item` / `interact`.
   - Scenario result payload now includes `command_authoring_catalog` for UI command builders.
   - M9.2 deterministic enemy-policy rationale payload baseline added (optional `enemy_policy.include_rationale` with stable `reason_code`/target-distance metadata on `enemy_policy_decision` events).
   - Phase 9-compatible sample content pack added at `corpus/content_packs/phase9_baseline_v1.json`.
+  - M9.3 deterministic Phase 9 regression matrix added with locked replay hashes.
 
 ## Verification Evidence
 
@@ -130,6 +131,7 @@ Verified on February 7, 2026.
   - `tests/contract/test_command_authoring.py` validates phase 9 command-authoring catalog and UI intent builder contracts.
   - `tests/scenarios/test_phase7_content_pack_integration.py` validates `command_authoring_catalog` exposure in scenario results.
   - `scenarios/smoke/phase9_enemy_policy_rationale_basic.json` + `tests/scenarios/test_phase9_enemy_policy_rationale.py` validate deterministic enemy-policy rationale payload emission.
+  - `tests/scenarios/test_phase9_regression_matrix.py` validates 5 phase 9 regressions against `scenarios/regression_phase9/expected_hashes.json`.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -172,7 +174,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Continue Phase 9 with M9.3:
-- phase 9 regression matrix + expected hash lock after rationale payload contracts stabilize,
-- expanded direct-intent helpers for non-template commands (`move` / `strike`) in command-authoring API,
-- broader policy rationale parity for fallback/error decisions.
+Phase 10 should broaden command-authoring and browser projection depth:
+- direct-intent helpers for non-template commands (`move` / `strike`) in authoring API,
+- broader policy rationale parity for fallback/error decisions,
+- richer UI-facing event projection contracts aligned to forecast and tactical overlays.
