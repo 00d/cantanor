@@ -22,3 +22,4 @@ ENV/
 
 # Local AI assistant workspace files
 .claude/
+node_modules
