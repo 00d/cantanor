@@ -91,6 +91,7 @@ def _validate_command(
             "cast_spell",
             "use_feat",
             "use_item",
+            "interact",
         ),
         f"{context} unsupported command type: {ctype}",
     )
@@ -176,6 +177,23 @@ def _validate_command(
             _require(str(cmd["tick_timing"]) in ("turn_start", "turn_end"), f"{context} use_item tick_timing invalid")
         if "action_cost" in cmd:
             _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} use_item action_cost must be positive int")
+    elif ctype == "interact":
+        _require("interact_id" in cmd, f"{context} interact missing key: interact_id")
+        _require(isinstance(cmd.get("interact_id"), str) and bool(cmd["interact_id"]), f"{context} interact_id must be non-empty string")
+        if "effect_kind" in cmd and cmd["effect_kind"] is not None:
+            _require(isinstance(cmd["effect_kind"], str) and bool(cmd["effect_kind"]), f"{context} interact effect_kind must be non-empty string when present")
+        if "payload" in cmd:
+            _require(isinstance(cmd["payload"], dict), f"{context} interact payload must be object")
+        if "duration_rounds" in cmd and cmd["duration_rounds"] is not None:
+            _require(isinstance(cmd["duration_rounds"], int) and cmd["duration_rounds"] >= 0, f"{context} interact duration_rounds must be non-negative int or null")
+        if "tick_timing" in cmd and cmd["tick_timing"] is not None:
+            _require(str(cmd["tick_timing"]) in ("turn_start", "turn_end"), f"{context} interact tick_timing invalid")
+        if "action_cost" in cmd:
+            _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} interact action_cost must be positive int")
+        if "flag" in cmd:
+            _require(isinstance(cmd["flag"], str) and bool(cmd["flag"]), f"{context} interact flag must be non-empty string")
+        if "value" in cmd:
+            _require(isinstance(cmd["value"], bool), f"{context} interact value must be bool")
     elif ctype == "trigger_hazard_source":
         for key in ("hazard_id", "source_name"):
             _require(key in cmd, f"{context} trigger_hazard_source missing key: {key}")

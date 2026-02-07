@@ -126,6 +126,19 @@ class UseItemCommand(BaseCommand):
     action_cost: int
 
 
+class InteractCommand(BaseCommand):
+    type: Literal["interact"]
+    interact_id: str
+    target: str | None
+    effect_kind: str | None
+    payload: dict
+    duration_rounds: int | None
+    tick_timing: Literal["turn_start", "turn_end"] | None
+    action_cost: int
+    flag: str | None
+    value: bool
+
+
 Command = (
     MoveCommand
     | StrikeCommand
@@ -140,4 +153,5 @@ Command = (
     | CastSpellCommand
     | UseFeatCommand
     | UseItemCommand
+    | InteractCommand
 )

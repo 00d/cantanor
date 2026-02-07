@@ -20,7 +20,8 @@
         "spawn_unit",
         "cast_spell",
         "use_feat",
-        "use_item"
+        "use_item",
+        "interact"
       ]
     },
     "actor": {"type": "string"},
@@ -39,6 +40,7 @@
     "spell_id": {"type": "string"},
     "feat_id": {"type": "string"},
     "item_id": {"type": "string"},
+    "interact_id": {"type": "string"},
     "action_cost": {"type": "integer", "minimum": 1},
     "effect_kind": {"type": "string"},
     "payload": {"type": "object"},

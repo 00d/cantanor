@@ -1,0 +1,43 @@
+{
+  "battle_id": "phase7_interact_basic",
+  "seed": 7701,
+  "map": {"width": 6, "height": 6, "blocked": []},
+  "units": [
+    {
+      "id": "operator",
+      "team": "pc",
+      "hp": 24,
+      "position": [1, 1],
+      "initiative": 20,
+      "attack_mod": 6,
+      "ac": 16,
+      "damage": "1d6+2"
+    },
+    {
+      "id": "sentinel",
+      "team": "enemy",
+      "hp": 24,
+      "position": [4, 4],
+      "initiative": 10,
+      "attack_mod": 5,
+      "ac": 15,
+      "damage": "1d6+2"
+    }
+  ],
+  "commands": [
+    {
+      "type": "interact",
+      "actor": "operator",
+      "interact_id": "console_override",
+      "target": "operator",
+      "effect_kind": "temp_hp",
+      "payload": {
+        "amount": 3,
+        "source_key": "interact:console_override"
+      },
+      "flag": "console_unlocked",
+      "value": true,
+      "action_cost": 1
+    }
+  ]
+}

@@ -58,6 +58,8 @@ Verified on February 7, 2026.
   - M7.1 content-pack contract baseline scaffolded (`engine/io/content_pack_loader.py`, `engine/io/schemas/content_pack.schema.json`).
   - Baseline versioned sample pack added at `corpus/content_packs/phase7_baseline_v1.json`.
   - Contract coverage added for pack validation and phase compatibility checks.
+  - M7.2 interact command baseline added (`interact` command variant with deterministic action-cost, optional flag updates, and effect lifecycle wiring).
+  - Phase 7 interact smoke scenario + tests added for non-combat utility command coverage.
 
 ## Verification Evidence
 
@@ -106,6 +108,7 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase6_enemy_policy_duel_basic.json` + `tests/scenarios/test_phase6_enemy_policy.py` exercise deterministic non-scripted turns via enemy policy.
   - `tests/scenarios/test_phase6_regression_matrix.py` validates 5 phase 6 gameplay-breadth regressions against `scenarios/regression_phase6/expected_hashes.json`.
   - `tests/contract/test_content_pack_loader.py` validates phase 7 content-pack contracts (semver, compatibility bounds, duplicate entry rejection, loader integration).
+  - `scenarios/smoke/phase7_interact_basic.json` + `tests/scenarios/test_phase7_interact_command.py` validate phase 7 `interact` command behavior and lifecycle integration.
 
 ## AoN Cross-Check (Spot Verification)
 

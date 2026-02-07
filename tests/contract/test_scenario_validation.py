@@ -179,6 +179,34 @@ class TestScenarioValidation(unittest.TestCase):
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 
+    def test_accepts_interact_command_variant(self) -> None:
+        scenario = _base_scenario()
+        scenario["commands"] = [
+            {
+                "type": "interact",
+                "actor": "hazard_core",
+                "interact_id": "open_panel",
+                "target": "hazard_core",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 2},
+                "flag": "panel_open",
+                "value": True,
+            }
+        ]
+        validate_scenario(scenario)
+
+    def test_rejects_interact_without_interact_id(self) -> None:
+        scenario = _base_scenario()
+        scenario["commands"] = [
+            {
+                "type": "interact",
+                "actor": "hazard_core",
+                "target": "hazard_core",
+            }
+        ]
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
 
 if __name__ == "__main__":
     unittest.main()

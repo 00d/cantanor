@@ -1385,6 +1385,61 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         _emit_lifecycle_events(events, next_state, on_apply(next_state, effect, rng))
         return next_state, events
 
+    if command_type == "interact":
+        interact_id = str(command.get("interact_id") or "")
+        if not interact_id:
+            raise ReductionError("interact requires interact_id")
+        action_cost = _command_action_cost(command, default_cost=1)
+        _spend_actions(actor, action_cost)
+
+        target_id = str(command.get("target") or actor_id)
+        target = next_state.units.get(target_id)
+        if target is None:
+            raise ReductionError(f"unknown target {target_id}")
+        if not target.alive:
+            raise ReductionError(f"target {target_id} is not alive")
+
+        flag_update = None
+        if "flag" in command:
+            flag = str(command.get("flag") or "")
+            if not flag:
+                raise ReductionError("interact flag cannot be empty")
+            flag_value = bool(command.get("value", True))
+            next_state.flags[flag] = flag_value
+            flag_update = {"flag": flag, "value": flag_value}
+
+        effect_id = None
+        lifecycle_events: List[Tuple[str, dict]] = []
+        effect_kind = command.get("effect_kind")
+        if effect_kind is not None:
+            effect = EffectState(
+                effect_id=_new_effect_id(next_state),
+                kind=str(effect_kind),
+                source_unit_id=actor_id,
+                target_unit_id=target_id,
+                payload=dict(command.get("payload", {})),
+                duration_rounds=command.get("duration_rounds"),
+                tick_timing=command.get("tick_timing"),
+            )
+            next_state.effects[effect.effect_id] = effect
+            effect_id = effect.effect_id
+            lifecycle_events = on_apply(next_state, effect, rng)
+
+        payload = {
+            "actor": actor_id,
+            "interact_id": interact_id,
+            "target": target_id,
+            "effect_id": effect_id,
+            "effect_kind": effect_kind,
+            "action_cost": action_cost,
+            "actions_remaining": actor.actions_remaining,
+        }
+        if flag_update is not None:
+            payload["flag_update"] = flag_update
+        _append_event(events, next_state, "interact", payload)
+        _emit_lifecycle_events(events, next_state, lifecycle_events)
+        return next_state, events
+
     if command_type == "apply_effect":
         if actor.actions_remaining <= 0:
             raise ReductionError("actor has no actions remaining")
