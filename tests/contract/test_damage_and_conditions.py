@@ -71,6 +71,18 @@ class TestDamageAndConditions(unittest.TestCase):
         self.assertEqual(immune.applied_total, 0)
         self.assertTrue(immune.immune)
 
+    def test_damage_modifiers_use_highest_matching_values(self) -> None:
+        adjusted = apply_damage_modifiers(
+            raw_total=12,
+            damage_type="fire",
+            resistances={"fire": 5, "energy": 3, "all": 1},
+            weaknesses={"fire": 4, "energy": 2, "all": 1},
+            immunities=[],
+        )
+        self.assertEqual(adjusted.resistance_total, 5)
+        self.assertEqual(adjusted.weakness_total, 4)
+        self.assertEqual(adjusted.applied_total, 11)
+
     def test_apply_condition_keeps_highest_value(self) -> None:
         c = apply_condition({}, "frightened", 1)
         c = apply_condition(c, "frightened", 3)

@@ -93,6 +93,15 @@ def _damage_type_tags(damage_type: str | None) -> set[str]:
     return tags
 
 
+def _highest_matching_modifier(modifiers: Dict[str, int], damage_tags: set[str]) -> int:
+    best = 0
+    for key, value in modifiers.items():
+        k = _normalized_damage_type(str(key))
+        if k == "all" or (k is not None and k in damage_tags):
+            best = max(best, int(value))
+    return max(0, best)
+
+
 def apply_damage_modifiers(
     *,
     raw_total: int,
@@ -126,16 +135,9 @@ def apply_damage_modifiers(
             weakness_total=0,
         )
 
-    resistance_total = 0
-    weakness_total = 0
-    for key, value in resistances.items():
-        k = _normalized_damage_type(str(key))
-        if k == "all" or (k is not None and k in damage_tags):
-            resistance_total += int(value)
-    for key, value in weaknesses.items():
-        k = _normalized_damage_type(str(key))
-        if k == "all" or (k is not None and k in damage_tags):
-            weakness_total += int(value)
+    # Use the strongest matching value for each side, rather than stacking.
+    resistance_total = _highest_matching_modifier(resistances, damage_tags)
+    weakness_total = _highest_matching_modifier(weaknesses, damage_tags)
 
     applied = max(0, raw - resistance_total + weakness_total)
     return DamageAdjustment(

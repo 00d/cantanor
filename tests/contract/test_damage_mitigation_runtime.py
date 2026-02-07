@@ -240,6 +240,48 @@ class TestDamageMitigationRuntime(unittest.TestCase):
         self.assertEqual(damage["total"], max(0, damage["raw_total"] - 4))
         self.assertEqual(state.units["target"].hp, 40 - damage["total"])
 
+    def test_strike_uses_highest_overlapping_resistance(self) -> None:
+        scenario = {
+            "battle_id": "damage_mitigation_highest_resistance",
+            "seed": 614,
+            "map": {"width": 6, "height": 6, "blocked": []},
+            "units": [
+                {
+                    "id": "attacker",
+                    "team": "pc",
+                    "hp": 25,
+                    "position": [1, 1],
+                    "initiative": 20,
+                    "attack_mod": 100,
+                    "ac": 20,
+                    "damage": "10",
+                    "attack_damage_type": "slashing",
+                },
+                {
+                    "id": "target",
+                    "team": "enemy",
+                    "hp": 40,
+                    "position": [2, 1],
+                    "initiative": 10,
+                    "attack_mod": 6,
+                    "ac": 10,
+                    "damage": "1d8+2",
+                    "resistances": {"slashing": 2, "physical": 4, "all": 1},
+                },
+            ],
+            "commands": [],
+        }
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+        state, events = apply_command(state, {"type": "strike", "actor": "attacker", "target": "target"}, rng)
+
+        damage = events[0]["payload"]["damage"]
+        self.assertIsNotNone(damage)
+        self.assertEqual(damage["damage_type"], "slashing")
+        self.assertEqual(damage["resistance_total"], 4)
+        self.assertEqual(damage["total"], max(0, damage["raw_total"] - 4))
+        self.assertEqual(state.units["target"].hp, 40 - damage["total"])
+
     def test_save_damage_matches_energy_group_weakness(self) -> None:
         scenario = {
             "battle_id": "damage_mitigation_energy_group",
