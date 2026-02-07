@@ -2,6 +2,8 @@
 
 This plan defines the first gameplay-breadth phase after Phase 5 engine hardening.
 
+Status: Completed on February 7, 2026 (M6.1 through M6.5 achieved).
+
 ## Phase 6 Goal
 
 Build a playable browser-facing tactical gameplay loop by adding execution pipelines for player-facing content (actions, spells, feats, items) on top of the deterministic core runtime.

@@ -37,6 +37,8 @@ SCENARIOS = [
     Path("scenarios/smoke/phase6_cast_spell_basic.json"),
     Path("scenarios/smoke/phase6_use_feat_effect_basic.json"),
     Path("scenarios/smoke/phase6_use_item_effect_basic.json"),
+    Path("scenarios/smoke/phase6_forecast_strike_basic.json"),
+    Path("scenarios/smoke/phase6_enemy_policy_duel_basic.json"),
 ]
 
 

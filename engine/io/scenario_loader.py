@@ -274,6 +274,21 @@ def validate_scenario(data: Dict[str, Any]) -> None:
             unit_id = pack.get("unit_id")
             _require(isinstance(unit_id, str) and unit_id in known_ids, f"objective_pack[{idx}] unit_id invalid: {unit_id}")
 
+    enemy_policy = data.get("enemy_policy")
+    if enemy_policy is not None:
+        _require(isinstance(enemy_policy, dict), "enemy_policy must be object when present")
+        if "enabled" in enemy_policy:
+            _require(isinstance(enemy_policy["enabled"], bool), "enemy_policy.enabled must be bool")
+        if "teams" in enemy_policy:
+            teams = enemy_policy["teams"]
+            _require(isinstance(teams, list), "enemy_policy.teams must be list")
+            for idx, team in enumerate(teams):
+                _require(isinstance(team, str) and bool(team), f"enemy_policy.teams[{idx}] must be non-empty string")
+        if "action" in enemy_policy:
+            _require(str(enemy_policy["action"]) in ("strike_nearest",), "enemy_policy.action invalid")
+        if "auto_end_turn" in enemy_policy:
+            _require(isinstance(enemy_policy["auto_end_turn"], bool), "enemy_policy.auto_end_turn must be bool")
+
     mission_events = data.get("mission_events", [])
     _require(isinstance(mission_events, list), "mission_events must be list when present")
     for idx, mission_event in enumerate(mission_events):

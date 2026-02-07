@@ -163,6 +163,22 @@ class TestScenarioValidation(unittest.TestCase):
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 
+    def test_accepts_enemy_policy_shape(self) -> None:
+        scenario = _base_scenario()
+        scenario["enemy_policy"] = {
+            "enabled": True,
+            "teams": ["hazard", "pc"],
+            "action": "strike_nearest",
+            "auto_end_turn": True,
+        }
+        validate_scenario(scenario)
+
+    def test_rejects_enemy_policy_unknown_action(self) -> None:
+        scenario = _base_scenario()
+        scenario["enemy_policy"] = {"enabled": True, "action": "cast_random_spell"}
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
 
 if __name__ == "__main__":
     unittest.main()

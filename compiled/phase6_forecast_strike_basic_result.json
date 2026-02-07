@@ -1,0 +1,116 @@
+{
+  "battle_id": "phase6_forecast_strike_basic",
+  "seed": 6604,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 2,
+  "replay_hash": "0256ee77116e51ac94bea90d7c0a204599fffe3cdbb7bbd395e61a37f4c83af4",
+  "final_state": {
+    "battle_id": "phase6_forecast_strike_basic",
+    "round": 1,
+    "active_unit": "fighter",
+    "units": {
+      "fighter": {
+        "team": "pc",
+        "hp": 30,
+        "max_hp": 30,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "guard": {
+        "team": "enemy",
+        "hp": 26,
+        "max_hp": 36,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "fighter",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "fighter",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "fighter",
+      "type": "strike",
+      "payload": {
+        "actor": "fighter",
+        "target": "guard",
+        "degree": "success",
+        "roll": {
+          "die": 15,
+          "modifier": 9,
+          "total": 24,
+          "base_dc": 17,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 17
+        },
+        "damage": {
+          "formula": "1d8+4",
+          "damage_type": "physical",
+          "rolls": [
+            6
+          ],
+          "flat_modifier": 4,
+          "multiplier": 1,
+          "raw_total": 10,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 10
+        },
+        "target_hp": 26,
+        "actions_remaining": 2,
+        "forecast": {
+          "kind": "strike",
+          "attack_modifier": 9,
+          "dc": 17,
+          "damage_formula": "1d8+4",
+          "degree_odds": {
+            "critical_success": 0.15,
+            "success": 0.5,
+            "failure": 0.3,
+            "critical_failure": 0.05
+          },
+          "expected_damage_raw": {
+            "on_success": 8.5,
+            "on_critical_success": 17.0,
+            "per_attack": 6.8
+          }
+        }
+      }
+    }
+  ]
+}

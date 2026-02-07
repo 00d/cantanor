@@ -5,7 +5,7 @@
   "auto_executed_commands": 0,
   "stop_reason": "script_exhausted",
   "event_count": 2,
-  "replay_hash": "900846a8aed27e639f22fef7b046ab121b4ac23be35f9c5c2864c129f706d3cc",
+  "replay_hash": "f037ba4df376f35c26ac5016996b1ffb64b0d7e4204c88875209a62f1925bb21",
   "final_state": {
     "battle_id": "phase6_cast_spell_basic",
     "round": 1,
@@ -79,6 +79,21 @@
           "total": -1,
           "dc": 22,
           "degree": "critical_failure"
+        },
+        "forecast": {
+          "kind": "cast_spell",
+          "save_modifier": -10,
+          "dc": 22,
+          "mode": "basic",
+          "damage_formula": "12",
+          "degree_odds": {
+            "critical_success": 0.0,
+            "success": 0.0,
+            "failure": 0.05,
+            "critical_failure": 0.95
+          },
+          "expected_multiplier": 1.95,
+          "expected_damage_raw": 23.4
         },
         "damage": {
           "formula": "12",

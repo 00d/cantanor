@@ -7,6 +7,7 @@ from copy import deepcopy
 from typing import Dict, List, Tuple
 
 from engine.core.commands import Command
+from engine.core.forecast import cast_spell_forecast, strike_forecast
 from engine.core.ids import event_id
 from engine.core.rng import DeterministicRNG
 from engine.core.state import BattleState, EffectState, UnitState
@@ -98,6 +99,16 @@ def _unit_save_profile(state: BattleState, unit_id: str) -> SaveProfile:
         reflex=unit.reflex,
         will=unit.will,
     )
+
+
+def _save_modifier_for_type(unit: UnitState, save_type: str) -> int:
+    if save_type == "Fortitude":
+        return int(unit.fortitude)
+    if save_type == "Reflex":
+        return int(unit.reflex)
+    if save_type == "Will":
+        return int(unit.will)
+    return 0
 
 
 def _new_effect_id(state: BattleState) -> str:
@@ -598,6 +609,13 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         cover_bonus = cover_ac_bonus_for_units(next_state, actor, target)
         effective_ac = target.ac + cover_bonus
         check = resolve_check(rng=rng, modifier=actor.attack_mod, dc=effective_ac)
+        forecast = None
+        if bool(command.get("emit_forecast", False)):
+            forecast = strike_forecast(
+                attack_modifier=actor.attack_mod,
+                dc=effective_ac,
+                damage_formula=actor.damage,
+            )
         multiplier = 0
         if check.degree == "critical_success":
             multiplier = 2
@@ -647,28 +665,26 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                 target.conditions = apply_condition(target.conditions, "unconscious", 1)
 
         actor.actions_remaining -= 1
-        _append_event(
-            events,
-            next_state,
-            "strike",
-            {
-                "actor": actor_id,
-                "target": target_id,
-                "degree": check.degree,
-                "roll": {
-                    "die": check.die,
-                    "modifier": check.modifier,
-                    "total": check.total,
-                    "base_dc": target.ac,
-                    "cover_grade": cover_grade,
-                    "cover_bonus": cover_bonus,
-                    "dc": check.dc,
-                },
-                "damage": damage_detail,
-                "target_hp": target.hp,
-                "actions_remaining": actor.actions_remaining,
+        strike_payload = {
+            "actor": actor_id,
+            "target": target_id,
+            "degree": check.degree,
+            "roll": {
+                "die": check.die,
+                "modifier": check.modifier,
+                "total": check.total,
+                "base_dc": target.ac,
+                "cover_grade": cover_grade,
+                "cover_bonus": cover_bonus,
+                "dc": check.dc,
             },
-        )
+            "damage": damage_detail,
+            "target_hp": target.hp,
+            "actions_remaining": actor.actions_remaining,
+        }
+        if forecast is not None:
+            strike_payload["forecast"] = forecast
+        _append_event(events, next_state, "strike", strike_payload)
         return next_state, events
 
     if command_type == "end_turn":
@@ -767,6 +783,13 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         if applied_damage.absorbed_by_temp_hp > 0:
             damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
 
+        forecast = cast_spell_forecast(
+            save_modifier=_save_modifier_for_type(target, save_type),
+            dc=dc,
+            damage_formula=damage_formula,
+            mode=str(mode),
+        )
+
         _append_event(
             events,
             next_state,
@@ -785,6 +808,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                     "dc": save.dc,
                     "degree": save.degree,
                 },
+                "forecast": forecast,
                 "damage": damage_payload,
                 "target_hp": target.hp,
                 "actions_remaining": actor.actions_remaining,

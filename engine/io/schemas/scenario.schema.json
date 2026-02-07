@@ -49,6 +49,18 @@
         }
       }
     },
+    "enemy_policy": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "teams": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "action": {"type": "string", "enum": ["strike_nearest"]},
+        "auto_end_turn": {"type": "boolean"}
+      }
+    },
     "hazard_routines": {
       "type": "array",
       "items": {

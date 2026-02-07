@@ -227,6 +227,47 @@ def _mission_command(raw_command: dict, active_unit_id: str) -> dict:
     return command
 
 
+def _normalize_enemy_policy(scenario: Dict[str, object]) -> dict:
+    raw = dict(scenario.get("enemy_policy", {}) or {})
+    enabled = bool(raw.get("enabled", False))
+    teams_raw = raw.get("teams", ["enemy"])
+    teams = [str(x) for x in teams_raw] if isinstance(teams_raw, list) else ["enemy"]
+    if not teams:
+        teams = ["enemy"]
+    return {
+        "enabled": enabled,
+        "teams": teams,
+        "action": str(raw.get("action") or "strike_nearest"),
+        "auto_end_turn": bool(raw.get("auto_end_turn", True)),
+    }
+
+
+def _nearest_enemy_for_actor(state, actor_id: str) -> str | None:
+    actor = state.units[actor_id]
+    enemies = [u for u in state.units.values() if u.alive and u.team != actor.team and u.unit_id != actor_id]
+    if not enemies:
+        return None
+    nearest = sorted(enemies, key=lambda u: (abs(u.x - actor.x) + abs(u.y - actor.y), u.unit_id))[0]
+    return nearest.unit_id
+
+
+def _enemy_policy_command(state, policy: dict) -> dict:
+    actor_id = state.active_unit_id
+    actor = state.units[actor_id]
+    if not actor.alive or actor.actions_remaining <= 0:
+        return {"type": "end_turn", "actor": actor_id}
+
+    if actor.team not in set(policy.get("teams", [])):
+        return {"type": "end_turn", "actor": actor_id}
+
+    action = str(policy.get("action") or "strike_nearest")
+    if action == "strike_nearest":
+        target_id = _nearest_enemy_for_actor(state, actor_id)
+        if target_id:
+            return {"type": "strike", "actor": actor_id, "target": target_id}
+    return {"type": "end_turn", "actor": actor_id}
+
+
 def _check_battle_end(
     events: List[dict],
     state,
@@ -293,6 +334,7 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
     )
     routines_by_unit = _normalize_hazard_routines(scenario)
     mission_events = _normalize_mission_events(scenario)
+    enemy_policy = _normalize_enemy_policy(scenario)
     rng = DeterministicRNG(seed=state.seed)
     events: List[dict] = [
         {
@@ -489,7 +531,104 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
         if ran_routine:
             continue
         if command_index >= len(commands):
-            break
+            if not bool(enemy_policy.get("enabled", False)):
+                break
+
+            policy_actor_id = state.active_unit_id
+            policy_cmd = _enemy_policy_command(state, enemy_policy)
+            events.append(
+                {
+                    "event_id": f"ev_policy_{step_counter:04d}",
+                    "round": state.round_number,
+                    "active_unit": state.active_unit_id,
+                    "type": "enemy_policy_decision",
+                    "payload": {"command": policy_cmd},
+                }
+            )
+
+            try:
+                state, new_events = apply_command(state=state, command=policy_cmd, rng=rng)
+            except ReductionError:
+                if policy_cmd.get("type") != "end_turn":
+                    fallback = {"type": "end_turn", "actor": state.active_unit_id}
+                    try:
+                        state, new_events = apply_command(state=state, command=fallback, rng=rng)
+                        policy_cmd = fallback
+                    except ReductionError as exc:
+                        events.append(
+                            {
+                                "event_id": f"ev_error_{step_counter:04d}",
+                                "round": state.round_number,
+                                "active_unit": state.active_unit_id,
+                                "type": "command_error",
+                                "payload": {"command": fallback, "error": str(exc)},
+                            }
+                        )
+                        stop_reason = "command_error"
+                        break
+                else:
+                    events.append(
+                        {
+                            "event_id": f"ev_error_{step_counter:04d}",
+                            "round": state.round_number,
+                            "active_unit": state.active_unit_id,
+                            "type": "command_error",
+                            "payload": {"command": policy_cmd, "error": "enemy_policy_failed"},
+                        }
+                    )
+                    stop_reason = "command_error"
+                    break
+
+            events.extend(new_events)
+            auto_executed += 1
+            step_counter += 1
+
+            ended, objective_statuses = _check_battle_end(
+                events=events,
+                state=state,
+                objectives=objectives,
+                objective_statuses=objective_statuses,
+                step_counter=step_counter,
+            )
+            if ended:
+                stop_reason = "battle_end"
+                continue
+
+            if (
+                bool(enemy_policy.get("auto_end_turn", True))
+                and policy_cmd.get("type") != "end_turn"
+                and state.active_unit_id == policy_actor_id
+                and state.units[policy_actor_id].alive
+            ):
+                end_turn_cmd = {"type": "end_turn", "actor": policy_actor_id}
+                try:
+                    state, end_events = apply_command(state=state, command=end_turn_cmd, rng=rng)
+                except ReductionError as exc:
+                    events.append(
+                        {
+                            "event_id": f"ev_error_{step_counter:04d}",
+                            "round": state.round_number,
+                            "active_unit": state.active_unit_id,
+                            "type": "command_error",
+                            "payload": {"command": end_turn_cmd, "error": str(exc)},
+                        }
+                    )
+                    stop_reason = "command_error"
+                    break
+                events.extend(end_events)
+                auto_executed += 1
+                step_counter += 1
+
+                ended, objective_statuses = _check_battle_end(
+                    events=events,
+                    state=state,
+                    objectives=objectives,
+                    objective_statuses=objective_statuses,
+                    step_counter=step_counter,
+                )
+                if ended:
+                    stop_reason = "battle_end"
+            continue
 
         cmd = commands[command_index]
         if cmd["actor"] != state.active_unit_id:

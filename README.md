@@ -42,5 +42,10 @@ Run Phase 5 regression matrix: `python3 -m unittest tests/scenarios/test_phase5_
 Run Phase 6 cast-spell smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase6_cast_spell_basic.json --out compiled/phase6_cast_spell_basic_result.json`
 Run Phase 6 use-feat smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase6_use_feat_effect_basic.json --out compiled/phase6_use_feat_effect_basic_result.json`
 Run Phase 6 use-item smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase6_use_item_effect_basic.json --out compiled/phase6_use_item_effect_basic_result.json`
+Run Phase 6 forecast strike smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase6_forecast_strike_basic.json --out compiled/phase6_forecast_strike_basic_result.json`
+Run Phase 6 enemy-policy smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase6_enemy_policy_duel_basic.json --out compiled/phase6_enemy_policy_duel_basic_result.json`
 Run Phase 6 command-variant scenario tests: `python3 -m unittest tests/scenarios/test_phase6_command_variants.py -v`
+Run Phase 6 forecast scenario tests: `python3 -m unittest tests/scenarios/test_phase6_forecast_strike.py -v`
+Run Phase 6 enemy-policy scenario tests: `python3 -m unittest tests/scenarios/test_phase6_enemy_policy.py -v`
+Run Phase 6 regression matrix: `python3 -m unittest tests/scenarios/test_phase6_regression_matrix.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

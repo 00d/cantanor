@@ -17,6 +17,8 @@ class TestPhase6CommandVariants(unittest.TestCase):
         self.assertEqual(cast_event["spell_id"], "ember_burst")
         self.assertEqual(cast_event["action_cost"], 2)
         self.assertEqual(cast_event["actions_remaining"], 1)
+        self.assertEqual(cast_event["forecast"]["kind"], "cast_spell")
+        self.assertEqual(cast_event["forecast"]["damage_formula"], "12")
         self.assertEqual(cast_event["damage"]["damage_type"], "fire")
         self.assertEqual(result["final_state"]["units"]["raider"]["hp"], 40 - cast_event["damage"]["applied_total"])
 

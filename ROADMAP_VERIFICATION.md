@@ -46,11 +46,14 @@ Verified on February 7, 2026.
   - Condition immunity support in direct condition effects, affliction stage application, and modeled hazard condition events.
   - Spawn runtime now preserves unit-level condition immunity metadata (`condition_immunities`).
   - Deterministic Phase 5 regression matrix with 12 mitigation/lifecycle scenarios and locked replay hashes.
-- Phase 6 started:
+- Phase 6 complete:
   - Baseline gameplay command variants: `cast_spell`, `use_feat`, and `use_item`.
   - Action-cost aware command execution for Phase 6 variants (`action_cost` with deterministic budget checks).
   - Reducer-backed effect adapter flow for feat/item usage through lifecycle hooks (`effect_apply`/tick/expire paths).
   - Initial Phase 6 smoke scenarios and scenario-level tests for command variants.
+  - Forecast payload baseline for `strike`/`cast_spell` command previews (degree odds + expected raw damage outputs).
+  - Scenario-level deterministic enemy policy baseline (`strike_nearest` + optional auto end-turn) for non-scripted encounter turns.
+  - Deterministic Phase 6 regression matrix with 5 gameplay-breadth scenarios and locked replay hashes.
 
 ## Verification Evidence
 
@@ -94,6 +97,10 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase6_cast_spell_basic.json` exercises spell command save/damage resolution with action-cost handling.
   - `scenarios/smoke/phase6_use_feat_effect_basic.json` and `scenarios/smoke/phase6_use_item_effect_basic.json` exercise feat/item effect adapter flows into lifecycle hooks.
   - `tests/scenarios/test_phase6_command_variants.py` validates baseline Phase 6 command behavior and deterministic execution.
+  - `tests/contract/test_forecast_payloads.py` validates forecast payload math/shape for strike and cast-spell previews.
+  - `scenarios/smoke/phase6_forecast_strike_basic.json` + `tests/scenarios/test_phase6_forecast_strike.py` exercise forecast payload emission on strike events.
+  - `scenarios/smoke/phase6_enemy_policy_duel_basic.json` + `tests/scenarios/test_phase6_enemy_policy.py` exercise deterministic non-scripted turns via enemy policy.
+  - `tests/scenarios/test_phase6_regression_matrix.py` validates 5 phase 6 gameplay-breadth regressions against `scenarios/regression_phase6/expected_hashes.json`.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -123,7 +130,7 @@ Cross-check focus:
 - Extend JSON schema to enforce per-command required fields via discriminated command variants (currently enforced in loader runtime validation).
 
 4. Encounter systems
-- Expand from deterministic scripted encounter logic to richer enemy decision policies and hazard subsystem state machines.
+- Expand from baseline deterministic enemy policy (`strike_nearest`) to richer tactical policies and hazard subsystem state machines.
 
 5. Frontend game layer
 - Tile renderer, animation timing model, input/UI overlays, forecast panels, and build-management UI.
@@ -136,6 +143,6 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 6 should focus on gameplay breadth beyond encounter scaffolding:
+Phase 7 should focus on gameplay breadth beyond encounter scaffolding:
 - class/feat/spell/item execution pipelines on top of the deterministic core,
 - browser gameplay loop integration (rendering, forecasting, and UX command layers).
