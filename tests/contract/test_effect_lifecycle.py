@@ -370,6 +370,199 @@ class TestEffectLifecycle(unittest.TestCase):
         self.assertEqual(effect_apply["decision"], "cross_source_ignored")
         self.assertEqual(effect_apply["reason"], "lower_or_equal_than_current")
 
+    def test_temp_hp_effect_cross_source_replace_overrides_pool(self) -> None:
+        scenario = {
+            "battle_id": "temp_hp_cross_source_replace",
+            "seed": 992,
+            "map": {"width": 6, "height": 6, "blocked": []},
+            "units": [
+                {
+                    "id": "src_a",
+                    "team": "pc",
+                    "hp": 20,
+                    "position": [1, 1],
+                    "initiative": 20,
+                    "attack_mod": 4,
+                    "ac": 16,
+                    "damage": "1",
+                },
+                {
+                    "id": "src_b",
+                    "team": "pc",
+                    "hp": 20,
+                    "position": [1, 2],
+                    "initiative": 10,
+                    "attack_mod": 4,
+                    "ac": 16,
+                    "damage": "1",
+                },
+                {
+                    "id": "target",
+                    "team": "enemy",
+                    "hp": 20,
+                    "position": [2, 1],
+                    "initiative": 5,
+                    "attack_mod": 4,
+                    "ac": 16,
+                    "damage": "1",
+                },
+            ],
+            "commands": [],
+        }
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+        state, _ = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "src_a",
+                "target": "target",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 7},
+                "duration_rounds": None,
+                "tick_timing": None,
+            },
+            rng,
+        )
+        state, _ = apply_command(state, {"type": "end_turn", "actor": "src_a"}, rng)
+        state, events = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "src_b",
+                "target": "target",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 5, "cross_source": "replace"},
+                "duration_rounds": None,
+                "tick_timing": None,
+            },
+            rng,
+        )
+        self.assertEqual(state.units["target"].temp_hp, 5)
+        self.assertEqual(state.units["target"].temp_hp_source, "unit:src_b")
+        effect_apply = [e for e in events if e["type"] == "effect_apply"][0]["payload"]
+        self.assertEqual(effect_apply["decision"], "cross_source_replaced")
+        self.assertEqual(effect_apply["cross_source"], "replace")
+
+    def test_temp_hp_effect_cross_source_ignore_rejects_even_higher_pool(self) -> None:
+        scenario = {
+            "battle_id": "temp_hp_cross_source_ignore",
+            "seed": 993,
+            "map": {"width": 6, "height": 6, "blocked": []},
+            "units": [
+                {
+                    "id": "src_a",
+                    "team": "pc",
+                    "hp": 20,
+                    "position": [1, 1],
+                    "initiative": 20,
+                    "attack_mod": 4,
+                    "ac": 16,
+                    "damage": "1",
+                },
+                {
+                    "id": "src_b",
+                    "team": "pc",
+                    "hp": 20,
+                    "position": [1, 2],
+                    "initiative": 10,
+                    "attack_mod": 4,
+                    "ac": 16,
+                    "damage": "1",
+                },
+                {
+                    "id": "target",
+                    "team": "enemy",
+                    "hp": 20,
+                    "position": [2, 1],
+                    "initiative": 5,
+                    "attack_mod": 4,
+                    "ac": 16,
+                    "damage": "1",
+                },
+            ],
+            "commands": [],
+        }
+        state = battle_state_from_scenario(scenario)
+        rng = DeterministicRNG(seed=state.seed)
+        state, _ = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "src_a",
+                "target": "target",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 5},
+                "duration_rounds": None,
+                "tick_timing": None,
+            },
+            rng,
+        )
+        state, _ = apply_command(state, {"type": "end_turn", "actor": "src_a"}, rng)
+        state, events = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "src_b",
+                "target": "target",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 9, "cross_source": "ignore"},
+                "duration_rounds": None,
+                "tick_timing": None,
+            },
+            rng,
+        )
+        self.assertEqual(state.units["target"].temp_hp, 5)
+        self.assertEqual(state.units["target"].temp_hp_source, "unit:src_a")
+        effect_apply = [e for e in events if e["type"] == "effect_apply"][0]["payload"]
+        self.assertEqual(effect_apply["decision"], "cross_source_ignored")
+        self.assertEqual(effect_apply["reason"], "cross_source_policy_ignore")
+
+    def test_temp_hp_older_effect_expire_does_not_remove_refreshed_same_source_pool(self) -> None:
+        state = battle_state_from_scenario(_base_scenario())
+        rng = DeterministicRNG(seed=state.seed)
+
+        state, events1 = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "pc",
+                "target": "enemy",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 5, "remove_on_expire": True},
+                "duration_rounds": 1,
+                "tick_timing": None,
+            },
+            rng,
+        )
+        old_effect_id = [e for e in events1 if e["type"] == "effect_apply"][0]["payload"]["effect_id"]
+
+        state, events2 = apply_command(
+            state,
+            {
+                "type": "apply_effect",
+                "actor": "pc",
+                "target": "enemy",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 7, "remove_on_expire": True},
+                "duration_rounds": 2,
+                "tick_timing": None,
+            },
+            rng,
+        )
+        new_effect_id = [e for e in events2 if e["type"] == "effect_apply"][0]["payload"]["effect_id"]
+        self.assertNotEqual(old_effect_id, new_effect_id)
+        self.assertEqual(state.units["enemy"].temp_hp, 7)
+        self.assertEqual(state.units["enemy"].temp_hp_owner_effect_id, new_effect_id)
+
+        state, _ = apply_command(state, {"type": "end_turn", "actor": "pc"}, rng)
+        state, events = apply_command(state, {"type": "end_turn", "actor": "enemy"}, rng)
+
+        self.assertEqual(state.units["enemy"].temp_hp, 7)
+        expire_old = [e for e in events if e["type"] == "effect_expire" and e["payload"].get("effect_id") == old_effect_id]
+        self.assertTrue(expire_old)
+        self.assertEqual(expire_old[0]["payload"]["removed_temp_hp"], 0)
+
     def test_temp_hp_effect_expire_removes_remaining_temp_hp(self) -> None:
         state = battle_state_from_scenario(_base_scenario())
         rng = DeterministicRNG(seed=state.seed)

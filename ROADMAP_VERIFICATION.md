@@ -69,6 +69,7 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase5_temp_hp_basic.json` exercises temp-HP-first damage consumption for strike damage.
   - `scenarios/smoke/phase5_temp_hp_effect_basic.json` exercises temp-HP grant via effect lifecycle and later strike absorption.
   - `scenarios/smoke/phase5_temp_hp_expire_basic.json` exercises temp-HP effect expiration and cleanup of remaining pool.
+  - `scenarios/smoke/phase5_temp_hp_source_policy_basic.json` exercises cross-source temp-HP precedence (`ignore` then `replace`).
   - `tests/contract/test_effect_lifecycle.py` includes source-aware temp-HP behavior checks (same-source refresh and cross-source higher-only precedence).
   - `tests/contract/test_damage_mitigation_runtime.py` validates modeled/strike/save command mitigation behavior.
   - `scenarios/smoke/phase5_persistent_recovery_basic.json` exercises persistent damage recovery and expiration flow.

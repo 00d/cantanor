@@ -30,6 +30,7 @@ Run Phase 5 grouped-mitigation smoke scenario: `python3 -m engine.cli.run_scenar
 Run Phase 5 temp-HP mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_basic.json --out compiled/phase5_temp_hp_basic_result.json`
 Run Phase 5 temp-HP effect smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_effect_basic.json --out compiled/phase5_temp_hp_effect_basic_result.json`
 Run Phase 5 temp-HP expire smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_expire_basic.json --out compiled/phase5_temp_hp_expire_basic_result.json`
+Run Phase 5 temp-HP source-policy smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_source_policy_basic.json --out compiled/phase5_temp_hp_source_policy_basic_result.json`
 Run Phase 5 persistent recovery smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_persistent_recovery_basic.json --out compiled/phase5_persistent_recovery_basic_result.json`
 Run Phase 5 condition immunity smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_condition_immunity_basic.json --out compiled/phase5_condition_immunity_basic_result.json`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`
