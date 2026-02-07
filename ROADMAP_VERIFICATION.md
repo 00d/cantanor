@@ -54,6 +54,10 @@ Verified on February 7, 2026.
   - Forecast payload baseline for `strike`/`cast_spell` command previews (degree odds + expected raw damage outputs).
   - Scenario-level deterministic enemy policy baseline (`strike_nearest` + optional auto end-turn) for non-scripted encounter turns.
   - Deterministic Phase 6 regression matrix with 5 gameplay-breadth scenarios and locked replay hashes.
+- Phase 7 started:
+  - M7.1 content-pack contract baseline scaffolded (`engine/io/content_pack_loader.py`, `engine/io/schemas/content_pack.schema.json`).
+  - Baseline versioned sample pack added at `corpus/content_packs/phase7_baseline_v1.json`.
+  - Contract coverage added for pack validation and phase compatibility checks.
 
 ## Verification Evidence
 
@@ -101,6 +105,7 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase6_forecast_strike_basic.json` + `tests/scenarios/test_phase6_forecast_strike.py` exercise forecast payload emission on strike events.
   - `scenarios/smoke/phase6_enemy_policy_duel_basic.json` + `tests/scenarios/test_phase6_enemy_policy.py` exercise deterministic non-scripted turns via enemy policy.
   - `tests/scenarios/test_phase6_regression_matrix.py` validates 5 phase 6 gameplay-breadth regressions against `scenarios/regression_phase6/expected_hashes.json`.
+  - `tests/contract/test_content_pack_loader.py` validates phase 7 content-pack contracts (semver, compatibility bounds, duplicate entry rejection, loader integration).
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -126,7 +131,7 @@ Cross-check focus:
 - Deepen tactical geometry and visibility fidelity beyond current baseline LOE/LOS behavior for high-density maps.
 
 3. Content/runtime integration
-- Build a versioned content pack compiler (book-scoped bundles + compatibility tags).
+- Build a versioned content pack compiler pipeline on top of the new pack contract baseline (book-scoped bundles + compatibility tags).
 - Extend JSON schema to enforce per-command required fields via discriminated command variants (currently enforced in loader runtime validation).
 
 4. Encounter systems
@@ -143,6 +148,6 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 7 should focus on gameplay breadth beyond encounter scaffolding:
+Phase 7 should continue with gameplay breadth beyond encounter scaffolding:
 - class/feat/spell/item execution pipelines on top of the deterministic core,
 - browser gameplay loop integration (rendering, forecasting, and UX command layers).
