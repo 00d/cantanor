@@ -61,6 +61,10 @@ Verified on February 7, 2026.
   - M7.2 interact command baseline added (`interact` command variant with deterministic action-cost, optional flag updates, and effect lifecycle wiring).
   - M7.3 pack-aware scenario integration added (scenario-level `content_packs` resolution, phase compatibility checks, optional feature-tag requirements, and browser-facing `content_pack_context`/`content_pack_resolved` payloads).
   - M7.4 deterministic Phase 7 regression matrix added with locked replay hashes.
+- Phase 8 started:
+  - M8.1 content-entry command template baseline added (`content_entry_id` materialization into `cast_spell` / `use_feat` / `use_item` / `interact` runtime command payloads).
+  - Scenario-level `engine_phase` contract added so compatibility checks can evolve per scenario without breaking older hashes.
+  - Deterministic mismatch handling added for content-entry command-type conflicts (runtime `command_error` path).
 
 ## Verification Evidence
 
@@ -112,6 +116,8 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase7_interact_basic.json` + `tests/scenarios/test_phase7_interact_command.py` validate phase 7 `interact` command behavior and lifecycle integration.
   - `scenarios/smoke/phase7_content_pack_integration_basic.json` + `tests/scenarios/test_phase7_content_pack_integration.py` validate scenario-level content pack resolution and integration payload contracts.
   - `tests/scenarios/test_phase7_regression_matrix.py` validates 5 phase 7 regressions against `scenarios/regression_phase7/expected_hashes.json`.
+  - `scenarios/smoke/phase8_pack_cast_spell_basic.json` and `scenarios/smoke/phase8_pack_use_feat_basic.json` validate phase 8 pack-template command execution for spell/feat flows.
+  - `tests/scenarios/test_phase8_content_entry_templates.py` validates template materialization and mismatch error handling.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -154,7 +160,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 8 should expand browser/runtime integration breadth beyond Phase 7 pack scaffolding:
-- class/feat/spell/item execution breadth on top of pack-aware scenario loading,
-- browser gameplay loop integration (rendering, forecasting, and UX command layers),
-- richer deterministic tactical policies beyond baseline `strike_nearest`.
+Continue Phase 8 with M8.2 and M8.3:
+- pack-driven enemy policy action selection (beyond `strike_nearest`),
+- phase 8 regression matrix + expected hash lock for template-driven scenarios,
+- browser-facing event trace expansion for template source/policy rationale.

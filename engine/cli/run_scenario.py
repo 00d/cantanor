@@ -14,7 +14,7 @@ from engine.io.content_pack_loader import resolve_scenario_content_context
 from engine.io.event_log import replay_hash
 from engine.io.scenario_loader import battle_state_from_scenario, load_scenario
 
-CURRENT_ENGINE_PHASE = 7
+DEFAULT_ENGINE_PHASE = 7
 
 
 def _alive_teams(state) -> set[str]:
@@ -45,6 +45,50 @@ def _state_snapshot(state) -> Dict[str, object]:
         },
         "flags": dict(sorted(state.flags.items())),
     }
+
+
+def _default_command_id_from_entry(entry_id: str) -> str:
+    if "." in entry_id:
+        return entry_id.split(".", 1)[1]
+    return entry_id
+
+
+def _materialize_content_entry_command(command: dict, content_context: dict) -> dict:
+    """Resolve content-entry templates into reducer-ready command payloads."""
+
+    out = dict(command)
+    entry_id = out.get("content_entry_id")
+    if entry_id is None:
+        return out
+    entry_id = str(entry_id)
+    lookup = dict(content_context.get("entry_lookup", {}))
+    entry = lookup.get(entry_id)
+    if entry is None:
+        raise ReductionError(f"unknown content entry {entry_id}")
+
+    payload_template = dict(entry.get("payload", {}))
+    template_type = payload_template.get("command_type")
+    command_type = str(out.get("type") or "")
+    if template_type is not None and str(template_type) != command_type:
+        raise ReductionError(f"content entry {entry_id} command_type mismatch: {template_type} != {command_type}")
+
+    if command_type not in {"cast_spell", "use_feat", "use_item", "interact"}:
+        raise ReductionError(f"content_entry_id unsupported for command type: {command_type}")
+
+    payload_template.pop("command_type", None)
+    merged = dict(payload_template)
+    merged.update(out)
+
+    if command_type == "cast_spell" and not merged.get("spell_id"):
+        merged["spell_id"] = _default_command_id_from_entry(entry_id)
+    elif command_type == "use_feat" and not merged.get("feat_id"):
+        merged["feat_id"] = _default_command_id_from_entry(entry_id)
+    elif command_type == "use_item" and not merged.get("item_id"):
+        merged["item_id"] = _default_command_id_from_entry(entry_id)
+    elif command_type == "interact" and not merged.get("interact_id"):
+        merged["interact_id"] = _default_command_id_from_entry(entry_id)
+
+    return merged
 
 
 def _normalize_hazard_routines(scenario: Dict[str, object]) -> Dict[str, List[dict]]:
@@ -330,10 +374,11 @@ def _check_battle_end(
 
 def run_scenario_file(path: Path) -> Dict[str, object]:
     scenario = load_scenario(path)
+    engine_phase = int(scenario.get("engine_phase", DEFAULT_ENGINE_PHASE))
     content_context = resolve_scenario_content_context(
         scenario,
         scenario_path=path,
-        engine_phase=CURRENT_ENGINE_PHASE,
+        engine_phase=engine_phase,
     )
     state = battle_state_from_scenario(scenario)
     objectives = expand_objective_packs(
@@ -353,7 +398,7 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
                 "active_unit": state.active_unit_id,
                 "type": "content_pack_resolved",
                 "payload": {
-                    "engine_phase": CURRENT_ENGINE_PHASE,
+                    "engine_phase": engine_phase,
                     "selected_pack_id": content_context.get("selected_pack_id"),
                     "pack_count": len(list(content_context.get("packs", []))),
                     "entry_count": len(dict(content_context.get("entry_lookup", {}))),
@@ -438,6 +483,10 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
             for raw_command in event_commands:
                 mission_command = _mission_command(raw_command, state.active_unit_id)
                 try:
+                    mission_command = _materialize_content_entry_command(
+                        mission_command,
+                        content_context,
+                    )
                     state, new_events = apply_command(state=state, command=mission_command, rng=rng)
                 except ReductionError as exc:
                     events.append(
@@ -656,21 +705,8 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
             continue
 
         cmd = commands[command_index]
-        if cmd["actor"] != state.active_unit_id:
-            events.append(
-                {
-                    "event_id": f"ev_error_{step_counter:04d}",
-                    "round": state.round_number,
-                    "active_unit": state.active_unit_id,
-                    "type": "command_error",
-                    "payload": {"command": cmd, "error": f"actor {cmd['actor']} is not active unit {state.active_unit_id}"},
-                }
-            )
-            stop_reason = "command_error"
-            break
-
         try:
-            state, new_events = apply_command(state=state, command=cmd, rng=rng)
+            command_for_turn = _materialize_content_entry_command(cmd, content_context)
         except ReductionError as exc:
             events.append(
                 {
@@ -679,6 +715,36 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
                     "active_unit": state.active_unit_id,
                     "type": "command_error",
                     "payload": {"command": cmd, "error": str(exc)},
+                }
+            )
+            stop_reason = "command_error"
+            break
+        if command_for_turn["actor"] != state.active_unit_id:
+            events.append(
+                {
+                    "event_id": f"ev_error_{step_counter:04d}",
+                    "round": state.round_number,
+                    "active_unit": state.active_unit_id,
+                    "type": "command_error",
+                    "payload": {
+                        "command": command_for_turn,
+                        "error": f"actor {command_for_turn['actor']} is not active unit {state.active_unit_id}",
+                    },
+                }
+            )
+            stop_reason = "command_error"
+            break
+
+        try:
+            state, new_events = apply_command(state=state, command=command_for_turn, rng=rng)
+        except ReductionError as exc:
+            events.append(
+                {
+                    "event_id": f"ev_error_{step_counter:04d}",
+                    "round": state.round_number,
+                    "active_unit": state.active_unit_id,
+                    "type": "command_error",
+                    "payload": {"command": command_for_turn, "error": str(exc)},
                 }
             )
             stop_reason = "command_error"
@@ -704,6 +770,7 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
     result = {
         "battle_id": state.battle_id,
         "seed": state.seed,
+        "engine_phase": engine_phase,
         "executed_commands": scripted_executed,
         "auto_executed_commands": auto_executed,
         "stop_reason": stop_reason,

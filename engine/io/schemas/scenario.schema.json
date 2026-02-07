@@ -7,6 +7,7 @@
   "properties": {
     "battle_id": {"type": "string"},
     "seed": {"type": "integer"},
+    "engine_phase": {"type": "integer", "minimum": 1},
     "content_packs": {
       "type": "array",
       "items": {"type": "string", "minLength": 1}

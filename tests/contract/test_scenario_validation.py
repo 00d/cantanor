@@ -214,9 +214,28 @@ class TestScenarioValidation(unittest.TestCase):
         scenario["required_content_features"] = ["content_pack_loader"]
         validate_scenario(scenario)
 
+    def test_accepts_content_entry_cast_spell_compact_shape(self) -> None:
+        scenario = _base_scenario()
+        scenario["commands"] = [
+            {
+                "type": "cast_spell",
+                "actor": "hazard_core",
+                "content_entry_id": "spell.arc_flash",
+                "target": "pc",
+                "dc": 20,
+            }
+        ]
+        validate_scenario(scenario)
+
     def test_rejects_content_pack_id_without_packs(self) -> None:
         scenario = _base_scenario()
         scenario["content_pack_id"] = "phase7-baseline-v1"
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
+    def test_rejects_non_positive_engine_phase(self) -> None:
+        scenario = _base_scenario()
+        scenario["engine_phase"] = 0
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 

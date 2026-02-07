@@ -111,6 +111,7 @@ def _validate_command(
             isinstance(cmd.get("content_entry_id"), str) and bool(cmd["content_entry_id"]),
             f"{context} content_entry_id must be non-empty string",
         )
+    has_content_entry = bool(cmd.get("content_entry_id"))
 
     if ctype == "move":
         _require("x" in cmd and "y" in cmd, f"{context} move requires x and y")
@@ -129,10 +130,15 @@ def _validate_command(
         if "mode" in cmd:
             _require(str(cmd["mode"]) == "basic", f"{context} save_damage mode must be basic")
     elif ctype == "cast_spell":
-        for key in ("spell_id", "target", "dc", "save_type", "damage"):
+        for key in ("target", "dc"):
             _require(key in cmd, f"{context} cast_spell missing key: {key}")
-        _require(isinstance(cmd.get("spell_id"), str) and bool(cmd["spell_id"]), f"{context} cast_spell spell_id must be non-empty string")
-        _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} cast_spell save_type invalid")
+        if not has_content_entry:
+            for key in ("spell_id", "save_type", "damage"):
+                _require(key in cmd, f"{context} cast_spell missing key: {key}")
+        if "spell_id" in cmd:
+            _require(isinstance(cmd.get("spell_id"), str) and bool(cmd["spell_id"]), f"{context} cast_spell spell_id must be non-empty string")
+        if "save_type" in cmd:
+            _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} cast_spell save_type invalid")
         if "damage_type" in cmd:
             _require(isinstance(cmd.get("damage_type"), str) and bool(cmd["damage_type"]), f"{context} cast_spell damage_type must be non-empty string")
         if "damage_bypass" in cmd:
@@ -159,9 +165,14 @@ def _validate_command(
         for key in ("target", "effect_kind"):
             _require(key in cmd, f"{context} apply_effect missing key: {key}")
     elif ctype == "use_feat":
-        for key in ("feat_id", "target", "effect_kind"):
-            _require(key in cmd, f"{context} use_feat missing key: {key}")
-        _require(isinstance(cmd.get("feat_id"), str) and bool(cmd["feat_id"]), f"{context} use_feat feat_id must be non-empty string")
+        _require("target" in cmd, f"{context} use_feat missing key: target")
+        if not has_content_entry:
+            for key in ("feat_id", "effect_kind"):
+                _require(key in cmd, f"{context} use_feat missing key: {key}")
+        if "feat_id" in cmd:
+            _require(isinstance(cmd.get("feat_id"), str) and bool(cmd["feat_id"]), f"{context} use_feat feat_id must be non-empty string")
+        if "effect_kind" in cmd:
+            _require(isinstance(cmd.get("effect_kind"), str) and bool(cmd["effect_kind"]), f"{context} use_feat effect_kind must be non-empty string")
         if "payload" in cmd:
             _require(isinstance(cmd["payload"], dict), f"{context} use_feat payload must be object")
         if "duration_rounds" in cmd and cmd["duration_rounds"] is not None:
@@ -171,9 +182,14 @@ def _validate_command(
         if "action_cost" in cmd:
             _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} use_feat action_cost must be positive int")
     elif ctype == "use_item":
-        for key in ("item_id", "target", "effect_kind"):
-            _require(key in cmd, f"{context} use_item missing key: {key}")
-        _require(isinstance(cmd.get("item_id"), str) and bool(cmd["item_id"]), f"{context} use_item item_id must be non-empty string")
+        _require("target" in cmd, f"{context} use_item missing key: target")
+        if not has_content_entry:
+            for key in ("item_id", "effect_kind"):
+                _require(key in cmd, f"{context} use_item missing key: {key}")
+        if "item_id" in cmd:
+            _require(isinstance(cmd.get("item_id"), str) and bool(cmd["item_id"]), f"{context} use_item item_id must be non-empty string")
+        if "effect_kind" in cmd:
+            _require(isinstance(cmd.get("effect_kind"), str) and bool(cmd["effect_kind"]), f"{context} use_item effect_kind must be non-empty string")
         if "payload" in cmd:
             _require(isinstance(cmd["payload"], dict), f"{context} use_item payload must be object")
         if "duration_rounds" in cmd and cmd["duration_rounds"] is not None:
@@ -183,8 +199,10 @@ def _validate_command(
         if "action_cost" in cmd:
             _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} use_item action_cost must be positive int")
     elif ctype == "interact":
-        _require("interact_id" in cmd, f"{context} interact missing key: interact_id")
-        _require(isinstance(cmd.get("interact_id"), str) and bool(cmd["interact_id"]), f"{context} interact_id must be non-empty string")
+        if not has_content_entry:
+            _require("interact_id" in cmd, f"{context} interact missing key: interact_id")
+        if "interact_id" in cmd:
+            _require(isinstance(cmd.get("interact_id"), str) and bool(cmd["interact_id"]), f"{context} interact_id must be non-empty string")
         if "effect_kind" in cmd and cmd["effect_kind"] is not None:
             _require(isinstance(cmd["effect_kind"], str) and bool(cmd["effect_kind"]), f"{context} interact effect_kind must be non-empty string when present")
         if "payload" in cmd:
@@ -251,6 +269,8 @@ def _validate_command_block(
 def validate_scenario(data: Dict[str, Any]) -> None:
     required_top = {"battle_id", "seed", "map", "units", "commands"}
     _require(required_top <= set(data.keys()), f"missing required keys: {required_top - set(data.keys())}")
+    if "engine_phase" in data:
+        _require(isinstance(data["engine_phase"], int) and int(data["engine_phase"]) > 0, "engine_phase must be positive int when present")
 
     map_data = data["map"]
     _require(isinstance(map_data, dict), "map must be an object")

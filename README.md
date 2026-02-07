@@ -13,6 +13,7 @@ Verify Phase 2.5 consistency: `python3 scripts/verify_phase25_consistency.py`
 Phase 3 execution plan: `PHASE3_IMPLEMENTATION_PLAN.md`
 Phase 6 execution plan: `PHASE6_IMPLEMENTATION_PLAN.md`
 Phase 7 execution plan: `PHASE7_IMPLEMENTATION_PLAN.md`
+Phase 8 execution plan: `PHASE8_IMPLEMENTATION_PLAN.md`
 Phase 7 sample content pack: `corpus/content_packs/phase7_baseline_v1.json`
 Run Phase 3 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/hidden_pit_basic.json --out compiled/hidden_pit_basic_result.json`
 Run Phase 3 M2 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/m2_save_effect_basic.json --out compiled/m2_save_effect_basic_result.json`
@@ -56,4 +57,7 @@ Run Phase 7 interact scenario tests: `python3 -m unittest tests/scenarios/test_p
 Run Phase 7 content-pack integration smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase7_content_pack_integration_basic.json --out compiled/phase7_content_pack_integration_basic_result.json`
 Run Phase 7 content-pack integration scenario tests: `python3 -m unittest tests/scenarios/test_phase7_content_pack_integration.py -v`
 Run Phase 7 regression matrix: `python3 -m unittest tests/scenarios/test_phase7_regression_matrix.py -v`
+Run Phase 8 pack-template cast-spell smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase8_pack_cast_spell_basic.json --out compiled/phase8_pack_cast_spell_basic_result.json`
+Run Phase 8 pack-template use-feat smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase8_pack_use_feat_basic.json --out compiled/phase8_pack_use_feat_basic_result.json`
+Run Phase 8 content-entry template tests: `python3 -m unittest tests/scenarios/test_phase8_content_entry_templates.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`
