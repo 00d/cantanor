@@ -345,8 +345,18 @@ def validate_scenario(data: Dict[str, Any]) -> None:
             _require(isinstance(teams, list), "enemy_policy.teams must be list")
             for idx, team in enumerate(teams):
                 _require(isinstance(team, str) and bool(team), f"enemy_policy.teams[{idx}] must be non-empty string")
-        if "action" in enemy_policy:
-            _require(str(enemy_policy["action"]) in ("strike_nearest",), "enemy_policy.action invalid")
+        action = str(enemy_policy.get("action") or "strike_nearest")
+        _require(
+            action in ("strike_nearest", "cast_spell_entry_nearest", "use_feat_entry_self", "use_item_entry_self", "interact_entry_self"),
+            "enemy_policy.action invalid",
+        )
+        if action in ("cast_spell_entry_nearest", "use_feat_entry_self", "use_item_entry_self", "interact_entry_self"):
+            _require(
+                isinstance(enemy_policy.get("content_entry_id"), str) and bool(enemy_policy["content_entry_id"]),
+                f"enemy_policy.content_entry_id required for action {action}",
+            )
+        if action == "cast_spell_entry_nearest":
+            _require(isinstance(enemy_policy.get("dc"), int) and int(enemy_policy["dc"]) > 0, "enemy_policy.dc must be positive int for cast_spell_entry_nearest")
         if "auto_end_turn" in enemy_policy:
             _require(isinstance(enemy_policy["auto_end_turn"], bool), "enemy_policy.auto_end_turn must be bool")
 

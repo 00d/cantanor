@@ -61,10 +61,12 @@ Verified on February 7, 2026.
   - M7.2 interact command baseline added (`interact` command variant with deterministic action-cost, optional flag updates, and effect lifecycle wiring).
   - M7.3 pack-aware scenario integration added (scenario-level `content_packs` resolution, phase compatibility checks, optional feature-tag requirements, and browser-facing `content_pack_context`/`content_pack_resolved` payloads).
   - M7.4 deterministic Phase 7 regression matrix added with locked replay hashes.
-- Phase 8 started:
+- Phase 8 complete:
   - M8.1 content-entry command template baseline added (`content_entry_id` materialization into `cast_spell` / `use_feat` / `use_item` / `interact` runtime command payloads).
   - Scenario-level `engine_phase` contract added so compatibility checks can evolve per scenario without breaking older hashes.
   - Deterministic mismatch handling added for content-entry command-type conflicts (runtime `command_error` path).
+  - M8.2 pack-driven enemy policy actions added (`cast_spell_entry_nearest`, `use_feat_entry_self`, `use_item_entry_self`, `interact_entry_self`) with deterministic template materialization through content packs.
+  - M8.3 deterministic Phase 8 regression matrix added with locked replay hashes.
 
 ## Verification Evidence
 
@@ -118,6 +120,8 @@ Verified on February 7, 2026.
   - `tests/scenarios/test_phase7_regression_matrix.py` validates 5 phase 7 regressions against `scenarios/regression_phase7/expected_hashes.json`.
   - `scenarios/smoke/phase8_pack_cast_spell_basic.json` and `scenarios/smoke/phase8_pack_use_feat_basic.json` validate phase 8 pack-template command execution for spell/feat flows.
   - `tests/scenarios/test_phase8_content_entry_templates.py` validates template materialization and mismatch error handling.
+  - `scenarios/smoke/phase8_enemy_policy_pack_spell_basic.json` + `tests/scenarios/test_phase8_enemy_policy_templates.py` validate pack-driven enemy policy action selection and execution.
+  - `tests/scenarios/test_phase8_regression_matrix.py` validates 5 phase 8 regressions against `scenarios/regression_phase8/expected_hashes.json`.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -160,7 +164,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Continue Phase 8 with M8.2 and M8.3:
-- pack-driven enemy policy action selection (beyond `strike_nearest`),
-- phase 8 regression matrix + expected hash lock for template-driven scenarios,
-- browser-facing event trace expansion for template source/policy rationale.
+Phase 9 should focus on browser command-authoring and tactical policy depth:
+- command-intent authoring contracts for UI command builders against content entries,
+- richer deterministic policy scoring beyond nearest-target heuristics,
+- event payload expansion for UI overlays (forecast slices, policy rationale, and source traces).

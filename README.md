@@ -59,5 +59,8 @@ Run Phase 7 content-pack integration scenario tests: `python3 -m unittest tests/
 Run Phase 7 regression matrix: `python3 -m unittest tests/scenarios/test_phase7_regression_matrix.py -v`
 Run Phase 8 pack-template cast-spell smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase8_pack_cast_spell_basic.json --out compiled/phase8_pack_cast_spell_basic_result.json`
 Run Phase 8 pack-template use-feat smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase8_pack_use_feat_basic.json --out compiled/phase8_pack_use_feat_basic_result.json`
+Run Phase 8 pack-template enemy-policy spell smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase8_enemy_policy_pack_spell_basic.json --out compiled/phase8_enemy_policy_pack_spell_basic_result.json`
 Run Phase 8 content-entry template tests: `python3 -m unittest tests/scenarios/test_phase8_content_entry_templates.py -v`
+Run Phase 8 enemy-policy template tests: `python3 -m unittest tests/scenarios/test_phase8_enemy_policy_templates.py -v`
+Run Phase 8 regression matrix: `python3 -m unittest tests/scenarios/test_phase8_regression_matrix.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

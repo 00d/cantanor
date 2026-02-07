@@ -285,6 +285,8 @@ def _normalize_enemy_policy(scenario: Dict[str, object]) -> dict:
         "enabled": enabled,
         "teams": teams,
         "action": str(raw.get("action") or "strike_nearest"),
+        "content_entry_id": raw.get("content_entry_id"),
+        "dc": raw.get("dc"),
         "auto_end_turn": bool(raw.get("auto_end_turn", True)),
     }
 
@@ -312,6 +314,39 @@ def _enemy_policy_command(state, policy: dict) -> dict:
         target_id = _nearest_enemy_for_actor(state, actor_id)
         if target_id:
             return {"type": "strike", "actor": actor_id, "target": target_id}
+        return {"type": "end_turn", "actor": actor_id}
+    if action == "cast_spell_entry_nearest":
+        target_id = _nearest_enemy_for_actor(state, actor_id)
+        if target_id:
+            return {
+                "type": "cast_spell",
+                "actor": actor_id,
+                "content_entry_id": str(policy.get("content_entry_id") or ""),
+                "target": target_id,
+                "dc": int(policy.get("dc") or 0),
+            }
+        return {"type": "end_turn", "actor": actor_id}
+    if action == "use_feat_entry_self":
+        return {
+            "type": "use_feat",
+            "actor": actor_id,
+            "content_entry_id": str(policy.get("content_entry_id") or ""),
+            "target": actor_id,
+        }
+    if action == "use_item_entry_self":
+        return {
+            "type": "use_item",
+            "actor": actor_id,
+            "content_entry_id": str(policy.get("content_entry_id") or ""),
+            "target": actor_id,
+        }
+    if action == "interact_entry_self":
+        return {
+            "type": "interact",
+            "actor": actor_id,
+            "content_entry_id": str(policy.get("content_entry_id") or ""),
+            "target": actor_id,
+        }
     return {"type": "end_turn", "actor": actor_id}
 
 
@@ -609,7 +644,21 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
                 break
 
             policy_actor_id = state.active_unit_id
-            policy_cmd = _enemy_policy_command(state, enemy_policy)
+            policy_cmd_raw = _enemy_policy_command(state, enemy_policy)
+            try:
+                policy_cmd = _materialize_content_entry_command(policy_cmd_raw, content_context)
+            except ReductionError as exc:
+                events.append(
+                    {
+                        "event_id": f"ev_error_{step_counter:04d}",
+                        "round": state.round_number,
+                        "active_unit": state.active_unit_id,
+                        "type": "command_error",
+                        "payload": {"command": policy_cmd_raw, "error": str(exc)},
+                    }
+                )
+                stop_reason = "command_error"
+                break
             events.append(
                 {
                     "event_id": f"ev_policy_{step_counter:04d}",

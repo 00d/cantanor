@@ -2,7 +2,7 @@
 
 This phase begins post-Phase-7 expansion focused on pack-driven gameplay execution and browser-ready command composition.
 
-Status: In progress as of February 7, 2026 (M8.1 complete).
+Status: Completed on February 7, 2026 (M8.1 through M8.3 achieved).
 
 ## Phase 8 Goal
 
@@ -53,14 +53,14 @@ Gate 3: Backward safety
 M8.1: Content-entry template baseline (complete)
 - Exit criteria: runtime materialization + compact command validation + smoke/tests.
 
-M8.2: Pack-driven enemy policy actions
+M8.2: Pack-driven enemy policy actions (complete)
 - Exit criteria: enemy policy can select configured pack-template actions with deterministic tie-breaks.
 
-M8.3: Regression lock
+M8.3: Regression lock (complete)
 - Exit criteria: phase 8 matrix and expected hashes enforced.
 
 ## Immediate Next Actions
 
-1. Extend `enemy_policy` action set to include template-driven spell/feat decisions.
-2. Add phase 8 regression matrix (`scenarios/regression_phase8`) with expected hashes.
-3. Expand browser-facing event payloads for policy rationale and template source trace.
+1. Start Phase 9 planning for browser-facing command-authoring and UI event projection contracts.
+2. Expand policy behavior breadth beyond nearest-target heuristics (multi-option deterministic scoring).
+3. Add phase 9 regression matrix once new policy families and UI-facing payloads are stable.

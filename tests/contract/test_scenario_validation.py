@@ -179,6 +179,34 @@ class TestScenarioValidation(unittest.TestCase):
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 
+    def test_accepts_enemy_policy_template_action_shape(self) -> None:
+        scenario = _base_scenario()
+        scenario["enemy_policy"] = {
+            "enabled": True,
+            "teams": ["hazard"],
+            "action": "cast_spell_entry_nearest",
+            "content_entry_id": "spell.arc_flash",
+            "dc": 21,
+            "auto_end_turn": True,
+        }
+        validate_scenario(scenario)
+
+    def test_rejects_enemy_policy_template_missing_content_entry(self) -> None:
+        scenario = _base_scenario()
+        scenario["enemy_policy"] = {"enabled": True, "action": "use_feat_entry_self"}
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
+    def test_rejects_enemy_policy_cast_spell_template_missing_dc(self) -> None:
+        scenario = _base_scenario()
+        scenario["enemy_policy"] = {
+            "enabled": True,
+            "action": "cast_spell_entry_nearest",
+            "content_entry_id": "spell.arc_flash",
+        }
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
     def test_accepts_interact_command_variant(self) -> None:
         scenario = _base_scenario()
         scenario["commands"] = [

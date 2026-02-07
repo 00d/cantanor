@@ -67,7 +67,18 @@
           "type": "array",
           "items": {"type": "string"}
         },
-        "action": {"type": "string", "enum": ["strike_nearest"]},
+        "action": {
+          "type": "string",
+          "enum": [
+            "strike_nearest",
+            "cast_spell_entry_nearest",
+            "use_feat_entry_self",
+            "use_item_entry_self",
+            "interact_entry_self"
+          ]
+        },
+        "content_entry_id": {"type": "string"},
+        "dc": {"type": "integer", "minimum": 1},
         "auto_end_turn": {"type": "boolean"}
       }
     },
