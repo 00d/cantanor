@@ -72,6 +72,25 @@ def _emit_lifecycle_events(events: List[dict], state: BattleState, lifecycle_eve
         _append_event(events, state, event_type, payload)
 
 
+def _command_action_cost(command: dict, default_cost: int) -> int:
+    raw = command.get("action_cost", default_cost)
+    try:
+        cost = int(raw)
+    except (TypeError, ValueError) as exc:
+        raise ReductionError(f"invalid action_cost: {raw}") from exc
+    if cost <= 0:
+        raise ReductionError(f"action_cost must be positive, got {cost}")
+    return cost
+
+
+def _spend_actions(actor: UnitState, action_cost: int) -> None:
+    if actor.actions_remaining < action_cost:
+        raise ReductionError(
+            f"actor has insufficient actions remaining ({actor.actions_remaining}) for cost {action_cost}"
+        )
+    actor.actions_remaining -= action_cost
+
+
 def _unit_save_profile(state: BattleState, unit_id: str) -> SaveProfile:
     unit = state.units[unit_id]
     return SaveProfile(
@@ -676,6 +695,103 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         _emit_lifecycle_events(events, next_state, process_timing(next_state, rng, "turn_start"))
         return next_state, events
 
+    if command_type == "cast_spell":
+        spell_id = str(command.get("spell_id") or "")
+        if not spell_id:
+            raise ReductionError("cast_spell requires spell_id")
+        action_cost = _command_action_cost(command, default_cost=2)
+        _spend_actions(actor, action_cost)
+
+        target_id = command["target"]
+        target = next_state.units.get(target_id)
+        if target is None:
+            raise ReductionError(f"unknown target {target_id}")
+        if not target.alive:
+            raise ReductionError(f"target {target_id} is not alive")
+
+        dc = int(command["dc"])
+        save_type = command["save_type"]
+        damage_formula = str(command["damage"])
+        damage_type = str(command.get("damage_type") or "").lower() or None
+        damage_bypass = [str(x).lower() for x in list(command.get("damage_bypass", []))]
+        mode = command.get("mode", "basic")
+        if mode != "basic":
+            raise ReductionError(f"unsupported cast_spell mode: {mode}")
+
+        save = resolve_save(
+            rng=rng,
+            save_type=save_type,
+            profile=_unit_save_profile(next_state, target_id),
+            dc=dc,
+        )
+        multiplier = basic_save_multiplier(save.degree)
+        damage_roll = roll_damage(rng, damage_formula)
+        raw_total = int(damage_roll.total * multiplier)
+        adjustment = apply_damage_modifiers(
+            raw_total=raw_total,
+            damage_type=damage_type,
+            resistances=target.resistances,
+            weaknesses=target.weaknesses,
+            immunities=target.immunities,
+            bypass=damage_bypass,
+        )
+        damage_total = adjustment.applied_total
+        applied_damage = apply_damage_to_pool(
+            hp=target.hp,
+            temp_hp=target.temp_hp,
+            damage_total=damage_total,
+        )
+        target.hp = applied_damage.new_hp
+        target.temp_hp = applied_damage.new_temp_hp
+        if target.temp_hp == 0:
+            target.temp_hp_source = None
+            target.temp_hp_owner_effect_id = None
+        if target.hp == 0:
+            target.conditions = apply_condition(target.conditions, "unconscious", 1)
+
+        damage_payload = {
+            "formula": damage_formula,
+            "damage_type": damage_type,
+            "rolled_total": damage_roll.total,
+            "rolls": damage_roll.rolls,
+            "flat_modifier": damage_roll.flat_modifier,
+            "multiplier": multiplier,
+            "raw_total": adjustment.raw_total,
+            "immune": adjustment.immune,
+            "resistance_total": adjustment.resistance_total,
+            "weakness_total": adjustment.weakness_total,
+            "applied_total": damage_total,
+        }
+        if damage_bypass:
+            damage_payload["bypass"] = damage_bypass
+        if applied_damage.absorbed_by_temp_hp > 0:
+            damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
+
+        _append_event(
+            events,
+            next_state,
+            "cast_spell",
+            {
+                "actor": actor_id,
+                "spell_id": spell_id,
+                "target": target_id,
+                "action_cost": action_cost,
+                "save_type": save_type,
+                "mode": mode,
+                "roll": {
+                    "die": save.die,
+                    "modifier": save.modifier,
+                    "total": save.total,
+                    "dc": save.dc,
+                    "degree": save.degree,
+                },
+                "damage": damage_payload,
+                "target_hp": target.hp,
+                "actions_remaining": actor.actions_remaining,
+            },
+        )
+        return next_state, events
+
     if command_type == "save_damage":
         if actor.actions_remaining <= 0:
             raise ReductionError("actor has no actions remaining")
@@ -1155,6 +1271,94 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
             },
         )
         _emit_lifecycle_events(events, next_state, lifecycle_events)
+        return next_state, events
+
+    if command_type == "use_feat":
+        feat_id = str(command.get("feat_id") or "")
+        if not feat_id:
+            raise ReductionError("use_feat requires feat_id")
+        action_cost = _command_action_cost(command, default_cost=1)
+        _spend_actions(actor, action_cost)
+
+        target_id = command["target"]
+        target = next_state.units.get(target_id)
+        if target is None:
+            raise ReductionError(f"unknown target {target_id}")
+        if not target.alive:
+            raise ReductionError(f"target {target_id} is not alive")
+
+        effect = EffectState(
+            effect_id=_new_effect_id(next_state),
+            kind=str(command["effect_kind"]),
+            source_unit_id=actor_id,
+            target_unit_id=target_id,
+            payload=dict(command.get("payload", {})),
+            duration_rounds=command.get("duration_rounds"),
+            tick_timing=command.get("tick_timing"),
+        )
+        next_state.effects[effect.effect_id] = effect
+
+        _append_event(
+            events,
+            next_state,
+            "use_feat",
+            {
+                "actor": actor_id,
+                "feat_id": feat_id,
+                "target": target_id,
+                "effect_id": effect.effect_id,
+                "kind": effect.kind,
+                "duration_rounds": effect.duration_rounds,
+                "tick_timing": effect.tick_timing,
+                "action_cost": action_cost,
+                "actions_remaining": actor.actions_remaining,
+            },
+        )
+        _emit_lifecycle_events(events, next_state, on_apply(next_state, effect, rng))
+        return next_state, events
+
+    if command_type == "use_item":
+        item_id = str(command.get("item_id") or "")
+        if not item_id:
+            raise ReductionError("use_item requires item_id")
+        action_cost = _command_action_cost(command, default_cost=1)
+        _spend_actions(actor, action_cost)
+
+        target_id = command["target"]
+        target = next_state.units.get(target_id)
+        if target is None:
+            raise ReductionError(f"unknown target {target_id}")
+        if not target.alive:
+            raise ReductionError(f"target {target_id} is not alive")
+
+        effect = EffectState(
+            effect_id=_new_effect_id(next_state),
+            kind=str(command["effect_kind"]),
+            source_unit_id=actor_id,
+            target_unit_id=target_id,
+            payload=dict(command.get("payload", {})),
+            duration_rounds=command.get("duration_rounds"),
+            tick_timing=command.get("tick_timing"),
+        )
+        next_state.effects[effect.effect_id] = effect
+
+        _append_event(
+            events,
+            next_state,
+            "use_item",
+            {
+                "actor": actor_id,
+                "item_id": item_id,
+                "target": target_id,
+                "effect_id": effect.effect_id,
+                "kind": effect.kind,
+                "duration_rounds": effect.duration_rounds,
+                "tick_timing": effect.tick_timing,
+                "action_cost": action_cost,
+                "actions_remaining": actor.actions_remaining,
+            },
+        )
+        _emit_lifecycle_events(events, next_state, on_apply(next_state, effect, rng))
         return next_state, events
 
     if command_type == "apply_effect":

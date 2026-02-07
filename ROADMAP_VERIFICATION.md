@@ -46,6 +46,11 @@ Verified on February 7, 2026.
   - Condition immunity support in direct condition effects, affliction stage application, and modeled hazard condition events.
   - Spawn runtime now preserves unit-level condition immunity metadata (`condition_immunities`).
   - Deterministic Phase 5 regression matrix with 12 mitigation/lifecycle scenarios and locked replay hashes.
+- Phase 6 started:
+  - Baseline gameplay command variants: `cast_spell`, `use_feat`, and `use_item`.
+  - Action-cost aware command execution for Phase 6 variants (`action_cost` with deterministic budget checks).
+  - Reducer-backed effect adapter flow for feat/item usage through lifecycle hooks (`effect_apply`/tick/expire paths).
+  - Initial Phase 6 smoke scenarios and scenario-level tests for command variants.
 
 ## Verification Evidence
 
@@ -86,6 +91,9 @@ Verified on February 7, 2026.
   - `scenarios/smoke/phase5_condition_immunity_basic.json` exercises condition immunity handling for condition effects.
   - `tests/contract/test_affliction_edge_cases.py` and `tests/contract/test_hazard_model_commands.py` include condition immunity coverage for afflictions and modeled hazard conditions.
   - `tests/scenarios/test_phase5_regression_matrix.py` validates 12 phase 5 mitigation/lifecycle regressions against `scenarios/regression_phase5/expected_hashes.json`.
+  - `scenarios/smoke/phase6_cast_spell_basic.json` exercises spell command save/damage resolution with action-cost handling.
+  - `scenarios/smoke/phase6_use_feat_effect_basic.json` and `scenarios/smoke/phase6_use_item_effect_basic.json` exercise feat/item effect adapter flows into lifecycle hooks.
+  - `tests/scenarios/test_phase6_command_variants.py` validates baseline Phase 6 command behavior and deterministic execution.
 
 ## AoN Cross-Check (Spot Verification)
 

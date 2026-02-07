@@ -91,6 +91,41 @@ class SpawnUnitCommand(BaseCommand):
     spend_action: bool
 
 
+class CastSpellCommand(BaseCommand):
+    type: Literal["cast_spell"]
+    spell_id: str
+    target: str
+    dc: int
+    save_type: Literal["Fortitude", "Reflex", "Will"]
+    damage: str
+    mode: Literal["basic"]
+    action_cost: int
+    damage_type: str
+    damage_bypass: list[str]
+
+
+class UseFeatCommand(BaseCommand):
+    type: Literal["use_feat"]
+    feat_id: str
+    target: str
+    effect_kind: str
+    payload: dict
+    duration_rounds: int | None
+    tick_timing: Literal["turn_start", "turn_end"] | None
+    action_cost: int
+
+
+class UseItemCommand(BaseCommand):
+    type: Literal["use_item"]
+    item_id: str
+    target: str
+    effect_kind: str
+    payload: dict
+    duration_rounds: int | None
+    tick_timing: Literal["turn_start", "turn_end"] | None
+    action_cost: int
+
+
 Command = (
     MoveCommand
     | StrikeCommand
@@ -102,4 +137,7 @@ Command = (
     | RunHazardRoutineCommand
     | SetFlagCommand
     | SpawnUnitCommand
+    | CastSpellCommand
+    | UseFeatCommand
+    | UseItemCommand
 )

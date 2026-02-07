@@ -1,0 +1,101 @@
+{
+  "battle_id": "phase6_cast_spell_basic",
+  "seed": 6601,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 2,
+  "replay_hash": "900846a8aed27e639f22fef7b046ab121b4ac23be35f9c5c2864c129f706d3cc",
+  "final_state": {
+    "battle_id": "phase6_cast_spell_basic",
+    "round": 1,
+    "active_unit": "mage",
+    "units": {
+      "mage": {
+        "team": "pc",
+        "hp": 28,
+        "max_hp": 28,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "raider": {
+        "team": "enemy",
+        "hp": 18,
+        "max_hp": 40,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {
+          "fire": 2
+        },
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "mage",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "mage",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "mage",
+      "type": "cast_spell",
+      "payload": {
+        "actor": "mage",
+        "spell_id": "ember_burst",
+        "target": "raider",
+        "action_cost": 2,
+        "save_type": "Reflex",
+        "mode": "basic",
+        "roll": {
+          "die": 9,
+          "modifier": -10,
+          "total": -1,
+          "dc": 22,
+          "degree": "critical_failure"
+        },
+        "damage": {
+          "formula": "12",
+          "damage_type": "fire",
+          "rolled_total": 12,
+          "rolls": [],
+          "flat_modifier": 12,
+          "multiplier": 2.0,
+          "raw_total": 24,
+          "immune": false,
+          "resistance_total": 2,
+          "weakness_total": 0,
+          "applied_total": 22
+        },
+        "target_hp": 18,
+        "actions_remaining": 1
+      }
+    }
+  ]
+}

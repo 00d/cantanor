@@ -113,6 +113,56 @@ class TestScenarioValidation(unittest.TestCase):
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 
+    def test_accepts_phase6_command_variants(self) -> None:
+        scenario = _base_scenario()
+        scenario["commands"] = [
+            {
+                "type": "cast_spell",
+                "actor": "hazard_core",
+                "spell_id": "spark_bolt",
+                "target": "pc",
+                "dc": 19,
+                "save_type": "Reflex",
+                "damage": "2d6",
+                "mode": "basic",
+            },
+            {
+                "type": "use_feat",
+                "actor": "hazard_core",
+                "feat_id": "adrenaline_rush",
+                "target": "hazard_core",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 4},
+            },
+            {
+                "type": "use_item",
+                "actor": "hazard_core",
+                "item_id": "bottled_focus",
+                "target": "hazard_core",
+                "effect_kind": "condition",
+                "payload": {"name": "frightened", "value": 1},
+                "duration_rounds": 1,
+                "tick_timing": "turn_end",
+            },
+        ]
+        validate_scenario(scenario)
+
+    def test_rejects_use_item_non_positive_action_cost(self) -> None:
+        scenario = _base_scenario()
+        scenario["commands"] = [
+            {
+                "type": "use_item",
+                "actor": "hazard_core",
+                "item_id": "healing_potion",
+                "target": "hazard_core",
+                "effect_kind": "temp_hp",
+                "payload": {"amount": 3},
+                "action_cost": 0,
+            }
+        ]
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,114 @@
+{
+  "battle_id": "phase6_use_item_effect_basic",
+  "seed": 6603,
+  "executed_commands": 1,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 3,
+  "replay_hash": "b30d305f35dc27c1baf48fd887d37f69e98b5c9d12bb5e331e1d23ad61ae07ad",
+  "final_state": {
+    "battle_id": "phase6_use_item_effect_basic",
+    "round": 1,
+    "active_unit": "alchemist",
+    "units": {
+      "alchemist": {
+        "team": "pc",
+        "hp": 24,
+        "max_hp": 24,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "ally": {
+        "team": "pc",
+        "hp": 22,
+        "max_hp": 22,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          2
+        ],
+        "alive": true,
+        "conditions": {
+          "frightened": 1
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "marauder": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          4,
+          4
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "alchemist",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "alchemist",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "alchemist",
+      "type": "use_item",
+      "payload": {
+        "actor": "alchemist",
+        "item_id": "steady_tonic",
+        "target": "ally",
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "duration_rounds": 1,
+        "tick_timing": "turn_end",
+        "action_cost": 1,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "alchemist",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "target": "ally",
+        "condition": "frightened",
+        "value": 1,
+        "applied": true,
+        "reason": null
+      }
+    }
+  ]
+}

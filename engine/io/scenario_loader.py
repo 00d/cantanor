@@ -88,6 +88,9 @@ def _validate_command(
             "run_hazard_routine",
             "set_flag",
             "spawn_unit",
+            "cast_spell",
+            "use_feat",
+            "use_item",
         ),
         f"{context} unsupported command type: {ctype}",
     )
@@ -119,6 +122,21 @@ def _validate_command(
                 _require(isinstance(item, str) and bool(item), f"{context} save_damage damage_bypass[{idx}] must be non-empty string")
         if "mode" in cmd:
             _require(str(cmd["mode"]) == "basic", f"{context} save_damage mode must be basic")
+    elif ctype == "cast_spell":
+        for key in ("spell_id", "target", "dc", "save_type", "damage"):
+            _require(key in cmd, f"{context} cast_spell missing key: {key}")
+        _require(isinstance(cmd.get("spell_id"), str) and bool(cmd["spell_id"]), f"{context} cast_spell spell_id must be non-empty string")
+        _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} cast_spell save_type invalid")
+        if "damage_type" in cmd:
+            _require(isinstance(cmd.get("damage_type"), str) and bool(cmd["damage_type"]), f"{context} cast_spell damage_type must be non-empty string")
+        if "damage_bypass" in cmd:
+            _require(isinstance(cmd["damage_bypass"], list), f"{context} cast_spell damage_bypass must be list")
+            for idx, item in enumerate(cmd["damage_bypass"]):
+                _require(isinstance(item, str) and bool(item), f"{context} cast_spell damage_bypass[{idx}] must be non-empty string")
+        if "mode" in cmd:
+            _require(str(cmd["mode"]) == "basic", f"{context} cast_spell mode must be basic")
+        if "action_cost" in cmd:
+            _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} cast_spell action_cost must be positive int")
     elif ctype == "area_save_damage":
         for key in ("center_x", "center_y", "radius_feet", "dc", "save_type", "damage"):
             _require(key in cmd, f"{context} area_save_damage missing key: {key}")
@@ -134,6 +152,30 @@ def _validate_command(
     elif ctype == "apply_effect":
         for key in ("target", "effect_kind"):
             _require(key in cmd, f"{context} apply_effect missing key: {key}")
+    elif ctype == "use_feat":
+        for key in ("feat_id", "target", "effect_kind"):
+            _require(key in cmd, f"{context} use_feat missing key: {key}")
+        _require(isinstance(cmd.get("feat_id"), str) and bool(cmd["feat_id"]), f"{context} use_feat feat_id must be non-empty string")
+        if "payload" in cmd:
+            _require(isinstance(cmd["payload"], dict), f"{context} use_feat payload must be object")
+        if "duration_rounds" in cmd and cmd["duration_rounds"] is not None:
+            _require(isinstance(cmd["duration_rounds"], int) and cmd["duration_rounds"] >= 0, f"{context} use_feat duration_rounds must be non-negative int or null")
+        if "tick_timing" in cmd and cmd["tick_timing"] is not None:
+            _require(str(cmd["tick_timing"]) in ("turn_start", "turn_end"), f"{context} use_feat tick_timing invalid")
+        if "action_cost" in cmd:
+            _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} use_feat action_cost must be positive int")
+    elif ctype == "use_item":
+        for key in ("item_id", "target", "effect_kind"):
+            _require(key in cmd, f"{context} use_item missing key: {key}")
+        _require(isinstance(cmd.get("item_id"), str) and bool(cmd["item_id"]), f"{context} use_item item_id must be non-empty string")
+        if "payload" in cmd:
+            _require(isinstance(cmd["payload"], dict), f"{context} use_item payload must be object")
+        if "duration_rounds" in cmd and cmd["duration_rounds"] is not None:
+            _require(isinstance(cmd["duration_rounds"], int) and cmd["duration_rounds"] >= 0, f"{context} use_item duration_rounds must be non-negative int or null")
+        if "tick_timing" in cmd and cmd["tick_timing"] is not None:
+            _require(str(cmd["tick_timing"]) in ("turn_start", "turn_end"), f"{context} use_item tick_timing invalid")
+        if "action_cost" in cmd:
+            _require(isinstance(cmd["action_cost"], int) and cmd["action_cost"] > 0, f"{context} use_item action_cost must be positive int")
     elif ctype == "trigger_hazard_source":
         for key in ("hazard_id", "source_name"):
             _require(key in cmd, f"{context} trigger_hazard_source missing key: {key}")

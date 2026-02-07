@@ -34,6 +34,9 @@ SCENARIOS = [
     Path("scenarios/smoke/phase5_persistent_bypass_basic.json"),
     Path("scenarios/smoke/phase5_persistent_recovery_basic.json"),
     Path("scenarios/smoke/phase5_condition_immunity_basic.json"),
+    Path("scenarios/smoke/phase6_cast_spell_basic.json"),
+    Path("scenarios/smoke/phase6_use_feat_effect_basic.json"),
+    Path("scenarios/smoke/phase6_use_item_effect_basic.json"),
 ]
 
 

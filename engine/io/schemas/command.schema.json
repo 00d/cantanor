@@ -17,7 +17,10 @@
         "trigger_hazard_source",
         "run_hazard_routine",
         "set_flag",
-        "spawn_unit"
+        "spawn_unit",
+        "cast_spell",
+        "use_feat",
+        "use_item"
       ]
     },
     "actor": {"type": "string"},
@@ -28,7 +31,15 @@
     "save_type": {"type": "string", "enum": ["Fortitude", "Reflex", "Will"]},
     "damage": {"type": "string"},
     "damage_type": {"type": "string"},
+    "damage_bypass": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
     "mode": {"type": "string"},
+    "spell_id": {"type": "string"},
+    "feat_id": {"type": "string"},
+    "item_id": {"type": "string"},
+    "action_cost": {"type": "integer", "minimum": 1},
     "effect_kind": {"type": "string"},
     "payload": {"type": "object"},
     "duration_rounds": {"type": ["integer", "null"]},
