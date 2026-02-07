@@ -10,8 +10,11 @@ from typing import Dict, List, Tuple
 from engine.core.objectives import evaluate_objectives, expand_objective_packs
 from engine.core.reducer import ReductionError, apply_command
 from engine.core.rng import DeterministicRNG
+from engine.io.content_pack_loader import resolve_scenario_content_context
 from engine.io.event_log import replay_hash
 from engine.io.scenario_loader import battle_state_from_scenario, load_scenario
+
+CURRENT_ENGINE_PHASE = 7
 
 
 def _alive_teams(state) -> set[str]:
@@ -327,6 +330,11 @@ def _check_battle_end(
 
 def run_scenario_file(path: Path) -> Dict[str, object]:
     scenario = load_scenario(path)
+    content_context = resolve_scenario_content_context(
+        scenario,
+        scenario_path=path,
+        engine_phase=CURRENT_ENGINE_PHASE,
+    )
     state = battle_state_from_scenario(scenario)
     objectives = expand_objective_packs(
         objectives=list(scenario.get("objectives", [])),
@@ -336,7 +344,24 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
     mission_events = _normalize_mission_events(scenario)
     enemy_policy = _normalize_enemy_policy(scenario)
     rng = DeterministicRNG(seed=state.seed)
-    events: List[dict] = [
+    events: List[dict] = []
+    if list(content_context.get("packs", [])):
+        events.append(
+            {
+                "event_id": "ev_pack_000000",
+                "round": state.round_number,
+                "active_unit": state.active_unit_id,
+                "type": "content_pack_resolved",
+                "payload": {
+                    "engine_phase": CURRENT_ENGINE_PHASE,
+                    "selected_pack_id": content_context.get("selected_pack_id"),
+                    "pack_count": len(list(content_context.get("packs", []))),
+                    "entry_count": len(dict(content_context.get("entry_lookup", {}))),
+                },
+            }
+        )
+
+    events.append(
         {
             "event_id": "ev_000000",
             "round": state.round_number,
@@ -344,7 +369,7 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
             "type": "turn_start",
             "payload": {"active_unit": state.active_unit_id, "round": state.round_number},
         }
-    ]
+    )
 
     scripted_executed = 0
     auto_executed = 0
@@ -685,6 +710,11 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
         "event_count": len(events),
         "replay_hash": replay_hash(events),
         "final_state": _state_snapshot(state),
+        "content_pack_context": {
+            "selected_pack_id": content_context.get("selected_pack_id"),
+            "packs": list(content_context.get("packs", [])),
+            "entry_lookup": dict(content_context.get("entry_lookup", {})),
+        },
         "events": events,
     }
     return result

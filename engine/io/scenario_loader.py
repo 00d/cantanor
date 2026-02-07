@@ -106,6 +106,11 @@ def _validate_command(
 
     if "target" in cmd and cmd["target"] is not None:
         _require(cmd["target"] in known_unit_ids, f"{context} target not found: {cmd['target']}")
+    if "content_entry_id" in cmd:
+        _require(
+            isinstance(cmd.get("content_entry_id"), str) and bool(cmd["content_entry_id"]),
+            f"{context} content_entry_id must be non-empty string",
+        )
 
     if ctype == "move":
         _require("x" in cmd and "y" in cmd, f"{context} move requires x and y")
@@ -251,6 +256,24 @@ def validate_scenario(data: Dict[str, Any]) -> None:
     _require(isinstance(map_data, dict), "map must be an object")
     _require(isinstance(map_data.get("width"), int) and map_data["width"] > 0, "map.width must be positive int")
     _require(isinstance(map_data.get("height"), int) and map_data["height"] > 0, "map.height must be positive int")
+
+    content_packs = data.get("content_packs", [])
+    _require(isinstance(content_packs, list), "content_packs must be list when present")
+    for idx, path in enumerate(content_packs):
+        _require(isinstance(path, str) and bool(path), f"content_packs[{idx}] must be non-empty string")
+
+    content_pack_id = data.get("content_pack_id")
+    if content_pack_id is not None:
+        _require(isinstance(content_pack_id, str) and bool(content_pack_id), "content_pack_id must be non-empty string when present")
+        _require(bool(content_packs), "content_pack_id requires non-empty content_packs list")
+
+    required_content_features = data.get("required_content_features", [])
+    _require(isinstance(required_content_features, list), "required_content_features must be list when present")
+    for idx, feature in enumerate(required_content_features):
+        _require(
+            isinstance(feature, str) and bool(feature),
+            f"required_content_features[{idx}] must be non-empty string",
+        )
 
     units = data["units"]
     _require(isinstance(units, list) and units, "units must be a non-empty list")

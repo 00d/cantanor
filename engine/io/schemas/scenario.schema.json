@@ -7,6 +7,15 @@
   "properties": {
     "battle_id": {"type": "string"},
     "seed": {"type": "integer"},
+    "content_packs": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "content_pack_id": {"type": "string"},
+    "required_content_features": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
     "flags": {
       "type": "object",
       "additionalProperties": {"type": "boolean"}
@@ -279,7 +288,8 @@
         "required": ["type", "actor"],
         "properties": {
           "type": {"type": "string"},
-          "actor": {"type": "string"}
+          "actor": {"type": "string"},
+          "content_entry_id": {"type": "string"}
         }
       }
     }

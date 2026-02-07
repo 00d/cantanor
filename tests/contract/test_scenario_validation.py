@@ -207,6 +207,19 @@ class TestScenarioValidation(unittest.TestCase):
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 
+    def test_accepts_content_pack_scenario_fields(self) -> None:
+        scenario = _base_scenario()
+        scenario["content_packs"] = ["corpus/content_packs/phase7_baseline_v1.json"]
+        scenario["content_pack_id"] = "phase7-baseline-v1"
+        scenario["required_content_features"] = ["content_pack_loader"]
+        validate_scenario(scenario)
+
+    def test_rejects_content_pack_id_without_packs(self) -> None:
+        scenario = _base_scenario()
+        scenario["content_pack_id"] = "phase7-baseline-v1"
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
 
 if __name__ == "__main__":
     unittest.main()

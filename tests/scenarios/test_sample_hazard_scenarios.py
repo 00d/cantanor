@@ -40,6 +40,7 @@ SCENARIOS = [
     Path("scenarios/smoke/phase6_forecast_strike_basic.json"),
     Path("scenarios/smoke/phase6_enemy_policy_duel_basic.json"),
     Path("scenarios/smoke/phase7_interact_basic.json"),
+    Path("scenarios/smoke/phase7_content_pack_integration_basic.json"),
 ]
 
 

@@ -54,12 +54,13 @@ Verified on February 7, 2026.
   - Forecast payload baseline for `strike`/`cast_spell` command previews (degree odds + expected raw damage outputs).
   - Scenario-level deterministic enemy policy baseline (`strike_nearest` + optional auto end-turn) for non-scripted encounter turns.
   - Deterministic Phase 6 regression matrix with 5 gameplay-breadth scenarios and locked replay hashes.
-- Phase 7 started:
+- Phase 7 complete:
   - M7.1 content-pack contract baseline scaffolded (`engine/io/content_pack_loader.py`, `engine/io/schemas/content_pack.schema.json`).
   - Baseline versioned sample pack added at `corpus/content_packs/phase7_baseline_v1.json`.
   - Contract coverage added for pack validation and phase compatibility checks.
   - M7.2 interact command baseline added (`interact` command variant with deterministic action-cost, optional flag updates, and effect lifecycle wiring).
-  - Phase 7 interact smoke scenario + tests added for non-combat utility command coverage.
+  - M7.3 pack-aware scenario integration added (scenario-level `content_packs` resolution, phase compatibility checks, optional feature-tag requirements, and browser-facing `content_pack_context`/`content_pack_resolved` payloads).
+  - M7.4 deterministic Phase 7 regression matrix added with locked replay hashes.
 
 ## Verification Evidence
 
@@ -109,6 +110,8 @@ Verified on February 7, 2026.
   - `tests/scenarios/test_phase6_regression_matrix.py` validates 5 phase 6 gameplay-breadth regressions against `scenarios/regression_phase6/expected_hashes.json`.
   - `tests/contract/test_content_pack_loader.py` validates phase 7 content-pack contracts (semver, compatibility bounds, duplicate entry rejection, loader integration).
   - `scenarios/smoke/phase7_interact_basic.json` + `tests/scenarios/test_phase7_interact_command.py` validate phase 7 `interact` command behavior and lifecycle integration.
+  - `scenarios/smoke/phase7_content_pack_integration_basic.json` + `tests/scenarios/test_phase7_content_pack_integration.py` validate scenario-level content pack resolution and integration payload contracts.
+  - `tests/scenarios/test_phase7_regression_matrix.py` validates 5 phase 7 regressions against `scenarios/regression_phase7/expected_hashes.json`.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -151,6 +154,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 7 should continue with gameplay breadth beyond encounter scaffolding:
-- class/feat/spell/item execution pipelines on top of the deterministic core,
-- browser gameplay loop integration (rendering, forecasting, and UX command layers).
+Phase 8 should expand browser/runtime integration breadth beyond Phase 7 pack scaffolding:
+- class/feat/spell/item execution breadth on top of pack-aware scenario loading,
+- browser gameplay loop integration (rendering, forecasting, and UX command layers),
+- richer deterministic tactical policies beyond baseline `strike_nearest`.

@@ -53,4 +53,7 @@ Run Phase 6 regression matrix: `python3 -m unittest tests/scenarios/test_phase6_
 Run Phase 7 content-pack loader contract tests: `python3 -m unittest tests/contract/test_content_pack_loader.py -v`
 Run Phase 7 interact smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase7_interact_basic.json --out compiled/phase7_interact_basic_result.json`
 Run Phase 7 interact scenario tests: `python3 -m unittest tests/scenarios/test_phase7_interact_command.py -v`
+Run Phase 7 content-pack integration smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase7_content_pack_integration_basic.json --out compiled/phase7_content_pack_integration_basic_result.json`
+Run Phase 7 content-pack integration scenario tests: `python3 -m unittest tests/scenarios/test_phase7_content_pack_integration.py -v`
+Run Phase 7 regression matrix: `python3 -m unittest tests/scenarios/test_phase7_regression_matrix.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

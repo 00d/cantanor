@@ -25,6 +25,7 @@
       ]
     },
     "actor": {"type": "string"},
+    "content_entry_id": {"type": "string"},
     "x": {"type": "integer"},
     "y": {"type": "integer"},
     "target": {"type": "string"},
