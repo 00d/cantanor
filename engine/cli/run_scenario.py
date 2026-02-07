@@ -10,6 +10,7 @@ from typing import Dict, List, Tuple
 from engine.core.objectives import evaluate_objectives, expand_objective_packs
 from engine.core.reducer import ReductionError, apply_command
 from engine.core.rng import DeterministicRNG
+from engine.io.command_authoring import build_command_authoring_catalog
 from engine.io.content_pack_loader import resolve_scenario_content_context
 from engine.io.event_log import replay_hash
 from engine.io.scenario_loader import battle_state_from_scenario, load_scenario
@@ -831,6 +832,7 @@ def run_scenario_file(path: Path) -> Dict[str, object]:
             "packs": list(content_context.get("packs", [])),
             "entry_lookup": dict(content_context.get("entry_lookup", {})),
         },
+        "command_authoring_catalog": build_command_authoring_catalog(content_context),
         "events": events,
     }
     return result

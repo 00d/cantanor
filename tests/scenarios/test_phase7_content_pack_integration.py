@@ -25,6 +25,11 @@ class TestPhase7ContentPackIntegration(unittest.TestCase):
         self.assertIn("spell.arc_flash", context["entry_lookup"])
         self.assertEqual(context["entry_lookup"]["spell.arc_flash"]["kind"], "spell")
 
+        catalog = dict(result["command_authoring_catalog"])
+        self.assertIn("cast_spell", catalog["template_command_types"])
+        option_ids = [o["entry_id"] for o in catalog["options"]]
+        self.assertIn("spell.arc_flash", option_ids)
+
 
 if __name__ == "__main__":
     unittest.main()

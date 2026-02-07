@@ -14,6 +14,7 @@ Phase 3 execution plan: `PHASE3_IMPLEMENTATION_PLAN.md`
 Phase 6 execution plan: `PHASE6_IMPLEMENTATION_PLAN.md`
 Phase 7 execution plan: `PHASE7_IMPLEMENTATION_PLAN.md`
 Phase 8 execution plan: `PHASE8_IMPLEMENTATION_PLAN.md`
+Phase 9 execution plan: `PHASE9_IMPLEMENTATION_PLAN.md`
 Phase 7 sample content pack: `corpus/content_packs/phase7_baseline_v1.json`
 Run Phase 3 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/hidden_pit_basic.json --out compiled/hidden_pit_basic_result.json`
 Run Phase 3 M2 smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/m2_save_effect_basic.json --out compiled/m2_save_effect_basic_result.json`
@@ -63,4 +64,5 @@ Run Phase 8 pack-template enemy-policy spell smoke scenario: `python3 -m engine.
 Run Phase 8 content-entry template tests: `python3 -m unittest tests/scenarios/test_phase8_content_entry_templates.py -v`
 Run Phase 8 enemy-policy template tests: `python3 -m unittest tests/scenarios/test_phase8_enemy_policy_templates.py -v`
 Run Phase 8 regression matrix: `python3 -m unittest tests/scenarios/test_phase8_regression_matrix.py -v`
+Run Phase 9 command-authoring contract tests: `python3 -m unittest tests/contract/test_command_authoring.py -v`
 Run Phase 3 tests: `python3 -m unittest discover -s tests -p 'test_*.py' -v`

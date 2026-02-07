@@ -67,6 +67,9 @@ Verified on February 7, 2026.
   - Deterministic mismatch handling added for content-entry command-type conflicts (runtime `command_error` path).
   - M8.2 pack-driven enemy policy actions added (`cast_spell_entry_nearest`, `use_feat_entry_self`, `use_item_entry_self`, `interact_entry_self`) with deterministic template materialization through content packs.
   - M8.3 deterministic Phase 8 regression matrix added with locked replay hashes.
+- Phase 9 started:
+  - M9.1 browser command-authoring baseline added (`engine/io/command_authoring.py`) with deterministic content-entry option catalogs and intent builders for `cast_spell` / `use_feat` / `use_item` / `interact`.
+  - Scenario result payload now includes `command_authoring_catalog` for UI command builders.
 
 ## Verification Evidence
 
@@ -122,6 +125,8 @@ Verified on February 7, 2026.
   - `tests/scenarios/test_phase8_content_entry_templates.py` validates template materialization and mismatch error handling.
   - `scenarios/smoke/phase8_enemy_policy_pack_spell_basic.json` + `tests/scenarios/test_phase8_enemy_policy_templates.py` validate pack-driven enemy policy action selection and execution.
   - `tests/scenarios/test_phase8_regression_matrix.py` validates 5 phase 8 regressions against `scenarios/regression_phase8/expected_hashes.json`.
+  - `tests/contract/test_command_authoring.py` validates phase 9 command-authoring catalog and UI intent builder contracts.
+  - `tests/scenarios/test_phase7_content_pack_integration.py` validates `command_authoring_catalog` exposure in scenario results.
 
 ## AoN Cross-Check (Spot Verification)
 
@@ -164,7 +169,7 @@ Cross-check focus:
 
 ## Recommended Next Milestone
 
-Phase 9 should focus on browser command-authoring and tactical policy depth:
-- command-intent authoring contracts for UI command builders against content entries,
-- richer deterministic policy scoring beyond nearest-target heuristics,
-- event payload expansion for UI overlays (forecast slices, policy rationale, and source traces).
+Continue Phase 9 with M9.2 and M9.3:
+- deterministic enemy-policy rationale payloads (why a policy action was selected),
+- phase 9 regression matrix + expected hash lock after rationale payload contracts stabilize,
+- expanded direct-intent helpers for non-template commands (`move` / `strike`) in command-authoring API.
