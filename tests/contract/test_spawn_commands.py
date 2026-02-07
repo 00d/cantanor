@@ -129,6 +129,7 @@ class TestSpawnCommands(unittest.TestCase):
                     "attack_mod": 5,
                     "ac": 15,
                     "damage": "1d6+2",
+                    "attack_damage_bypass": ["Fire", "all"],
                     "fortitude": 4,
                     "reflex": 5,
                     "will": 5,
@@ -140,6 +141,7 @@ class TestSpawnCommands(unittest.TestCase):
 
         spawned = state.units["ally_immune"]
         self.assertEqual(spawned.condition_immunities, ["frightened", "all_conditions"])
+        self.assertEqual(spawned.attack_damage_bypass, ["fire", "all"])
         self.assertEqual(spawned.temp_hp, 2)
 
 

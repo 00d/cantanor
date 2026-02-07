@@ -93,10 +93,14 @@ def _damage_type_tags(damage_type: str | None) -> set[str]:
     return tags
 
 
-def _highest_matching_modifier(modifiers: Dict[str, int], damage_tags: set[str]) -> int:
+def _highest_matching_modifier(modifiers: Dict[str, int], damage_tags: set[str], bypass_tags: set[str]) -> int:
     best = 0
     for key, value in modifiers.items():
         k = _normalized_damage_type(str(key))
+        if k is None:
+            continue
+        if "all" in bypass_tags or k in bypass_tags:
+            continue
         if k == "all" or (k is not None and k in damage_tags):
             best = max(best, int(value))
     return max(0, best)
@@ -109,11 +113,13 @@ def apply_damage_modifiers(
     resistances: Dict[str, int],
     weaknesses: Dict[str, int],
     immunities: Iterable[str],
+    bypass: Iterable[str] | None = None,
 ) -> DamageAdjustment:
     raw = max(0, int(raw_total))
     normalized_type = _normalized_damage_type(damage_type)
     damage_tags = _damage_type_tags(normalized_type)
     immunity_set = {_normalized_damage_type(str(x)) or "" for x in immunities}
+    bypass_set = {_normalized_damage_type(str(x)) or "" for x in (bypass or [])}
 
     if raw == 0:
         return DamageAdjustment(
@@ -125,7 +131,9 @@ def apply_damage_modifiers(
             weakness_total=0,
         )
 
-    if "all" in immunity_set or any(tag in immunity_set for tag in damage_tags):
+    if ("all" in immunity_set and "all" not in bypass_set) or any(
+        tag in immunity_set and tag not in bypass_set for tag in damage_tags
+    ):
         return DamageAdjustment(
             raw_total=raw,
             applied_total=0,
@@ -136,8 +144,8 @@ def apply_damage_modifiers(
         )
 
     # Use the strongest matching value for each side, rather than stacking.
-    resistance_total = _highest_matching_modifier(resistances, damage_tags)
-    weakness_total = _highest_matching_modifier(weaknesses, damage_tags)
+    resistance_total = _highest_matching_modifier(resistances, damage_tags, bypass_set)
+    weakness_total = _highest_matching_modifier(weaknesses, damage_tags, set())
 
     applied = max(0, raw - resistance_total + weakness_total)
     return DamageAdjustment(

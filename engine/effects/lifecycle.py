@@ -76,6 +76,7 @@ def _apply_affliction_stage(
         if not formula:
             continue
         damage_type = str(dmg.get("damage_type") or "").lower() or None
+        bypass = [str(x).lower() for x in list(dmg.get("bypass", []))]
         roll = roll_damage(rng, formula)
         adjustment = apply_damage_modifiers(
             raw_total=roll.total,
@@ -83,6 +84,7 @@ def _apply_affliction_stage(
             resistances=target.resistances,
             weaknesses=target.weaknesses,
             immunities=target.immunities,
+            bypass=bypass,
         )
         applied_damage = apply_damage_to_pool(
             hp=target.hp,
@@ -105,6 +107,8 @@ def _apply_affliction_stage(
             "resistance_total": adjustment.resistance_total,
             "weakness_total": adjustment.weakness_total,
         }
+        if bypass:
+            detail["bypass"] = bypass
         if applied_damage.absorbed_by_temp_hp > 0:
             detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
         damage_results.append(detail)
@@ -427,12 +431,14 @@ def _apply_persistent_damage(
         return events
 
     roll = roll_damage(rng, formula)
+    bypass = [str(x).lower() for x in list(effect.payload.get("bypass", []))]
     adjustment = apply_damage_modifiers(
         raw_total=roll.total,
         damage_type=damage_type,
         resistances=target.resistances,
         weaknesses=target.weaknesses,
         immunities=target.immunities,
+        bypass=bypass,
     )
     applied_damage = apply_damage_to_pool(
         hp=target.hp,
@@ -475,6 +481,8 @@ def _apply_persistent_damage(
         "resistance_total": adjustment.resistance_total,
         "weakness_total": adjustment.weakness_total,
     }
+    if bypass:
+        damage_payload["bypass"] = bypass
     if applied_damage.absorbed_by_temp_hp > 0:
         damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
 

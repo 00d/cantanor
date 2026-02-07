@@ -27,6 +27,7 @@ Run Phase 4 branching + wave-pack smoke scenario: `python3 -m engine.cli.run_sce
 Run Phase 4 regression matrix: `python3 -m unittest tests/scenarios/test_phase4_regression_matrix.py -v`
 Run Phase 5 mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_damage_mitigation_basic.json --out compiled/phase5_damage_mitigation_basic_result.json`
 Run Phase 5 affliction-mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_affliction_mitigation_basic.json --out compiled/phase5_affliction_mitigation_basic_result.json`
+Run Phase 5 mitigation-bypass smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_mitigation_bypass_basic.json --out compiled/phase5_mitigation_bypass_basic_result.json`
 Run Phase 5 grouped-mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_grouped_mitigation_basic.json --out compiled/phase5_grouped_mitigation_basic_result.json`
 Run Phase 5 mitigation-precedence smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_mitigation_precedence_basic.json --out compiled/phase5_mitigation_precedence_basic_result.json`
 Run Phase 5 temp-HP mitigation smoke scenario: `python3 -m engine.cli.run_scenario scenarios/smoke/phase5_temp_hp_basic.json --out compiled/phase5_temp_hp_basic_result.json`

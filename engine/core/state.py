@@ -22,6 +22,7 @@ class UnitState:
     temp_hp_source: Optional[str] = None
     temp_hp_owner_effect_id: Optional[str] = None
     attack_damage_type: str = "physical"
+    attack_damage_bypass: List[str] = field(default_factory=list)
     fortitude: int = 0
     reflex: int = 0
     will: int = 0

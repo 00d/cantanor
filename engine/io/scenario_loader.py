@@ -35,6 +35,14 @@ def _validate_unit_shape(unit: Dict[str, Any], context: str) -> None:
     attack_damage_type = unit.get("attack_damage_type")
     if attack_damage_type is not None:
         _require(isinstance(attack_damage_type, str) and bool(attack_damage_type), f"{context}.attack_damage_type must be non-empty string")
+    attack_damage_bypass = unit.get("attack_damage_bypass")
+    if attack_damage_bypass is not None:
+        _require(isinstance(attack_damage_bypass, list), f"{context}.attack_damage_bypass must be list")
+        for idx, item in enumerate(attack_damage_bypass):
+            _require(
+                isinstance(item, str) and bool(item),
+                f"{context}.attack_damage_bypass[{idx}] must be non-empty string",
+            )
     for field_name in ("resistances", "weaknesses"):
         raw = unit.get(field_name)
         if raw is None:
@@ -105,6 +113,10 @@ def _validate_command(
         _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} save_damage save_type invalid")
         if "damage_type" in cmd:
             _require(isinstance(cmd.get("damage_type"), str) and bool(cmd["damage_type"]), f"{context} save_damage damage_type must be non-empty string")
+        if "damage_bypass" in cmd:
+            _require(isinstance(cmd["damage_bypass"], list), f"{context} save_damage damage_bypass must be list")
+            for idx, item in enumerate(cmd["damage_bypass"]):
+                _require(isinstance(item, str) and bool(item), f"{context} save_damage damage_bypass[{idx}] must be non-empty string")
         if "mode" in cmd:
             _require(str(cmd["mode"]) == "basic", f"{context} save_damage mode must be basic")
     elif ctype == "area_save_damage":
@@ -113,6 +125,10 @@ def _validate_command(
         _require(str(cmd.get("save_type")) in ("Fortitude", "Reflex", "Will"), f"{context} area_save_damage save_type invalid")
         if "damage_type" in cmd:
             _require(isinstance(cmd.get("damage_type"), str) and bool(cmd["damage_type"]), f"{context} area_save_damage damage_type must be non-empty string")
+        if "damage_bypass" in cmd:
+            _require(isinstance(cmd["damage_bypass"], list), f"{context} area_save_damage damage_bypass must be list")
+            for idx, item in enumerate(cmd["damage_bypass"]):
+                _require(isinstance(item, str) and bool(item), f"{context} area_save_damage damage_bypass[{idx}] must be non-empty string")
         if "mode" in cmd:
             _require(str(cmd["mode"]) == "basic", f"{context} area_save_damage mode must be basic")
     elif ctype == "apply_effect":
@@ -354,6 +370,7 @@ def battle_state_from_scenario(data: Dict[str, Any]) -> BattleState:
             temp_hp_source="initial" if temp_hp > 0 else None,
             temp_hp_owner_effect_id=None,
             attack_damage_type=str(raw.get("attack_damage_type", "physical")).lower(),
+            attack_damage_bypass=[str(x).lower() for x in list(raw.get("attack_damage_bypass", []))],
             fortitude=int(raw.get("fortitude", 0)),
             reflex=int(raw.get("reflex", 0)),
             will=int(raw.get("will", 0)),

@@ -24,6 +24,7 @@ SCENARIOS = [
     Path("scenarios/smoke/phase4_mission_branching_waves_basic.json"),
     Path("scenarios/smoke/phase5_damage_mitigation_basic.json"),
     Path("scenarios/smoke/phase5_affliction_mitigation_basic.json"),
+    Path("scenarios/smoke/phase5_mitigation_bypass_basic.json"),
     Path("scenarios/smoke/phase5_grouped_mitigation_basic.json"),
     Path("scenarios/smoke/phase5_mitigation_precedence_basic.json"),
     Path("scenarios/smoke/phase5_temp_hp_basic.json"),

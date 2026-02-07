@@ -95,6 +95,24 @@ class TestScenarioValidation(unittest.TestCase):
         with self.assertRaises(ScenarioValidationError):
             validate_scenario(scenario)
 
+    def test_rejects_invalid_damage_bypass_shape(self) -> None:
+        scenario = _base_scenario()
+        scenario["commands"] = [
+            {
+                "type": "save_damage",
+                "actor": "hazard_core",
+                "target": "pc",
+                "dc": 20,
+                "save_type": "Reflex",
+                "damage": "10",
+                "damage_type": "fire",
+                "damage_bypass": "fire",
+                "mode": "basic",
+            }
+        ]
+        with self.assertRaises(ScenarioValidationError):
+            validate_scenario(scenario)
+
 
 if __name__ == "__main__":
     unittest.main()

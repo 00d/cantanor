@@ -83,6 +83,29 @@ class TestDamageAndConditions(unittest.TestCase):
         self.assertEqual(adjusted.weakness_total, 4)
         self.assertEqual(adjusted.applied_total, 11)
 
+    def test_damage_modifiers_allow_bypass_of_resistance_and_immunity(self) -> None:
+        resisted = apply_damage_modifiers(
+            raw_total=12,
+            damage_type="fire",
+            resistances={"fire": 5},
+            weaknesses={},
+            immunities=[],
+            bypass=["fire"],
+        )
+        self.assertEqual(resisted.applied_total, 12)
+        self.assertEqual(resisted.resistance_total, 0)
+
+        immune = apply_damage_modifiers(
+            raw_total=12,
+            damage_type="fire",
+            resistances={},
+            weaknesses={},
+            immunities=["fire"],
+            bypass=["fire"],
+        )
+        self.assertFalse(immune.immune)
+        self.assertEqual(immune.applied_total, 12)
+
     def test_apply_condition_keeps_highest_value(self) -> None:
         c = apply_condition({}, "frightened", 1)
         c = apply_condition(c, "frightened", 3)

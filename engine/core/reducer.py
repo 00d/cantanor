@@ -402,6 +402,7 @@ def _apply_modeled_effects_to_target(
 
         if damage_event is not None:
             base_roll = roll_damage(rng, str(damage_event["formula"]))
+            bypass = [str(x).lower() for x in list(damage_event.get("bypass", []))]
             multiplier = 1.0
             if save_mode == "basic":
                 multiplier = basic_save_multiplier(save.degree)
@@ -414,6 +415,7 @@ def _apply_modeled_effects_to_target(
                 resistances=target.resistances,
                 weaknesses=target.weaknesses,
                 immunities=target.immunities,
+                bypass=bypass,
             )
             applied_damage = apply_damage_to_pool(
                 hp=target.hp,
@@ -438,16 +440,20 @@ def _apply_modeled_effects_to_target(
                 "weakness_total": adjustment.weakness_total,
                 "applied_total": adjustment.applied_total,
             }
+            if bypass:
+                damage_detail["bypass"] = bypass
             if applied_damage.absorbed_by_temp_hp > 0:
                 damage_detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
     elif damage_event is not None:
         base_roll = roll_damage(rng, str(damage_event["formula"]))
+        bypass = [str(x).lower() for x in list(damage_event.get("bypass", []))]
         adjustment = apply_damage_modifiers(
             raw_total=base_roll.total,
             damage_type=str(damage_event.get("damage_type") or "").lower() or None,
             resistances=target.resistances,
             weaknesses=target.weaknesses,
             immunities=target.immunities,
+            bypass=bypass,
         )
         applied_damage = apply_damage_to_pool(
             hp=target.hp,
@@ -472,6 +478,8 @@ def _apply_modeled_effects_to_target(
             "weakness_total": adjustment.weakness_total,
             "applied_total": adjustment.applied_total,
         }
+        if bypass:
+            damage_detail["bypass"] = bypass
         if applied_damage.absorbed_by_temp_hp > 0:
             damage_detail["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
 
@@ -587,6 +595,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                 resistances=target.resistances,
                 weaknesses=target.weaknesses,
                 immunities=target.immunities,
+                bypass=actor.attack_damage_bypass,
             )
             damage_total = adjustment.applied_total
             damage_detail = {
@@ -601,6 +610,8 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                 "weakness_total": adjustment.weakness_total,
                 "total": damage_total,
             }
+            if actor.attack_damage_bypass:
+                damage_detail["bypass"] = list(actor.attack_damage_bypass)
             applied_damage = apply_damage_to_pool(
                 hp=target.hp,
                 temp_hp=target.temp_hp,
@@ -679,6 +690,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         save_type = command["save_type"]
         damage_formula = str(command["damage"])
         damage_type = str(command.get("damage_type") or "").lower() or None
+        damage_bypass = [str(x).lower() for x in list(command.get("damage_bypass", []))]
         mode = command.get("mode", "basic")
         if mode != "basic":
             raise ReductionError(f"unsupported save_damage mode: {mode}")
@@ -698,6 +710,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
             resistances=target.resistances,
             weaknesses=target.weaknesses,
             immunities=target.immunities,
+            bypass=damage_bypass,
         )
         damage_total = adjustment.applied_total
         applied_damage = apply_damage_to_pool(
@@ -726,6 +739,8 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
             "weakness_total": adjustment.weakness_total,
             "applied_total": damage_total,
         }
+        if damage_bypass:
+            damage_payload["bypass"] = damage_bypass
         if applied_damage.absorbed_by_temp_hp > 0:
             damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
 
@@ -764,6 +779,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
         save_type = str(command["save_type"])
         damage_formula = str(command["damage"])
         damage_type = str(command.get("damage_type") or "").lower() or None
+        damage_bypass = [str(x).lower() for x in list(command.get("damage_bypass", []))]
         mode = command.get("mode", "basic")
         if mode != "basic":
             raise ReductionError(f"unsupported area_save_damage mode: {mode}")
@@ -801,6 +817,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                 resistances=target.resistances,
                 weaknesses=target.weaknesses,
                 immunities=target.immunities,
+                bypass=damage_bypass,
             )
             applied = adjustment.applied_total
             applied_damage = apply_damage_to_pool(
@@ -828,6 +845,8 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
                 "weakness_total": adjustment.weakness_total,
                 "applied_total": applied,
             }
+            if damage_bypass:
+                damage_payload["bypass"] = damage_bypass
             if applied_damage.absorbed_by_temp_hp > 0:
                 damage_payload["temp_hp_absorbed"] = applied_damage.absorbed_by_temp_hp
             resolutions.append(
@@ -934,6 +953,7 @@ def apply_command(state: BattleState, command: Command, rng: DeterministicRNG) -
             temp_hp_source=f"spawn:{unit_id}" if temp_hp > 0 else None,
             temp_hp_owner_effect_id=None,
             attack_damage_type=str(unit_raw.get("attack_damage_type") or "physical").lower(),
+            attack_damage_bypass=[str(x).lower() for x in list(unit_raw.get("attack_damage_bypass", []))],
             fortitude=int(unit_raw.get("fortitude") or 0),
             reflex=int(unit_raw.get("reflex") or 0),
             will=int(unit_raw.get("will") or 0),

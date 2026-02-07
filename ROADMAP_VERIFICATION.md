@@ -37,6 +37,7 @@ Verified on February 7, 2026.
   - Damage mitigation baseline for resistances, weaknesses, and immunities in `strike`, `save_damage`, `area_save_damage`, and modeled hazard damage resolution.
   - Overlapping resistance/weakness precedence now resolves to the highest applicable value (exact, grouped tag, or `all`) instead of stacking totals.
   - Affliction stage damage now routes through the same mitigation layer (resistance/weakness/immunity + temp-HP-first consumption) as other damage sources.
+  - Typed mitigation exceptions via `bypass`/`damage_bypass`/`attack_damage_bypass` now allow packets to ignore matching resistances/immunities when required by source rules.
   - Grouped mitigation tags for umbrella damage categories (`physical`, `energy`) alongside specific damage types.
   - Temporary HP runtime consumption layer (damage applies to temp HP before HP across strike/save/area/modeled/persistent/affliction damage flows).
   - Source-aware temporary HP grant effect baseline (`apply_effect` with `effect_kind=temp_hp`) with same-source refresh, cross-source precedence (`higher_only`/`replace`/`ignore`), configurable stack mode (`max`/`add`), and expiration cleanup (`remove_on_expire`).
@@ -68,6 +69,7 @@ Verified on February 7, 2026.
   - `tests/scenarios/test_phase4_regression_matrix.py` validates 8 phase 4 encounter regressions against `scenarios/regression_phase4/expected_hashes.json`.
   - `scenarios/smoke/phase5_damage_mitigation_basic.json` exercises mitigation-aware save damage with resistance/weakness interaction.
   - `scenarios/smoke/phase5_affliction_mitigation_basic.json` exercises mitigation-aware affliction stage damage.
+  - `scenarios/smoke/phase5_mitigation_bypass_basic.json` exercises mitigation bypass against matching resistance and immunity keys.
   - `scenarios/smoke/phase5_grouped_mitigation_basic.json` exercises grouped-type mitigation (`fire -> energy`, `slashing -> physical`).
   - `scenarios/smoke/phase5_mitigation_precedence_basic.json` exercises overlap precedence (highest-only) across exact/grouped/`all` keys.
   - `scenarios/smoke/phase5_temp_hp_basic.json` exercises temp-HP-first damage consumption for strike damage.
@@ -102,7 +104,7 @@ Cross-check focus:
 - Add parser normalization for class progression, feat prerequisites, spell targeting, and trait interactions.
 
 2. Tactical correctness depth
-- Extend mitigation beyond baseline resistance/weakness/immunity (for example typed exceptions and edge-case interaction rules), plus persistent damage recovery checks and full affliction stage progression.
+- Extend mitigation beyond baseline resistance/weakness/immunity (for example broader edge-case interaction rules and source-specific exceptions), plus persistent damage recovery checks and full affliction stage progression.
 - Add real area shapes (cone/burst/emanation geometry) and stricter line-of-effect rules.
 
 3. Content/runtime integration
