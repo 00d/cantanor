@@ -859,3 +859,52 @@ html, body {
   margin-bottom: 4px;
 }
 
+
+/* ============================================================
+   Interactive Actions
+   ============================================================ */
+.target-mode-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: #2a3a1a;
+  border: 1px solid var(--accent-green);
+  border-radius: 3px;
+}
+
+.target-mode-text {
+  font-size: 12px;
+  color: var(--accent-green);
+  font-weight: bold;
+}
+
+.btn-cancel-target {
+  padding: 4px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+
+.btn-cancel-target:hover {
+  background: #2a1010;
+  border-color: var(--accent-red);
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--border-color);
+}
+
+.action-btn:disabled:hover {
+  background: var(--bg-panel-alt);
+  border-color: var(--border-color);
+}
+

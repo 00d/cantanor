@@ -47,8 +47,8 @@ export type BattleAnimation = DamageAnimation | MoveAnimation | ConditionAnimati
 // ---------------------------------------------------------------------------
 
 export interface TargetMode {
-  type: "strike" | "spell" | "feat" | "item" | "interact";
-  range: number;
+  type: "move" | "strike" | "spell" | "feat" | "item" | "interact";
+  range?: number;
   contentEntryId?: string;
 }
 

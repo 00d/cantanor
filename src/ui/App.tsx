@@ -6,6 +6,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useBattleStore } from "../store/battleStore";
+import { activeUnitId as getActiveUnitId } from "../engine/state";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
@@ -25,8 +26,11 @@ export function App() {
   const battle = useBattleStore((s) => s.battle);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
   const hoveredTilePos = useBattleStore((s) => s.hoveredTilePos);
+  const targetMode = useBattleStore((s) => s.targetMode);
   const selectUnit = useBattleStore((s) => s.selectUnit);
   const setHoverTileStore = useBattleStore((s) => s.setHoverTile);
+  const setTargetMode = useBattleStore((s) => s.setTargetMode);
+  const dispatchCommand = useBattleStore((s) => s.dispatchCommand);
 
   // Initialize PixiJS on mount
   useEffect(() => {
@@ -79,6 +83,17 @@ export function App() {
     setHoverTile(hoveredTilePos);
   }, [hoveredTilePos]);
 
+  // ESC key cancels target mode
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && targetMode) {
+        setTargetMode(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [targetMode, setTargetMode]);
+
   function handleCanvasMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
     if (!canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
@@ -95,7 +110,73 @@ export function App() {
     const rect = canvasRef.current.getBoundingClientRect();
     const [tx, ty] = screenToTile(e.clientX - rect.left, e.clientY - rect.top);
 
-    // Find unit at clicked tile
+    // Check if click is in bounds
+    if (tx < 0 || ty < 0 || tx >= battle.battleMap.width || ty >= battle.battleMap.height) {
+      return;
+    }
+
+    // Handle target mode actions
+    if (targetMode) {
+      const actorId = getActiveUnitId(battle);
+      const activeUnit = battle.units[actorId];
+
+      if (targetMode.type === "move") {
+        // Validate move (must be adjacent, not blocked, not occupied)
+        const dx = Math.abs(tx - activeUnit.x);
+        const dy = Math.abs(ty - activeUnit.y);
+        const isAdjacent = (dx === 1 && dy === 0) || (dx === 0 && dy === 1);
+
+        const blockedSet = new Set(battle.battleMap.blocked.map(([x, y]) => `${x},${y}`));
+        const isBlocked = blockedSet.has(`${tx},${ty}`);
+
+        const unitAtTile = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
+        const isOccupied = unitAtTile !== undefined;
+
+        if (!isAdjacent) {
+          console.warn("Cannot move: tile is not adjacent");
+          return;
+        }
+        if (isBlocked) {
+          console.warn("Cannot move: tile is blocked");
+          return;
+        }
+        if (isOccupied) {
+          console.warn("Cannot move: tile is occupied");
+          return;
+        }
+
+        // Dispatch move command
+        dispatchCommand({ type: "move", actor: actorId, x: tx, y: ty });
+        setTargetMode(null);
+        return;
+      }
+
+      if (targetMode.type === "strike") {
+        // Find unit at tile
+        const targetUnit = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
+        if (!targetUnit) {
+          console.warn("Cannot strike: no unit at tile");
+          return;
+        }
+
+        // Check if enemy
+        if (targetUnit.team === activeUnit.team) {
+          console.warn("Cannot strike: unit is on same team");
+          return;
+        }
+
+        // Dispatch strike command
+        dispatchCommand({ type: "strike", actor: actorId, target: targetUnit.unitId });
+        setTargetMode(null);
+        return;
+      }
+
+      // Cancel target mode on any other click
+      setTargetMode(null);
+      return;
+    }
+
+    // Default behavior: select unit at tile
     const unitAtTile = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
     if (unitAtTile) {
       selectUnit(selectedUnitId === unitAtTile.unitId ? null : unitAtTile.unitId);
