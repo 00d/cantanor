@@ -4,19 +4,23 @@
  * Inspired by Gold Box tactical RPG style.
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
 import { ScenarioLoader } from "./ScenarioLoader";
+import { ScenarioViewer } from "./designer/ScenarioViewer";
 import { initPixiApp, getPixiLayers } from "../rendering/pixiApp";
 import { renderTileMap, setHoverTile } from "../rendering/tileRenderer";
 import { syncUnits } from "../rendering/spriteManager";
 import { initCamera, tickCamera, screenToTile } from "../rendering/cameraController";
 import { initEffectRenderer } from "../rendering/effectRenderer";
 
+type AppMode = "game" | "designer";
+
 export function App() {
+  const [appMode, setAppMode] = useState<AppMode>("game");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const battle = useBattleStore((s) => s.battle);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
@@ -90,24 +94,49 @@ export function App() {
 
   return (
     <div className="app-root">
-      {/* Canvas section — 62% width */}
-      <div className="canvas-section">
-        <canvas
-          ref={canvasRef}
-          className="battle-canvas"
-          onMouseMove={handleCanvasMouseMove}
-          onClick={handleCanvasClick}
-          onMouseLeave={handleCanvasLeave}
-        />
+      {/* Mode Toggle */}
+      <div className="mode-toggle">
+        <button
+          className={`mode-btn ${appMode === "game" ? "active" : ""}`}
+          onClick={() => setAppMode("game")}
+        >
+          🎮 Game
+        </button>
+        <button
+          className={`mode-btn ${appMode === "designer" ? "active" : ""}`}
+          onClick={() => setAppMode("designer")}
+        >
+          🛠️ Designer
+        </button>
       </div>
 
-      {/* UI panels section — 38% width */}
-      <div className="ui-section">
-        <ScenarioLoader />
-        <PartyPanel />
-        <CombatLogPanel />
-        <ActionPanel />
-      </div>
+      {appMode === "game" ? (
+        <>
+          {/* Canvas section — 62% width */}
+          <div className="canvas-section">
+            <canvas
+              ref={canvasRef}
+              className="battle-canvas"
+              onMouseMove={handleCanvasMouseMove}
+              onClick={handleCanvasClick}
+              onMouseLeave={handleCanvasLeave}
+            />
+          </div>
+
+          {/* UI panels section — 38% width */}
+          <div className="ui-section">
+            <ScenarioLoader />
+            <PartyPanel />
+            <CombatLogPanel />
+            <ActionPanel />
+          </div>
+        </>
+      ) : (
+        /* Designer Mode */
+        <div className="designer-section">
+          <ScenarioViewer />
+        </div>
+      )}
     </div>
   );
 }
