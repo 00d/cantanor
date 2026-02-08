@@ -10,8 +10,11 @@ import { TILE_SIZE } from "./pixiApp";
 
 const TEAM_COLORS: Record<string, number> = {
   player: 0x4488ff,
-  enemy: 0xff4444,
-  neutral: 0xffaa22,
+  pc: 0x4488ff,      // Player characters
+  party: 0x4488ff,   // Party members
+  ally: 0x44ff88,    // Allies (green)
+  enemy: 0xff4444,   // Enemies (red)
+  neutral: 0xffaa22, // Neutral (orange)
 };
 const DEAD_COLOR = 0x555555;
 const SELECTED_OUTLINE = 0xffffff;

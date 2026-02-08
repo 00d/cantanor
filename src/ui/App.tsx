@@ -14,7 +14,7 @@ import { ScenarioViewer } from "./designer/ScenarioViewer";
 import { initPixiApp, getPixiLayers } from "../rendering/pixiApp";
 import { renderTileMap, setHoverTile } from "../rendering/tileRenderer";
 import { syncUnits } from "../rendering/spriteManager";
-import { initCamera, tickCamera, screenToTile } from "../rendering/cameraController";
+import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera } from "../rendering/cameraController";
 import { initEffectRenderer } from "../rendering/effectRenderer";
 
 type AppMode = "game" | "designer";
@@ -55,8 +55,22 @@ export function App() {
       const layers = getPixiLayers();
       renderTileMap(layers.map, battle.battleMap);
       syncUnits(layers.units, battle, selectedUnitId);
-    } catch {
-      // PixiJS not ready yet
+
+      // Center camera on the map when battle first loads
+      const centerX = (battle.battleMap.width - 1) / 2;
+      const centerY = (battle.battleMap.height - 1) / 2;
+
+      // Update camera viewport size in case window was resized
+      if (canvasRef.current) {
+        const rect = canvasRef.current.getBoundingClientRect();
+        resizeCamera(rect.width, rect.height);
+      }
+
+      // Focus camera on map center
+      focusTile(centerX, centerY);
+    } catch (err) {
+      // PixiJS not ready yet or other error
+      console.warn("Failed to render battle:", err);
     }
   }, [battle, selectedUnitId]);
 
