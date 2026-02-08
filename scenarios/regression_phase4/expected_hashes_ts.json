@@ -1,0 +1,10 @@
+{
+  "01_objective_flag.json": "01d12a169c939fdc70762740919c213aa6d27fa7d0dbba06acfc5431b9b3c554",
+  "02_hazard_routine_auto.json": "bd15d0a95ce5d49a83ac32c616a4ff6cb15c8e84d40bc94a5b3c703847441c2a",
+  "03_hazard_routine_cadence.json": "60f46941f25f05fad345a8bcc71a69500cdeca80fb5cbfa375876f39d2d96e6e",
+  "04_hazard_routine_no_script.json": "ec521b5f06cb6ebbcf2dad59433b6461c9e3f434e528734d3b37c1ec183cc3de",
+  "05_mission_event_spawn.json": "0fb093e603978838a11ebd9083cb0e45a33d19555ba16625a5d4394d8b588b18",
+  "06_mission_trigger_flag_set.json": "81675e14487a3ba25fd1398f4e9d006d393800c97501019d9de521ad575fb57d",
+  "07_mission_trigger_unit_dead.json": "6b8cf7ec7f2f454f7a0e39cf325ea3faedcdc18d851a5241adac2975256cda83",
+  "08_mission_branching_waves.json": "11eccca4999f19a9dbfe696ca38c1370934cd64dd8398ab2dc800a3cb5a80102"
+}

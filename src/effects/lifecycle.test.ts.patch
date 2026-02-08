@@ -1,0 +1,12 @@
+--- a/src/effects/lifecycle.test.ts
++++ b/src/effects/lifecycle.test.ts
+@@ -110,8 +110,8 @@
+     expect(nextState.units["enemy"].conditions["frightened"]).toBeUndefined();
+     const effectApply = events.filter((e) => e["type"] === "effect_apply");
+     expect(effectApply.length).toBeGreaterThan(0);
+-    expect(effectApply[0]["payload"]["applied"]).toBe(false);
+-    expect(effectApply[0]["payload"]["reason"]).toBe("condition_immune");
++    expect((effectApply[0] as any)["payload"]["applied"]).toBe(false);
++    expect((effectApply[0] as any)["payload"]["reason"]).toBe("condition_immune");
+   });
+ });

@@ -3,7 +3,7 @@
  * HP bars use direct DOM manipulation via refs (transient updates, no re-renders).
  */
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { UnitState, unitAlive } from "../engine/state";
 

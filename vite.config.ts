@@ -16,6 +16,17 @@ export default defineConfig({
       "@ui": resolve(__dirname, "src/ui"),
     },
   },
+  publicDir: "public",
+  server: {
+    watch: {
+      // Enable hot reload for game design content
+      ignored: ["!**/corpus/**", "!**/compiled/**", "!**/scenarios/**"],
+    },
+    fs: {
+      // Allow serving files from scenarios directory
+      allow: [".", "scenarios"],
+    },
+  },
   build: {
     target: "es2022",
     sourcemap: true,
@@ -28,10 +39,5 @@ export default defineConfig({
         },
       },
     },
-  },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
   },
 });

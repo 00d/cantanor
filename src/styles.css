@@ -282,3 +282,96 @@ html, body {
   color: var(--text-secondary);
   font-style: italic;
 }
+
+/* ============================================================
+   Scenario loader panel
+   ============================================================ */
+.scenario-loader {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+}
+
+.scenario-loader h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.scenario-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scenario-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.scenario-btn:hover:not(:disabled) {
+  background: #1e2a4a;
+  border-color: var(--accent-blue);
+}
+
+.scenario-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loader-error {
+  padding: 6px;
+  margin-bottom: 6px;
+  background: #2a1010;
+  border: 1px solid var(--accent-red);
+  border-radius: 3px;
+  color: var(--accent-red);
+  font-size: 11px;
+}
+
+.loader-loaded {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.loaded-info {
+  font-size: 11px;
+  color: var(--accent-green);
+}
+
+.btn-clear {
+  padding: 4px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+
+.btn-clear:hover:not(:disabled) {
+  background: #2a1010;
+  border-color: var(--accent-red);
+}
+
+.loader-spinner {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 4px;
+}

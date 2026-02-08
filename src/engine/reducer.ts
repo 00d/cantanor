@@ -17,7 +17,7 @@ import { applyDamageModifiers, applyDamageToPool, rollDamage } from "../rules/da
 import { Degree } from "../rules/degrees";
 import { resolveCheck } from "../rules/checks";
 import { SaveProfile, basicSaveMultiplier, resolveSave } from "../rules/saves";
-import { Command, RawCommand } from "./commands";
+import { RawCommand } from "./commands";
 import { castSpellForecast, strikeForecast } from "./forecast";
 import { eventId } from "./ids";
 import { DeterministicRNG } from "./rng";
@@ -135,7 +135,7 @@ function aliveUnitIds(state: BattleState): string[] {
     .map((u) => u.unitId);
 }
 
-function enemyUnitIds(state: BattleState, actorId: string): string[] {
+export function enemyUnitIds(state: BattleState, actorId: string): string[] {
   const actor = state.units[actorId];
   return Object.values(state.units)
     .filter((u) => unitAlive(u) && u.unitId !== actorId && u.team !== actor.team)

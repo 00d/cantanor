@@ -1,0 +1,39 @@
+{
+  "battle_id": "fireball_rune_basic",
+  "seed": 202,
+  "map": {
+    "width": 8,
+    "height": 8,
+    "blocked": []
+  },
+  "units": [
+    {
+      "id": "pc_mage",
+      "team": "pc",
+      "hp": 15,
+      "position": [0, 1],
+      "initiative": 18,
+      "attack_mod": 8,
+      "ac": 15,
+      "damage": "1d10+2"
+    },
+    {
+      "id": "orc_brute",
+      "team": "enemy",
+      "hp": 22,
+      "position": [1, 1],
+      "initiative": 11,
+      "attack_mod": 6,
+      "ac": 16,
+      "damage": "1d8+3"
+    }
+  ],
+  "commands": [
+    {"type": "strike", "actor": "pc_mage", "target": "orc_brute"},
+    {"type": "end_turn", "actor": "pc_mage"},
+    {"type": "move", "actor": "orc_brute", "x": 1, "y": 2},
+    {"type": "end_turn", "actor": "orc_brute"},
+    {"type": "strike", "actor": "pc_mage", "target": "orc_brute"},
+    {"type": "end_turn", "actor": "pc_mage"}
+  ]
+}

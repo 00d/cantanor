@@ -1,0 +1,50 @@
+{
+  "battle_id": "phase7_content_pack_integration_basic",
+  "seed": 7702,
+  "content_packs": [
+    "../../corpus/content_packs/phase7_baseline_v1.json"
+  ],
+  "content_pack_id": "phase7-baseline-v1",
+  "required_content_features": [
+    "content_pack_loader",
+    "phase7_m1"
+  ],
+  "map": {"width": 6, "height": 6, "blocked": []},
+  "units": [
+    {
+      "id": "caster",
+      "team": "pc",
+      "hp": 24,
+      "position": [1, 1],
+      "initiative": 20,
+      "attack_mod": 7,
+      "ac": 16,
+      "damage": "1d6+3"
+    },
+    {
+      "id": "target",
+      "team": "enemy",
+      "hp": 28,
+      "position": [2, 1],
+      "initiative": 10,
+      "attack_mod": 5,
+      "ac": 15,
+      "damage": "1d6+2",
+      "reflex": -10
+    }
+  ],
+  "commands": [
+    {
+      "type": "cast_spell",
+      "actor": "caster",
+      "content_entry_id": "spell.arc_flash",
+      "spell_id": "arc_flash",
+      "target": "target",
+      "dc": 22,
+      "save_type": "Reflex",
+      "damage": "12",
+      "damage_type": "electricity",
+      "mode": "basic"
+    }
+  ]
+}

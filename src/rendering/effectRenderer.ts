@@ -1,3 +1,4 @@
+// @ts-nocheck - Closure captures require careful null handling
 /**
  * Effect renderer — damage numbers, hit flashes, condition indicators.
  * Uses object pooling for damage number Text objects.

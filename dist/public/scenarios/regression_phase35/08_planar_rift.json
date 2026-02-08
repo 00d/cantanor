@@ -1,0 +1,13 @@
+{
+  "battle_id": "reg_08_planar_rift",
+  "seed": 9008,
+  "map": {"width": 10, "height": 10, "blocked": []},
+  "units": [
+    {"id": "hazard_core", "team": "hazard", "hp": 999, "position": [3, 3], "initiative": 30, "attack_mod": 0, "ac": 10, "damage": "1d1", "fortitude": 0, "reflex": 0, "will": 0},
+    {"id": "pc_a", "team": "pc", "hp": 35, "position": [3, 4], "initiative": 10, "attack_mod": 7, "ac": 17, "damage": "1d8+3", "fortitude": 6, "reflex": 5, "will": 4},
+    {"id": "pc_b", "team": "pc", "hp": 35, "position": [4, 4], "initiative": 9, "attack_mod": 7, "ac": 17, "damage": "1d8+3", "fortitude": 6, "reflex": 5, "will": 4}
+  ],
+  "commands": [
+    {"type": "trigger_hazard_source", "actor": "hazard_core", "hazard_id": "planar-rift", "source_name": "Into the Great Beyond", "source_type": "trigger_action", "center_x": 3, "center_y": 3}
+  ]
+}

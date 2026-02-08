@@ -1,0 +1,46 @@
+{
+  "battle_id": "phase8_enemy_policy_pack_spell_basic",
+  "seed": 8804,
+  "engine_phase": 8,
+  "content_packs": [
+    "../../corpus/content_packs/phase7_baseline_v1.json"
+  ],
+  "content_pack_id": "phase7-baseline-v1",
+  "required_content_features": [
+    "content_pack_loader"
+  ],
+  "enemy_policy": {
+    "enabled": true,
+    "teams": ["enemy"],
+    "action": "cast_spell_entry_nearest",
+    "content_entry_id": "spell.arc_flash",
+    "dc": 22,
+    "auto_end_turn": true
+  },
+  "map": {"width": 6, "height": 6, "blocked": []},
+  "units": [
+    {
+      "id": "enemy_caster",
+      "team": "enemy",
+      "hp": 20,
+      "position": [1, 1],
+      "initiative": 20,
+      "attack_mod": 5,
+      "ac": 15,
+      "damage": "1d6+2"
+    },
+    {
+      "id": "pc_target",
+      "team": "pc",
+      "hp": 8,
+      "position": [2, 1],
+      "initiative": 10,
+      "attack_mod": 5,
+      "ac": 15,
+      "damage": "1d6+2",
+      "reflex": -10
+    }
+  ],
+  "commands": [],
+  "max_steps": 10
+}

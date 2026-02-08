@@ -670,7 +670,7 @@ export async function runScenario(
           break;
         }
         try {
-          const [nextState, newEvents] = applyCommand(state, materializedCmd, rng);
+          const [nextState, newEvents] = applyCommand(state, materializedCmd as any, rng);
           state = nextState;
           events.push(...newEvents);
         } catch (exc) {
@@ -706,7 +706,7 @@ export async function runScenario(
 
       const routineCmd = buildRoutineCommand(currentActiveUnitId, routine);
       try {
-        const [nextState, newEvents] = applyCommand(state, routineCmd, rng);
+        const [nextState, newEvents] = applyCommand(state, routineCmd as any, rng);
         state = nextState;
         events.push(...newEvents);
       } catch (exc) {
@@ -795,7 +795,7 @@ export async function runScenario(
       });
 
       try {
-        const [nextState, newEvents] = applyCommand(state, policyCmd, rng);
+        const [nextState, newEvents] = applyCommand(state, policyCmd as any, rng);
         state = nextState;
         events.push(...newEvents);
       } catch {
@@ -899,7 +899,7 @@ export async function runScenario(
     }
 
     try {
-      const [nextState, newEvents] = applyCommand(state, commandForTurn, rng);
+      const [nextState, newEvents] = applyCommand(state, commandForTurn as any, rng);
       state = nextState;
       events.push(...newEvents);
     } catch (exc) {

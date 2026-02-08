@@ -11,6 +11,7 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { BattleState, activeUnitId, unitAlive } from "../engine/state";
 import { DeterministicRNG } from "../engine/rng";
 import { applyCommand, ReductionError } from "../engine/reducer";
+import { RawCommand } from "../engine/commands";
 
 // ---------------------------------------------------------------------------
 // Animation types (for PixiJS rendering layer)
@@ -83,7 +84,7 @@ export interface BattleStore {
 
   // Actions
   loadBattle: (state: BattleState, enginePhase?: number) => void;
-  dispatchCommand: (command: Record<string, unknown>) => void;
+  dispatchCommand: (command: RawCommand) => void;
   selectUnit: (unitId: string | null) => void;
   setHoverTile: (pos: [number, number] | null) => void;
   setTargetMode: (mode: TargetMode | null) => void;

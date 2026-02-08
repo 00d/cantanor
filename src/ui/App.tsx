@@ -4,12 +4,13 @@
  * Inspired by Gold Box tactical RPG style.
  */
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
-import { initPixiApp, getPixiLayers, getPixiApp } from "../rendering/pixiApp";
+import { ScenarioLoader } from "./ScenarioLoader";
+import { initPixiApp, getPixiLayers } from "../rendering/pixiApp";
 import { renderTileMap, setHoverTile } from "../rendering/tileRenderer";
 import { syncUnits } from "../rendering/spriteManager";
 import { initCamera, tickCamera, screenToTile } from "../rendering/cameraController";
@@ -26,12 +27,10 @@ export function App() {
   // Initialize PixiJS on mount
   useEffect(() => {
     if (!canvasRef.current) return;
-    let app: Awaited<ReturnType<typeof initPixiApp>> | null = null;
-    let animFrameId: number;
 
     async function init() {
       if (!canvasRef.current) return;
-      app = await initPixiApp(canvasRef.current);
+      const app = await initPixiApp(canvasRef.current);
       const layers = getPixiLayers();
       initCamera(app.stage, app.screen.width, app.screen.height);
       initEffectRenderer(layers.effects);
@@ -43,10 +42,6 @@ export function App() {
     }
 
     init();
-
-    return () => {
-      cancelAnimationFrame(animFrameId);
-    };
   }, []);
 
   // Sync battle state to PixiJS when battle changes
@@ -108,6 +103,7 @@ export function App() {
 
       {/* UI panels section — 38% width */}
       <div className="ui-section">
+        <ScenarioLoader />
         <PartyPanel />
         <CombatLogPanel />
         <ActionPanel />

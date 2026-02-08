@@ -3,7 +3,7 @@
  * Auto-scrolls to bottom on new events.
  */
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useBattleStore } from "../store/battleStore";
 
 function formatEvent(event: Record<string, unknown>): string {
