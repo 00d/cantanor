@@ -5,7 +5,7 @@
 
 import { runScenario, ScenarioResult } from "../engine/scenarioRunner";
 import { battleStateFromScenario, validateScenario } from "../io/scenarioLoader";
-import { ContentContext } from "../io/contentPackLoader";
+import { ContentContext, resolveContentContextSync } from "../io/contentPackLoader";
 import { setPreloadedEffectModel } from "../io/effectModelLoader";
 import { readFile } from "fs/promises";
 import { resolve, isAbsolute } from "path";
@@ -43,19 +43,52 @@ export async function runScenarioTest(scenarioPath: string): Promise<ScenarioRes
   // Build battle state
   const battleState = battleStateFromScenario(scenarioData);
 
-  // Create minimal content context (content packs will be loaded by runScenario if needed)
-  const contentContext: ContentContext = {
-    selectedPackId: null,
-    packs: [],
-    entryLookup: {},
-  };
+  // Load content packs from scenario (relative to scenario directory)
+  const enginePhase = (scenarioData["engine_phase"] as number) ?? 7;
+  const scenarioDir = absolutePath.substring(0, absolutePath.lastIndexOf("/"));
+  const contentContext = await loadContentPacksForScenario(scenarioData, enginePhase, scenarioDir);
 
   // Run scenario
-  const enginePhase = (scenarioData["engine_phase"] as number) ?? 7;
   const result = await runScenario(scenarioData, battleState, contentContext, enginePhase);
 
   // Return result directly
   return result;
+}
+
+/**
+ * Load content packs specified in scenario JSON.
+ * @param scenarioData - Parsed scenario JSON
+ * @param enginePhase - Engine phase number
+ * @param scenarioDir - Directory containing the scenario file (for resolving relative paths)
+ * @returns Content context with loaded packs and entry lookup
+ */
+async function loadContentPacksForScenario(
+  scenarioData: Record<string, unknown>,
+  enginePhase: number,
+  scenarioDir: string,
+): Promise<ContentContext> {
+  const contentPackPaths = (scenarioData["content_packs"] as string[]) ?? [];
+
+  if (contentPackPaths.length === 0) {
+    return {
+      selectedPackId: null,
+      packs: [],
+      entryLookup: {},
+    };
+  }
+
+  // Load all content pack JSON files
+  const packDataList: Record<string, unknown>[] = [];
+  for (const packPath of contentPackPaths) {
+    // Resolve path relative to scenario directory
+    const absolutePackPath = isAbsolute(packPath) ? packPath : resolve(scenarioDir, packPath);
+    const packJson = await readFile(absolutePackPath, "utf-8");
+    const packData = JSON.parse(packJson) as Record<string, unknown>;
+    packDataList.push(packData);
+  }
+
+  // Use synchronous resolver with pre-loaded data
+  return resolveContentContextSync(scenarioData, enginePhase, packDataList);
 }
 
 /**
