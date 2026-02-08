@@ -23,7 +23,8 @@ function formatEvent(event: Record<string, unknown>): string {
     case "strike": {
       const target = String(payload["target"] ?? "");
       const degree = String(payload["degree"] ?? "");
-      const total = payload["total"] ?? 0;
+      const damageInfo = (payload["damage"] as Record<string, unknown>) ?? {};
+      const total = Number(damageInfo["total"] ?? 0);
       if (degree === "critical_failure" || degree === "failure") {
         return `${actor} misses ${target} (${degree})`;
       }
@@ -37,8 +38,10 @@ function formatEvent(event: Record<string, unknown>): string {
     case "save_damage":
     case "area_save_damage": {
       const target = String(payload["target"] ?? "area");
-      const total = payload["total"] ?? 0;
-      return `${target} takes ${total} dmg (save)`;
+      const damageInfo = (payload["damage"] as Record<string, unknown>) ?? {};
+      const total = Number(damageInfo["total"] ?? 0);
+      const degree = String(payload["roll"]?.["degree"] ?? "unknown");
+      return `${target} takes ${total} dmg (${degree})`;
     }
     case "battle_end": {
       const winner = payload["winner_team"];
