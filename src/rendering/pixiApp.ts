@@ -1,6 +1,22 @@
 /**
  * PixiJS application setup and lifecycle management.
  * Initializes the renderer and manages the main stage hierarchy.
+ *
+ * Layer hierarchy:
+ *   stage (identity — never transformed)
+ *     └─ worldContainer  ← camera pan/zoom applied here
+ *          ├─ mapLayer
+ *          ├─ unitsLayer
+ *          └─ effectsLayer
+ *
+ * Keeping the stage as identity is essential for @pixi/tilemap's TilemapPipe:
+ * TilemapPipe computes u_proj_trans = proj * uWorldTransformMatrix * tilemap.worldTransform.
+ * uWorldTransformMatrix = stage.renderGroup.worldTransform.  If the camera were applied to
+ * the stage, it would appear in BOTH uWorldTransformMatrix and tilemap.worldTransform
+ * (since worldTransform includes all ancestors), causing the camera translation to be
+ * applied twice and tiles to be offset relative to sprites.  Applying the camera to
+ * worldContainer instead keeps stage = identity so that uWorldTransformMatrix = identity
+ * and the camera is applied exactly once via tilemap.worldTransform.
  */
 
 import { Application, Container } from "pixi.js";
@@ -16,6 +32,7 @@ export interface PixiLayers {
 
 let _app: Application | null = null;
 let _layers: PixiLayers | null = null;
+let _world: Container | null = null;
 
 export async function initPixiApp(canvas: HTMLCanvasElement): Promise<Application> {
   if (_app) return _app;
@@ -30,7 +47,13 @@ export async function initPixiApp(canvas: HTMLCanvasElement): Promise<Applicatio
     autoDensity: true,
   });
 
-  // Layer hierarchy: map → units → effects → ui
+  // worldContainer receives camera transforms.  Stage is left as identity so that
+  // TilemapPipe's uWorldTransformMatrix stays = identity (see module comment above).
+  const worldContainer = new Container();
+  worldContainer.label = "world";
+  app.stage.addChild(worldContainer);
+
+  // Layer hierarchy inside world space: map → units → effects
   const mapLayer = new Container();
   const unitsLayer = new Container();
   const effectsLayer = new Container();
@@ -41,12 +64,13 @@ export async function initPixiApp(canvas: HTMLCanvasElement): Promise<Applicatio
   effectsLayer.label = "effects";
   uiLayer.label = "ui";
 
-  app.stage.addChild(mapLayer);
-  app.stage.addChild(unitsLayer);
-  app.stage.addChild(effectsLayer);
-  app.stage.addChild(uiLayer);
+  worldContainer.addChild(mapLayer);
+  worldContainer.addChild(unitsLayer);
+  worldContainer.addChild(effectsLayer);
+  worldContainer.addChild(uiLayer);
 
   _app = app;
+  _world = worldContainer;
   _layers = { map: mapLayer, units: unitsLayer, effects: effectsLayer, ui: uiLayer };
 
   return app;
@@ -62,10 +86,17 @@ export function getPixiLayers(): PixiLayers {
   return _layers;
 }
 
+/** Returns the world container that receives camera pan/zoom transforms. */
+export function getPixiWorld(): Container {
+  if (!_world) throw new Error("PixiJS app not initialized");
+  return _world;
+}
+
 export function destroyPixiApp(): void {
   if (_app) {
     _app.destroy(true, { children: true });
     _app = null;
     _layers = null;
+    _world = null;
   }
 }

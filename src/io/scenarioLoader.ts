@@ -5,6 +5,7 @@
 
 import { BattleState, MapState, UnitState } from "../engine/state";
 import { buildTurnOrder } from "../engine/turnOrder";
+import type { ResolvedTiledMap } from "./tiledTypes";
 
 export class ScenarioValidationError extends Error {
   constructor(message: string) {
@@ -720,5 +721,59 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
     ),
     effects: {},
     eventSequence: 0,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Unified URL-based loader (auto-detects Tiled vs hand-written format)
+// ---------------------------------------------------------------------------
+
+export interface LoadScenarioResult {
+  battle: BattleState;
+  /** Present when the source was a Tiled .tmj file; null for JSON scenarios. */
+  tiledMap: ResolvedTiledMap | null;
+  enginePhase: number;
+}
+
+/**
+ * Fetches a scenario from `url` and returns a battle state plus optional
+ * Tiled map reference.
+ *
+ * Format detection:
+ *   - If the JSON contains a "tiledversion" field → Tiled .tmj format
+ *   - Otherwise → hand-written scenario JSON (legacy path, unchanged)
+ *
+ * Both paths run through validateScenario() and battleStateFromScenario(),
+ * so the engine receives identical data regardless of source format.
+ */
+export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResult> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to load scenario: ${response.status} ${response.statusText}`);
+  }
+  const data = await response.json() as Record<string, unknown>;
+
+  if ("tiledversion" in data) {
+    // Tiled .tmj format — use dynamic imports so the Tiled modules are not
+    // part of the module graph for tests that import scenarioLoader directly
+    // (avoids changing module-load timing for the existing regression suite).
+    const { loadTiledMap } = await import("./tiledLoader");
+    const { buildScenarioFromTiledMap } = await import("./mapDataBridge");
+    const tiledMap = await loadTiledMap(url);
+    const scenarioData = buildScenarioFromTiledMap(tiledMap);
+    validateScenario(scenarioData);
+    return {
+      battle: battleStateFromScenario(scenarioData),
+      tiledMap,
+      enginePhase: (scenarioData["engine_phase"] as number) ?? 7,
+    };
+  }
+
+  // Legacy hand-written JSON scenario
+  validateScenario(data);
+  return {
+    battle: battleStateFromScenario(data),
+    tiledMap: null,
+    enginePhase: (data["engine_phase"] as number) ?? 7,
   };
 }

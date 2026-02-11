@@ -12,6 +12,7 @@ import { BattleState, activeUnitId, unitAlive } from "../engine/state";
 import { DeterministicRNG } from "../engine/rng";
 import { applyCommand, ReductionError } from "../engine/reducer";
 import { RawCommand } from "../engine/commands";
+import type { ResolvedTiledMap } from "../io/tiledTypes";
 
 // ---------------------------------------------------------------------------
 // Animation types (for PixiJS rendering layer)
@@ -57,9 +58,6 @@ export interface TargetMode {
 // ---------------------------------------------------------------------------
 
 export interface TransientState {
-  cameraX: number;
-  cameraY: number;
-  cameraZoom: number;
   animationQueue: BattleAnimation[];
 }
 
@@ -74,6 +72,12 @@ export interface BattleStore {
   eventLog: Record<string, unknown>[];
   enginePhase: number;
 
+  // Tiled map reference — null when using a legacy hand-written scenario
+  tiledMap: ResolvedTiledMap | null;
+
+  // Grid overlay toggle (applies to Tiled maps only)
+  showGrid: boolean;
+
   // UI state — lightweight selection/hover
   selectedUnitId: string | null;
   hoveredTilePos: [number, number] | null;
@@ -83,11 +87,12 @@ export interface BattleStore {
   transient: TransientState;
 
   // Actions
-  loadBattle: (state: BattleState, enginePhase?: number) => void;
+  loadBattle: (state: BattleState, enginePhase?: number, tiledMap?: ResolvedTiledMap | null) => void;
   dispatchCommand: (command: RawCommand) => void;
   selectUnit: (unitId: string | null) => void;
   setHoverTile: (pos: [number, number] | null) => void;
   setTargetMode: (mode: TargetMode | null) => void;
+  toggleGrid: () => void;
   clearBattle: () => void;
 }
 
@@ -137,20 +142,20 @@ export const useBattleStore = create<BattleStore>()(
     eventLog: [],
     enginePhase: 7,
 
+    tiledMap: null,
+    showGrid: true,
+
     selectedUnitId: null,
     hoveredTilePos: null,
     targetMode: null,
 
     transient: {
-      cameraX: 0,
-      cameraY: 0,
-      cameraZoom: 1,
       animationQueue: [],
     },
 
-    loadBattle: (state, enginePhase = 7) => {
+    loadBattle: (state, enginePhase = 7, tiledMap = null) => {
       const rng = new DeterministicRNG(state.seed);
-      set({ battle: state, rng, eventLog: [], enginePhase, selectedUnitId: null, targetMode: null });
+      set({ battle: state, rng, eventLog: [], enginePhase, tiledMap, selectedUnitId: null, targetMode: null });
     },
 
     dispatchCommand: (command) => {
@@ -190,11 +195,16 @@ export const useBattleStore = create<BattleStore>()(
       set({ targetMode: mode });
     },
 
+    toggleGrid: () => {
+      set((s) => ({ showGrid: !s.showGrid }));
+    },
+
     clearBattle: () => {
       set({
         battle: null,
         rng: null,
         eventLog: [],
+        tiledMap: null,
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,

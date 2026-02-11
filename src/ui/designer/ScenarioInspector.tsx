@@ -5,6 +5,7 @@
 import { useDesignerStore } from "../../store/designerStore";
 import { useBattleStore } from "../../store/battleStore";
 import { battleStateFromScenario } from "../../io/scenarioLoader";
+import type { TiledProperty } from "../../io/tiledTypes";
 
 export function ScenarioInspector() {
   const scenarioData = useDesignerStore((s) => s.scenarioData);
@@ -19,9 +20,138 @@ export function ScenarioInspector() {
   const getExportData = useDesignerStore((s) => s.getExportData);
   const markSaved = useDesignerStore((s) => s.markSaved);
 
+  const tiledMap = useBattleStore((s) => s.tiledMap);
   const loadBattle = useBattleStore((s) => s.loadBattle);
+  const tiledMapPath = useDesignerStore((s) => s.tiledMapPath);
 
   if (!scenarioData) {
+    if (tiledMap) {
+      const spawnsLayer = tiledMap.layers.find(
+        (l) => l.name.toLowerCase() === "spawns" && l.type === "objectgroup"
+      );
+      const spawnObjects = spawnsLayer?.objects?.filter((o) => o.type === "spawn") ?? [];
+      const hazardsLayer = tiledMap.layers.find(
+        (l) => l.name.toLowerCase() === "hazards" && l.type === "objectgroup"
+      );
+      const hazardObjects = hazardsLayer?.objects?.filter((o) => o.type === "hazard") ?? [];
+
+      const getProps = (props?: TiledProperty[]): Record<string, unknown> => {
+        const record: Record<string, unknown> = {};
+        for (const p of props ?? []) record[p.name] = p.value;
+        return record;
+      };
+
+      return (
+        <div className="scenario-inspector tiled-inspector">
+          <div className="inspector-header">
+            <div className="inspector-title">
+              <h3>🗺️ Tiled Map Inspector</h3>
+            </div>
+            <div className="inspector-actions">
+              <button className="btn-close" onClick={clearScenario}>✖</button>
+            </div>
+          </div>
+
+          <div className="inspector-section">
+            <div className="section-label">File Path</div>
+            <div className="file-path">{tiledMapPath}</div>
+          </div>
+
+          <div className="inspector-section">
+            <div className="section-label">Map Size</div>
+            <div className="property-grid">
+              <div className="property-info">{tiledMap.width} × {tiledMap.height} tiles</div>
+              <div className="property-info">{tiledMap.tilewidth} × {tiledMap.tileheight} px per tile</div>
+            </div>
+          </div>
+
+          <div className="inspector-section">
+            <div className="section-label">Layers ({tiledMap.layers.length})</div>
+            <div className="units-list">
+              {tiledMap.layers.map((layer) => {
+                const icon = layer.type === "tilelayer" ? "▦" : layer.type === "objectgroup" ? "◈" : "▷";
+                const count =
+                  layer.type === "tilelayer"
+                    ? `${layer.data?.filter((g) => g > 0).length ?? 0} tiles`
+                    : layer.type === "objectgroup"
+                    ? `${layer.objects?.length ?? 0} objects`
+                    : "";
+                return (
+                  <div key={layer.id} className="unit-item">
+                    <span className="command-type">{icon} {layer.name}</span>
+                    <span className="unit-team">({layer.type})</span>
+                    {count && <span className="unit-hp">{count}</span>}
+                    {!layer.visible && <span className="unit-pos">[hidden]</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="inspector-section">
+            <div className="section-label">Tilesets ({tiledMap.tilesets.length})</div>
+            <div className="units-list">
+              {tiledMap.tilesets.map((ts) => (
+                <div key={ts.firstgid} className="unit-item">
+                  <span className="unit-id">{ts.name}</span>
+                  <span className="unit-hp">{ts.tilecount} tiles</span>
+                  <span className="unit-team">(GID {ts.firstgid}+)</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {spawnObjects.length > 0 && (
+            <div className="inspector-section">
+              <div className="section-label">Spawn Points ({spawnObjects.length})</div>
+              <div className="units-list">
+                {spawnObjects.map((obj) => {
+                  const props = getProps(obj.properties);
+                  const tx = Math.floor(obj.x / tiledMap.tilewidth);
+                  const ty = Math.floor(obj.y / tiledMap.tileheight);
+                  return (
+                    <div key={obj.id} className="unit-item">
+                      <span className="unit-id">{obj.name || `spawn_${obj.id}`}</span>
+                      <span className="unit-team">({String(props["team"] ?? "?")})</span>
+                      <span className="unit-pos">@ [{tx}, {ty}]</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {hazardObjects.length > 0 && (
+            <div className="inspector-section">
+              <div className="section-label">Hazard Zones ({hazardObjects.length})</div>
+              <div className="units-list">
+                {hazardObjects.map((obj) => {
+                  const props = getProps(obj.properties);
+                  const tw = Math.ceil(obj.width / tiledMap.tilewidth);
+                  const th = Math.ceil(obj.height / tiledMap.tileheight);
+                  return (
+                    <div key={obj.id} className="unit-item">
+                      <span className="unit-id">{obj.name || `hazard_${obj.id}`}</span>
+                      <span className="unit-team">({String(props["element"] ?? "?")})</span>
+                      <span className="unit-hp">{tw} × {th} tiles</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className="inspector-section">
+            <div className="section-label">Edit in Tiled</div>
+            <div className="property-info">
+              Open <code>{tiledMapPath}</code> in Tiled Map Editor to modify this map.
+              Changes take effect on next load.
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="scenario-inspector empty">
         <p>No scenario loaded. Select a scenario from the browser.</p>

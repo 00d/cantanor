@@ -8,6 +8,7 @@ import { useDesignerStore } from "../../store/designerStore";
 
 export function ScenarioViewer() {
   const scenarioData = useDesignerStore((s) => s.scenarioData);
+  const tiledMapPath = useDesignerStore((s) => s.tiledMapPath);
 
   return (
     <div className="scenario-viewer">
@@ -19,7 +20,7 @@ export function ScenarioViewer() {
 
         {/* Right panel: Inspector */}
         <div className="viewer-inspector">
-          {scenarioData ? (
+          {scenarioData || tiledMapPath ? (
             <ScenarioInspector />
           ) : (
             <div className="inspector-empty">

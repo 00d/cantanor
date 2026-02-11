@@ -1,7 +1,10 @@
 /**
  * Camera controller — pan, zoom, focus on units.
  * Uses smooth lerp interpolation rather than instant snap.
- * Writes directly to the stage container transform (transient, no React re-renders).
+ * Writes directly to the world container transform (transient, no React re-renders).
+ * The world container sits between app.stage (identity) and all layers, so
+ * TilemapPipe's uWorldTransformMatrix stays = identity and the camera is
+ * applied exactly once to both tiles and sprites.
  */
 
 import { Container } from "pixi.js";

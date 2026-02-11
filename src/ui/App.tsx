@@ -12,9 +12,11 @@ import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
 import { ScenarioLoader } from "./ScenarioLoader";
 import { ScenarioViewer } from "./designer/ScenarioViewer";
-import { initPixiApp, getPixiLayers } from "../rendering/pixiApp";
+import { initPixiApp, getPixiLayers, getPixiWorld } from "../rendering/pixiApp";
 import { renderTileMap, setHoverTile } from "../rendering/tileRenderer";
-import { syncUnits } from "../rendering/spriteManager";
+import { renderTiledMap, setHoverTileTiled, updateGridOverlay, clearTiledRenderer } from "../rendering/tiledTilemapRenderer";
+import { loadTilesetTextures } from "../rendering/tilesetLoader";
+import { syncUnits, clearUnits } from "../rendering/spriteManager";
 import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera } from "../rendering/cameraController";
 import { initEffectRenderer } from "../rendering/effectRenderer";
 
@@ -24,6 +26,8 @@ export function App() {
   const [appMode, setAppMode] = useState<AppMode>("game");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const battle = useBattleStore((s) => s.battle);
+  const tiledMap = useBattleStore((s) => s.tiledMap);
+  const showGrid = useBattleStore((s) => s.showGrid);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
   const hoveredTilePos = useBattleStore((s) => s.hoveredTilePos);
   const targetMode = useBattleStore((s) => s.targetMode);
@@ -31,6 +35,8 @@ export function App() {
   const setHoverTileStore = useBattleStore((s) => s.setHoverTile);
   const setTargetMode = useBattleStore((s) => s.setTargetMode);
   const dispatchCommand = useBattleStore((s) => s.dispatchCommand);
+  /** URL of the most recently loaded .tmj file — needed to resolve tileset image paths. */
+  const tiledMapUrlRef = useRef<string | null>(null);
 
   // Initialize PixiJS on mount
   useEffect(() => {
@@ -40,7 +46,7 @@ export function App() {
       if (!canvasRef.current) return;
       const app = await initPixiApp(canvasRef.current);
       const layers = getPixiLayers();
-      initCamera(app.stage, app.screen.width, app.screen.height);
+      initCamera(getPixiWorld(), app.screen.width, app.screen.height);
       initEffectRenderer(layers.effects);
 
       // Game loop ticker
@@ -54,34 +60,65 @@ export function App() {
 
   // Sync battle state to PixiJS when battle changes
   useEffect(() => {
-    if (!battle) return;
-    try {
-      const layers = getPixiLayers();
-      renderTileMap(layers.map, battle.battleMap);
-      syncUnits(layers.units, battle, selectedUnitId);
-
-      // Center camera on the map when battle first loads
-      const centerX = (battle.battleMap.width - 1) / 2;
-      const centerY = (battle.battleMap.height - 1) / 2;
-
-      // Update camera viewport size in case window was resized
-      if (canvasRef.current) {
-        const rect = canvasRef.current.getBoundingClientRect();
-        resizeCamera(rect.width, rect.height);
+    if (!battle) {
+      // Battle cleared — tear down tile art and unit sprites.
+      // Guard: getPixiLayers() throws before PixiJS is initialized (initial mount).
+      try {
+        clearTiledRenderer(getPixiLayers().map);
+        clearUnits();
+      } catch {
+        // PixiJS not yet initialized; nothing to clean up.
       }
-
-      // Focus camera on map center
-      focusTile(centerX, centerY);
-    } catch (err) {
-      // PixiJS not ready yet or other error
-      console.warn("Failed to render battle:", err);
+      return;
     }
-  }, [battle, selectedUnitId]);
 
-  // Sync hover tile
+    async function renderBattle() {
+      try {
+        const layers = getPixiLayers();
+
+        if (tiledMap && tiledMapUrlRef.current) {
+          // Tiled map path — load textures then render tile art
+          const textures = await loadTilesetTextures(tiledMap, tiledMapUrlRef.current);
+          renderTiledMap(layers.map, tiledMap, textures, showGrid);
+        } else {
+          // Legacy path — clear any previous Tiled render and use colored rects
+          clearTiledRenderer(layers.map);
+          renderTileMap(layers.map, battle!.battleMap);
+        }
+
+        syncUnits(layers.units, battle!, selectedUnitId);
+
+        // Center camera on the map
+        const centerX = (battle!.battleMap.width - 1) / 2;
+        const centerY = (battle!.battleMap.height - 1) / 2;
+
+        if (canvasRef.current) {
+          const rect = canvasRef.current.getBoundingClientRect();
+          resizeCamera(rect.width, rect.height);
+        }
+
+        focusTile(centerX, centerY);
+      } catch (err) {
+        console.warn("Failed to render battle:", err);
+      }
+    }
+
+    renderBattle();
+  }, [battle, selectedUnitId, tiledMap]);
+
+  // Sync grid overlay when showGrid changes (without re-rendering the full map)
   useEffect(() => {
-    setHoverTile(hoveredTilePos);
-  }, [hoveredTilePos]);
+    if (tiledMap) updateGridOverlay(showGrid);
+  }, [showGrid, tiledMap]);
+
+  // Sync hover tile — delegate to the active renderer
+  useEffect(() => {
+    if (tiledMap) {
+      setHoverTileTiled(hoveredTilePos);
+    } else {
+      setHoverTile(hoveredTilePos);
+    }
+  }, [hoveredTilePos, tiledMap]);
 
   // ESC key cancels target mode
   useEffect(() => {
@@ -220,7 +257,7 @@ export function App() {
 
           {/* UI panels section — 38% width */}
           <div className="ui-section">
-            <ScenarioLoader />
+            <ScenarioLoader onTiledMapUrl={(url) => { tiledMapUrlRef.current = url; }} />
             <PartyPanel />
             <CombatLogPanel />
             <ActionPanel />

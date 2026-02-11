@@ -4,6 +4,8 @@
 
 import { useState } from "react";
 import { useDesignerStore, ScenarioData } from "../../store/designerStore";
+import { useBattleStore } from "../../store/battleStore";
+import { loadScenarioFromUrl } from "../../io/scenarioLoader";
 
 interface ScenarioGroup {
   name: string;
@@ -84,6 +86,23 @@ const SCENARIO_GROUPS: ScenarioGroup[] = [
   },
 ];
 
+/** Tiled .tmj map files — listed separately from hand-written scenarios. */
+interface TiledMapFile {
+  id: string;
+  name: string;
+  path: string;
+  description?: string;
+}
+
+const TILED_MAP_FILES: TiledMapFile[] = [
+  {
+    id: "dungeon_arena_01",
+    name: "Dungeon Arena 01",
+    path: "/maps/dungeon_arena_01.tmj",
+    description: "12×10 arena with walls and spawn points",
+  },
+];
+
 export function ScenarioFileBrowser() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -91,6 +110,8 @@ export function ScenarioFileBrowser() {
     new Set(["Smoke Tests"])
   );
   const loadScenario = useDesignerStore((s) => s.loadScenario);
+  const setTiledMapPath = useDesignerStore((s) => s.setTiledMapPath);
+  const loadBattle = useBattleStore((s) => s.loadBattle);
 
   const toggleGroup = (groupName: string) => {
     const newExpanded = new Set(expandedGroups);
@@ -117,6 +138,22 @@ export function ScenarioFileBrowser() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
       console.error("Failed to load scenario:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLoadTiledMap = async (map: TiledMapFile) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await loadScenarioFromUrl(map.path);
+      loadBattle(result.battle, result.enginePhase, result.tiledMap);
+      setTiledMapPath(map.path);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+      console.error("Failed to load Tiled map:", err);
     } finally {
       setLoading(false);
     }
@@ -171,6 +208,36 @@ export function ScenarioFileBrowser() {
             </div>
           );
         })}
+
+        {/* Tiled Maps section */}
+        <div className="scenario-group">
+          <button
+            className="group-header"
+            onClick={() => toggleGroup("Tiled Maps")}
+          >
+            <span className="expand-icon">{expandedGroups.has("Tiled Maps") ? "▼" : "▶"}</span>
+            <span className="group-name">Tiled Maps</span>
+            <span className="group-count">({TILED_MAP_FILES.length})</span>
+          </button>
+
+          {expandedGroups.has("Tiled Maps") && (
+            <div className="scenario-list">
+              {TILED_MAP_FILES.map((map) => (
+                <button
+                  key={map.id}
+                  className="scenario-item scenario-item--tiled"
+                  onClick={() => handleLoadTiledMap(map)}
+                  disabled={loading}
+                >
+                  <div className="scenario-name">✦ {map.name}</div>
+                  {map.description && (
+                    <div className="scenario-description">{map.description}</div>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {loading && (

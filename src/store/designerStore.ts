@@ -3,9 +3,8 @@
  */
 
 import { create } from "zustand";
-import { BattleState } from "../engine/state";
 
-export type DesignerMode = "browse" | "inspect" | "edit" | "preview";
+export type DesignerMode = "browse" | "inspect" | "preview";
 
 export interface ScenarioData {
   // Raw scenario JSON data
@@ -41,6 +40,10 @@ export interface DesignerStore {
   // Load scenario
   loadScenario: (path: string, data: ScenarioData) => void;
 
+  // Load Tiled map (read-only in designer — editing happens in Tiled)
+  tiledMapPath: string | null;
+  setTiledMapPath: (path: string | null) => void;
+
   // Clear scenario
   clearScenario: () => void;
 
@@ -49,16 +52,6 @@ export interface DesignerStore {
   updateSeed: (seed: number) => void;
   updateMapSize: (width: number, height: number) => void;
   updateEnginePhase: (phase: number) => void;
-
-  // Add/remove blocked tiles
-  addBlockedTile: (x: number, y: number) => void;
-  removeBlockedTile: (x: number, y: number) => void;
-
-  // Preview state
-  previewBattle: BattleState | null;
-  previewEnabled: boolean;
-  setPreviewBattle: (battle: BattleState | null) => void;
-  togglePreview: () => void;
 
   // Export
   getExportData: () => ScenarioData | null;
@@ -70,9 +63,8 @@ export const useDesignerStore = create<DesignerStore>((set, get) => ({
   mode: "browse",
   scenarioPath: null,
   scenarioData: null,
+  tiledMapPath: null,
   hasUnsavedChanges: false,
-  previewBattle: null,
-  previewEnabled: false,
 
   // Mode management
   setMode: (mode) => set({ mode }),
@@ -82,8 +74,19 @@ export const useDesignerStore = create<DesignerStore>((set, get) => ({
     set({
       scenarioPath: path,
       scenarioData: data,
+      tiledMapPath: null,
       hasUnsavedChanges: false,
       mode: "inspect",
+    }),
+
+  // Load Tiled map
+  setTiledMapPath: (path) =>
+    set({
+      tiledMapPath: path,
+      scenarioPath: null,
+      scenarioData: null,
+      hasUnsavedChanges: false,
+      mode: path ? "inspect" : "browse",
     }),
 
   // Clear scenario
@@ -91,9 +94,8 @@ export const useDesignerStore = create<DesignerStore>((set, get) => ({
     set({
       scenarioPath: null,
       scenarioData: null,
+      tiledMapPath: null,
       hasUnsavedChanges: false,
-      previewBattle: null,
-      previewEnabled: false,
       mode: "browse",
     }),
 
@@ -142,50 +144,6 @@ export const useDesignerStore = create<DesignerStore>((set, get) => ({
       scenarioData: { ...scenarioData, engine_phase: phase },
       hasUnsavedChanges: true,
     });
-  },
-
-  // Add blocked tile
-  addBlockedTile: (x, y) => {
-    const { scenarioData } = get();
-    if (!scenarioData) return;
-    const blocked = scenarioData.map.blocked || [];
-    // Check if already blocked
-    if (blocked.some(([bx, by]) => bx === x && by === y)) return;
-    set({
-      scenarioData: {
-        ...scenarioData,
-        map: {
-          ...scenarioData.map,
-          blocked: [...blocked, [x, y] as [number, number]],
-        },
-      },
-      hasUnsavedChanges: true,
-    });
-  },
-
-  // Remove blocked tile
-  removeBlockedTile: (x, y) => {
-    const { scenarioData } = get();
-    if (!scenarioData) return;
-    const blocked = scenarioData.map.blocked || [];
-    set({
-      scenarioData: {
-        ...scenarioData,
-        map: {
-          ...scenarioData.map,
-          blocked: blocked.filter(([bx, by]) => !(bx === x && by === y)),
-        },
-      },
-      hasUnsavedChanges: true,
-    });
-  },
-
-  // Preview management
-  setPreviewBattle: (battle) => set({ previewBattle: battle }),
-
-  togglePreview: () => {
-    const { previewEnabled } = get();
-    set({ previewEnabled: !previewEnabled });
   },
 
   // Export

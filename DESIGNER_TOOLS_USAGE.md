@@ -1,98 +1,110 @@
 # Designer Tools - Quick Start Guide
 
-**Status:** ✅ Phase 1 Complete - Scenario Viewer/Inspector
-**Version:** 0.1.0
-**Date:** 2026-02-08
+**Status:** ✅ Phase 1 Complete - Scenario Viewer/Inspector + Tiled Map Viewer
+**Version:** 0.2.0
+**Date:** 2026-02-10
 
 ---
 
-## 🎯 **What's Available Now**
+## What's Available
 
-### **Scenario Viewer/Inspector (Phase 1)**
-- ✅ Browse available scenarios by category
-- ✅ Load and inspect scenario details
-- ✅ Edit basic properties (battle ID, seed, map size, engine phase)
-- ✅ View units, commands, objectives visually
-- ✅ Live preview integration (load into game)
-- ✅ Export modified scenarios as JSON
+### Scenario Viewer/Inspector
+- Browse available scenarios and Tiled maps by category
+- Load and inspect scenario details
+- Edit basic properties (battle ID, seed, map size, engine phase)
+- View units, commands, objectives visually
+- Live preview integration (load into game)
+- Export modified scenarios as JSON
 
-**Time to build:** 4 hours
-**Status:** Working and ready to use! 🎉
+### Tiled Map Viewer
+- Browse Tiled maps (`.tmj`) alongside JSON scenarios
+- Inspect map dimensions, layers, tilesets
+- View extracted spawn points and hazard zones
+- "Open in Tiled" workflow for editing
 
 ---
 
-## 🚀 **How to Use**
+## How to Use
 
-### **1. Start the Development Server**
+### 1. Start the Development Server
 ```bash
 npm run dev
 ```
 
 Open browser to `http://localhost:5173`
 
-### **2. Enter Designer Mode**
+### 2. Enter Designer Mode
 Click the **🛠️ Designer** button in the top-left corner.
 
-### **3. Browse Scenarios**
-- Left panel shows available scenarios organized by category
-- Click the **▶** arrow to expand/collapse groups
-- Currently available: **Smoke Tests**, **Phase 7**, **Phase 8**
+### 3. Browse Scenarios
+The left panel shows scenarios organized by category. Click the **▶** arrow
+to expand/collapse groups:
 
-### **4. Load a Scenario**
-Click any scenario name to load it. The right panel will show:
-- **File path**
-- **Basic properties** (editable)
-- **Map dimensions** (editable)
-- **Unit list** with teams and HP
-- **Command sequence**
-- **Objectives** (if any)
+- **Tiled Maps** — maps authored in Tiled Map Editor
+- **Smoke Tests** — engine regression tests
+- **Phase 7** and **Phase 8** — content pack scenarios
 
-### **5. Edit Properties**
+### 4. Load a Scenario or Map
+Click any item to load it. The right panel shows details.
+
+**For JSON scenarios:** file path, editable basic properties, unit list,
+command sequence, objectives.
+
+**For Tiled maps:** file path, map dimensions + tile size, layer list with
+counts, tileset list, extracted spawn points and hazard zones, and an
+"Open in Tiled" hint.
+
+### 5. Edit Properties (JSON scenarios only)
 Change any of these fields:
-- **Battle ID:** Scenario identifier
-- **Seed:** RNG seed (change for different outcomes)
-- **Engine Phase:** Compatibility version
-- **Map Width/Height:** Grid dimensions
+- **Battle ID** — Scenario identifier
+- **Seed** — RNG seed (change for different outcomes)
+- **Engine Phase** — Compatibility version
+- **Map Width/Height** — Grid dimensions
 
-**The orange dot (●) indicates unsaved changes.**
+The orange dot (●) indicates unsaved changes.
 
-### **6. Preview Live**
-Click **▶️ Preview** to:
-- Load the scenario into the game engine
-- Switch back to Game mode to see it rendered
-- Play through the scenario
+### 6. Preview Live
+Click **▶️ Preview** to load the scenario into the game engine, then switch
+to **🎮 Game** mode to see it rendered and play through.
 
-### **7. Export Modified Scenario**
-Click **💾 Export JSON** to:
-- Download the modified scenario as JSON
-- Save locally
-- Load back into the game later
+### 7. Export Modified Scenario (JSON scenarios only)
+Click **💾 Export JSON** to download the modified scenario. After export the
+unsaved indicator disappears.
 
-**After export, the unsaved indicator (●) disappears.**
-
----
-
-## 📂 **Available Scenarios**
-
-### **Smoke Tests (5 scenarios)**
-- Hidden Pit Trap - Basic hazard
-- Fireball Rune - AOE hazard
-- Poisoned Dart Gallery - Persistent damage
-- Strike Forecast - Strike mechanics test
-- Enemy Policy Duel - AI policy test
-
-### **Phase 7 (1 scenario)**
-- Content Pack Integration - Content pack loading
-
-### **Phase 8 (2 scenarios)**
-- Spell Entry - Content pack spell usage
-- Feat Entry - Content pack feat usage
-
-**Total:** 8 scenarios available to inspect and modify
+### 8. Edit Tiled Maps
+Tiled maps are read-only in the inspector. To modify a map:
+1. Note the file path shown in the inspector
+2. Open it in Tiled Map Editor
+3. Make changes and re-export to `public/maps/`
+4. Reload the browser to see the updated map
 
 ---
 
-## 🎨 **UI Layout**
+## Available Scenarios
+
+### Tiled Maps (1 map)
+- **dungeon_arena_01** — Dungeon arena with real tile art, spawn points, and
+  blocked terrain
+
+### Smoke Tests (5 scenarios)
+- Hidden Pit Trap — Basic hazard
+- Fireball Rune — AOE hazard
+- Poisoned Dart Gallery — Persistent damage
+- Strike Forecast — Strike mechanics test
+- Enemy Policy Duel — AI policy test
+
+### Phase 7 (1 scenario)
+- Content Pack Integration — Content pack loading
+
+### Phase 8 (2 scenarios)
+- Spell Entry — Content pack spell usage
+- Feat Entry — Content pack feat usage
+
+**Total:** 9 scenarios/maps available
+
+---
+
+## UI Layout
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -100,43 +112,34 @@ Click **💾 Export JSON** to:
 ├──────────────┬──────────────────────────────────────────────┤
 │              │  📋 Scenario Inspector              [✖]      │
 │  📁 Scenario │  ────────────────────────────────────────    │
-│  Browser     │  File: /scenarios/smoke/hidden_pit.json     │
+│  Browser     │  File: /maps/dungeon_arena_01.tmj            │
 │              │                                              │
-│  ▼ Smoke Tests (5)  │  Basic Properties:                        │
-│    • Hidden Pit     │  Battle ID: [___________]                 │
-│    • Fireball       │  Seed: [101]                              │
-│    • Poisoned Dart  │  Engine Phase: [7]                        │
-│    • Strike         │                                           │
-│    • Enemy Duel     │  Map: 20×20 (15 blocked tiles)            │
+│  ▼ Tiled Maps (1)   │  Map: 20×15 tiles (32px per tile)        │
+│    • dungeon_arena  │                                           │
+│                     │  Layers: 3                                │
+│  ▼ Smoke Tests (5)  │    ▦ Ground (tilelayer) — 300 tiles       │
+│    • Hidden Pit     │    ▦ Walls (tilelayer) — 42 tiles         │
+│    • Fireball       │    ◈ Spawns (objectgroup) — 4 objects     │
+│    • Poisoned Dart  │                                           │
+│    • Strike         │  Tilesets: 1                              │
+│    • Enemy Duel     │    dungeon_basic — 64 tiles (GID 1+)      │
 │                     │                                           │
-│  ▶ Phase 7 (1)      │  Units: 4                                 │
-│  ▶ Phase 8 (2)      │    party: 1    enemy: 3                   │
-│                     │                                           │
-│                     │  Commands: 25                             │
-│                     │    • move by hero                         │
-│                     │    • strike by goblin1                    │
+│  ▶ Phase 7 (1)      │  Spawn Points: 4                          │
+│  ▶ Phase 8 (2)      │    hero (pc) @ [3, 7]                     │
+│                     │    goblin1 (enemy) @ [16, 7]              │
 │                     │    ...                                    │
 │                     │                                           │
+│                     │  Edit in Tiled:                           │
+│                     │  Open maps/dungeon_arena_01.tmj           │
 └──────────────┴──────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔧 **Keyboard Shortcuts**
+## Current Limitations
 
-Currently:
-- **Click:** Select scenario or edit field
-- **Mouse wheel:** Scroll panels
-
-**Future:** Will add keyboard shortcuts for common actions
-
----
-
-## ⚠️ **Current Limitations**
-
-### **Not Yet Implemented:**
-- ❌ Visual map editor (drag-and-drop blocked tiles)
-- ❌ Unit placement/editing
+### Not Yet Implemented:
+- ❌ Visual unit placement/editing
 - ❌ Command builder
 - ❌ Objectives editor
 - ❌ Mission events editor
@@ -145,112 +148,85 @@ Currently:
 
 **These are Phase 2-3 features** (see DESIGNER_TOOLS_PLAN.md)
 
-### **Known Issues:**
+### Known Issues:
 - ⚠️ Preview doesn't automatically switch to Game mode
-- ⚠️ No undo/redo yet
+- ⚠️ No undo/redo
 - ⚠️ No auto-save (manual export only)
 
 ---
 
-## 💾 **File Management**
+## File Management
 
-### **Loading Scenarios:**
-- Scenarios load from `/scenarios/` directory
+### Loading Scenarios:
+- JSON scenarios load from `/scenarios/` directory
+- Tiled maps load from `/maps/` directory
 - Served via Vite dev server
-- Changes to scenario files require page refresh
+- Changes to files require page refresh
 
-### **Exporting Scenarios:**
+### Exporting Scenarios:
 - Exports to browser downloads folder
 - Filename: `{battle_id}.json`
-- Standard JSON format (can be loaded back)
+- Standard JSON format (can be loaded back via Game mode ScenarioLoader)
 
-### **Where to Save:**
-- Save exported files to `scenarios/custom/` (create directory)
-- Add to ScenarioFileBrowser.tsx to make browsable
-- Or load manually via Game mode ScenarioLoader
+### Adding New Maps:
+- Export `.tmj` to `public/maps/` from Tiled
+- Add tileset PNG to `public/tilesets/`
+- Update `ScenarioFileBrowser.tsx` to list the new file
 
 ---
 
-## 🐛 **Troubleshooting**
+## Troubleshooting
 
-### **"Failed to load scenario"**
+### "Failed to load scenario"
 - Check browser console for errors
-- Verify scenario path is correct
-- Ensure Vite dev server is running
+- Verify Vite dev server is running
+- For Tiled maps: verify tileset PNGs are in `public/tilesets/`
 
-### **Preview shows blank screen**
+### "Preview shows blank screen"
 - Switch to **Game mode** after clicking Preview
 - Check browser console for errors
-- Verify scenario has valid units and map
 
-### **Changes don't save**
-- Must click **Export JSON** to save
-- Changes only persist in browser memory until export
-- Orange dot (●) shows unsaved changes
-
-### **Can't find custom scenarios**
-- Custom scenarios must be added to `ScenarioFileBrowser.tsx`
-- Or use Game mode ScenarioLoader (supports file upload)
+### "Tiled map tiles look wrong (checkered pattern)"
+- This was a known rendering bug — now fixed
+- Hard-refresh the browser (Cmd+Shift+R / Ctrl+Shift+R)
 
 ---
 
-## 🔮 **What's Next (Phase 2)**
+## What's Next (Phase 2)
 
-Coming soon:
-1. **Visual Map Editor** - Drag-and-drop blocked tiles
-2. **Unit Placement Tool** - Add/move/edit units visually
-3. **Command Builder** - Build command sequences with forms
-4. **Objectives Editor** - Configure victory/defeat conditions
-5. **Real-time Preview** - See changes without leaving designer mode
-
-**ETA:** 2-3 days of development
+Coming in the next phase:
+1. **Command Builder** — Build command sequences with forms
+2. **Unit Placement Tool** — Add/move/edit units visually
+3. **Objectives Editor** — Configure victory/defeat conditions
+4. **Auto-switch to Game mode** — After clicking Preview
+5. **Content Pack Authoring** — Create custom spells/feats without JSON
 
 ---
 
-## 🎓 **Tips & Best Practices**
+## Tips
 
-### **Workflow:**
-1. Load existing scenario as template
+### Working with JSON Scenarios:
+1. Load an existing scenario as a template
 2. Modify properties as needed
 3. Preview to test
 4. Export when satisfied
-5. Use in game or share with others
 
-### **Scenario Design:**
-- Start with small maps (10×10 to 15×15)
-- Test with odd seeds to find edge cases
+### Working with Tiled Maps:
+1. Load the map in the inspector to see its current state
+2. Switch to Tiled to edit the map art or game data
+3. Re-export to `public/maps/`
+4. Reload browser to see changes
+
+### Scenario Design:
+- Start with small maps (10×10 to 15×15) for JSON scenarios
+- Test with different seeds to find edge cases
 - Use descriptive battle IDs
 - Export frequently (no auto-save yet)
 
-### **Performance:**
-- Large scenarios (30×30+) may be slow to render
-- Limit to 20-30 units for best performance
-- Preview smaller scenarios first
-
 ---
 
-## 📚 **Related Documentation**
+## Related Documentation
 
-- `CONTENT_AUTHORING.md` - How to write scenarios
-- `GAME_DESIGN_WORKFLOW.md` - Design process
-- `DESIGNER_TOOLS_PLAN.md` - Full roadmap
-- `READY_TO_BUILD.md` - Project status
-
----
-
-## 🎉 **You're Ready!**
-
-The Scenario Viewer/Inspector is fully functional. Try it out:
-
-1. Click **🛠️ Designer**
-2. Load **Hidden Pit Trap**
-3. Change the seed to `999`
-4. Click **▶️ Preview**
-5. Switch to **🎮 Game** mode
-6. Watch the battle with different RNG!
-
-**Have fun building scenarios!** 🚀
-
----
-
-*Questions? Check DESIGNER_TOOLS_PLAN.md for the full roadmap.*
+- `TILED_INTEGRATION_PLAN.md` — Tiled rendering architecture and authoring conventions
+- `DESIGNER_TOOLS_PLAN.md` — Full designer tools roadmap
+- `CONTENT_AUTHORING.md` — How to write JSON scenarios
