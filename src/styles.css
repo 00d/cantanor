@@ -284,6 +284,99 @@ html, body {
 }
 
 /* ============================================================
+   Inspect panel — stats for a non-active selected unit
+   ============================================================ */
+.inspect-panel {
+  margin-top: 10px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+.inspect-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.inspect-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.inspect-unit-id {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.inspect-team {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--bg-panel-alt);
+}
+
+.inspect-team.team-pc,
+.inspect-team.team-player,
+.inspect-team.team-party {
+  color: #4488ff;
+}
+
+.inspect-team.team-enemy {
+  color: #ff4444;
+}
+
+.inspect-team.team-ally {
+  color: #44ff88;
+}
+
+.inspect-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.inspect-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-panel-alt);
+  border-radius: 3px;
+  padding: 3px 4px;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stat-value {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.inspect-dead {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #e53935;
+  font-weight: bold;
+  text-align: center;
+}
+
+.inspect-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* ============================================================
    Scenario loader panel
    ============================================================ */
 .scenario-loader {
@@ -906,5 +999,222 @@ html, body {
 .action-btn:disabled:hover {
   background: var(--bg-panel-alt);
   border-color: var(--border-color);
+}
+
+/* ============================================================
+   Action panel section labels + AI turn banner
+   ============================================================ */
+.action-section-label {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 10px 0 6px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ai-turn-banner {
+  padding: 10px 12px;
+  background: #1a1010;
+  border: 1px solid var(--accent-red);
+  border-radius: 3px;
+  color: var(--accent-red);
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   Abilities section (spells / feats / items)
+   ============================================================ */
+.abilities-section {
+  margin-top: 4px;
+}
+
+.ability-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.ability-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all 0.15s;
+  min-width: 0;
+}
+
+.ability-btn:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+
+.ability-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Spell — blue-purple theme */
+.kind-spell {
+  border-color: #6655cc;
+  background: #1a1530;
+}
+.kind-spell .ability-icon {
+  color: #aa88ff;
+}
+
+/* Feat — gold theme */
+.kind-feat {
+  border-color: #887722;
+  background: #1e1a10;
+}
+.kind-feat .ability-icon {
+  color: var(--accent-orange);
+}
+
+/* Item — teal theme */
+.kind-item {
+  border-color: #226644;
+  background: #101e18;
+}
+.kind-item .ability-icon {
+  color: var(--accent-green);
+}
+
+.ability-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.ability-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+/* ============================================================
+   Battle-end overlay
+   ============================================================ */
+.battle-end-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.battle-end-card {
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 36px 48px;
+  min-width: 340px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+}
+
+.battle-end-card.victory {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 40px rgba(68, 255, 136, 0.15);
+}
+
+.battle-end-card.defeat {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 40px rgba(255, 68, 68, 0.15);
+}
+
+.battle-end-card.draw {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 40px rgba(255, 170, 34, 0.12);
+}
+
+.battle-end-heading {
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+}
+
+.victory .battle-end-heading  { color: var(--accent-green);  }
+.defeat  .battle-end-heading  { color: var(--accent-red);    }
+.draw    .battle-end-heading  { color: var(--accent-orange); }
+
+.battle-end-subheading {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.battle-end-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.battle-end-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn-play-again,
+.btn-new-scenario {
+  padding: 9px 22px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.btn-play-again {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.btn-play-again:hover {
+  background: #0e2018;
+}
+
+.btn-new-scenario:hover {
+  background: #1e2030;
+  border-color: var(--accent-blue);
 }
 

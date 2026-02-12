@@ -1,18 +1,45 @@
 /**
  * Zustand store for battle state management with frequency segregation.
  *
- * - Core battle state (BattleState) triggers React re-renders on dispatch
- * - Transient state (camera, animations) is updated directly without re-renders
- * - UI state (selection, hover, target mode) triggers lightweight re-renders
+ * State update tiers:
+ *   - Core battle state (BattleState) — immutable updates, triggers React re-renders
+ *   - Orchestration config — enemy policy + objectives parsed at scenario load
+ *   - UI state — selection, hover, target mode — lightweight re-renders
+ *   - Transient state — animations — mutated directly, no React re-renders
+ *
+ * After every player command the store runs:
+ *   1. materializeRawCommand   — fill in content-pack spell / feat / item fields
+ *   2. applyCommand            — deterministic engine step
+ *   3. checkBattleEnd          — objectives + alive-teams check
+ *   4. _scheduleAiTurn         — if the next active unit is AI-controlled
  */
 
 import { create } from "zustand";
-import { subscribeWithSelector } from "zustand/middleware";
 import { BattleState, activeUnitId, unitAlive } from "../engine/state";
 import { DeterministicRNG } from "../engine/rng";
 import { applyCommand, ReductionError } from "../engine/reducer";
 import { RawCommand } from "../engine/commands";
 import type { ResolvedTiledMap } from "../io/tiledTypes";
+import {
+  type ContentContext,
+  type ContentPackEntry,
+  type ResolvedEntry,
+} from "../io/contentPackLoader";
+import {
+  type OrchestratorConfig,
+  type BattleOutcome,
+  buildOrchestratorConfig,
+  checkBattleEnd,
+  getAiCommand,
+  isAiUnit,
+  materializeRawCommand,
+} from "../io/battleOrchestrator";
+import { loadScenarioFromUrl } from "../io/scenarioLoader";
+
+// ---------------------------------------------------------------------------
+// Re-export useful types for consumers
+// ---------------------------------------------------------------------------
+export type { BattleOutcome };
 
 // ---------------------------------------------------------------------------
 // Animation types (for PixiJS rendering layer)
@@ -51,6 +78,8 @@ export interface TargetMode {
   type: "move" | "strike" | "spell" | "feat" | "item" | "interact";
   range?: number;
   contentEntryId?: string;
+  /** True when the ability targets allies rather than enemies. */
+  allyTarget?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -72,6 +101,22 @@ export interface BattleStore {
   eventLog: Record<string, unknown>[];
   enginePhase: number;
 
+  // Orchestration — loaded from scenario, drives AI and battle-end detection
+  orchestratorConfig: OrchestratorConfig | null;
+  contentContext: ContentContext | null;
+  /** Flat list of content entries for the ActionPanel, sorted by kind then id. */
+  contentEntries: Array<ContentPackEntry & { resolvedEntry: ResolvedEntry }>;
+
+  // Battle outcome
+  battleEnded: boolean;
+  battleOutcome: BattleOutcome | null;
+
+  // AI state
+  isAiTurn: boolean;
+
+  // Last loaded scenario URL — used by "Play Again"
+  lastScenarioUrl: string | null;
+
   // Tiled map reference — null when using a legacy hand-written scenario
   tiledMap: ResolvedTiledMap | null;
 
@@ -87,17 +132,26 @@ export interface BattleStore {
   transient: TransientState;
 
   // Actions
-  loadBattle: (state: BattleState, enginePhase?: number, tiledMap?: ResolvedTiledMap | null) => void;
-  dispatchCommand: (command: RawCommand) => void;
+  loadBattle: (
+    state: BattleState,
+    enginePhase: number,
+    tiledMap: ResolvedTiledMap | null,
+    contentContext: ContentContext,
+    rawScenario: Record<string, unknown>,
+  ) => void;
+  dispatchCommand: (command: RawCommand | Record<string, unknown>) => void;
   selectUnit: (unitId: string | null) => void;
   setHoverTile: (pos: [number, number] | null) => void;
   setTargetMode: (mode: TargetMode | null) => void;
   toggleGrid: () => void;
   clearBattle: () => void;
+  reloadLastBattle: (url?: string) => Promise<void>;
+  /** Internal — schedules one AI step after a short delay. */
+  _scheduleAiTurn: () => void;
 }
 
 // ---------------------------------------------------------------------------
-// Event → Animation mapping
+// Helpers
 // ---------------------------------------------------------------------------
 
 function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[] {
@@ -118,29 +172,65 @@ function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[
       const from = payload["from"] as number[] | undefined;
       const to = payload["to"] as number[] | undefined;
       if (actor && from && to) {
-        animations.push({ type: "move", unitId: actor, fromX: from[0], fromY: from[1], toX: to[0], toY: to[1] });
+        animations.push({
+          type: "move",
+          unitId: actor,
+          fromX: from[0],
+          fromY: from[1],
+          toX: to[0],
+          toY: to[1],
+        });
       }
     } else if (type === "condition_applied" || type === "condition_cleared") {
       const target = String(payload["target"] ?? "");
       const condition = String(payload["condition"] ?? "");
       if (target && condition) {
-        animations.push({ type: "condition", unitId: target, condition, applied: type === "condition_applied" });
+        animations.push({
+          type: "condition",
+          unitId: target,
+          condition,
+          applied: type === "condition_applied",
+        });
       }
     }
   }
   return animations;
 }
 
+function buildContentEntries(
+  ctx: ContentContext,
+): Array<ContentPackEntry & { resolvedEntry: ResolvedEntry }> {
+  return Object.entries(ctx.entryLookup)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([id, re]) => ({
+      id,
+      kind: re.kind,
+      sourceRef: re.sourceRef ?? undefined,
+      tags: re.tags,
+      payload: re.payload,
+      resolvedEntry: re,
+    }));
+}
+
 // ---------------------------------------------------------------------------
 // Store implementation
 // ---------------------------------------------------------------------------
 
-export const useBattleStore = create<BattleStore>()(
-  subscribeWithSelector((set, get) => ({
+export const useBattleStore = create<BattleStore>()((set, get) => ({
     battle: null,
     rng: null,
     eventLog: [],
-    enginePhase: 7,
+    enginePhase: 9,
+
+    orchestratorConfig: null,
+    contentContext: null,
+    contentEntries: [],
+
+    battleEnded: false,
+    battleOutcome: null,
+    isAiTurn: false,
+
+    lastScenarioUrl: null,
 
     tiledMap: null,
     showGrid: true,
@@ -149,72 +239,213 @@ export const useBattleStore = create<BattleStore>()(
     hoveredTilePos: null,
     targetMode: null,
 
-    transient: {
-      animationQueue: [],
-    },
+    transient: { animationQueue: [] },
 
-    loadBattle: (state, enginePhase = 7, tiledMap = null) => {
+    // -------------------------------------------------------------------------
+    loadBattle: (state, enginePhase = 9, tiledMap = null, contentContext, rawScenario) => {
       const rng = new DeterministicRNG(state.seed);
-      set({ battle: state, rng, eventLog: [], enginePhase, tiledMap, selectedUnitId: null, targetMode: null });
+      const orchestratorConfig = buildOrchestratorConfig(rawScenario);
+      const contentEntries = buildContentEntries(contentContext);
+
+      // Auto-select the first unit if it is player-controlled
+      const firstId = state.turnOrder[state.turnIndex];
+      const firstUnit = state.units[firstId];
+      const initialSelectedId =
+        firstUnit && orchestratorConfig.playerTeams.includes(firstUnit.team)
+          ? firstId
+          : null;
+
+      set({
+        battle: state,
+        rng,
+        eventLog: [],
+        enginePhase,
+        orchestratorConfig,
+        contentContext,
+        contentEntries,
+        battleEnded: false,
+        battleOutcome: null,
+        isAiTurn: false,
+        tiledMap,
+        selectedUnitId: initialSelectedId,
+        hoveredTilePos: null,
+        targetMode: null,
+      });
+
+      // If the first unit in initiative order is AI-controlled, kick off AI immediately.
+      get()._scheduleAiTurn();
     },
 
+    // -------------------------------------------------------------------------
     dispatchCommand: (command) => {
-      const { battle, rng, eventLog } = get();
-      if (!battle || !rng) return;
+      const { battle, rng, eventLog, contentContext, orchestratorConfig, battleEnded } = get();
+      if (!battle || !rng || battleEnded) return;
+
+      // Materialize content-entry commands before sending to the reducer
+      let cmd: Record<string, unknown> = command as Record<string, unknown>;
+      if (contentContext && cmd["content_entry_id"]) {
+        try {
+          cmd = materializeRawCommand(cmd, contentContext);
+        } catch (err) {
+          console.warn("Content entry materialization failed:", err);
+          return;
+        }
+      }
 
       try {
-        const [nextState, newEvents] = applyCommand(battle, command, rng);
+        const [nextState, newEvents] = applyCommand(battle, cmd as RawCommand, rng);
         const animations = eventsToAnimations(newEvents);
+
+        // Check battle-end conditions after every command
+        let ended = false;
+        let outcome: BattleOutcome | null = null;
+        if (orchestratorConfig) {
+          const result = checkBattleEnd(nextState, orchestratorConfig);
+          ended = result.ended;
+          outcome = result.outcome;
+        }
+
+        const endEvent: Record<string, unknown>[] = ended
+          ? [{
+              type: "battle_end",
+              round: nextState.roundNumber,
+              active_unit: activeUnitId(nextState),
+              payload: { outcome },
+            }]
+          : [];
+
+        // Auto-follow: if the new active unit is player-controlled, select them.
+        // During AI turns, preserve the player's current selection.
+        const nextActiveId = activeUnitId(nextState);
+        const nextUnit = nextState.units[nextActiveId];
+        const isNextPC =
+          nextUnit && orchestratorConfig?.playerTeams.includes(nextUnit.team);
+        const newSelectedId = isNextPC ? nextActiveId : get().selectedUnitId;
 
         set({
           battle: nextState,
-          eventLog: [...eventLog, ...newEvents],
+          eventLog: [...eventLog, ...newEvents, ...endEvent],
+          battleEnded: ended,
+          battleOutcome: outcome,
+          isAiTurn: false,
+          selectedUnitId: newSelectedId,
         });
 
-        // Direct transient update — no re-render
         const transient = get().transient;
         transient.animationQueue.push(...animations);
+
+        if (!ended) {
+          get()._scheduleAiTurn();
+        }
       } catch (err) {
         if (err instanceof ReductionError) {
           console.warn("Command rejected:", err.message);
         } else {
           console.error("Unexpected reducer error:", err);
         }
+        // Anti-deadlock: if the active unit is AI-controlled and its command failed,
+        // force an end_turn so the game doesn't soft-lock.
+        const { battle: currentBattle, orchestratorConfig } = get();
+        if (currentBattle && orchestratorConfig) {
+          const failedActorId = activeUnitId(currentBattle);
+          const failedActor = currentBattle.units[failedActorId];
+          if (failedActor && !orchestratorConfig.playerTeams.includes(failedActor.team)) {
+            setTimeout(() => get().dispatchCommand({ type: "end_turn", actor: failedActorId }), 0);
+          }
+        }
       }
     },
 
-    selectUnit: (unitId) => {
-      set({ selectedUnitId: unitId });
+    // -------------------------------------------------------------------------
+    _scheduleAiTurn: () => {
+      const { battle, orchestratorConfig, battleEnded, isAiTurn } = get();
+      if (!battle || !orchestratorConfig || battleEnded || isAiTurn) return;
+      if (!isAiUnit(battle, orchestratorConfig)) return;
+
+      set({ isAiTurn: true });
+
+      setTimeout(() => {
+        const state = get();
+        if (!state.battle || !state.orchestratorConfig || state.battleEnded) {
+          set({ isAiTurn: false });
+          return;
+        }
+        const policy = state.orchestratorConfig.enemyPolicy;
+        if (!policy.enabled) {
+          set({ isAiTurn: false });
+          // Safety net: if the active unit is not player-controlled, auto-end
+          // their turn so the game never hangs waiting for an AI that won't act.
+          const activeId = activeUnitId(state.battle);
+          const activeUnit = state.battle.units[activeId];
+          if (activeUnit && !state.orchestratorConfig.playerTeams.includes(activeUnit.team)) {
+            get().dispatchCommand({ type: "end_turn", actor: activeId });
+          }
+          return;
+        }
+
+        const rawCmd = getAiCommand(state.battle, policy);
+
+        // Materialize if needed
+        let cmd = rawCmd;
+        if (state.contentContext && rawCmd["content_entry_id"]) {
+          try {
+            cmd = materializeRawCommand(rawCmd, state.contentContext);
+          } catch {
+            cmd = { type: "end_turn", actor: activeUnitId(state.battle) };
+          }
+        }
+
+        set({ isAiTurn: false });
+        get().dispatchCommand(cmd as RawCommand);
+      }, 420);
     },
 
-    setHoverTile: (pos) => {
-      set({ hoveredTilePos: pos });
+    // -------------------------------------------------------------------------
+    reloadLastBattle: async (urlOverride?: string) => {
+      const url = urlOverride ?? get().lastScenarioUrl;
+      if (!url) return;
+      try {
+        const result = await loadScenarioFromUrl(url);
+        get().loadBattle(
+          result.battle,
+          result.enginePhase,
+          result.tiledMap,
+          result.contentContext,
+          result.rawScenario,
+        );
+        set({ lastScenarioUrl: url });
+      } catch (err) {
+        console.error("Failed to reload battle:", err);
+      }
     },
 
-    setTargetMode: (mode) => {
-      set({ targetMode: mode });
-    },
+    // -------------------------------------------------------------------------
+    selectUnit: (unitId) => set({ selectedUnitId: unitId }),
+    setHoverTile: (pos) => set({ hoveredTilePos: pos }),
+    setTargetMode: (mode) => set({ targetMode: mode }),
+    toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
 
-    toggleGrid: () => {
-      set((s) => ({ showGrid: !s.showGrid }));
-    },
-
-    clearBattle: () => {
+    clearBattle: () =>
       set({
         battle: null,
         rng: null,
         eventLog: [],
+        orchestratorConfig: null,
+        contentContext: null,
+        contentEntries: [],
+        battleEnded: false,
+        battleOutcome: null,
+        isAiTurn: false,
         tiledMap: null,
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,
-      });
-    },
-  })),
-);
+        transient: { animationQueue: [] },
+      }),
+  }));
 
 // ---------------------------------------------------------------------------
-// Selector helpers (memoized access patterns)
+// Selector helpers
 // ---------------------------------------------------------------------------
 
 export function selectActiveUnit(store: BattleStore) {

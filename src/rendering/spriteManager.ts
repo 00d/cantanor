@@ -17,7 +17,8 @@ const TEAM_COLORS: Record<string, number> = {
   neutral: 0xffaa22, // Neutral (orange)
 };
 const DEAD_COLOR = 0x555555;
-const SELECTED_OUTLINE = 0xffffff;
+const ACTIVE_OUTLINE = 0xffd700;   // Gold — whose turn it is
+const SELECTED_OUTLINE = 0xffffff; // White — player-inspected unit
 const UNIT_PADDING = 6;
 
 interface UnitSprite {
@@ -51,14 +52,20 @@ function createUnitSprite(unit: UnitState): UnitSprite {
   return { container, body, label, unitId: unit.unitId };
 }
 
-function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean): void {
+function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean, active: boolean): void {
   const color = unitAlive(unit) ? teamColor(unit.team) : DEAD_COLOR;
   const p = UNIT_PADDING;
   sprite.body.clear();
   sprite.body
     .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
     .fill(color);
-  if (selected) {
+  // Active turn unit gets a gold outline; selected-but-not-active gets white.
+  if (active) {
+    sprite.body.setStrokeStyle({ width: 3, color: ACTIVE_OUTLINE });
+    sprite.body
+      .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
+      .stroke();
+  } else if (selected) {
     sprite.body.setStrokeStyle({ width: 2, color: SELECTED_OUTLINE });
     sprite.body
       .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
@@ -67,7 +74,12 @@ function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean): v
   sprite.label.alpha = unitAlive(unit) ? 1 : 0.4;
 }
 
-export function syncUnits(parent: Container, state: BattleState, selectedUnitId: string | null): void {
+export function syncUnits(
+  parent: Container,
+  state: BattleState,
+  selectedUnitId: string | null,
+  activeUnitId: string | null,
+): void {
   _parentLayer = parent;
 
   // Remove sprites for units no longer in state
@@ -91,9 +103,10 @@ export function syncUnits(parent: Container, state: BattleState, selectedUnitId:
     // Position
     sprite.container.position.set(unit.x * TILE_SIZE, unit.y * TILE_SIZE);
 
-    // Appearance
+    // Appearance — active (gold) takes visual priority over selected (white)
+    const active = unit.unitId === activeUnitId;
     const selected = unit.unitId === selectedUnitId;
-    drawUnitBody(sprite, unit, selected);
+    drawUnitBody(sprite, unit, selected, active);
 
     // Dead units go slightly transparent and behind others
     sprite.container.alpha = unitAlive(unit) ? 1 : 0.5;

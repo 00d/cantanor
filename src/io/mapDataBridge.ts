@@ -357,6 +357,15 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
     ...(o.position !== undefined && { tile_x: o.position[0], tile_y: o.position[1] }),
   }));
 
+  // Auto-generate enemy_policy for any non-PC team found in the spawn points.
+  // Without this, buildOrchestratorConfig defaults to enabled:false and the
+  // game soft-locks when the player passes the turn to an enemy unit.
+  const playerTeam = "pc";
+  const enemyTeams = [...new Set(spawns.map((s) => s.team).filter((t) => t !== playerTeam))];
+  const enemyPolicy = enemyTeams.length > 0
+    ? { enabled: true, teams: enemyTeams, action: "strike_nearest", auto_end_turn: true }
+    : undefined;
+
   return {
     battle_id: mapProps.battleId,
     seed: mapProps.seed,
@@ -373,5 +382,6 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
     mission_events: [],
     reinforcement_waves: [],
     hazard_routines: [],
+    ...(enemyPolicy !== undefined && { enemy_policy: enemyPolicy }),
   };
 }

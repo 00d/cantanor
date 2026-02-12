@@ -40,7 +40,8 @@ function formatEvent(event: Record<string, unknown>): string {
       const target = String(payload["target"] ?? "area");
       const damageInfo = (payload["damage"] as Record<string, unknown>) ?? {};
       const total = Number(damageInfo["total"] ?? 0);
-      const degree = String(payload["roll"]?.["degree"] ?? "unknown");
+      const rollInfo = (payload["roll"] as Record<string, unknown>) ?? {};
+      const degree = String(rollInfo["degree"] ?? "unknown");
       return `${target} takes ${total} dmg (${degree})`;
     }
     case "battle_end": {

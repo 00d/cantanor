@@ -5,7 +5,7 @@
  * format and returns a BattleState plus an optional TiledMap reference.
  */
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { loadScenarioFromUrl } from "../io/scenarioLoader";
 
@@ -14,6 +14,7 @@ import { loadScenarioFromUrl } from "../io/scenarioLoader";
 // ---------------------------------------------------------------------------
 
 const SMOKE_SCENARIOS = [
+  { id: "interactive_arena", name: "⚔️ Interactive Arena (2v2)", path: "/scenarios/smoke/interactive_arena.json" },
   { id: "hidden_pit", name: "Hidden Pit Trap", path: "/scenarios/smoke/hidden_pit_basic.json" },
   { id: "fireball", name: "Fireball Rune", path: "/scenarios/smoke/fireball_rune_basic.json" },
   { id: "poisoned_dart", name: "Poisoned Dart Gallery", path: "/scenarios/smoke/poisoned_dart_gallery_basic.json" },
@@ -49,7 +50,8 @@ export function ScenarioLoader({
     setError(null);
     try {
       const result = await loadScenarioFromUrl(path);
-      loadBattle(result.battle, result.enginePhase, result.tiledMap);
+      loadBattle(result.battle, result.enginePhase, result.tiledMap, result.contentContext, result.rawScenario);
+      useBattleStore.setState({ lastScenarioUrl: path });
       onTiledMapUrl?.(result.tiledMap ? path : null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");

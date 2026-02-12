@@ -25,6 +25,8 @@ export const TILE_SIZE = 64;
 
 export interface PixiLayers {
   map: Container;
+  /** Tile-range and target highlights, rendered between the map and unit sprites. */
+  overlay: Container;
   units: Container;
   effects: Container;
   ui: Container;
@@ -53,25 +55,28 @@ export async function initPixiApp(canvas: HTMLCanvasElement): Promise<Applicatio
   worldContainer.label = "world";
   app.stage.addChild(worldContainer);
 
-  // Layer hierarchy inside world space: map → units → effects
+  // Layer hierarchy inside world space: map → overlay → units → effects → ui
   const mapLayer = new Container();
+  const overlayLayer = new Container();
   const unitsLayer = new Container();
   const effectsLayer = new Container();
   const uiLayer = new Container();
 
   mapLayer.label = "map";
+  overlayLayer.label = "overlay";
   unitsLayer.label = "units";
   effectsLayer.label = "effects";
   uiLayer.label = "ui";
 
   worldContainer.addChild(mapLayer);
+  worldContainer.addChild(overlayLayer);
   worldContainer.addChild(unitsLayer);
   worldContainer.addChild(effectsLayer);
   worldContainer.addChild(uiLayer);
 
   _app = app;
   _world = worldContainer;
-  _layers = { map: mapLayer, units: unitsLayer, effects: effectsLayer, ui: uiLayer };
+  _layers = { map: mapLayer, overlay: overlayLayer, units: unitsLayer, effects: effectsLayer, ui: uiLayer };
 
   return app;
 }

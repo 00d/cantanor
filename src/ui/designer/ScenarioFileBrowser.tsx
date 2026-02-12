@@ -149,7 +149,7 @@ export function ScenarioFileBrowser() {
 
     try {
       const result = await loadScenarioFromUrl(map.path);
-      loadBattle(result.battle, result.enginePhase, result.tiledMap);
+      loadBattle(result.battle, result.enginePhase, result.tiledMap, result.contentContext, result.rawScenario);
       setTiledMapPath(map.path);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");

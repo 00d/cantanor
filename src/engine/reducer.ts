@@ -11,7 +11,7 @@ import { conePoints, linePoints, radiusPoints } from "../grid/areas";
 import { coverAcBonusForUnits, coverGradeForUnits, hasTileLineOfEffect } from "../grid/loe";
 import { hasLineOfSight } from "../grid/los";
 import { inBounds, isBlocked, isOccupied } from "../grid/map";
-import { canStepTo } from "../grid/movement";
+import { reachableTiles } from "../grid/movement";
 import { applyCondition, conditionIsImmune, normalizeConditionName } from "../rules/conditions";
 import { applyDamageModifiers, applyDamageToPool, rollDamage } from "../rules/damage";
 import { Degree } from "../rules/degrees";
@@ -645,7 +645,7 @@ export function applyCommand(
     }
     const x = Number(command.x);
     const y = Number(command.y);
-    if (!canStepTo(nextState, actor, x, y)) {
+    if (!reachableTiles(nextState, actorId).has(`${x},${y}`)) {
       throw new ReductionError(`illegal move target (${x}, ${y})`);
     }
     const old: [number, number] = [actor.x, actor.y];

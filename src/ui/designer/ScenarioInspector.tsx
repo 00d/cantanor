@@ -5,6 +5,7 @@
 import { useDesignerStore } from "../../store/designerStore";
 import { useBattleStore } from "../../store/battleStore";
 import { battleStateFromScenario } from "../../io/scenarioLoader";
+import { resolveScenarioContentContext } from "../../io/contentPackLoader";
 import type { TiledProperty } from "../../io/tiledTypes";
 
 export function ScenarioInspector() {
@@ -159,11 +160,13 @@ export function ScenarioInspector() {
     );
   }
 
-  const handlePreview = () => {
+  const handlePreview = async () => {
     try {
+      const rawScenario = scenarioData as Record<string, unknown>;
       const battleState = battleStateFromScenario(scenarioData);
       const enginePhase = scenarioData.engine_phase ?? 7;
-      loadBattle(battleState, enginePhase);
+      const contentContext = await resolveScenarioContentContext(rawScenario, enginePhase, scenarioPath ?? "");
+      loadBattle(battleState, enginePhase, null, contentContext, rawScenario);
       setMode("preview");
     } catch (err) {
       console.error("Failed to preview scenario:", err);

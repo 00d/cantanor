@@ -6,6 +6,7 @@
 import { BattleState, MapState, UnitState } from "../engine/state";
 import { buildTurnOrder } from "../engine/turnOrder";
 import type { ResolvedTiledMap } from "./tiledTypes";
+import { resolveScenarioContentContext, type ContentContext } from "./contentPackLoader";
 
 export class ScenarioValidationError extends Error {
   constructor(message: string) {
@@ -702,6 +703,7 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
       conditions: {},
       actionsRemaining: 3,
       reactionAvailable: true,
+      speed: Number(raw["speed"] ?? 5),
     };
   }
 
@@ -733,6 +735,10 @@ export interface LoadScenarioResult {
   /** Present when the source was a Tiled .tmj file; null for JSON scenarios. */
   tiledMap: ResolvedTiledMap | null;
   enginePhase: number;
+  /** Resolved content pack entries available to the action panel. */
+  contentContext: ContentContext;
+  /** Raw scenario JSON — used by the battle orchestrator to read enemy_policy, objectives, etc. */
+  rawScenario: Record<string, unknown>;
 }
 
 /**
@@ -762,18 +768,26 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
     const tiledMap = await loadTiledMap(url);
     const scenarioData = buildScenarioFromTiledMap(tiledMap);
     validateScenario(scenarioData);
+    const enginePhase = (scenarioData["engine_phase"] as number) ?? 7;
+    const contentContext = await resolveScenarioContentContext(scenarioData, enginePhase);
     return {
       battle: battleStateFromScenario(scenarioData),
       tiledMap,
-      enginePhase: (scenarioData["engine_phase"] as number) ?? 7,
+      enginePhase,
+      contentContext,
+      rawScenario: scenarioData,
     };
   }
 
   // Legacy hand-written JSON scenario
   validateScenario(data);
+  const enginePhase = (data["engine_phase"] as number) ?? 7;
+  const contentContext = await resolveScenarioContentContext(data, enginePhase);
   return {
     battle: battleStateFromScenario(data),
     tiledMap: null,
-    enginePhase: (data["engine_phase"] as number) ?? 7,
+    enginePhase,
+    contentContext,
+    rawScenario: data,
   };
 }

@@ -24,6 +24,7 @@ export interface UnitState {
   will: number;
   actionsRemaining: number;
   reactionAvailable: boolean;
+  speed: number;
   conditions: Record<string, number>;
   conditionImmunities: string[];
   resistances: Record<string, number>;

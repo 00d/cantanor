@@ -1,0 +1,94 @@
+{
+  "battle_id": "interactive_arena",
+  "seed": 42,
+  "engine_phase": 9,
+  "content_packs": ["/content_packs/phase10_v1.json"],
+  "content_pack_id": "phase10-v1",
+  "map": {
+    "width": 10,
+    "height": 8,
+    "blocked": [
+      [4, 3], [5, 3], [4, 4], [5, 4]
+    ]
+  },
+  "units": [
+    {
+      "id": "hero",
+      "team": "pc",
+      "hp": 42,
+      "position": [1, 6],
+      "initiative": 16,
+      "attack_mod": 8,
+      "ac": 18,
+      "damage": "1d8+4",
+      "fortitude": 10,
+      "reflex": 7,
+      "will": 6,
+      "speed": 5
+    },
+    {
+      "id": "mage",
+      "team": "pc",
+      "hp": 28,
+      "position": [2, 7],
+      "initiative": 12,
+      "attack_mod": 6,
+      "ac": 14,
+      "damage": "1d6+2",
+      "fortitude": 6,
+      "reflex": 8,
+      "will": 10,
+      "speed": 5
+    },
+    {
+      "id": "orc_warrior",
+      "team": "enemy",
+      "hp": 38,
+      "position": [8, 1],
+      "initiative": 10,
+      "attack_mod": 7,
+      "ac": 16,
+      "damage": "1d10+4",
+      "fortitude": 9,
+      "reflex": 6,
+      "will": 5,
+      "speed": 5
+    },
+    {
+      "id": "orc_shaman",
+      "team": "enemy",
+      "hp": 24,
+      "position": [7, 2],
+      "initiative": 8,
+      "attack_mod": 5,
+      "ac": 13,
+      "damage": "1d6+2",
+      "fortitude": 6,
+      "reflex": 7,
+      "will": 9,
+      "speed": 5
+    }
+  ],
+  "enemy_policy": {
+    "enabled": true,
+    "teams": ["enemy"],
+    "action": "strike_nearest",
+    "auto_end_turn": true,
+    "include_rationale": false
+  },
+  "objectives": [
+    {
+      "id": "defeat_enemies",
+      "type": "team_eliminated",
+      "team": "enemy",
+      "result": "victory"
+    },
+    {
+      "id": "pcs_defeated",
+      "type": "team_eliminated",
+      "team": "pc",
+      "result": "defeat"
+    }
+  ],
+  "commands": []
+}

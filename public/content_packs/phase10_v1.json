@@ -1,0 +1,165 @@
+{
+  "pack_id": "phase10-v1",
+  "version": "1.0.0",
+  "compatibility": {
+    "min_engine_phase": 7,
+    "max_engine_phase": 99,
+    "feature_tags": ["content_pack_loader", "phase10"]
+  },
+  "entries": [
+    {
+      "id": "spell.magic_missile",
+      "kind": "spell",
+      "source_ref": "core-rulebook",
+      "tags": ["force", "offense", "no-save"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "magic_missile",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "1d4+1",
+        "damage_type": "force",
+        "dc": 15
+      }
+    },
+    {
+      "id": "spell.acid_splash",
+      "kind": "spell",
+      "source_ref": "core-rulebook",
+      "tags": ["acid", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "acid_splash",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "1d6+1",
+        "damage_type": "acid",
+        "dc": 16
+      }
+    },
+    {
+      "id": "spell.lightning_bolt",
+      "kind": "spell",
+      "source_ref": "core-rulebook",
+      "tags": ["electricity", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "lightning_bolt",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "4d12",
+        "damage_type": "electricity",
+        "dc": 22
+      }
+    },
+    {
+      "id": "spell.searing_light",
+      "kind": "spell",
+      "source_ref": "core-rulebook",
+      "tags": ["fire", "light", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "searing_light",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "5d6",
+        "damage_type": "fire",
+        "dc": 20
+      }
+    },
+    {
+      "id": "feat.battle_medicine",
+      "kind": "feat",
+      "source_ref": "core-rulebook",
+      "tags": ["heal", "support", "medicine"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "battle_medicine",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 8,
+          "source_key": "feat:battle_medicine"
+        }
+      }
+    },
+    {
+      "id": "feat.quick_patch",
+      "kind": "feat",
+      "source_ref": "advanced-players-guide",
+      "tags": ["heal", "support"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "quick_patch",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 4,
+          "source_key": "feat:quick_patch"
+        }
+      }
+    },
+    {
+      "id": "feat.shield_block",
+      "kind": "feat",
+      "source_ref": "core-rulebook",
+      "tags": ["support", "defense"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "shield_block",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 5,
+          "source_key": "feat:shield_block"
+        }
+      }
+    },
+    {
+      "id": "item.healing_potion",
+      "kind": "item",
+      "source_ref": "core-rulebook",
+      "tags": ["heal", "consumable", "restore"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "healing_potion",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 12,
+          "source_key": "item:healing_potion"
+        }
+      }
+    },
+    {
+      "id": "item.alchemical_bomb",
+      "kind": "item",
+      "source_ref": "advanced-players-guide",
+      "tags": ["fire", "consumable", "offense"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "alchemical_bomb",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "frightened",
+          "value": 1
+        },
+        "duration_rounds": 1,
+        "tick_timing": "turn_end"
+      }
+    },
+    {
+      "id": "item.antidote",
+      "kind": "item",
+      "source_ref": "game-mastery-guide",
+      "tags": ["consumable", "support", "restore"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "antidote",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "poisoned",
+          "value": 0
+        },
+        "duration_rounds": null,
+        "tick_timing": null
+      }
+    }
+  ]
+}
