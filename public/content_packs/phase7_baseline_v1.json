@@ -1,0 +1,57 @@
+{
+  "pack_id": "phase7-baseline-v1",
+  "version": "1.0.0",
+  "compatibility": {
+    "min_engine_phase": 7,
+    "max_engine_phase": 8,
+    "feature_tags": [
+      "content_pack_loader",
+      "phase7_m1"
+    ]
+  },
+  "entries": [
+    {
+      "id": "spell.arc_flash",
+      "kind": "spell",
+      "source_ref": "core-rulebook",
+      "tags": ["electricity", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "2d6",
+        "damage_type": "electricity"
+      }
+    },
+    {
+      "id": "feat.quick_patch",
+      "kind": "feat",
+      "source_ref": "advanced-players-guide",
+      "tags": ["support"],
+      "payload": {
+        "command_type": "use_feat",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 3,
+          "source_key": "feat:quick_patch"
+        }
+      }
+    },
+    {
+      "id": "item.battle_tonic",
+      "kind": "item",
+      "source_ref": "game-mastery-guide",
+      "tags": ["consumable"],
+      "payload": {
+        "command_type": "use_item",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "frightened",
+          "value": 1
+        },
+        "duration_rounds": 1,
+        "tick_timing": "turn_end"
+      }
+    }
+  ]
+}

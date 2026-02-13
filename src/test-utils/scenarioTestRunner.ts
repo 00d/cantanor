@@ -11,7 +11,7 @@ import { readFile } from "fs/promises";
 import { resolve, isAbsolute } from "path";
 
 // Preload effect model once at module load time
-const effectModelPath = resolve(process.cwd(), "compiled/tactical_effect_models_v1.json");
+const effectModelPath = resolve(process.cwd(), "data/rules/effect_models.json");
 readFile(effectModelPath, "utf-8")
   .then((data) => {
     const model = JSON.parse(data);
@@ -80,8 +80,11 @@ async function loadContentPacksForScenario(
   // Load all content pack JSON files
   const packDataList: Record<string, unknown>[] = [];
   for (const packPath of contentPackPaths) {
-    // Resolve path relative to scenario directory
-    const absolutePackPath = isAbsolute(packPath) ? packPath : resolve(scenarioDir, packPath);
+    // URL-style paths (starting with /) are served from public/ in the browser.
+    // Map them to public/<path> for Node test resolution.
+    const absolutePackPath = packPath.startsWith("/")
+      ? resolve(process.cwd(), "public", packPath.slice(1))
+      : isAbsolute(packPath) ? packPath : resolve(scenarioDir, packPath);
     const packJson = await readFile(absolutePackPath, "utf-8");
     const packData = JSON.parse(packJson) as Record<string, unknown>;
     packDataList.push(packData);

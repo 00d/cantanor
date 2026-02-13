@@ -662,9 +662,9 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
     width: Number(mapData["width"]),
     height: Number(mapData["height"]),
     blocked,
-    ...(mapData["move_cost"] && { moveCost: mapData["move_cost"] as Record<string, number> }),
-    ...(mapData["cover_grade"] && { coverGrade: mapData["cover_grade"] as Record<string, number> }),
-    ...(mapData["elevation"] && { elevation: mapData["elevation"] as Record<string, number> }),
+    ...(mapData["move_cost"] ? { moveCost: mapData["move_cost"] as Record<string, number> } : {}),
+    ...(mapData["cover_grade"] ? { coverGrade: mapData["cover_grade"] as Record<string, number> } : {}),
+    ...(mapData["elevation"] ? { elevation: mapData["elevation"] as Record<string, number> } : {}),
   };
 
   const units: Record<string, UnitState> = {};

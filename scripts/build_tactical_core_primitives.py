@@ -430,19 +430,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--chapter9",
         type=Path,
-        default=Path("extracted/Core_Rulebook/09_chapter_9_playing_the_game.txt"),
+        default=Path("archive/extracted/Core_Rulebook/09_chapter_9_playing_the_game.txt"),
         help="Path to chapter 9 extracted text.",
     )
     parser.add_argument(
         "--appendix10b",
         type=Path,
-        default=Path("extracted/Core_Rulebook/10b_appendix_conditions.txt"),
+        default=Path("archive/extracted/Core_Rulebook/10b_appendix_conditions.txt"),
         help="Path to appendix 10b extracted text.",
     )
     parser.add_argument(
         "--out",
         type=Path,
-        default=Path("compiled/tactical_core_primitives.json"),
+        default=Path("data/rules/primitives.json"),
         help="Output JSON artifact path.",
     )
     return parser.parse_args()

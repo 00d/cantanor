@@ -1194,6 +1194,7 @@ export function applyCommand(
       immunities: ((unitRaw["immunities"] as string[]) ?? []).map((x) =>
         String(x).toLowerCase(),
       ),
+      speed: Number(unitRaw["speed"] ?? 5),
       abilitiesRemaining: {},
     };
     if (!spawned.team) throw new ReductionError("spawn_unit unit.team is required");

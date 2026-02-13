@@ -15,19 +15,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--phase2",
         type=Path,
-        default=Path("compiled/tactical_engine_rules_v1.json"),
+        default=Path("data/rules/engine_rules.json"),
         help="Phase 2 engine rules path.",
     )
     parser.add_argument(
         "--phase25",
         type=Path,
-        default=Path("compiled/tactical_effect_models_v1.json"),
+        default=Path("data/rules/effect_models.json"),
         help="Phase 2.5 effect models path.",
     )
     parser.add_argument(
         "--report",
         type=Path,
-        default=Path("compiled/phase25_verification_report.json"),
+        default=Path("archive/compiled/phase25_verification_report.json"),
         help="Verification report output path.",
     )
     parser.add_argument(

@@ -355,7 +355,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       }
 
       try {
-        const [nextState, newEvents] = applyCommand(battle, cmd as RawCommand, rng);
+        const [nextState, newEvents] = applyCommand(battle, cmd as unknown as RawCommand, rng);
         const animations = eventsToAnimations(newEvents);
 
         // Check battle-end conditions after every command
@@ -480,7 +480,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         }
 
         set({ isAiTurn: false });
-        get().dispatchCommand(cmd as RawCommand);
+        get().dispatchCommand(cmd as unknown as RawCommand);
       }, 420);
     },
 

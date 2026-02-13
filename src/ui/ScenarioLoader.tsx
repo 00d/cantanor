@@ -40,7 +40,6 @@ export function ScenarioLoader({
   const toggleGrid = useBattleStore((s) => s.toggleGrid);
   const showGrid = useBattleStore((s) => s.showGrid);
   const tiledMap = useBattleStore((s) => s.tiledMap);
-  const tiledMapUrl = useBattleStore((s) => s.tiledMapUrl);
   const battle = useBattleStore((s) => s.battle);
   const saveExists = hasSavedGame();
 

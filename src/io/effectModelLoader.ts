@@ -6,7 +6,7 @@
  * The default path is the compiled effect models artifact.
  */
 
-const DEFAULT_EFFECT_MODEL_PATH = "compiled/tactical_effect_models_v1.json";
+const DEFAULT_EFFECT_MODEL_PATH = "data/rules/effect_models.json";
 
 // Module-level cache
 const modelCache = new Map<string, Record<string, unknown>>();

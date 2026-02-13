@@ -20,14 +20,14 @@ def parse_args() -> argparse.Namespace:
         "--in",
         dest="input_path",
         type=Path,
-        default=Path("compiled/tactical_core_primitives.json"),
+        default=Path("data/rules/primitives.json"),
         help="Phase 1 JSON input path.",
     )
     parser.add_argument(
         "--out",
         dest="output_path",
         type=Path,
-        default=Path("compiled/tactical_engine_rules_v1.json"),
+        default=Path("data/rules/engine_rules.json"),
         help="Phase 2 JSON output path.",
     )
     return parser.parse_args()

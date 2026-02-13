@@ -79,14 +79,14 @@ def parse_args() -> argparse.Namespace:
         "--in",
         dest="input_path",
         type=Path,
-        default=Path("compiled/tactical_engine_rules_v1.json"),
+        default=Path("data/rules/engine_rules.json"),
         help="Phase 2 engine rules input path.",
     )
     parser.add_argument(
         "--out",
         dest="output_path",
         type=Path,
-        default=Path("compiled/tactical_effect_models_v1.json"),
+        default=Path("data/rules/effect_models.json"),
         help="Phase 2.5 effect model output path.",
     )
     return parser.parse_args()

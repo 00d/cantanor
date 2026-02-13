@@ -274,6 +274,12 @@ html, body {
   background: #2a2a4a;
 }
 
+.actions-pip {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+}
+
 .action-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -462,6 +468,18 @@ html, body {
   border-color: var(--accent-green);
 }
 
+.scenario-section {
+  margin-bottom: 8px;
+}
+
+.scenario-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
 .loader-error {
   padding: 6px;
   margin-bottom: 6px;
@@ -482,6 +500,19 @@ html, body {
 .loaded-info {
   font-size: 11px;
   color: var(--accent-green);
+}
+
+.tiled-badge {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--accent-blue);
+  opacity: 0.8;
+}
+
+.loader-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .btn-clear {

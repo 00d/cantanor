@@ -3,7 +3,7 @@
   "seed": 8804,
   "engine_phase": 8,
   "content_packs": [
-    "../../corpus/content_packs/phase7_baseline_v1.json"
+    "/content_packs/phase7_baseline_v1.json"
   ],
   "content_pack_id": "phase7-baseline-v1",
   "required_content_features": [

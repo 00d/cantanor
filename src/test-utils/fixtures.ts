@@ -37,6 +37,8 @@ export function createTestUnit(overrides: Partial<UnitState> = {}): UnitState {
     resistances: {},
     weaknesses: {},
     immunities: [],
+    speed: 5,
+    abilitiesRemaining: {},
     ...overrides,
   };
 }
