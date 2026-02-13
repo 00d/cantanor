@@ -35,6 +35,53 @@ function formatEvent(event: Record<string, unknown>): string {
       const spell = String(payload["spell_id"] ?? "spell");
       return `${actor} casts ${spell} on ${target}`;
     }
+    case "use_feat": {
+      const featId = String(payload["feat_id"] ?? "feat").replace(/_/g, " ");
+      const target = String(payload["target"] ?? "?");
+      const kind = String(payload["kind"] ?? "");
+      const dur = payload["duration_rounds"];
+      const kindStr = kind ? ` [${kind}]` : "";
+      const durStr = dur != null ? ` (${dur}r)` : "";
+      return `${actor} uses ${featId} on ${target}${kindStr}${durStr}`;
+    }
+    case "use_item": {
+      const itemId = String(payload["item_id"] ?? "item").replace(/_/g, " ");
+      const target = String(payload["target"] ?? "?");
+      const kind = String(payload["kind"] ?? "");
+      const dur = payload["duration_rounds"];
+      const kindStr = kind ? ` [${kind}]` : "";
+      const durStr = dur != null ? ` (${dur}r)` : "";
+      return `${actor} uses ${itemId} on ${target}${kindStr}${durStr}`;
+    }
+    case "effect_apply": {
+      const target = String(payload["target"] ?? "?");
+      const kind = String(payload["kind"] ?? "");
+      if (kind === "condition") {
+        const cond = String(payload["condition"] ?? "?");
+        const val = Number(payload["value"] ?? 1);
+        if (payload["applied"] === false) return `  → ${target}: immune to ${cond}`;
+        return `  → ${target} gains ${cond}${val > 1 ? ` ${val}` : ""}`;
+      }
+      if (kind === "temp_hp") {
+        const granted = Number(payload["granted"] ?? 0);
+        const after = Number(payload["temp_hp_after"] ?? 0);
+        if (granted === 0) return `  → ${target}: THP unchanged`;
+        return `  → ${target} gains +${granted} THP (${after} total)`;
+      }
+      return `  → ${target}: effect applied (${kind})`;
+    }
+    case "effect_expire": {
+      const target = String(payload["target"] ?? "?");
+      const kind = String(payload["kind"] ?? "");
+      const cleared = payload["cleared_condition"] as string | undefined;
+      if (cleared) return `  ↩ ${target}: ${cleared} expires`;
+      if (kind === "temp_hp") {
+        const removed = Number(payload["removed_temp_hp"] ?? 0);
+        if (removed > 0) return `  ↩ ${target}: −${removed} THP expires`;
+        return `  ↩ ${target}: temp HP expires`;
+      }
+      return `  ↩ ${target}: ${kind} expires`;
+    }
     case "save_damage":
     case "area_save_damage": {
       const target = String(payload["target"] ?? "area");

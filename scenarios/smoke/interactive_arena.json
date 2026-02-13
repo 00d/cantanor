@@ -3,7 +3,7 @@
   "seed": 42,
   "engine_phase": 9,
   "tiled_map": "/maps/dungeon_arena_01.tmj",
-  "content_packs": ["/content_packs/phase10_v1.json"],
+  "content_packs": ["/content_packs/phase10_v1.json", "/content_packs/phase11_v1.json"],
   "content_pack_id": "phase10-v1",
   "map": {
     "width": 10,

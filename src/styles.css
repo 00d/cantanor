@@ -166,6 +166,19 @@ html, body {
   padding: 1px 4px;
 }
 
+.condition-rounds {
+  margin-left: 2px;
+  opacity: 0.55;
+  font-size: 9px;
+}
+
+.active-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin: 3px 0 5px;
+}
+
 /* ============================================================
    Combat log panel
    ============================================================ */
@@ -202,6 +215,22 @@ html, body {
 
 .log-command_error {
   color: var(--accent-red);
+}
+
+.log-use_feat,
+.log-use_item {
+  color: #c4a0e8;
+}
+
+.log-effect_apply {
+  color: var(--text-secondary);
+  padding-left: 8px;
+}
+
+.log-effect_expire {
+  color: #666;
+  padding-left: 8px;
+  font-style: italic;
 }
 
 /* ============================================================

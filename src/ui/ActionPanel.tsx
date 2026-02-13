@@ -182,6 +182,28 @@ export function ActionPanel() {
         </span>
       </div>
 
+      {Object.keys(activeUnit.conditions).length > 0 && (
+        <div className="active-conditions">
+          {Object.entries(activeUnit.conditions).map(([cond, val]) => {
+            const effectEntry = battle
+              ? Object.values(battle.effects).find(
+                  (e) =>
+                    e.targetUnitId === actorId &&
+                    e.kind === "condition" &&
+                    String(e.payload["name"] ?? "") === cond,
+                )
+              : undefined;
+            const rounds = effectEntry?.durationRounds;
+            return (
+              <span key={cond} className="condition-tag">
+                {cond}{val > 1 ? ` ${val}` : ""}
+                {rounds != null && <span className="condition-rounds">{rounds}r</span>}
+              </span>
+            );
+          })}
+        </div>
+      )}
+
       {targetMode && (
         <div className="target-mode-banner">
           <span className="target-mode-text">{targetBannerText()}</span>

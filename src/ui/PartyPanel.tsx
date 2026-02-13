@@ -3,7 +3,7 @@
  */
 
 import { useBattleStore } from "../store/battleStore";
-import { UnitState, unitAlive } from "../engine/state";
+import { UnitState, EffectState, unitAlive } from "../engine/state";
 
 function HpBar({ hp, maxHp }: { hp: number; maxHp: number }) {
   const pct = Math.max(0, Math.min(100, (hp / Math.max(1, maxHp)) * 100));
@@ -15,9 +15,26 @@ function HpBar({ hp, maxHp }: { hp: number; maxHp: number }) {
   );
 }
 
-function UnitRow({ unit, selected }: { unit: UnitState; selected: boolean }) {
+function UnitRow({
+  unit,
+  selected,
+  effects,
+}: {
+  unit: UnitState;
+  selected: boolean;
+  effects: Record<string, EffectState>;
+}) {
   const selectUnit = useBattleStore((s) => s.selectUnit);
   const alive = unitAlive(unit);
+
+  // Build condition → remaining rounds from active effects so we can show duration badges.
+  const condRounds: Record<string, number | null> = {};
+  for (const effect of Object.values(effects)) {
+    if (effect.targetUnitId !== unit.unitId || effect.kind !== "condition") continue;
+    const name = String(effect.payload["name"] ?? "");
+    if (!name || name in condRounds) continue;
+    condRounds[name] = effect.durationRounds;
+  }
 
   return (
     <div
@@ -32,11 +49,15 @@ function UnitRow({ unit, selected }: { unit: UnitState; selected: boolean }) {
       </div>
       {Object.keys(unit.conditions).length > 0 && (
         <div className="conditions">
-          {Object.entries(unit.conditions).map(([cond, val]) => (
-            <span key={cond} className="condition-tag">
-              {cond}{val > 1 ? ` ${val}` : ""}
-            </span>
-          ))}
+          {Object.entries(unit.conditions).map(([cond, val]) => {
+            const rounds = condRounds[cond];
+            return (
+              <span key={cond} className="condition-tag">
+                {cond}{val > 1 ? ` ${val}` : ""}
+                {rounds != null && <span className="condition-rounds">{rounds}r</span>}
+              </span>
+            );
+          })}
         </div>
       )}
     </div>
@@ -66,7 +87,7 @@ export function PartyPanel() {
           {units
             .sort((a, b) => a.unitId.localeCompare(b.unitId))
             .map((unit) => (
-              <UnitRow key={unit.unitId} unit={unit} selected={selectedUnitId === unit.unitId} />
+              <UnitRow key={unit.unitId} unit={unit} selected={selectedUnitId === unit.unitId} effects={battle.effects} />
             ))}
         </div>
       ))}
