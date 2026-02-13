@@ -146,7 +146,7 @@ export function App() {
 
     if (targetMode.type === "move") {
       const tiles = reachableTiles(battle, actorId);
-      showMovementRange(tiles);
+      showMovementRange(tiles, battle);
     } else if (targetMode.type === "strike") {
       showStrikeTargets(battle, actorId);
     } else if (["spell", "feat", "item"].includes(targetMode.type)) {

@@ -16,6 +16,8 @@ import { TILE_SIZE } from "./pixiApp";
 
 const MOVE_FILL = 0x4488ff;
 const MOVE_ALPHA = 0.30;
+const DIFFICULT_FILL = 0xffaa22;   // amber — tile costs >1 movement to enter
+const DIFFICULT_ALPHA = 0.35;
 const STRIKE_FILL = 0xff4444;
 const STRIKE_ALPHA = 0.35;
 const ABILITY_FILL = 0xaa44ff;
@@ -66,13 +68,19 @@ export function initRangeOverlay(layer: Container): void {
   _overlay.addChild(_graphics);
 }
 
-/** Highlight all tiles in `tiles` (Set of "x,y" keys) as movement-reachable. */
-export function showMovementRange(tiles: Set<string>): void {
+/**
+ * Highlight all tiles in `tiles` (Set of "x,y" keys) as movement-reachable.
+ * Tiles with moveCost > 1 are shown in amber to indicate difficult terrain.
+ */
+export function showMovementRange(tiles: Set<string>, state?: BattleState): void {
   if (!_graphics) return;
   _graphics.clear();
   for (const key of tiles) {
     const [x, y] = parseTileKey(key);
-    drawTile(_graphics, x, y, MOVE_FILL, MOVE_ALPHA);
+    const cost = state?.battleMap.moveCost?.[key] ?? 1;
+    const fill = cost > 1 ? DIFFICULT_FILL : MOVE_FILL;
+    const alpha = cost > 1 ? DIFFICULT_ALPHA : MOVE_ALPHA;
+    drawTile(_graphics, x, y, fill, alpha);
   }
 }
 
