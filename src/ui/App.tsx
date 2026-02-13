@@ -15,12 +15,12 @@ import { ScenarioLoader } from "./ScenarioLoader";
 import { BattleEndOverlay } from "./BattleEndOverlay";
 import { ScenarioViewer } from "./designer/ScenarioViewer";
 import { initPixiApp, getPixiLayers, getPixiWorld } from "../rendering/pixiApp";
-import { renderTileMap, setHoverTile } from "../rendering/tileRenderer";
+import { renderTileMap, clearTileMap, setHoverTile } from "../rendering/tileRenderer";
 import { renderTiledMap, setHoverTileTiled, updateGridOverlay, clearTiledRenderer } from "../rendering/tiledTilemapRenderer";
 import { loadTilesetTextures } from "../rendering/tilesetLoader";
 import { syncUnits, clearUnits } from "../rendering/spriteManager";
-import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera } from "../rendering/cameraController";
-import { initEffectRenderer } from "../rendering/effectRenderer";
+import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera, panBy, zoom } from "../rendering/cameraController";
+import { initEffectRenderer, clearEffectRenderer } from "../rendering/effectRenderer";
 import {
   initRangeOverlay,
   showMovementRange,
@@ -86,9 +86,12 @@ export function App() {
 
     if (!battle) {
       try {
-        clearTiledRenderer(getPixiLayers().map);
+        const mapLayer = getPixiLayers().map;
+        clearTiledRenderer(mapLayer);
+        clearTileMap(mapLayer);
         clearUnits();
         clearRangeOverlay();
+        clearEffectRenderer();
       } catch { /* PixiJS not yet ready */ }
       return;
     }
@@ -174,15 +177,43 @@ export function App() {
   }, [hoveredTilePos, tiledMap]);
 
   // ---------------------------------------------------------------------------
-  // ESC key cancels target mode
+  // ESC key cancels target mode; WASD / arrows pan the camera
   // ---------------------------------------------------------------------------
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && targetMode) setTargetMode(null);
+      if (e.key === "Escape" && targetMode) {
+        setTargetMode(null);
+        return;
+      }
+      // Skip camera pan when typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      const PAN = 48;
+      switch (e.key) {
+        case "w": case "W": case "ArrowUp":    e.preventDefault(); panBy(0,  PAN); break;
+        case "s": case "S": case "ArrowDown":  e.preventDefault(); panBy(0, -PAN); break;
+        case "a": case "A": case "ArrowLeft":  e.preventDefault(); panBy( PAN, 0); break;
+        case "d": case "D": case "ArrowRight": e.preventDefault(); panBy(-PAN, 0); break;
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [targetMode, setTargetMode]);
+
+  // ---------------------------------------------------------------------------
+  // Scroll wheel zoom (non-passive so we can preventDefault)
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.1 : 0.9;
+      const rect = canvas.getBoundingClientRect();
+      zoom(factor, e.clientX - rect.left, e.clientY - rect.top);
+    };
+    canvas.addEventListener("wheel", handleWheel, { passive: false });
+    return () => canvas.removeEventListener("wheel", handleWheel);
+  }, []);
 
   // ---------------------------------------------------------------------------
   // Re-sync camera when returning to game mode

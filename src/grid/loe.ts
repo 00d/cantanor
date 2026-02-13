@@ -91,15 +91,18 @@ export function coverGradeBetweenTiles(
     ];
   }
 
-  let blockedCount = 0;
+  let coverScore = 0;
   for (const [x, y] of candidates) {
-    if (inBounds(state, x, y) && isBlocked(state, x, y)) {
-      blockedCount++;
+    if (!inBounds(state, x, y)) continue;
+    if (isBlocked(state, x, y)) {
+      coverScore += 1;
+    } else {
+      coverScore += state.battleMap.coverGrade?.[`${x},${y}`] ?? 0;
     }
   }
 
-  if (blockedCount >= 2) return "greater";
-  if (blockedCount === 1) return "standard";
+  if (coverScore >= 2) return "greater";
+  if (coverScore >= 1) return "standard";
   return "none";
 }
 

@@ -115,6 +115,9 @@ export function materializeRawCommand(
   delete payloadTemplate["command_type"];
 
   const merged: Record<string, unknown> = { ...payloadTemplate, ...command };
+  if (entry.usesPerDay != null) {
+    merged["uses_per_day"] = entry.usesPerDay;
+  }
 
   if (commandType === "cast_spell" && !merged["spell_id"]) {
     merged["spell_id"] = defaultCommandIdFromEntry(entryId);

@@ -28,9 +28,11 @@ export function canStepTo(
 }
 
 /**
- * BFS — returns the set of tile keys ("x,y") reachable by `unitId` within
- * its movement speed.  Blocked and occupied tiles are walls; diagonal moves
- * are not allowed.  The unit's own starting tile is excluded from the result.
+ * Dijkstra — returns the set of tile keys ("x,y") reachable by `unitId`
+ * within its movement speed.  Blocked and occupied tiles are walls; diagonal
+ * moves are not allowed.  The unit's own starting tile is excluded from the
+ * result.  Per-tile moveCost (default 1) is read from MapState.moveCost;
+ * difficult terrain tiles (moveCost 2) halve the effective range.
  */
 export function reachableTiles(state: BattleState, unitId: string): Set<string> {
   const unit = state.units[unitId];
@@ -52,6 +54,8 @@ export function reachableTiles(state: BattleState, unitId: string): Set<string> 
   const reachable = new Set<string>();
 
   while (queue.length > 0) {
+    // Dijkstra: always process the lowest-cost node first
+    queue.sort((a, b) => a.cost - b.cost);
     const current = queue.shift()!;
     const key = `${current.x},${current.y}`;
     if (visited.has(key)) continue;
@@ -71,7 +75,10 @@ export function reachableTiles(state: BattleState, unitId: string): Set<string> 
       if (blockedSet.has(nkey)) continue;
       if (occupiedSet.has(nkey)) continue;
       if (visited.has(nkey)) continue;
-      queue.push({ x: nx, y: ny, cost: current.cost + 1 });
+      const tileCost = state.battleMap.moveCost?.[nkey] ?? 1;
+      const newCost = current.cost + tileCost;
+      if (newCost > speed) continue;
+      queue.push({ x: nx, y: ny, cost: newCost });
     }
   }
 

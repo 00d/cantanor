@@ -229,16 +229,21 @@ export function ActionPanel() {
             <div className="ability-group">
               {spells.map((entry) => {
                 const cfg = KIND_CONFIG["spell"];
+                const remaining = entry.usesPerDay != null
+                  ? (activeUnit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
+                  : null;
+                const exhausted = remaining !== null && remaining <= 0;
                 return (
                   <button
                     key={entry.id}
                     className={`ability-btn ${cfg.className}`}
-                    disabled={!hasActions || targetMode !== null}
+                    disabled={!hasActions || targetMode !== null || exhausted}
                     onClick={() => handleAbility(entry.id, entry.kind, entry.tags)}
                     title={`[${cfg.label}] ${entry.tags.join(", ")}`}
                   >
                     <span className="ability-icon">{cfg.icon}</span>
                     <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
+                    {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
                   </button>
                 );
               })}
@@ -249,16 +254,21 @@ export function ActionPanel() {
             <div className="ability-group">
               {feats.map((entry) => {
                 const cfg = KIND_CONFIG["feat"];
+                const remaining = entry.usesPerDay != null
+                  ? (activeUnit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
+                  : null;
+                const exhausted = remaining !== null && remaining <= 0;
                 return (
                   <button
                     key={entry.id}
                     className={`ability-btn ${cfg.className}`}
-                    disabled={!hasActions || targetMode !== null}
+                    disabled={!hasActions || targetMode !== null || exhausted}
                     onClick={() => handleAbility(entry.id, entry.kind, entry.tags)}
                     title={`[${cfg.label}] ${entry.tags.join(", ")}`}
                   >
                     <span className="ability-icon">{cfg.icon}</span>
                     <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
+                    {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
                   </button>
                 );
               })}
@@ -269,16 +279,21 @@ export function ActionPanel() {
             <div className="ability-group">
               {items.map((entry) => {
                 const cfg = KIND_CONFIG["item"];
+                const remaining = entry.usesPerDay != null
+                  ? (activeUnit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
+                  : null;
+                const exhausted = remaining !== null && remaining <= 0;
                 return (
                   <button
                     key={entry.id}
                     className={`ability-btn ${cfg.className}`}
-                    disabled={!hasActions || targetMode !== null}
+                    disabled={!hasActions || targetMode !== null || exhausted}
                     onClick={() => handleAbility(entry.id, entry.kind, entry.tags)}
                     title={`[${cfg.label}] ${entry.tags.join(", ")}`}
                   >
                     <span className="ability-icon">{cfg.icon}</span>
                     <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
+                    {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
                   </button>
                 );
               })}

@@ -151,7 +151,7 @@ function _drawGrid(showGrid: boolean): void {
   const gw = TILE_SIZE;
   const gh = TILE_SIZE;
 
-  _gridGraphic.setStrokeStyle({ width: 1, color: 0x3a3a5c, alpha: 0.35 });
+  _gridGraphic.setStrokeStyle({ width: 1, color: 0x8899cc, alpha: 0.55 });
 
   for (let tx = 0; tx <= width; tx++) {
     _gridGraphic.moveTo(tx * gw, 0).lineTo(tx * gw, height * gh);

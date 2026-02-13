@@ -208,5 +208,6 @@ export interface RawCommand {
   interact_id?: string;
   action_cost?: number;
   content_entry_id?: string;
+  uses_per_day?: number;
   emit_forecast?: boolean;
 }

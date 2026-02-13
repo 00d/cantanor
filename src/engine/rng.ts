@@ -33,17 +33,25 @@ function mulberry32(seed: number): () => number {
 export class DeterministicRNG {
   private readonly _seed: number;
   private readonly _next: () => number;
+  private _callCount: number;
 
-  constructor(seed: number) {
+  /**
+   * @param seed       Initial RNG seed (stored in BattleState.seed).
+   * @param skipCount  Fast-forward past this many calls; used when restoring from a save.
+   */
+  constructor(seed: number, skipCount = 0) {
     this._seed = seed;
     this._next = mulberry32(seed);
+    this._callCount = 0;
+    for (let i = 0; i < skipCount; i++) { this._next(); this._callCount++; }
   }
 
-  get seed(): number {
-    return this._seed;
-  }
+  get seed(): number { return this._seed; }
+  /** Number of calls made so far — save this alongside BattleState to restore RNG position. */
+  get callCount(): number { return this._callCount; }
 
   randint(low: number, high: number): RollResult {
+    this._callCount++;
     const range = high - low + 1;
     const value = low + Math.floor(this._next() * range);
     return { value: Math.min(high, Math.max(low, value)), low, high };

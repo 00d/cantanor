@@ -39,6 +39,18 @@ export function initEffectRenderer(layer: Container): void {
   }
 }
 
+/**
+ * Resets all pooled damage text objects to idle/invisible state.
+ * Call this when a battle is cleared so in-flight animations from the
+ * previous battle don't bleed into the next one.
+ */
+export function clearEffectRenderer(): void {
+  for (const pooled of _pool) {
+    pooled.text.visible = false;
+    pooled.inUse = false;
+  }
+}
+
 function acquireFromPool(): PooledDamageText | null {
   return _pool.find((p) => !p.inUse) ?? null;
 }

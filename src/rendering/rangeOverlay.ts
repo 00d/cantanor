@@ -54,6 +54,13 @@ let _overlay: Container | null = null;
 let _graphics: Graphics | null = null;
 
 export function initRangeOverlay(layer: Container): void {
+  // Guard against re-initialisation (e.g. hot-reload): clean up the old
+  // Graphics object before creating a new one.
+  if (_graphics && _overlay) {
+    _overlay.removeChild(_graphics);
+    _graphics.destroy();
+    _graphics = null;
+  }
   _overlay = layer;
   _graphics = new Graphics();
   _overlay.addChild(_graphics);

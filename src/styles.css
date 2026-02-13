@@ -423,6 +423,16 @@ html, body {
   cursor: not-allowed;
 }
 
+.scenario-btn--continue {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.scenario-btn--continue:hover:not(:disabled) {
+  background: #0e2218;
+  border-color: var(--accent-green);
+}
+
 .loader-error {
   padding: 6px;
   margin-bottom: 6px;
@@ -1096,6 +1106,13 @@ html, body {
 .ability-icon {
   font-size: 13px;
   flex-shrink: 0;
+}
+
+.ability-uses {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-secondary);
+  opacity: 0.75;
 }
 
 .ability-name {

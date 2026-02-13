@@ -33,6 +33,8 @@ export interface ContentPackEntry {
   sourceRef?: string;
   tags: string[];
   payload: Record<string, unknown>;
+  /** Max uses per battle; absent = unlimited. */
+  usesPerDay?: number;
 }
 
 export interface ContentPackCompatibility {
@@ -67,6 +69,8 @@ export interface ResolvedEntry {
   sourceRef: string | null;
   tags: string[];
   payload: Record<string, unknown>;
+  /** Max uses per battle; absent = unlimited. */
+  usesPerDay?: number;
 }
 
 export function validateContentPack(data: unknown): void {
@@ -139,6 +143,7 @@ export function parseContentPack(data: Record<string, unknown>): ContentPack {
       sourceRef: e["source_ref"] ? String(e["source_ref"]) : undefined,
       tags: ((e["tags"] as string[]) ?? []).map(String),
       payload: { ...(e["payload"] as Record<string, unknown>) },
+      ...(e["uses_per_day"] != null && { usesPerDay: Number(e["uses_per_day"]) }),
     })),
   };
 }
@@ -160,6 +165,7 @@ export function buildContentEntryLookup(
         sourceRef: entry.sourceRef ?? null,
         tags: [...entry.tags],
         payload: { ...entry.payload },
+        ...(entry.usesPerDay != null && { usesPerDay: entry.usesPerDay }),
       };
     }
   }

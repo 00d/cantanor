@@ -6,8 +6,11 @@
  * conventions (layer names, object types, property names) and maps them to
  * engine types.  The engine itself never sees TiledMap.
  *
- * Only `blocked` tile data feeds MapState for now.  The `moveCost`, `terrain`,
- * `elevation`, and `cover` properties are reserved for future engine phases.
+ * Tile custom properties read from Tiled layers:
+ *   blocked   (bool)   — impassable wall tile
+ *   moveCost  (number) — movement cost to enter; default 1 (difficult terrain = 2)
+ *   coverGrade (number) — cover provided: 1 = standard, 2 = greater
+ *   elevation (number) — height above ground; default 0
  */
 
 import type { ResolvedTiledMap, TiledLayer } from "./tiledTypes";
@@ -137,13 +140,16 @@ export function extractMapProperties(tiledMap: ResolvedTiledMap): MapProperties 
 
 /**
  * Scans all visible tile layers.  For each non-zero GID, looks up the tile's
- * custom properties and adds the coordinate to the blocked set if
- * `blocked === true`.
+ * custom properties and populates blocked, moveCost, coverGrade, and elevation.
+ * Higher layers override lower layers for numeric properties; blocked is additive.
  *
  * Returns a MapState compatible with the existing engine pipeline.
  */
 export function extractMapState(tiledMap: ResolvedTiledMap): MapState {
   const blockedSet = new Set<string>();
+  const moveCostMap: Record<string, number> = {};
+  const coverGradeMap: Record<string, number> = {};
+  const elevationMap: Record<string, number> = {};
 
   for (const layer of tiledMap.layers) {
     if (layer.type !== "tilelayer" || !layer.visible || !layer.data) continue;
@@ -154,10 +160,21 @@ export function extractMapState(tiledMap: ResolvedTiledMap): MapState {
       if (!resolved) continue;
 
       const tileProps = getTileProperties(resolved.tileset, resolved.localId);
+      const x = i % tiledMap.width;
+      const y = Math.floor(i / tiledMap.width);
+      const key = `${x},${y}`;
+
       if (tileProps["blocked"] === true) {
-        const x = i % tiledMap.width;
-        const y = Math.floor(i / tiledMap.width);
-        blockedSet.add(`${x},${y}`);
+        blockedSet.add(key);
+      }
+      if (typeof tileProps["moveCost"] === "number" && (tileProps["moveCost"] as number) !== 1) {
+        moveCostMap[key] = tileProps["moveCost"] as number;
+      }
+      if (typeof tileProps["coverGrade"] === "number" && (tileProps["coverGrade"] as number) !== 0) {
+        coverGradeMap[key] = tileProps["coverGrade"] as number;
+      }
+      if (typeof tileProps["elevation"] === "number" && (tileProps["elevation"] as number) !== 0) {
+        elevationMap[key] = tileProps["elevation"] as number;
       }
     }
   }
@@ -171,6 +188,9 @@ export function extractMapState(tiledMap: ResolvedTiledMap): MapState {
     width: tiledMap.width,
     height: tiledMap.height,
     blocked,
+    ...(Object.keys(moveCostMap).length > 0 && { moveCost: moveCostMap }),
+    ...(Object.keys(coverGradeMap).length > 0 && { coverGrade: coverGradeMap }),
+    ...(Object.keys(elevationMap).length > 0 && { elevation: elevationMap }),
   };
 }
 
@@ -374,6 +394,9 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
       width: mapState.width,
       height: mapState.height,
       blocked: mapState.blocked,
+      ...(mapState.moveCost && { move_cost: mapState.moveCost }),
+      ...(mapState.coverGrade && { cover_grade: mapState.coverGrade }),
+      ...(mapState.elevation && { elevation: mapState.elevation }),
     },
     units,
     commands: [],

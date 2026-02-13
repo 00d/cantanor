@@ -58,6 +58,15 @@ export function renderTileMap(parent: Container, mapState: MapState): void {
   parent.addChild(_tileContainer);
 }
 
+export function clearTileMap(parent: Container): void {
+  if (_tileContainer) {
+    parent.removeChild(_tileContainer);
+    _tileContainer.destroy({ children: true });
+    _tileContainer = null;
+  }
+  _hoverGraphic = null;
+}
+
 export function setHoverTile(pos: [number, number] | null): void {
   if (!_hoverGraphic) return;
   if (!pos) {

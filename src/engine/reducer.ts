@@ -113,6 +113,23 @@ function spendActions(actor: UnitState, actionCost: number): void {
   actor.actionsRemaining -= actionCost;
 }
 
+/**
+ * Checks and decrements the actor's remaining uses for a limited-use content entry.
+ * If `uses_per_day` is absent the ability is unlimited and this is a no-op.
+ * Throws if the ability is exhausted.
+ */
+function spendAbilityCharge(actor: UnitState, command: RawCommand): void {
+  const usesPerDay = command.uses_per_day;
+  const entryId = command.content_entry_id;
+  if (usesPerDay == null || !entryId) return;
+
+  const current = actor.abilitiesRemaining[entryId] ?? usesPerDay;
+  if (current <= 0) {
+    throw new ReductionError(`ability ${entryId} is exhausted (0 uses remaining)`);
+  }
+  actor.abilitiesRemaining[entryId] = current - 1;
+}
+
 function unitSaveProfile(state: BattleState, unitId: string): SaveProfile {
   const unit = state.units[unitId];
   return { fortitude: unit.fortitude, reflex: unit.reflex, will: unit.will };
@@ -786,6 +803,7 @@ export function applyCommand(
     if (!spellId) throw new ReductionError("cast_spell requires spell_id");
     const actionCost = commandActionCost(command, 2);
     spendActions(actor, actionCost);
+    spendAbilityCharge(actor, command);
 
     const targetId = command.target ?? "";
     const target = nextState.units[targetId];
@@ -1176,6 +1194,7 @@ export function applyCommand(
       immunities: ((unitRaw["immunities"] as string[]) ?? []).map((x) =>
         String(x).toLowerCase(),
       ),
+      abilitiesRemaining: {},
     };
     if (!spawned.team) throw new ReductionError("spawn_unit unit.team is required");
 
@@ -1372,6 +1391,7 @@ export function applyCommand(
     if (!featId) throw new ReductionError("use_feat requires feat_id");
     const actionCost = commandActionCost(command, 1);
     spendActions(actor, actionCost);
+    spendAbilityCharge(actor, command);
 
     const targetId = command.target ?? "";
     const target = nextState.units[targetId];
@@ -1413,6 +1433,7 @@ export function applyCommand(
     if (!itemId) throw new ReductionError("use_item requires item_id");
     const actionCost = commandActionCost(command, 1);
     spendActions(actor, actionCost);
+    spendAbilityCharge(actor, command);
 
     const targetId = command.target ?? "";
     const target = nextState.units[targetId];

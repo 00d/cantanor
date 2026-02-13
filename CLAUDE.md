@@ -31,8 +31,12 @@ The app (`src/ui/App.tsx`) uses a Gold Box-inspired split viewport:
 The game engine is a pure functional state machine:
 - **`src/engine/state.ts`** — Immutable battle state interfaces (units, effects, map, objectives)
 - **`src/engine/commands.ts`** — Typed commands (Move, Strike, SaveDamage, ApplyEffect, etc.)
-- **`src/engine/reducer.ts`** — Pure reducer: `(state, command, rng) → [nextState, events]` (~54KB)
+- **`src/engine/reducer.ts`** — Pure reducer: `(state, command, rng) → [nextState, events]`
 - **`src/engine/rng.ts`** — Seeded deterministic RNG for replayable battles
+- **`src/engine/objectives.ts`** — Victory/defeat condition evaluation
+- **`src/engine/forecast.ts`** — Preview battle outcomes before committing an action
+- **`src/engine/turnOrder.ts`** — Turn order management
+- **`src/engine/scenarioRunner.ts`** — Headless battle orchestrator used for scripted/test runs
 - **`src/effects/lifecycle.ts`** — Effect application, expiry, and condition handling
 - **`src/effects/handlers/`** — Per-effect-type handlers (damage, condition, summon, movement)
 - **`src/rules/`** — Pathfinder 2e rules: checks, saves, damage, degrees of success, conditions
@@ -58,7 +62,8 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `rangeOverlay.ts` — Blue/red/purple tile highlights for move range and ability targets
 - `cameraController.ts` — Viewport/camera controller
 - `spriteManager.ts` — Unit sprite management and animation
-- `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps
+- `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles
+- `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps
 - `tilesetLoader.ts` — Loads tileset textures from `.tmj` files
 - `effectRenderer.ts` — Visual effects overlay
 
@@ -72,6 +77,7 @@ Handles pathfinding (`reachableTiles` BFS respects `unit.speed`), line-of-sight 
 - `tiledLoader.ts` — Parses `.tmj` files into `ResolvedTiledMap` (resolves external tilesets, flips flags)
 - `mapDataBridge.ts` — Converts `ResolvedTiledMap` into scenario JSON shape; extracts spawn points, blocked tiles, hazard zones, objectives; auto-generates `enemy_policy` for non-PC teams
 - `tiledTypes.ts` — TypeScript types for Tiled `.tmj` format
+- `commandAuthoring.ts` — Utilities for authoring and validating commands
 
 ### Content Packs
 JSON files in `public/content_packs/` served by Vite. Scenario JSON references them via `"content_packs": ["/content_packs/phase10_v1.json"]`. Each entry has `id`, `kind` (spell/feat/item), `tags`, and `payload` (command template). The `ActionPanel` renders entries grouped by kind with colour-coded buttons.
@@ -96,6 +102,9 @@ Defined in `vite.config.ts` and `vitest.config.ts`:
 ## Test Infrastructure
 
 Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage areas: areas, LOS, damage, conditions, checks, objectives. The same path aliases apply in tests.
+
+- **`src/test-utils/`** — Shared fixtures (`fixtures.ts`) and a headless `scenarioTestRunner.ts` for integration-level scenario tests
+- **`src/test-scenarios/regression.test.ts`** — End-to-end regression scenarios run headlessly against `scenarioRunner.ts`
 
 ## Assets & Content
 

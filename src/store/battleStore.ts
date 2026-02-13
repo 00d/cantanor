@@ -42,6 +42,60 @@ import { loadScenarioFromUrl } from "../io/scenarioLoader";
 export type { BattleOutcome };
 
 // ---------------------------------------------------------------------------
+// Save / load (localStorage)
+// ---------------------------------------------------------------------------
+
+const SAVE_KEY = "cantanor_save";
+
+interface SavedGame {
+  version: 1;
+  battle: BattleState;
+  rngCallCount: number;
+  orchestratorConfig: OrchestratorConfig;
+  contentContext: ContentContext;
+  enginePhase: number;
+  tiledMap: ResolvedTiledMap | null;
+  tiledMapUrl: string | null;
+  lastScenarioUrl: string | null;
+  selectedUnitId: string | null;
+  battleEnded: boolean;
+  battleOutcome: BattleOutcome | null;
+}
+
+export function hasSavedGame(): boolean {
+  try {
+    return localStorage.getItem(SAVE_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
+function writeSave(saved: SavedGame): void {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(saved));
+  } catch (err) {
+    console.warn("Save failed:", err);
+  }
+}
+
+function readSave(): SavedGame | null {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as SavedGame;
+    if (parsed.version !== 1) return null;
+    if (typeof parsed.rngCallCount !== "number" || parsed.rngCallCount < 0 || parsed.rngCallCount > 100_000) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+export function clearSavedGame(): void {
+  try { localStorage.removeItem(SAVE_KEY); } catch { /* ignore */ }
+}
+
+// ---------------------------------------------------------------------------
 // Animation types (for PixiJS rendering layer)
 // ---------------------------------------------------------------------------
 
@@ -119,6 +173,8 @@ export interface BattleStore {
 
   // Tiled map reference — null when using a legacy hand-written scenario
   tiledMap: ResolvedTiledMap | null;
+  /** URL of the .tmj file — needed by tilesetLoader to resolve relative image paths. */
+  tiledMapUrl: string | null;
 
   // Grid overlay toggle (applies to Tiled maps only)
   showGrid: boolean;
@@ -138,6 +194,7 @@ export interface BattleStore {
     tiledMap: ResolvedTiledMap | null,
     contentContext: ContentContext,
     rawScenario: Record<string, unknown>,
+    tiledMapUrl?: string | null,
   ) => void;
   dispatchCommand: (command: RawCommand | Record<string, unknown>) => void;
   selectUnit: (unitId: string | null) => void;
@@ -146,6 +203,8 @@ export interface BattleStore {
   toggleGrid: () => void;
   clearBattle: () => void;
   reloadLastBattle: (url?: string) => Promise<void>;
+  /** Restores state from localStorage. Returns true if a save was found and loaded. */
+  loadSavedGame: () => boolean;
   /** Internal — schedules one AI step after a short delay. */
   _scheduleAiTurn: () => void;
 }
@@ -208,6 +267,7 @@ function buildContentEntries(
       sourceRef: re.sourceRef ?? undefined,
       tags: re.tags,
       payload: re.payload,
+      ...(re.usesPerDay != null && { usesPerDay: re.usesPerDay }),
       resolvedEntry: re,
     }));
 }
@@ -233,6 +293,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     lastScenarioUrl: null,
 
     tiledMap: null,
+    tiledMapUrl: null,
     showGrid: true,
 
     selectedUnitId: null,
@@ -242,7 +303,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     transient: { animationQueue: [] },
 
     // -------------------------------------------------------------------------
-    loadBattle: (state, enginePhase = 9, tiledMap = null, contentContext, rawScenario) => {
+    loadBattle: (state, enginePhase = 9, tiledMap = null, contentContext, rawScenario, tiledMapUrl = null) => {
       const rng = new DeterministicRNG(state.seed);
       const orchestratorConfig = buildOrchestratorConfig(rawScenario);
       const contentEntries = buildContentEntries(contentContext);
@@ -267,6 +328,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         battleOutcome: null,
         isAiTurn: false,
         tiledMap,
+        tiledMapUrl,
         selectedUnitId: initialSelectedId,
         hoveredTilePos: null,
         targetMode: null,
@@ -330,6 +392,28 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           isAiTurn: false,
           selectedUnitId: newSelectedId,
         });
+
+        // Auto-save after every successful command (skip if battle ended)
+        if (!ended && rng && orchestratorConfig && contentContext) {
+          const { tiledMap, tiledMapUrl, lastScenarioUrl } = get();
+          writeSave({
+            version: 1,
+            battle: nextState,
+            rngCallCount: rng.callCount,
+            orchestratorConfig,
+            contentContext,
+            enginePhase: get().enginePhase,
+            tiledMap,
+            tiledMapUrl,
+            lastScenarioUrl,
+            selectedUnitId: newSelectedId,
+            battleEnded: false,
+            battleOutcome: null,
+          });
+        } else if (ended) {
+          // Clear save when battle ends so Continue doesn't resume a finished battle
+          clearSavedGame();
+        }
 
         const transient = get().transient;
         transient.animationQueue.push(...animations);
@@ -412,6 +496,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           result.tiledMap,
           result.contentContext,
           result.rawScenario,
+          result.tiledMapUrl,
         );
         set({ lastScenarioUrl: url });
       } catch (err) {
@@ -420,12 +505,42 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     },
 
     // -------------------------------------------------------------------------
+    loadSavedGame: () => {
+      const saved = readSave();
+      if (!saved) return false;
+      const rng = new DeterministicRNG(saved.battle.seed, saved.rngCallCount);
+      const contentEntries = buildContentEntries(saved.contentContext);
+      set({
+        battle: saved.battle,
+        rng,
+        eventLog: [],
+        enginePhase: saved.enginePhase,
+        orchestratorConfig: saved.orchestratorConfig,
+        contentContext: saved.contentContext,
+        contentEntries,
+        battleEnded: saved.battleEnded,
+        battleOutcome: saved.battleOutcome,
+        isAiTurn: false,
+        tiledMap: saved.tiledMap,
+        tiledMapUrl: saved.tiledMapUrl ?? null,
+        lastScenarioUrl: saved.lastScenarioUrl,
+        selectedUnitId: saved.selectedUnitId,
+        hoveredTilePos: null,
+        targetMode: null,
+        transient: { animationQueue: [] },
+      });
+      get()._scheduleAiTurn();
+      return true;
+    },
+
+    // -------------------------------------------------------------------------
     selectUnit: (unitId) => set({ selectedUnitId: unitId }),
     setHoverTile: (pos) => set({ hoveredTilePos: pos }),
     setTargetMode: (mode) => set({ targetMode: mode }),
     toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
 
-    clearBattle: () =>
+    clearBattle: () => {
+      clearSavedGame();
       set({
         battle: null,
         rng: null,
@@ -437,11 +552,13 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         battleOutcome: null,
         isAiTurn: false,
         tiledMap: null,
+        tiledMapUrl: null,
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,
         transient: { animationQueue: [] },
-      }),
+      });
+    },
   }));
 
 // ---------------------------------------------------------------------------

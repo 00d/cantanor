@@ -30,6 +30,8 @@ export interface UnitState {
   resistances: Record<string, number>;
   weaknesses: Record<string, number>;
   immunities: string[];
+  /** Remaining uses for limited-use content entries (keyed by entry id). Absent = unlimited. */
+  abilitiesRemaining: Record<string, number>;
 }
 
 export function unitAlive(unit: UnitState): boolean {
@@ -40,6 +42,12 @@ export interface MapState {
   width: number;
   height: number;
   blocked: Array<[number, number]>;
+  /** Per-tile movement cost keyed by "x,y"; absent = 1 (normal). Difficult terrain = 2. */
+  moveCost?: Record<string, number>;
+  /** Per-tile cover grade keyed by "x,y"; absent = 0. 1 = standard, 2 = greater. */
+  coverGrade?: Record<string, number>;
+  /** Per-tile elevation keyed by "x,y"; absent = 0 (ground level). */
+  elevation?: Record<string, number>;
 }
 
 export interface EffectState {

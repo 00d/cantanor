@@ -662,6 +662,9 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
     width: Number(mapData["width"]),
     height: Number(mapData["height"]),
     blocked,
+    ...(mapData["move_cost"] && { moveCost: mapData["move_cost"] as Record<string, number> }),
+    ...(mapData["cover_grade"] && { coverGrade: mapData["cover_grade"] as Record<string, number> }),
+    ...(mapData["elevation"] && { elevation: mapData["elevation"] as Record<string, number> }),
   };
 
   const units: Record<string, UnitState> = {};
@@ -704,6 +707,7 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
       actionsRemaining: 3,
       reactionAvailable: true,
       speed: Number(raw["speed"] ?? 5),
+      abilitiesRemaining: {},
     };
   }
 
@@ -734,6 +738,12 @@ export interface LoadScenarioResult {
   battle: BattleState;
   /** Present when the source was a Tiled .tmj file; null for JSON scenarios. */
   tiledMap: ResolvedTiledMap | null;
+  /**
+   * URL of the .tmj file used for visual rendering.
+   * Set for both direct .tmj loads and JSON scenarios that embed a "tiled_map" field.
+   * Null for pure hand-written JSON scenarios with no Tiled reference.
+   */
+  tiledMapUrl: string | null;
   enginePhase: number;
   /** Resolved content pack entries available to the action panel. */
   contentContext: ContentContext;
@@ -760,7 +770,7 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
   const data = await response.json() as Record<string, unknown>;
 
   if ("tiledversion" in data) {
-    // Tiled .tmj format — use dynamic imports so the Tiled modules are not
+    // Direct Tiled .tmj format — use dynamic imports so the Tiled modules are not
     // part of the module graph for tests that import scenarioLoader directly
     // (avoids changing module-load timing for the existing regression suite).
     const { loadTiledMap } = await import("./tiledLoader");
@@ -773,19 +783,55 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
     return {
       battle: battleStateFromScenario(scenarioData),
       tiledMap,
+      tiledMapUrl: url,
       enginePhase,
       contentContext,
       rawScenario: scenarioData,
     };
   }
 
-  // Legacy hand-written JSON scenario
+  // Hand-written JSON scenario with an embedded Tiled map reference.
+  // The .tmj provides terrain (blocked, moveCost, coverGrade, elevation) and
+  // visual rendering; units, objectives, content packs, and enemy policy come
+  // from the JSON.
+  if (typeof data["tiled_map"] === "string" && data["tiled_map"]) {
+    const tiledMapPath = data["tiled_map"] as string;
+    const { loadTiledMap } = await import("./tiledLoader");
+    const { extractMapState } = await import("./mapDataBridge");
+    const tiledMap = await loadTiledMap(tiledMapPath);
+    const tiledMapState = extractMapState(tiledMap);
+    const mergedData: Record<string, unknown> = {
+      ...data,
+      map: {
+        width: tiledMapState.width,
+        height: tiledMapState.height,
+        blocked: tiledMapState.blocked,
+        ...(tiledMapState.moveCost   && { move_cost:    tiledMapState.moveCost }),
+        ...(tiledMapState.coverGrade && { cover_grade:  tiledMapState.coverGrade }),
+        ...(tiledMapState.elevation  && { elevation:    tiledMapState.elevation }),
+      },
+    };
+    validateScenario(mergedData);
+    const enginePhase = (mergedData["engine_phase"] as number) ?? 7;
+    const contentContext = await resolveScenarioContentContext(mergedData, enginePhase);
+    return {
+      battle: battleStateFromScenario(mergedData),
+      tiledMap,
+      tiledMapUrl: tiledMapPath,
+      enginePhase,
+      contentContext,
+      rawScenario: mergedData,
+    };
+  }
+
+  // Pure hand-written JSON scenario (no Tiled reference)
   validateScenario(data);
   const enginePhase = (data["engine_phase"] as number) ?? 7;
   const contentContext = await resolveScenarioContentContext(data, enginePhase);
   return {
     battle: battleStateFromScenario(data),
     tiledMap: null,
+    tiledMapUrl: null,
     enginePhase,
     contentContext,
     rawScenario: data,

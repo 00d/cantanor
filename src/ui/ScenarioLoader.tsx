@@ -6,24 +6,20 @@
  */
 
 import { useState } from "react";
-import { useBattleStore } from "../store/battleStore";
+import { useBattleStore, hasSavedGame } from "../store/battleStore";
 import { loadScenarioFromUrl } from "../io/scenarioLoader";
 
 // ---------------------------------------------------------------------------
 // Known scenarios
 // ---------------------------------------------------------------------------
 
-const SMOKE_SCENARIOS = [
+const SCENARIOS = [
   { id: "interactive_arena", name: "⚔️ Interactive Arena (2v2)", path: "/scenarios/smoke/interactive_arena.json" },
   { id: "hidden_pit", name: "Hidden Pit Trap", path: "/scenarios/smoke/hidden_pit_basic.json" },
   { id: "fireball", name: "Fireball Rune", path: "/scenarios/smoke/fireball_rune_basic.json" },
   { id: "poisoned_dart", name: "Poisoned Dart Gallery", path: "/scenarios/smoke/poisoned_dart_gallery_basic.json" },
   { id: "phase6_strike", name: "Phase 6 – Strike Forecast", path: "/scenarios/smoke/phase6_forecast_strike_basic.json" },
   { id: "phase6_duel", name: "Phase 6 – Enemy Policy Duel", path: "/scenarios/smoke/phase6_enemy_policy_duel_basic.json" },
-];
-
-const TILED_MAPS = [
-  { id: "dungeon_arena_01", name: "Dungeon Arena (Tiled)", path: "/maps/dungeon_arena_01.tmj" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -39,20 +35,23 @@ export function ScenarioLoader({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const loadBattle = useBattleStore((s) => s.loadBattle);
+  const loadSavedGame = useBattleStore((s) => s.loadSavedGame);
   const clearBattle = useBattleStore((s) => s.clearBattle);
   const toggleGrid = useBattleStore((s) => s.toggleGrid);
   const showGrid = useBattleStore((s) => s.showGrid);
   const tiledMap = useBattleStore((s) => s.tiledMap);
+  const tiledMapUrl = useBattleStore((s) => s.tiledMapUrl);
   const battle = useBattleStore((s) => s.battle);
+  const saveExists = hasSavedGame();
 
   async function handleLoad(path: string) {
     setLoading(true);
     setError(null);
     try {
       const result = await loadScenarioFromUrl(path);
-      loadBattle(result.battle, result.enginePhase, result.tiledMap, result.contentContext, result.rawScenario);
+      loadBattle(result.battle, result.enginePhase, result.tiledMap, result.contentContext, result.rawScenario, result.tiledMapUrl);
       useBattleStore.setState({ lastScenarioUrl: path });
-      onTiledMapUrl?.(result.tiledMap ? path : null);
+      onTiledMapUrl?.(result.tiledMapUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -87,33 +86,38 @@ export function ScenarioLoader({
                 onClick={toggleGrid}
                 title="Toggle grid overlay (G)"
               >
-                {showGrid ? "Grid On" : "Grid Off"}
+                {showGrid ? "Hide Grid" : "Show Grid"}
               </button>
             )}
           </div>
         </div>
       ) : (
         <>
+          {saveExists && (
+            <div className="scenario-section">
+              <button
+                className="scenario-btn scenario-btn--continue"
+                onClick={() => {
+                  const ok = loadSavedGame();
+                  if (!ok) {
+                    setError("Save file could not be read.");
+                  } else {
+                    onTiledMapUrl?.(useBattleStore.getState().tiledMapUrl);
+                  }
+                }}
+                disabled={loading}
+              >
+                ↩ Continue Saved Game
+              </button>
+            </div>
+          )}
+
           <div className="scenario-section">
             <div className="scenario-section-label">Scenarios</div>
-            {SMOKE_SCENARIOS.map((s) => (
+            {SCENARIOS.map((s) => (
               <button
                 key={s.id}
                 className="scenario-btn"
-                onClick={() => handleLoad(s.path)}
-                disabled={loading}
-              >
-                {s.name}
-              </button>
-            ))}
-          </div>
-
-          <div className="scenario-section">
-            <div className="scenario-section-label">Tiled Maps</div>
-            {TILED_MAPS.map((s) => (
-              <button
-                key={s.id}
-                className="scenario-btn scenario-btn--tiled"
                 onClick={() => handleLoad(s.path)}
                 disabled={loading}
               >
