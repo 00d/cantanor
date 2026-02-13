@@ -13,7 +13,11 @@ JSON.
 - Export format: **JSON** (`.tmj`)  — _not_ XML.  Save as `.tmj` directly, or export via
   File → Export As.
 - Orthogonal orientation, right-down render order.
-- Tile size: **32 × 32 px** (matches the engine's `TILE_SIZE` constant).
+- Tile size: **64 × 64 px** is the engine's world-grid unit (`TILE_SIZE = 64`).  You may
+  author tilesets at any resolution; the Tiled tilemap renderer scales the entire
+  tilemap by `TILE_SIZE / tilewidth` automatically.  The current `dungeon_basic` tileset
+  uses 32 × 32 px source tiles (scaled 2× at runtime) — 64 × 64 px source tiles are
+  preferred for new work to avoid upscaling blur.
 
 ---
 
