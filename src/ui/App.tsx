@@ -11,6 +11,7 @@ import { reachableTiles } from "../grid/movement";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
+import { ForecastTooltip } from "./ForecastTooltip";
 import { ScenarioLoader } from "./ScenarioLoader";
 import { BattleEndOverlay } from "./BattleEndOverlay";
 import { ScenarioViewer } from "./designer/ScenarioViewer";
@@ -20,7 +21,7 @@ import { renderTiledMap, setHoverTileTiled, updateGridOverlay, clearTiledRendere
 import { loadTilesetTextures } from "../rendering/tilesetLoader";
 import { syncUnits, clearUnits } from "../rendering/spriteManager";
 import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera, panBy, zoom } from "../rendering/cameraController";
-import { initEffectRenderer, clearEffectRenderer } from "../rendering/effectRenderer";
+import { initEffectRenderer, clearEffectRenderer, processAnimationQueue } from "../rendering/effectRenderer";
 import {
   initRangeOverlay,
   showMovementRange,
@@ -50,11 +51,19 @@ export function App() {
   const setTargetMode    = useBattleStore((s) => s.setTargetMode);
   const dispatchCommand  = useBattleStore((s) => s.dispatchCommand);
   const clearBattle      = useBattleStore((s) => s.clearBattle);
+  const toggleGrid       = useBattleStore((s) => s.toggleGrid);
 
   /** URL of the most recently loaded .tmj file — needed to resolve tileset image paths. */
   const tiledMapUrlRef = useRef<string | null>(null);
   /** Whether PixiJS has been initialised. */
   const pixiReadyRef = useRef(false);
+  /**
+   * Battle identity tracker — we only auto-focus the camera when a NEW battle
+   * is loaded, not on every state mutation. Without this gate, every strike
+   * snaps the camera back to centre, which is disorienting when the player
+   * has panned/zoomed manually.
+   */
+  const lastBattleIdRef = useRef<string | null>(null);
 
   // ---------------------------------------------------------------------------
   // Initialize PixiJS on mount
@@ -71,8 +80,16 @@ export function App() {
       initRangeOverlay(layers.overlay);
       pixiReadyRef.current = true;
 
-      // Game loop ticker
-      app.ticker.add(() => { tickCamera(); });
+      // Game loop ticker — camera lerp + animation queue drain.
+      // Reads transient state directly (no React subscription) so this
+      // fires at 60fps without causing re-renders.
+      app.ticker.add(() => {
+        tickCamera();
+        const state = useBattleStore.getState();
+        if (state.battle) {
+          processAnimationQueue(state.transient.animationQueue, state.battle);
+        }
+      });
     }
 
     init();
@@ -85,6 +102,7 @@ export function App() {
     if (!pixiReadyRef.current) return;
 
     if (!battle) {
+      lastBattleIdRef.current = null;
       try {
         const mapLayer = getPixiLayers().map;
         clearTiledRenderer(mapLayer);
@@ -110,16 +128,22 @@ export function App() {
 
         syncUnits(layers.units, battle!, selectedUnitId, getActiveUnitId(battle!));
 
-        const centerX = (battle!.battleMap.width - 1) / 2;
-        const centerY = (battle!.battleMap.height - 1) / 2;
-        if (canvasRef.current) {
-          const rect = canvasRef.current.getBoundingClientRect();
-          // Skip resize when canvas is hidden (display:none → zero dims)
-          if (rect.width > 0 && rect.height > 0) {
-            resizeCamera(rect.width, rect.height);
+        // Only re-centre the camera when a new battle is loaded, not on every
+        // state tick. Replays / strikes shouldn't steal the player's pan.
+        const isNewBattle = battle!.battleId !== lastBattleIdRef.current;
+        if (isNewBattle) {
+          lastBattleIdRef.current = battle!.battleId;
+          if (canvasRef.current) {
+            const rect = canvasRef.current.getBoundingClientRect();
+            // Skip resize when canvas is hidden (display:none → zero dims)
+            if (rect.width > 0 && rect.height > 0) {
+              resizeCamera(rect.width, rect.height);
+            }
           }
+          const centerX = (battle!.battleMap.width - 1) / 2;
+          const centerY = (battle!.battleMap.height - 1) / 2;
+          focusTile(centerX, centerY);
         }
-        focusTile(centerX, centerY);
       } catch (err) {
         console.warn("Failed to render battle:", err);
       }
@@ -177,27 +201,78 @@ export function App() {
   }, [hoveredTilePos, tiledMap]);
 
   // ---------------------------------------------------------------------------
-  // ESC key cancels target mode; WASD / arrows pan the camera
+  // Keyboard shortcuts
+  //   Esc         cancel target mode
+  //   WASD/arrows pan camera
+  //   M / K / E   enter move / strike / end-turn  (S & A are camera pan keys)
+  //   G           toggle grid
+  //   1-9         trigger nth ability button
+  //
+  // Dispatches re-read state from the store at keypress time so this effect
+  // doesn't need every value in its dependency list (which would otherwise
+  // rebind the listener on every re-render).
   // ---------------------------------------------------------------------------
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && targetMode) {
-        setTargetMode(null);
+      // Skip all shortcuts when typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      if (e.key === "Escape") {
+        if (useBattleStore.getState().targetMode) setTargetMode(null);
         return;
       }
-      // Skip camera pan when typing in an input
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      // Camera pan — WASD / arrows
       const PAN = 48;
       switch (e.key) {
-        case "w": case "W": case "ArrowUp":    e.preventDefault(); panBy(0,  PAN); break;
-        case "s": case "S": case "ArrowDown":  e.preventDefault(); panBy(0, -PAN); break;
-        case "a": case "A": case "ArrowLeft":  e.preventDefault(); panBy( PAN, 0); break;
-        case "d": case "D": case "ArrowRight": e.preventDefault(); panBy(-PAN, 0); break;
+        case "w": case "W": case "ArrowUp":    e.preventDefault(); panBy(0,  PAN); return;
+        case "s": case "S": case "ArrowDown":  e.preventDefault(); panBy(0, -PAN); return;
+        case "a": case "A": case "ArrowLeft":  e.preventDefault(); panBy( PAN, 0); return;
+        case "d": case "D": case "ArrowRight": e.preventDefault(); panBy(-PAN, 0); return;
+      }
+
+      // Action shortcuts — guard against AI turns / ended battles / no actions
+      const s = useBattleStore.getState();
+      if (!s.battle || s.battleEnded || s.isAiTurn) return;
+      const actorId = getActiveUnitId(s.battle);
+      const actor = s.battle.units[actorId];
+      if (!actor) return;
+      const isPlayer = s.orchestratorConfig?.playerTeams.includes(actor.team) ?? (actor.team === "pc");
+      if (!isPlayer) return;
+      const hasActions = actor.actionsRemaining > 0;
+
+      switch (e.key) {
+        case "m": case "M":
+          if (hasActions) { e.preventDefault(); setTargetMode({ type: "move" }); }
+          return;
+        case "k": case "K":
+          if (hasActions) { e.preventDefault(); setTargetMode({ type: "strike" }); }
+          return;
+        case "e": case "E":
+          e.preventDefault();
+          setTargetMode(null);
+          dispatchCommand({ type: "end_turn", actor: actorId });
+          return;
+        case "g": case "G":
+          e.preventDefault(); toggleGrid(); return;
+      }
+
+      // Number keys 1-9 → click the nth ability button in the ActionPanel.
+      // We dispatch a synthetic click so the button's own guard logic
+      // (disabled/exhausted/ally-target) is reused rather than duplicated.
+      if (e.key >= "1" && e.key <= "9") {
+        const idx = Number(e.key) - 1;
+        const buttons = document.querySelectorAll<HTMLButtonElement>(".ability-btn");
+        const btn = buttons[idx];
+        if (btn && !btn.disabled) {
+          e.preventDefault();
+          btn.click();
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [targetMode, setTargetMode]);
+  }, [setTargetMode, dispatchCommand, toggleGrid]);
 
   // ---------------------------------------------------------------------------
   // Scroll wheel zoom (non-passive so we can preventDefault)
@@ -372,6 +447,7 @@ export function App() {
           onClick={handleCanvasClick}
           onMouseLeave={handleCanvasLeave}
         />
+        <ForecastTooltip />
       </div>
 
       {appMode === "game" && (

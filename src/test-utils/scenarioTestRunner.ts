@@ -10,16 +10,13 @@ import { setPreloadedEffectModel } from "../io/effectModelLoader";
 import { readFile } from "fs/promises";
 import { resolve, isAbsolute } from "path";
 
-// Preload effect model once at module load time
+// Preload effect model — stored as a promise so runScenarioTest can await it.
+// Fire-and-forget caused a race where the first scenario ran before the model
+// was loaded, producing a different hash than subsequent runs.
 const effectModelPath = resolve(process.cwd(), "data/rules/effect_models.json");
-readFile(effectModelPath, "utf-8")
-  .then((data) => {
-    const model = JSON.parse(data);
-    setPreloadedEffectModel(model);
-  })
-  .catch(() => {
-    // Effect model not available, some tests may fail
-  });
+const _effectModelReady: Promise<void> = readFile(effectModelPath, "utf-8")
+  .then((data) => setPreloadedEffectModel(JSON.parse(data)))
+  .catch(() => { /* model not available — hazard tests will fail loudly */ });
 
 // Re-export ScenarioResult and related utilities for tests
 export type { ScenarioResult };
@@ -30,7 +27,7 @@ export type { ScenarioResult };
  * @returns Promise resolving to scenario execution results
  */
 export async function runScenarioTest(scenarioPath: string): Promise<ScenarioResult> {
-  // Resolve path
+  await _effectModelReady;
   const absolutePath = isAbsolute(scenarioPath) ? scenarioPath : resolve(process.cwd(), scenarioPath);
 
   // Load scenario JSON

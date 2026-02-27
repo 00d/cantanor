@@ -106,6 +106,17 @@ export interface DamageAnimation {
   damageType: string;
 }
 
+export interface HealAnimation {
+  type: "heal";
+  unitId: string;
+  amount: number;
+}
+
+export interface MissAnimation {
+  type: "miss";
+  unitId: string;
+}
+
 export interface MoveAnimation {
   type: "move";
   unitId: string;
@@ -115,14 +126,7 @@ export interface MoveAnimation {
   toY: number;
 }
 
-export interface ConditionAnimation {
-  type: "condition";
-  unitId: string;
-  condition: string;
-  applied: boolean;
-}
-
-export type BattleAnimation = DamageAnimation | MoveAnimation | ConditionAnimation;
+export type BattleAnimation = DamageAnimation | HealAnimation | MissAnimation | MoveAnimation;
 
 // ---------------------------------------------------------------------------
 // Target mode
@@ -213,42 +217,72 @@ export interface BattleStore {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * Translate engine events into visual animation cues for the PixiJS layer.
+ *
+ * Damage info is nested under `payload.damage` for strike / cast_spell /
+ * save_damage / area_save_damage / effect_tick events. The total key varies:
+ * strike uses `total`, save-based events use `applied_total` — we try both.
+ */
 function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[] {
   const animations: BattleAnimation[] = [];
+
+  function readDamage(payload: Record<string, unknown>): { total: number; type: string } | null {
+    const dmg = payload["damage"];
+    if (!dmg || typeof dmg !== "object") return null;
+    const d = dmg as Record<string, unknown>;
+    const total = Number(d["applied_total"] ?? d["total"] ?? 0);
+    if (total <= 0) return null;
+    return { total, type: String(d["damage_type"] ?? "physical") };
+  }
+
   for (const event of events) {
     const type = String(event["type"] ?? "");
     const payload = (event["payload"] as Record<string, unknown>) ?? {};
 
-    if (type === "damage" || type === "strike") {
+    if (type === "strike") {
       const target = String(payload["target"] ?? "");
-      const total = Number(payload["total"] ?? payload["damage_total"] ?? 0);
-      const damageType = String(payload["damage_type"] ?? "physical");
-      if (target && total > 0) {
-        animations.push({ type: "damage", unitId: target, amount: total, damageType });
+      if (!target) continue;
+      const dmg = readDamage(payload);
+      if (dmg) {
+        animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
+      } else {
+        // Miss — strike landed no damage
+        animations.push({ type: "miss", unitId: target });
+      }
+    } else if (type === "cast_spell" || type === "save_damage" || type === "area_save_damage") {
+      const target = String(payload["target"] ?? "");
+      const dmg = readDamage(payload);
+      if (target && dmg) {
+        animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
+      }
+    } else if (type === "effect_tick") {
+      // Persistent damage / affliction ticks
+      const target = String(payload["target"] ?? "");
+      const dmg = readDamage(payload);
+      if (target && dmg) {
+        animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
+      }
+    } else if (type === "effect_apply") {
+      // Temp-HP grants are the closest thing we have to a heal right now
+      const target = String(payload["target"] ?? "");
+      const kind = String(payload["kind"] ?? "");
+      if (target && kind === "temp_hp") {
+        const granted = Number(payload["granted"] ?? 0);
+        if (granted > 0) {
+          animations.push({ type: "heal", unitId: target, amount: granted });
+        }
       }
     } else if (type === "move") {
-      const actor = String(event["actor"] ?? payload["actor"] ?? "");
+      const actor = String(payload["actor"] ?? "");
       const from = payload["from"] as number[] | undefined;
       const to = payload["to"] as number[] | undefined;
       if (actor && from && to) {
         animations.push({
           type: "move",
           unitId: actor,
-          fromX: from[0],
-          fromY: from[1],
-          toX: to[0],
-          toY: to[1],
-        });
-      }
-    } else if (type === "condition_applied" || type === "condition_cleared") {
-      const target = String(payload["target"] ?? "");
-      const condition = String(payload["condition"] ?? "");
-      if (target && condition) {
-        animations.push({
-          type: "condition",
-          unitId: target,
-          condition,
-          applied: type === "condition_applied",
+          fromX: from[0], fromY: from[1],
+          toX: to[0], toY: to[1],
         });
       }
     }

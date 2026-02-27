@@ -25,7 +25,21 @@ interface UnitSprite {
   container: Container;
   body: Graphics;
   label: Text;
+  /** Thin HP bar above the unit body — track + fill drawn in one Graphics. */
+  hpBar: Graphics;
   unitId: string;
+}
+
+const HP_BAR_W = TILE_SIZE - UNIT_PADDING * 2;
+const HP_BAR_H = 4;
+const HP_BAR_Y = 2;   // a couple of pixels below the top edge of the tile
+const HP_TRACK_COLOR = 0x2a2a3a;
+
+/** Same traffic-light scheme as the React PartyPanel HpBar. */
+function hpColor(pct: number): number {
+  if (pct < 0.25) return 0xe53935;
+  if (pct < 0.50) return 0xfb8c00;
+  return 0x43a047;
 }
 
 const _sprites = new Map<string, UnitSprite>();
@@ -40,6 +54,7 @@ function createUnitSprite(unit: UnitState): UnitSprite {
   container.label = `unit_${unit.unitId}`;
 
   const body = new Graphics();
+  const hpBar = new Graphics();
   const label = new Text({
     text: unit.unitId.substring(0, 3).toUpperCase(),
     style: new TextStyle({ fontSize: 12, fill: 0xffffff, fontFamily: "monospace" }),
@@ -49,11 +64,13 @@ function createUnitSprite(unit: UnitState): UnitSprite {
 
   container.addChild(body);
   container.addChild(label);
-  return { container, body, label, unitId: unit.unitId };
+  container.addChild(hpBar);  // on top so it's never covered by the body outline
+  return { container, body, label, hpBar, unitId: unit.unitId };
 }
 
 function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean, active: boolean): void {
-  const color = unitAlive(unit) ? teamColor(unit.team) : DEAD_COLOR;
+  const alive = unitAlive(unit);
+  const color = alive ? teamColor(unit.team) : DEAD_COLOR;
   const p = UNIT_PADDING;
   sprite.body.clear();
   sprite.body
@@ -71,7 +88,19 @@ function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean, ac
       .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
       .stroke();
   }
-  sprite.label.alpha = unitAlive(unit) ? 1 : 0.4;
+  sprite.label.alpha = alive ? 1 : 0.4;
+
+  // HP bar — track + fill. Hidden on dead units (corpse clutter otherwise).
+  sprite.hpBar.clear();
+  if (alive) {
+    const pct = Math.max(0, Math.min(1, unit.hp / Math.max(1, unit.maxHp)));
+    const fillW = Math.max(1, Math.round(HP_BAR_W * pct));
+    sprite.hpBar
+      .rect(p, HP_BAR_Y, HP_BAR_W, HP_BAR_H)
+      .fill(HP_TRACK_COLOR)
+      .rect(p, HP_BAR_Y, fillW, HP_BAR_H)
+      .fill(hpColor(pct));
+  }
 }
 
 export function syncUnits(

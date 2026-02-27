@@ -79,10 +79,18 @@ function advanceTurn(state: BattleState): void {
     if (unitAlive(unit)) {
       unit.actionsRemaining = 3;
       unit.reactionAvailable = true;
+      unit.attacksThisTurn = 0;
       return;
     }
     if (state.turnIndex === start) return;
   }
+}
+
+/** PF2e Multiple Attack Penalty: -5 on 2nd attack, -10 on 3rd+ (non-agile). */
+function mapPenalty(attacksThisTurn: number): number {
+  if (attacksThisTurn <= 0) return 0;
+  if (attacksThisTurn === 1) return -5;
+  return -10;
 }
 
 function emitLifecycleEvents(
@@ -143,7 +151,10 @@ function saveModifierForType(unit: UnitState, saveType: string): number {
 }
 
 function newEffectId(state: BattleState): string {
-  return `eff_${String(Object.keys(state.effects).length + 1).padStart(4, "0")}`;
+  // Use eventSequence as a monotonically increasing counter — unlike
+  // Object.keys(effects).length it can never collide when effects expire.
+  state.eventSequence += 1;
+  return `eff_${String(state.eventSequence).padStart(4, "0")}`;
 }
 
 function aliveUnitIds(state: BattleState): string[] {
@@ -692,15 +703,26 @@ export function applyCommand(
     if (!hasLineOfSight(nextState, actor, target)) {
       throw new ReductionError(`no line of sight from ${actorId} to ${targetId}`);
     }
+    // Reach check — melee strikes require Chebyshev distance <= reach.
+    // Diagonals count as 1 tile per PF2e grid rules.
+    const reach = actor.reach ?? 1;
+    const dist = Math.max(Math.abs(actor.x - target.x), Math.abs(actor.y - target.y));
+    if (dist > reach) {
+      throw new ReductionError(
+        `target ${targetId} is out of reach (distance ${dist} > reach ${reach})`,
+      );
+    }
 
     const coverGrade = coverGradeForUnits(nextState, actor, target);
     const coverBonus = coverAcBonusForUnits(nextState, actor, target);
+    const mapPen = mapPenalty(actor.attacksThisTurn);
     const effectiveAc = target.ac + coverBonus;
-    const check = resolveCheck(rng, actor.attackMod, effectiveAc);
+    const effectiveAttackMod = actor.attackMod + mapPen;
+    const check = resolveCheck(rng, effectiveAttackMod, effectiveAc);
 
     let forecast: Record<string, unknown> | null = null;
     if (command.emit_forecast) {
-      forecast = strikeForecast(actor.attackMod, effectiveAc, actor.damage);
+      forecast = strikeForecast(effectiveAttackMod, effectiveAc, actor.damage);
     }
 
     let multiplier = 0;
@@ -755,6 +777,7 @@ export function applyCommand(
     }
 
     actor.actionsRemaining -= 1;
+    actor.attacksThisTurn += 1;
     const strikePayload: Record<string, unknown> = {
       actor: actorId,
       target: targetId,
@@ -766,6 +789,7 @@ export function applyCommand(
         base_dc: target.ac,
         cover_grade: coverGrade,
         cover_bonus: coverBonus,
+        map_penalty: mapPen,
         dc: check.dc,
       },
       damage: damageDetail,
@@ -1195,6 +1219,8 @@ export function applyCommand(
         String(x).toLowerCase(),
       ),
       speed: Number(unitRaw["speed"] ?? 5),
+      reach: Number(unitRaw["reach"] ?? 1),
+      attacksThisTurn: 0,
       abilitiesRemaining: {},
     };
     if (!spawned.team) throw new ReductionError("spawn_unit unit.team is required");

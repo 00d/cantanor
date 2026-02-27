@@ -32,6 +32,8 @@ export function createTestUnit(overrides: Partial<UnitState> = {}): UnitState {
     will: 5,
     actionsRemaining: 3,
     reactionAvailable: true,
+    reach: 1,
+    attacksThisTurn: 0,
     conditions: {},
     conditionImmunities: [],
     resistances: {},

@@ -1182,6 +1182,19 @@ html, body {
   max-width: 110px;
 }
 
+/* Number-key hotkey badge on ability buttons */
+.ability-hotkey {
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 9px;
+  font-weight: bold;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
 /* ============================================================
    Battle-end overlay
    ============================================================ */
@@ -1293,5 +1306,93 @@ html, body {
 .btn-new-scenario:hover {
   background: #1e2030;
   border-color: var(--accent-blue);
+}
+
+/* ============================================================
+   Forecast tooltip — strike hit/damage preview
+   Absolutely positioned in the bottom-left of the canvas area.
+   ============================================================ */
+.forecast-tooltip {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 5;
+  background: rgba(22, 33, 62, 0.96);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 4px;
+  padding: 10px 14px;
+  min-width: 220px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  pointer-events: none; /* don't intercept canvas clicks */
+}
+
+.forecast-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.forecast-actor  { color: var(--accent-blue); font-weight: bold; }
+.forecast-target { color: var(--accent-red);  font-weight: bold; }
+.forecast-arrow  { opacity: 0.5; }
+
+.forecast-hit {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 3px;
+}
+
+.forecast-hit-pct {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.forecast-hit-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.forecast-hit-crit {
+  font-size: 11px;
+  color: var(--accent-orange);
+  margin-left: auto;
+}
+
+.forecast-dmg {
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.forecast-dmg-detail {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.forecast-mods {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: var(--text-secondary);
+  padding-top: 6px;
+  border-top: 1px solid var(--border-color);
+}
+
+.forecast-mod-map {
+  color: var(--accent-red);
+  font-weight: bold;
+}
+
+.forecast-mod-cover {
+  color: var(--accent-orange);
 }
 

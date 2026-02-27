@@ -25,11 +25,17 @@ export interface UnitState {
   actionsRemaining: number;
   reactionAvailable: boolean;
   speed: number;
+  /** Melee reach in tiles (PF2e default = 1; reach weapons = 2). */
+  reach: number;
+  /** Attacks made this turn — drives Multiple Attack Penalty. Reset to 0 on turn start. */
+  attacksThisTurn: number;
   conditions: Record<string, number>;
   conditionImmunities: string[];
   resistances: Record<string, number>;
   weaknesses: Record<string, number>;
   immunities: string[];
+  /** Content-entry ids this unit may use. Undefined = all entries available. */
+  abilities?: string[];
   /** Remaining uses for limited-use content entries (keyed by entry id). Absent = unlimited. */
   abilitiesRemaining: Record<string, number>;
 }

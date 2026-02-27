@@ -6,12 +6,16 @@
  *   - Action pips (remaining actions display)
  *   - Target-mode banner (shown while awaiting a map click)
  *   - Core actions: Move, Strike, End Turn
- *   - Abilities: spells, feats, items from the loaded content pack
+ *   - Abilities: spells / feats / items from the loaded content pack,
+ *     filtered by the active unit's `abilities` list if present
  */
 
 import { useBattleStore, selectActiveUnit } from "../store/battleStore";
 import { activeUnitId, unitAlive } from "../engine/state";
 import type { UnitState } from "../engine/state";
+import type { ContentPackEntry, ResolvedEntry } from "../io/contentPackLoader";
+
+type EntryView = ContentPackEntry & { resolvedEntry: ResolvedEntry };
 
 function InspectPanel({ unit }: { unit: UnitState }) {
   const alive = unitAlive(unit);
@@ -83,6 +87,41 @@ function abilityTargetsAllies(tags: string[]): boolean {
   return tags.some((t) => ["heal", "support", "medicine", "restore"].includes(t));
 }
 
+/** Single ability button — renders with kind-appropriate theme + use counter. */
+function AbilityButton({
+  entry,
+  unit,
+  disabled,
+  hotkey,
+  onActivate,
+}: {
+  entry: EntryView;
+  unit: UnitState;
+  disabled: boolean;
+  hotkey: number | null;
+  onActivate: (entryId: string, kind: string, tags: string[]) => void;
+}) {
+  const cfg = KIND_CONFIG[entry.kind] ?? { icon: "◆", label: entry.kind, className: "" };
+  const remaining = entry.usesPerDay != null
+    ? (unit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
+    : null;
+  const exhausted = remaining !== null && remaining <= 0;
+
+  return (
+    <button
+      className={`ability-btn ${cfg.className}`}
+      disabled={disabled || exhausted}
+      onClick={() => onActivate(entry.id, entry.kind, entry.tags)}
+      title={`[${cfg.label}] ${entry.tags.join(", ")}${hotkey ? ` — press ${hotkey}` : ""}`}
+    >
+      <span className="ability-icon">{cfg.icon}</span>
+      <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
+      {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
+      {hotkey && <span className="ability-hotkey">{hotkey}</span>}
+    </button>
+  );
+}
+
 export function ActionPanel() {
   const battle         = useBattleStore((s) => s.battle);
   const dispatchCommand = useBattleStore((s) => s.dispatchCommand);
@@ -92,6 +131,7 @@ export function ActionPanel() {
   const contentEntries = useBattleStore((s) => s.contentEntries);
   const isAiTurn       = useBattleStore((s) => s.isAiTurn);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
+  const orchestratorConfig = useBattleStore((s) => s.orchestratorConfig);
 
   // The unit the player is currently inspecting (may differ from active unit)
   const inspectedUnit =
@@ -114,7 +154,8 @@ export function ActionPanel() {
   const actorId    = activeUnitId(battle);
   const actionsLeft = activeUnit.actionsRemaining;
   const hasActions  = actionsLeft > 0;
-  const isPlayerUnit = activeUnit.team === "pc";
+  const playerTeams = orchestratorConfig?.playerTeams ?? ["pc"];
+  const isPlayerUnit = playerTeams.includes(activeUnit.team);
 
   if (!isPlayerUnit) {
     return (
@@ -167,9 +208,25 @@ export function ActionPanel() {
     }
   }
 
-  const spells = contentEntries.filter((e) => e.kind === "spell");
-  const feats  = contentEntries.filter((e) => e.kind === "feat");
-  const items  = contentEntries.filter((e) => e.kind === "item");
+  // Per-unit filtering: if the active unit declares an `abilities` whitelist,
+  // only show those entries. Undefined = everything in the pack is available
+  // (legacy scenarios without per-unit lists keep working).
+  const allowed = activeUnit.abilities
+    ? new Set(activeUnit.abilities)
+    : null;
+  const visibleEntries = allowed
+    ? contentEntries.filter((e) => allowed.has(e.id))
+    : contentEntries;
+
+  // Group by kind for display. Hotkeys 1-9 are assigned in visual order so
+  // the number the player sees matches the key they press.
+  const kindOrder = ["spell", "feat", "item"];
+  const grouped: Record<string, EntryView[]> = { spell: [], feat: [], item: [] };
+  for (const e of visibleEntries) {
+    if (e.kind in grouped) grouped[e.kind].push(e);
+  }
+  let hotkeyCounter = 0;
+  const btnDisabled = !hasActions || targetMode !== null;
 
   return (
     <div className="action-panel">
@@ -185,14 +242,12 @@ export function ActionPanel() {
       {Object.keys(activeUnit.conditions).length > 0 && (
         <div className="active-conditions">
           {Object.entries(activeUnit.conditions).map(([cond, val]) => {
-            const effectEntry = battle
-              ? Object.values(battle.effects).find(
-                  (e) =>
-                    e.targetUnitId === actorId &&
-                    e.kind === "condition" &&
-                    String(e.payload["name"] ?? "") === cond,
-                )
-              : undefined;
+            const effectEntry = Object.values(battle.effects).find(
+              (e) =>
+                e.targetUnitId === actorId &&
+                e.kind === "condition" &&
+                String(e.payload["name"] ?? "") === cond,
+            );
             const rounds = effectEntry?.durationRounds;
             return (
               <span key={cond} className="condition-tag">
@@ -220,7 +275,7 @@ export function ActionPanel() {
           className="action-btn"
           onClick={handleMove}
           disabled={!hasActions || targetMode !== null}
-          title="Move to a reachable tile (1 action)"
+          title="Move to a reachable tile (1 action) — press M"
         >
           🚶 Move
         </button>
@@ -228,7 +283,7 @@ export function ActionPanel() {
           className="action-btn"
           onClick={handleStrike}
           disabled={!hasActions || targetMode !== null}
-          title="Strike an enemy (1 action)"
+          title="Strike an enemy (1 action) — press K"
         >
           ⚔️ Strike
         </button>
@@ -236,91 +291,38 @@ export function ActionPanel() {
           className="action-btn end-turn"
           onClick={handleEndTurn}
           disabled={targetMode !== null}
-          title="End turn"
+          title="End turn — press E"
         >
           End Turn
         </button>
       </div>
 
-      {/* Abilities from content pack */}
-      {(spells.length > 0 || feats.length > 0 || items.length > 0) && (
+      {/* Abilities from content pack, grouped by kind */}
+      {visibleEntries.length > 0 && (
         <div className="abilities-section">
           <div className="action-section-label">Abilities</div>
-
-          {spells.length > 0 && (
-            <div className="ability-group">
-              {spells.map((entry) => {
-                const cfg = KIND_CONFIG["spell"];
-                const remaining = entry.usesPerDay != null
-                  ? (activeUnit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
-                  : null;
-                const exhausted = remaining !== null && remaining <= 0;
-                return (
-                  <button
-                    key={entry.id}
-                    className={`ability-btn ${cfg.className}`}
-                    disabled={!hasActions || targetMode !== null || exhausted}
-                    onClick={() => handleAbility(entry.id, entry.kind, entry.tags)}
-                    title={`[${cfg.label}] ${entry.tags.join(", ")}`}
-                  >
-                    <span className="ability-icon">{cfg.icon}</span>
-                    <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
-                    {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {feats.length > 0 && (
-            <div className="ability-group">
-              {feats.map((entry) => {
-                const cfg = KIND_CONFIG["feat"];
-                const remaining = entry.usesPerDay != null
-                  ? (activeUnit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
-                  : null;
-                const exhausted = remaining !== null && remaining <= 0;
-                return (
-                  <button
-                    key={entry.id}
-                    className={`ability-btn ${cfg.className}`}
-                    disabled={!hasActions || targetMode !== null || exhausted}
-                    onClick={() => handleAbility(entry.id, entry.kind, entry.tags)}
-                    title={`[${cfg.label}] ${entry.tags.join(", ")}`}
-                  >
-                    <span className="ability-icon">{cfg.icon}</span>
-                    <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
-                    {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {items.length > 0 && (
-            <div className="ability-group">
-              {items.map((entry) => {
-                const cfg = KIND_CONFIG["item"];
-                const remaining = entry.usesPerDay != null
-                  ? (activeUnit.abilitiesRemaining[entry.id] ?? entry.usesPerDay)
-                  : null;
-                const exhausted = remaining !== null && remaining <= 0;
-                return (
-                  <button
-                    key={entry.id}
-                    className={`ability-btn ${cfg.className}`}
-                    disabled={!hasActions || targetMode !== null || exhausted}
-                    onClick={() => handleAbility(entry.id, entry.kind, entry.tags)}
-                    title={`[${cfg.label}] ${entry.tags.join(", ")}`}
-                  >
-                    <span className="ability-icon">{cfg.icon}</span>
-                    <span className="ability-name">{entry.id.split(".").pop()?.replace(/_/g, " ")}</span>
-                    {remaining !== null && <span className="ability-uses">({remaining}/{entry.usesPerDay})</span>}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          {kindOrder.map((kind) => {
+            const entries = grouped[kind];
+            if (entries.length === 0) return null;
+            return (
+              <div key={kind} className="ability-group">
+                {entries.map((entry) => {
+                  hotkeyCounter++;
+                  const hotkey = hotkeyCounter <= 9 ? hotkeyCounter : null;
+                  return (
+                    <AbilityButton
+                      key={entry.id}
+                      entry={entry}
+                      unit={activeUnit}
+                      disabled={btnDisabled}
+                      hotkey={hotkey}
+                      onActivate={handleAbility}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       )}
 

@@ -84,16 +84,23 @@ export function showMovementRange(tiles: Set<string>, state?: BattleState): void
   }
 }
 
-/** Highlight enemy units as strike targets. */
+/**
+ * Highlight enemy units as strike targets. Only enemies within melee reach
+ * (Chebyshev distance ≤ actor.reach) are shown — mirrors the reducer's reach
+ * check so the overlay never advertises an illegal target.
+ */
 export function showStrikeTargets(state: BattleState, actorId: string): void {
   if (!_graphics) return;
   _graphics.clear();
   const actor = state.units[actorId];
   if (!actor) return;
+  const reach = actor.reach ?? 1;
   for (const unit of Object.values(state.units)) {
     if (unit.unitId === actorId) continue;
     if (!unitAlive(unit)) continue;
     if (unit.team === actor.team) continue;
+    const dist = Math.max(Math.abs(unit.x - actor.x), Math.abs(unit.y - actor.y));
+    if (dist > reach) continue;
     if (!hasLineOfSight(state, actor, unit)) continue;
     drawTile(_graphics, unit.x, unit.y, STRIKE_FILL, STRIKE_ALPHA);
   }

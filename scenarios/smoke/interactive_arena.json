@@ -25,7 +25,13 @@
       "fortitude": 10,
       "reflex": 7,
       "will": 6,
-      "speed": 5
+      "speed": 5,
+      "abilities": [
+        "feat.battle_medicine",
+        "feat.shield_block",
+        "feat.demoralize",
+        "item.healing_potion"
+      ]
     },
     {
       "id": "mage",
@@ -39,7 +45,14 @@
       "fortitude": 6,
       "reflex": 8,
       "will": 10,
-      "speed": 5
+      "speed": 5,
+      "abilities": [
+        "spell.magic_missile",
+        "spell.acid_splash",
+        "spell.lightning_bolt",
+        "spell.electric_arc",
+        "item.healing_potion"
+      ]
     },
     {
       "id": "orc_warrior",

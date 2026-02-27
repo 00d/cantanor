@@ -707,6 +707,9 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
       actionsRemaining: 3,
       reactionAvailable: true,
       speed: Number(raw["speed"] ?? 5),
+      reach: Number(raw["reach"] ?? 1),
+      attacksThisTurn: 0,
+      ...(Array.isArray(raw["abilities"]) && { abilities: (raw["abilities"] as string[]).map(String) }),
       abilitiesRemaining: {},
     };
   }

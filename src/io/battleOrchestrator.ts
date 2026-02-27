@@ -16,6 +16,7 @@ import { BattleState, activeUnitId, unitAlive } from "../engine/state";
 import { type ContentContext } from "./contentPackLoader";
 import { ReductionError } from "../engine/reducer";
 import { hasLineOfSight } from "../grid/los";
+import { stepToward } from "../grid/movement";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -171,15 +172,23 @@ export function checkBattleEnd(
 // Enemy AI policy
 // ---------------------------------------------------------------------------
 
-function enemyCandidates(state: BattleState, actorId: string): Array<[string, number]> {
+interface EnemyCandidate {
+  unitId: string;
+  /** Chebyshev distance — matches PF2e reach rules. */
+  dist: number;
+  hasLos: boolean;
+}
+
+function enemyCandidates(state: BattleState, actorId: string): EnemyCandidate[] {
   const actor = state.units[actorId];
   return Object.values(state.units)
-    .filter((u) => unitAlive(u) && u.team !== actor.team && hasLineOfSight(state, actor, u))
-    .map((u): [string, number] => [
-      u.unitId,
-      Math.abs(u.x - actor.x) + Math.abs(u.y - actor.y),
-    ])
-    .sort(([idA, dA], [idB, dB]) => dA - dB || idA.localeCompare(idB));
+    .filter((u) => unitAlive(u) && u.team !== actor.team)
+    .map((u) => ({
+      unitId: u.unitId,
+      dist: Math.max(Math.abs(u.x - actor.x), Math.abs(u.y - actor.y)),
+      hasLos: hasLineOfSight(state, actor, u),
+    }))
+    .sort((a, b) => a.dist - b.dist || a.unitId.localeCompare(b.unitId));
 }
 
 /**
@@ -198,23 +207,41 @@ export function getAiCommand(
   }
 
   const candidates = enemyCandidates(state, actorId);
+  const reach = actor.reach ?? 1;
 
   switch (policy.action) {
     case "strike_nearest": {
+      // Strike if any enemy is within reach with LOS; otherwise move toward
+      // the nearest enemy; if no move helps, end turn.
+      const inReach = candidates.find((c) => c.dist <= reach && c.hasLos);
+      if (inReach) {
+        return { type: "strike", actor: actorId, target: inReach.unitId };
+      }
       if (candidates.length > 0) {
-        return { type: "strike", actor: actorId, target: candidates[0][0] };
+        const targetUnit = state.units[candidates[0].unitId];
+        const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
+        if (step) {
+          return { type: "move", actor: actorId, x: step[0], y: step[1] };
+        }
       }
       return { type: "end_turn", actor: actorId };
     }
     case "cast_spell_entry_nearest": {
-      if (candidates.length > 0) {
+      const target = candidates.find((c) => c.hasLos);
+      if (target) {
         return {
           type: "cast_spell",
           actor: actorId,
           content_entry_id: policy.contentEntryId ?? "",
-          target: candidates[0][0],
+          target: target.unitId,
           dc: policy.dc ?? 15,
         };
+      }
+      // Approach if no LOS
+      if (candidates.length > 0) {
+        const targetUnit = state.units[candidates[0].unitId];
+        const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
+        if (step) return { type: "move", actor: actorId, x: step[0], y: step[1] };
       }
       return { type: "end_turn", actor: actorId };
     }
