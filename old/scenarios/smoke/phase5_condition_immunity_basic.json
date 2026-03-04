@@ -1,0 +1,61 @@
+{
+  "battle_id": "phase5_condition_immunity_basic",
+  "seed": 605,
+  "map": {
+    "width": 6,
+    "height": 6,
+    "blocked": []
+  },
+  "units": [
+    {
+      "id": "caster",
+      "team": "pc",
+      "hp": 24,
+      "position": [1, 1],
+      "initiative": 20,
+      "attack_mod": 6,
+      "ac": 17,
+      "damage": "1d8+2",
+      "fortitude": 5,
+      "reflex": 5,
+      "will": 5
+    },
+    {
+      "id": "target",
+      "team": "enemy",
+      "hp": 20,
+      "position": [2, 1],
+      "initiative": 10,
+      "attack_mod": 5,
+      "ac": 16,
+      "damage": "1d8+2",
+      "fortitude": 4,
+      "reflex": 4,
+      "will": 4,
+      "condition_immunities": ["frightened"]
+    }
+  ],
+  "commands": [
+    {
+      "type": "apply_effect",
+      "actor": "caster",
+      "target": "target",
+      "effect_kind": "condition",
+      "payload": {
+        "name": "frightened",
+        "value": 2,
+        "clear_on_expire": true
+      },
+      "duration_rounds": 1,
+      "tick_timing": null
+    },
+    {
+      "type": "end_turn",
+      "actor": "caster"
+    },
+    {
+      "type": "end_turn",
+      "actor": "target"
+    }
+  ]
+}

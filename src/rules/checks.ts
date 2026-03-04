@@ -1,6 +1,5 @@
 /**
  * Core check and attack-roll resolution.
- * Mirrors engine/rules/checks.py
  */
 
 import { DeterministicRNG } from "../engine/rng";

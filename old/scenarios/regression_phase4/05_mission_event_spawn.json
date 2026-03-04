@@ -1,0 +1,91 @@
+{
+  "battle_id": "phase4_mission_event_spawn_basic",
+  "seed": 709,
+  "map": {
+    "width": 8,
+    "height": 8,
+    "blocked": []
+  },
+  "flags": {
+    "wave_spawned": false
+  },
+  "objectives": [
+    {
+      "id": "wave_spawned",
+      "type": "flag_set",
+      "flag": "wave_spawned",
+      "value": true,
+      "result": "victory"
+    }
+  ],
+  "units": [
+    {
+      "id": "hazard_core",
+      "team": "hazard",
+      "hp": 999,
+      "position": [2, 2],
+      "initiative": 20,
+      "attack_mod": 0,
+      "ac": 10,
+      "damage": "1d1",
+      "fortitude": 0,
+      "reflex": 0,
+      "will": 0
+    },
+    {
+      "id": "pc_1",
+      "team": "pc",
+      "hp": 30,
+      "position": [5, 5],
+      "initiative": 10,
+      "attack_mod": 7,
+      "ac": 17,
+      "damage": "1d8+3",
+      "fortitude": 6,
+      "reflex": 5,
+      "will": 4
+    }
+  ],
+  "mission_events": [
+    {
+      "id": "spawn_wave_2",
+      "trigger": "round_start",
+      "round": 2,
+      "once": true,
+      "commands": [
+        {
+          "type": "spawn_unit",
+          "placement_policy": "exact",
+          "unit": {
+            "id": "hazard_reinforcement_1",
+            "team": "hazard",
+            "hp": 16,
+            "position": [1, 2],
+            "initiative": 12,
+            "attack_mod": 6,
+            "ac": 15,
+            "damage": "1d8+2",
+            "fortitude": 5,
+            "reflex": 4,
+            "will": 4
+          }
+        },
+        {
+          "type": "set_flag",
+          "flag": "wave_spawned",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "type": "end_turn",
+      "actor": "hazard_core"
+    },
+    {
+      "type": "end_turn",
+      "actor": "pc_1"
+    }
+  ]
+}

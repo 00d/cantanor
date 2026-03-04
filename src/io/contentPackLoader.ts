@@ -1,6 +1,5 @@
 /**
  * Versioned content-pack loader, validation, and scenario integration helpers.
- * Mirrors engine/io/content_pack_loader.py
  */
 
 const SEMVER_RE = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;

@@ -1,6 +1,5 @@
 /**
  * Deterministic battle reducer.
- * Mirrors engine/core/reducer.py
  *
  * Pure function: (state, command, rng) → [nextState, events]
  * All mutations happen on a deep-cloned copy; original state is never mutated.
@@ -8,12 +7,13 @@
 
 import { LifecycleEvent, onApply, processTiming } from "../effects/lifecycle";
 import { conePoints, linePoints, radiusPoints } from "../grid/areas";
-import { coverAcBonusForUnits, coverGradeForUnits, hasTileLineOfEffect } from "../grid/loe";
+import { adjustCoverForMelee, coverAcBonusFromGrade, coverGradeForUnits, hasTileLineOfEffect } from "../grid/loe";
 import { hasLineOfSight } from "../grid/los";
 import { inBounds, isBlocked, isOccupied } from "../grid/map";
 import { reachableTiles } from "../grid/movement";
 import { applyCondition, conditionIsImmune, normalizeConditionName } from "../rules/conditions";
-import { applyDamageModifiers, applyDamageToPool, rollDamage } from "../rules/damage";
+import { applyDamageModifiers, applyDamageToPool, parseFormula, rollDamage, rollTraitBonusDice } from "../rules/damage";
+import { isAgile, mapPenalty as traitMapPenalty, volleyPenalty, deadlyDice, fatalDice, thrownRange } from "./traits";
 import { Degree } from "../rules/degrees";
 import { resolveCheck } from "../rules/checks";
 import { SaveProfile, basicSaveMultiplier, resolveSave } from "../rules/saves";
@@ -21,7 +21,7 @@ import { RawCommand } from "./commands";
 import { castSpellForecast, strikeForecast } from "./forecast";
 import { eventId } from "./ids";
 import { DeterministicRNG } from "./rng";
-import { BattleState, EffectState, UnitState, unitAlive } from "./state";
+import { BattleState, EffectState, UnitState, unitAlive, resolveWeapon } from "./state";
 import { buildTurnOrder, nextTurnIndex } from "./turnOrder";
 import { lookupHazardSource } from "../io/effectModelLoader";
 
@@ -80,17 +80,16 @@ function advanceTurn(state: BattleState): void {
       unit.actionsRemaining = 3;
       unit.reactionAvailable = true;
       unit.attacksThisTurn = 0;
+      unit.shieldRaised = false;
       return;
     }
     if (state.turnIndex === start) return;
   }
 }
 
-/** PF2e Multiple Attack Penalty: -5 on 2nd attack, -10 on 3rd+ (non-agile). */
-function mapPenalty(attacksThisTurn: number): number {
-  if (attacksThisTurn <= 0) return 0;
-  if (attacksThisTurn === 1) return -5;
-  return -10;
+/** PF2e Multiple Attack Penalty — delegates to shared trait helper. */
+function mapPenalty(attacksThisTurn: number, agile = false): number {
+  return traitMapPenalty(attacksThisTurn, agile);
 }
 
 function emitLifecycleEvents(
@@ -657,7 +656,12 @@ export function applyCommand(
 
   const commandType = command.type;
   const actorId = command.actor ?? "";
-  assertActorTurn(nextState, actorId);
+
+  // Reaction commands don't require the actor to be the active turn unit
+  const isReactionCommand = commandType === "reaction_strike" || commandType === "shield_block";
+  if (!isReactionCommand) {
+    assertActorTurn(nextState, actorId);
+  }
 
   const actor = nextState.units[actorId];
   if (!actor || !unitAlive(actor)) {
@@ -690,7 +694,7 @@ export function applyCommand(
   }
 
   // =========================================================================
-  // STRIKE
+  // STRIKE (melee + ranged via weapon system)
   // =========================================================================
   if (commandType === "strike") {
     if (actor.actionsRemaining <= 0) {
@@ -703,48 +707,153 @@ export function applyCommand(
     if (!hasLineOfSight(nextState, actor, target)) {
       throw new ReductionError(`no line of sight from ${actorId} to ${targetId}`);
     }
-    // Reach check — melee strikes require Chebyshev distance <= reach.
-    // Diagonals count as 1 tile per PF2e grid rules.
-    const reach = actor.reach ?? 1;
-    const dist = Math.max(Math.abs(actor.x - target.x), Math.abs(actor.y - target.y));
-    if (dist > reach) {
-      throw new ReductionError(
-        `target ${targetId} is out of reach (distance ${dist} > reach ${reach})`,
-      );
+
+    // Resolve weapon (backward-compatible: synthesizes from flat fields when no weapons array)
+    const weaponIndex = command.weapon_index != null ? Number(command.weapon_index) : undefined;
+    let weapon;
+    try {
+      weapon = resolveWeapon(actor, weaponIndex);
+    } catch (err) {
+      throw new ReductionError(String((err as Error).message));
     }
 
-    const coverGrade = coverGradeForUnits(nextState, actor, target);
-    const coverBonus = coverAcBonusForUnits(nextState, actor, target);
-    const mapPen = mapPenalty(actor.attacksThisTurn);
-    const effectiveAc = target.ac + coverBonus;
-    const effectiveAttackMod = actor.attackMod + mapPen;
+    const dist = Math.max(Math.abs(actor.x - target.x), Math.abs(actor.y - target.y));
+
+    // Determine effective weapon type (thrown melee can act as ranged)
+    const reach = weapon.reach ?? 1;
+    const thrown = thrownRange(weapon);
+    let effectiveType: "melee" | "ranged" = weapon.type;
+    if (weapon.type === "melee" && dist > reach && thrown !== null) {
+      effectiveType = "ranged";
+    }
+
+    // Range/reach check based on effective weapon type
+    let rangePenalty = 0;
+    if (effectiveType === "melee") {
+      if (dist > reach) {
+        throw new ReductionError(
+          `target ${targetId} is out of reach (distance ${dist} > reach ${reach})`,
+        );
+      }
+    } else if (weapon.type === "melee" && thrown !== null) {
+      // Thrown melee — range limited to thrown value, no range increment penalty within it
+      if (dist > thrown) {
+        throw new ReductionError(
+          `target ${targetId} is out of range (distance ${dist} > thrown range ${thrown})`,
+        );
+      }
+      if (dist < 1) {
+        throw new ReductionError("ranged target must be at least 1 tile away");
+      }
+    } else {
+      // Ranged weapon
+      const rangeIncrement = weapon.rangeIncrement ?? 6;
+      const maxRange = weapon.maxRange ?? rangeIncrement * 6;
+      if (dist > maxRange) {
+        throw new ReductionError(
+          `target ${targetId} is out of range (distance ${dist} > max range ${maxRange})`,
+        );
+      }
+      if (dist < 1) {
+        throw new ReductionError("ranged target must be at least 1 tile away");
+      }
+      // Range increment penalty: -2 per increment past the first
+      const incrementsPastFirst = Math.max(0, Math.ceil(dist / rangeIncrement) - 1);
+      rangePenalty = incrementsPastFirst * -2;
+    }
+
+    // Volley penalty (ranged only)
+    const volPen = volleyPenalty(weapon, dist);
+    rangePenalty += volPen;
+
+    // Ammo check — weapons with finite ammo must have rounds remaining
+    const wIdx = weaponIndex ?? 0;
+    if (weapon.ammo != null && actor.weaponAmmo) {
+      const remaining = actor.weaponAmmo[wIdx] ?? 0;
+      if (remaining <= 0) {
+        throw new ReductionError(`weapon ${weapon.name} has no ammo remaining (needs reload)`);
+      }
+    }
+
+    const rawCoverGrade = coverGradeForUnits(nextState, actor, target);
+    const coverGrade = adjustCoverForMelee(rawCoverGrade, effectiveType, dist);
+    const coverBonus = coverAcBonusFromGrade(coverGrade);
+    const shieldBonus = target.shieldRaised ? 2 : 0;
+    const weaponAgile = isAgile(weapon);
+    const mapPen = mapPenalty(actor.attacksThisTurn, weaponAgile);
+    const effectiveAc = target.ac + coverBonus + shieldBonus;
+    const effectiveAttackMod = weapon.attackMod + mapPen + rangePenalty;
     const check = resolveCheck(rng, effectiveAttackMod, effectiveAc);
 
     let forecast: Record<string, unknown> | null = null;
     if (command.emit_forecast) {
-      forecast = strikeForecast(effectiveAttackMod, effectiveAc, actor.damage);
+      forecast = strikeForecast(effectiveAttackMod, effectiveAc, weapon.damage, {
+        deadlyDie: deadlyDice(weapon),
+        fatalDie: fatalDice(weapon),
+        propulsiveMod: weapon.propulsiveMod,
+      });
     }
 
     let multiplier = 0;
     if (check.degree === "critical_success") multiplier = 2;
     else if (check.degree === "success") multiplier = 1;
 
+    const fatal = fatalDice(weapon);
+    const deadly = deadlyDice(weapon);
+
     let damageTotal = 0;
     let damageDetail: Record<string, unknown> | null = null;
     if (multiplier > 0) {
-      const dmg = rollDamage(rng, actor.damage, multiplier);
+      // Fatal: on crit, upgrade base dice to fatal size, add 1 extra die, then ×2
+      let damageFormula = weapon.damage;
+      if (fatal !== null && multiplier === 2) {
+        const [diceCount, , mod] = parseFormula(weapon.damage);
+        damageFormula = `${diceCount}d${fatal}${mod >= 0 ? "+" + mod : mod}`;
+      }
+      const dmg = rollDamage(rng, damageFormula, multiplier);
+      let rawTotal = dmg.total;
+
+      // Propulsive bonus (added after roll, before resistance)
+      const propBonus = weapon.propulsiveMod ?? 0;
+      if (propBonus > 0) {
+        rawTotal += propBonus * multiplier;
+      }
+
+      // Deadly: on crit, roll 1 extra dN and add (before resistance, after ×2)
+      let deadlyBonus = 0;
+      let deadlyRolls: number[] | null = null;
+      if (deadly !== null && multiplier === 2) {
+        const bonus = rollTraitBonusDice(rng, deadly, 1);
+        deadlyBonus = bonus.total;
+        deadlyRolls = bonus.rolls;
+        rawTotal += deadlyBonus;
+      }
+
+      // Fatal extra die: on crit, roll 1 extra die at fatal size (after ×2)
+      let fatalBonus = 0;
+      let fatalRolls: number[] | null = null;
+      if (fatal !== null && multiplier === 2) {
+        const bonus = rollTraitBonusDice(rng, fatal, 1);
+        fatalBonus = bonus.total;
+        fatalRolls = bonus.rolls;
+        rawTotal += fatalBonus;
+      }
+
+      const bypass = weapon.damageBypass ?? [];
       const adjustment = applyDamageModifiers({
-        rawTotal: dmg.total,
-        damageType: actor.attackDamageType,
+        rawTotal,
+        damageType: weapon.damageType,
         resistances: target.resistances,
         weaknesses: target.weaknesses,
         immunities: target.immunities,
-        bypass: actor.attackDamageBypass,
+        bypass,
       });
       damageTotal = adjustment.appliedTotal;
       damageDetail = {
-        formula: actor.damage,
-        damage_type: actor.attackDamageType,
+        formula: weapon.damage,
+        damage_type: weapon.damageType,
+        weapon_name: weapon.name,
+        weapon_type: weapon.type,
         rolls: dmg.rolls,
         flat_modifier: dmg.flatModifier,
         multiplier,
@@ -754,8 +863,19 @@ export function applyCommand(
         weakness_total: adjustment.weaknessTotal,
         total: damageTotal,
       };
-      if (actor.attackDamageBypass.length > 0) {
-        damageDetail["bypass"] = [...actor.attackDamageBypass];
+      if (bypass.length > 0) {
+        damageDetail["bypass"] = [...bypass];
+      }
+      if (propBonus > 0) {
+        damageDetail["propulsive_bonus"] = propBonus;
+      }
+      if (deadlyRolls) {
+        damageDetail["deadly_bonus"] = deadlyBonus;
+        damageDetail["deadly_rolls"] = deadlyRolls;
+      }
+      if (fatalRolls) {
+        damageDetail["fatal_bonus"] = fatalBonus;
+        damageDetail["fatal_rolls"] = fatalRolls;
       }
       const appliedDamage = applyDamageToPool({
         hp: target.hp,
@@ -778,6 +898,13 @@ export function applyCommand(
 
     actor.actionsRemaining -= 1;
     actor.attacksThisTurn += 1;
+
+    // Ammo decrement — consume 1 round after firing
+    if (weapon.ammo != null && actor.weaponAmmo) {
+      const prevAmmo = actor.weaponAmmo[wIdx] ?? 0;
+      actor.weaponAmmo[wIdx] = Math.max(0, prevAmmo - 1);
+    }
+
     const strikePayload: Record<string, unknown> = {
       actor: actorId,
       target: targetId,
@@ -790,14 +917,302 @@ export function applyCommand(
         cover_grade: coverGrade,
         cover_bonus: coverBonus,
         map_penalty: mapPen,
+        range_penalty: rangePenalty,
+        ...(volPen !== 0 && { volley_penalty: volPen }),
         dc: check.dc,
       },
       damage: damageDetail,
       target_hp: target.hp,
       actions_remaining: actor.actionsRemaining,
     };
+    if (weaponIndex !== undefined) strikePayload["weapon_index"] = weaponIndex;
+    if (weapon.traits && weapon.traits.length > 0) strikePayload["traits"] = [...weapon.traits];
     if (forecast) strikePayload["forecast"] = forecast;
+    if (weapon.ammo != null && actor.weaponAmmo) {
+      strikePayload["ammo_remaining"] = actor.weaponAmmo[wIdx];
+    }
     appendEvent(events, nextState, "strike", strikePayload);
+    return [nextState, events];
+  }
+
+  // =========================================================================
+  // RAISE SHIELD (1 action, sets shieldRaised = true)
+  // =========================================================================
+  if (commandType === "raise_shield") {
+    if (actor.actionsRemaining <= 0) {
+      throw new ReductionError("actor has no actions remaining");
+    }
+    if (actor.shieldHp != null && actor.shieldHp <= 0) {
+      throw new ReductionError("shield is broken and cannot be raised");
+    }
+    // Cannot raise shield while wielding a 2-handed weapon
+    if (actor.weapons && actor.weapons.length > 0) {
+      const activeWeapon = actor.weapons[0];
+      if (activeWeapon.hands === 2) {
+        throw new ReductionError("cannot raise shield while wielding a two-handed weapon");
+      }
+    }
+    actor.shieldRaised = true;
+    actor.actionsRemaining -= 1;
+    appendEvent(events, nextState, "raise_shield", {
+      actor: actorId,
+      actions_remaining: actor.actionsRemaining,
+    });
+    return [nextState, events];
+  }
+
+  // =========================================================================
+  // RELOAD (restores 1 ammo, costs weapon.reload actions)
+  // =========================================================================
+  if (commandType === "reload") {
+    if (actor.actionsRemaining <= 0) {
+      throw new ReductionError("actor has no actions remaining");
+    }
+    const reloadWeaponIndex = command.weapon_index != null ? Number(command.weapon_index) : 0;
+    let reloadWeapon;
+    try {
+      reloadWeapon = resolveWeapon(actor, reloadWeaponIndex);
+    } catch (err) {
+      throw new ReductionError(String((err as Error).message));
+    }
+    if (reloadWeapon.ammo == null) {
+      throw new ReductionError(`weapon ${reloadWeapon.name} does not use ammo`);
+    }
+    if (!reloadWeapon.reload || reloadWeapon.reload <= 0) {
+      throw new ReductionError(`weapon ${reloadWeapon.name} does not require manual reloading`);
+    }
+    const reloadCost = reloadWeapon.reload;
+    if (actor.actionsRemaining < reloadCost) {
+      throw new ReductionError(`reload requires ${reloadCost} action(s), only ${actor.actionsRemaining} remaining`);
+    }
+    if (!actor.weaponAmmo) actor.weaponAmmo = {};
+    const currentAmmo = actor.weaponAmmo[reloadWeaponIndex] ?? 0;
+    if (currentAmmo >= reloadWeapon.ammo) {
+      throw new ReductionError(`weapon ${reloadWeapon.name} is already fully loaded`);
+    }
+    actor.weaponAmmo[reloadWeaponIndex] = Math.min(reloadWeapon.ammo, currentAmmo + 1);
+    actor.actionsRemaining -= reloadCost;
+    appendEvent(events, nextState, "reload", {
+      actor: actorId,
+      weapon_index: reloadWeaponIndex,
+      weapon_name: reloadWeapon.name,
+      ammo_remaining: actor.weaponAmmo[reloadWeaponIndex],
+      ammo_max: reloadWeapon.ammo,
+      actions_remaining: actor.actionsRemaining,
+    });
+    return [nextState, events];
+  }
+
+  // =========================================================================
+  // REACTION STRIKE (0 actions, consumes reaction, no MAP)
+  // =========================================================================
+  if (commandType === "reaction_strike") {
+    // Does NOT call assertActorTurn — reacting unit is not the active unit
+    if (!actor.reactionAvailable) {
+      throw new ReductionError("actor has no reaction available");
+    }
+    const targetId = command.target ?? "";
+    const target = nextState.units[targetId];
+    if (!target) throw new ReductionError(`unknown target ${targetId}`);
+    if (!unitAlive(target)) throw new ReductionError(`target ${targetId} is not alive`);
+    if (!hasLineOfSight(nextState, actor, target)) {
+      throw new ReductionError(`no line of sight from ${actorId} to ${targetId}`);
+    }
+
+    // Resolve weapon
+    const weaponIndex = command.weapon_index != null ? Number(command.weapon_index) : undefined;
+    let weapon;
+    try {
+      weapon = resolveWeapon(actor, weaponIndex);
+    } catch (err) {
+      throw new ReductionError(String((err as Error).message));
+    }
+
+    // Must be melee and in reach
+    if (weapon.type !== "melee") {
+      throw new ReductionError("reaction strikes must use a melee weapon");
+    }
+    const reach = weapon.reach ?? 1;
+    const dist = Math.max(Math.abs(actor.x - target.x), Math.abs(actor.y - target.y));
+    if (dist > reach) {
+      throw new ReductionError(`target ${targetId} is out of reach for reaction strike`);
+    }
+
+    const rawCoverGradeRx = coverGradeForUnits(nextState, actor, target);
+    // Reaction strikes are always melee and always in reach → skip standard cover
+    const coverGrade = adjustCoverForMelee(rawCoverGradeRx, "melee", dist);
+    const coverBonus = coverAcBonusFromGrade(coverGrade);
+    const shieldBonus = target.shieldRaised ? 2 : 0;
+    // No MAP for reaction strikes — uses weapon.attackMod only
+    const effectiveAc = target.ac + coverBonus + shieldBonus;
+    const effectiveAttackMod = weapon.attackMod;
+    const check = resolveCheck(rng, effectiveAttackMod, effectiveAc);
+
+    let multiplier = 0;
+    if (check.degree === "critical_success") multiplier = 2;
+    else if (check.degree === "success") multiplier = 1;
+
+    const rxFatal = fatalDice(weapon);
+    const rxDeadly = deadlyDice(weapon);
+
+    let damageTotal = 0;
+    let damageDetail: Record<string, unknown> | null = null;
+    if (multiplier > 0) {
+      // Fatal: on crit, upgrade base dice to fatal size
+      let damageFormula = weapon.damage;
+      if (rxFatal !== null && multiplier === 2) {
+        const [diceCount, , mod] = parseFormula(weapon.damage);
+        damageFormula = `${diceCount}d${rxFatal}${mod >= 0 ? "+" + mod : mod}`;
+      }
+      const dmg = rollDamage(rng, damageFormula, multiplier);
+      let rawTotal = dmg.total;
+
+      // Propulsive bonus
+      const propBonus = weapon.propulsiveMod ?? 0;
+      if (propBonus > 0) {
+        rawTotal += propBonus * multiplier;
+      }
+
+      // Deadly: on crit, roll 1 extra dN (after ×2)
+      let deadlyBonus = 0;
+      let deadlyRolls: number[] | null = null;
+      if (rxDeadly !== null && multiplier === 2) {
+        const bonus = rollTraitBonusDice(rng, rxDeadly, 1);
+        deadlyBonus = bonus.total;
+        deadlyRolls = bonus.rolls;
+        rawTotal += deadlyBonus;
+      }
+
+      // Fatal extra die: on crit, 1 extra die at fatal size (after ×2)
+      let fatalBonus = 0;
+      let fatalRolls: number[] | null = null;
+      if (rxFatal !== null && multiplier === 2) {
+        const bonus = rollTraitBonusDice(rng, rxFatal, 1);
+        fatalBonus = bonus.total;
+        fatalRolls = bonus.rolls;
+        rawTotal += fatalBonus;
+      }
+
+      const bypass = weapon.damageBypass ?? [];
+      const adjustment = applyDamageModifiers({
+        rawTotal,
+        damageType: weapon.damageType,
+        resistances: target.resistances,
+        weaknesses: target.weaknesses,
+        immunities: target.immunities,
+        bypass,
+      });
+      damageTotal = adjustment.appliedTotal;
+      damageDetail = {
+        formula: weapon.damage,
+        damage_type: weapon.damageType,
+        weapon_name: weapon.name,
+        weapon_type: weapon.type,
+        rolls: dmg.rolls,
+        flat_modifier: dmg.flatModifier,
+        multiplier,
+        raw_total: adjustment.rawTotal,
+        immune: adjustment.immune,
+        resistance_total: adjustment.resistanceTotal,
+        weakness_total: adjustment.weaknessTotal,
+        total: damageTotal,
+      };
+      if (bypass.length > 0) {
+        damageDetail["bypass"] = [...bypass];
+      }
+      if (propBonus > 0) {
+        damageDetail["propulsive_bonus"] = propBonus;
+      }
+      if (deadlyRolls) {
+        damageDetail["deadly_bonus"] = deadlyBonus;
+        damageDetail["deadly_rolls"] = deadlyRolls;
+      }
+      if (fatalRolls) {
+        damageDetail["fatal_bonus"] = fatalBonus;
+        damageDetail["fatal_rolls"] = fatalRolls;
+      }
+      const appliedDamage = applyDamageToPool({
+        hp: target.hp,
+        tempHp: target.tempHp,
+        damageTotal,
+      });
+      target.hp = appliedDamage.newHp;
+      target.tempHp = appliedDamage.newTempHp;
+      if (target.tempHp === 0) {
+        target.tempHpSource = null;
+        target.tempHpOwnerEffectId = null;
+      }
+      if (appliedDamage.absorbedByTempHp > 0) {
+        damageDetail["temp_hp_absorbed"] = appliedDamage.absorbedByTempHp;
+      }
+      if (target.hp === 0) {
+        target.conditions = applyCondition(target.conditions, "unconscious", 1);
+      }
+    }
+
+    // Consume reaction, NOT actions or attacksThisTurn
+    actor.reactionAvailable = false;
+
+    const reactionPayload: Record<string, unknown> = {
+      actor: actorId,
+      target: targetId,
+      degree: check.degree,
+      roll: {
+        die: check.die,
+        modifier: check.modifier,
+        total: check.total,
+        base_dc: target.ac,
+        cover_grade: coverGrade,
+        cover_bonus: coverBonus,
+        dc: check.dc,
+      },
+      damage: damageDetail,
+      target_hp: target.hp,
+    };
+    if (weaponIndex !== undefined) reactionPayload["weapon_index"] = weaponIndex;
+    if (weapon.traits && weapon.traits.length > 0) reactionPayload["traits"] = [...weapon.traits];
+    appendEvent(events, nextState, "reaction_strike", reactionPayload);
+    return [nextState, events];
+  }
+
+  // =========================================================================
+  // SHIELD BLOCK (retroactive HP restore by hardness, shield takes remaining)
+  // =========================================================================
+  if (commandType === "shield_block") {
+    if (!actor.reactionAvailable) {
+      throw new ReductionError("actor has no reaction available");
+    }
+    if (!actor.shieldRaised) {
+      throw new ReductionError("shield is not raised");
+    }
+    if (actor.shieldHp == null || actor.shieldHp <= 0) {
+      throw new ReductionError("shield is broken");
+    }
+    const hardness = actor.shieldHardness ?? 0;
+    const damageAmount = Number(command.damage_amount ?? 0);
+    if (damageAmount <= 0) {
+      throw new ReductionError("shield_block requires positive damage_amount");
+    }
+
+    // Retroactively heal back min(hardness, damageAmount)
+    const blocked = Math.min(hardness, damageAmount);
+    actor.hp = Math.min(actor.maxHp, actor.hp + blocked);
+
+    // Shield takes remaining damage
+    const shieldDamage = Math.max(0, damageAmount - hardness);
+    actor.shieldHp = Math.max(0, actor.shieldHp - shieldDamage);
+
+    // Consume reaction
+    actor.reactionAvailable = false;
+
+    appendEvent(events, nextState, "shield_block", {
+      actor: actorId,
+      hardness,
+      damage_blocked: blocked,
+      shield_damage: shieldDamage,
+      shield_hp: actor.shieldHp,
+      actor_hp: actor.hp,
+    });
     return [nextState, events];
   }
 
@@ -1223,6 +1638,56 @@ export function applyCommand(
       attacksThisTurn: 0,
       abilitiesRemaining: {},
     };
+
+    // Parse weapons on spawned units (mirrors scenarioLoader.parseWeapons logic)
+    if (Array.isArray(unitRaw["weapons"])) {
+      const rawWeaponsArr = unitRaw["weapons"] as Record<string, unknown>[];
+      const weapons: import("./state").WeaponData[] = rawWeaponsArr.map((w) => {
+        const wpnType = String(w["type"] ?? "melee") as "melee" | "ranged";
+        const wpn: import("./state").WeaponData = {
+          name: String(w["name"] ?? "weapon"),
+          type: wpnType,
+          attackMod: Number(w["attack_mod"] ?? 0),
+          damage: String(w["damage"] ?? "1d4"),
+          damageType: String(w["damage_type"] ?? "physical").toLowerCase(),
+        };
+        if (w["damage_bypass"]) wpn.damageBypass = (w["damage_bypass"] as string[]).map((x) => String(x).toLowerCase());
+        if (w["reach"] != null) wpn.reach = Number(w["reach"]);
+        if (w["range_increment"] != null) wpn.rangeIncrement = Number(w["range_increment"]);
+        if (w["max_range"] != null) wpn.maxRange = Number(w["max_range"]);
+        if (w["propulsive_mod"] != null) wpn.propulsiveMod = Number(w["propulsive_mod"]);
+        if (Array.isArray(w["traits"])) wpn.traits = (w["traits"] as string[]).map(String);
+        if (w["ammo"] != null) wpn.ammo = Number(w["ammo"]);
+        if (w["reload"] != null) wpn.reload = Number(w["reload"]);
+        if (w["hands"] != null) wpn.hands = Number(w["hands"]);
+        return wpn;
+      });
+      spawned.weapons = weapons;
+      // Initialize weaponAmmo for weapons with ammo capacity
+      const weaponAmmo: Record<number, number> = {};
+      let hasAmmo = false;
+      for (let i = 0; i < weapons.length; i++) {
+        if (weapons[i].ammo != null) {
+          weaponAmmo[i] = weapons[i].ammo!;
+          hasAmmo = true;
+        }
+      }
+      if (hasAmmo) spawned.weaponAmmo = weaponAmmo;
+    }
+
+    if (Array.isArray(unitRaw["reactions"])) {
+      spawned.reactions = (unitRaw["reactions"] as string[]).map(String);
+    }
+    if (unitRaw["shield_hardness"] != null) spawned.shieldHardness = Number(unitRaw["shield_hardness"]);
+    if (unitRaw["shield_hp"] != null) {
+      spawned.shieldHp = Number(unitRaw["shield_hp"]);
+      spawned.shieldMaxHp = Number(unitRaw["shield_hp"]);
+      spawned.shieldRaised = false;
+    }
+    if (Array.isArray(unitRaw["abilities"])) {
+      spawned.abilities = (unitRaw["abilities"] as string[]).map(String);
+    }
+
     if (!spawned.team) throw new ReductionError("spawn_unit unit.team is required");
 
     const activeUnitIdSaved = nextState.turnOrder[nextState.turnIndex];

@@ -1,6 +1,5 @@
 /**
  * Area targeting helpers.
- * Mirrors engine/grid/areas.py
  */
 
 export function radiusPoints(

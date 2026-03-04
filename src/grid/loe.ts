@@ -1,6 +1,5 @@
 /**
  * Line of effect helpers.
- * Mirrors engine/grid/loe.py
  *
  * Pathfinder 2e ORC cover rules: standard cover (+2 AC), greater cover (+4 AC).
  */
@@ -104,6 +103,21 @@ export function coverGradeBetweenTiles(
   if (coverScore >= 2) return "greater";
   if (coverScore >= 1) return "standard";
   return "none";
+}
+
+/**
+ * PF2e rule: Standard cover (+2 AC) is ignored when the attacker is adjacent
+ * (dist ≤ 1) and using a melee strike. Greater cover always applies.
+ */
+export function adjustCoverForMelee(
+  grade: CoverGrade,
+  effectiveType: "melee" | "ranged",
+  dist: number,
+): CoverGrade {
+  if (effectiveType === "melee" && dist <= 1 && grade === "standard") {
+    return "none";
+  }
+  return grade;
 }
 
 export function coverAcBonusFromGrade(grade: CoverGrade): number {

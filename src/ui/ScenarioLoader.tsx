@@ -8,6 +8,8 @@
 import { useState } from "react";
 import { useBattleStore, hasSavedGame } from "../store/battleStore";
 import { loadScenarioFromUrl } from "../io/scenarioLoader";
+import { loadCampaignFromUrl } from "../campaign/campaignLoader";
+import { hasCampaignSave } from "../campaign/campaignPersistence";
 
 // ---------------------------------------------------------------------------
 // Known scenarios
@@ -20,6 +22,12 @@ const SCENARIOS = [
   { id: "poisoned_dart", name: "Poisoned Dart Gallery", path: "/scenarios/smoke/poisoned_dart_gallery_basic.json" },
   { id: "phase6_strike", name: "Phase 6 – Strike Forecast", path: "/scenarios/smoke/phase6_forecast_strike_basic.json" },
   { id: "phase6_duel", name: "Phase 6 – Enemy Policy Duel", path: "/scenarios/smoke/phase6_enemy_policy_duel_basic.json" },
+  { id: "phase13_ammo", name: "Phase 13 – Ammo & Reload", path: "/scenarios/smoke/phase13_ammo_reload.json" },
+  { id: "phase13_cover", name: "Phase 13 – Melee Cover Bypass", path: "/scenarios/smoke/phase13_cover_melee.json" },
+];
+
+const CAMPAIGNS = [
+  { id: "tutorial", name: "Tutorial Campaign", path: "/campaigns/tutorial_campaign.json" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -41,7 +49,12 @@ export function ScenarioLoader({
   const showGrid = useBattleStore((s) => s.showGrid);
   const tiledMap = useBattleStore((s) => s.tiledMap);
   const battle = useBattleStore((s) => s.battle);
+  const loadCampaign = useBattleStore((s) => s.loadCampaign);
+  const loadSavedCampaign = useBattleStore((s) => s.loadSavedCampaign);
+  const startCampaignStage = useBattleStore((s) => s.startCampaignStage);
+  const campaignDefinition = useBattleStore((s) => s.campaignDefinition);
   const saveExists = hasSavedGame();
+  const campaignSaveExists = hasCampaignSave();
 
   async function handleLoad(path: string) {
     setLoading(true);
@@ -51,6 +64,22 @@ export function ScenarioLoader({
       loadBattle(result.battle, result.enginePhase, result.tiledMap, result.contentContext, result.rawScenario, result.tiledMapUrl);
       useBattleStore.setState({ lastScenarioUrl: path });
       onTiledMapUrl?.(result.tiledMapUrl);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleLoadCampaign(path: string) {
+    setLoading(true);
+    setError(null);
+    try {
+      const def = await loadCampaignFromUrl(path);
+      loadCampaign(def);
+      // Start the first stage immediately
+      await startCampaignStage(0);
+      onTiledMapUrl?.(useBattleStore.getState().tiledMapUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -121,6 +150,34 @@ export function ScenarioLoader({
                 disabled={loading}
               >
                 {s.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="scenario-section">
+            <div className="scenario-section-label">Campaigns</div>
+            {campaignSaveExists && !campaignDefinition && (
+              <button
+                className="scenario-btn scenario-btn--continue"
+                onClick={() => {
+                  const ok = loadSavedCampaign();
+                  if (!ok) {
+                    setError("Campaign save could not be read.");
+                  }
+                }}
+                disabled={loading}
+              >
+                ↩ Continue Campaign
+              </button>
+            )}
+            {CAMPAIGNS.map((c) => (
+              <button
+                key={c.id}
+                className="scenario-btn"
+                onClick={() => handleLoadCampaign(c.path)}
+                disabled={loading}
+              >
+                {c.name}
               </button>
             ))}
           </div>

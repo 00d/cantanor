@@ -17,6 +17,7 @@ import { type ContentContext } from "./contentPackLoader";
 import { ReductionError } from "../engine/reducer";
 import { hasLineOfSight } from "../grid/los";
 import { stepToward } from "../grid/movement";
+import { thrownRange } from "../engine/traits";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -211,12 +212,63 @@ export function getAiCommand(
 
   switch (policy.action) {
     case "strike_nearest": {
-      // Strike if any enemy is within reach with LOS; otherwise move toward
-      // the nearest enemy; if no move helps, end turn.
-      const inReach = candidates.find((c) => c.dist <= reach && c.hasLos);
-      if (inReach) {
-        return { type: "strike", actor: actorId, target: inReach.unitId };
+      // Try each weapon: prefer melee when in reach, fall back to ranged.
+      const weaponCount = actor.weapons ? actor.weapons.length : 0;
+      if (weaponCount > 0) {
+        // First pass: try melee weapons against in-reach enemies
+        for (let wi = 0; wi < weaponCount; wi++) {
+          const w = actor.weapons![wi];
+          if (w.type !== "melee") continue;
+          const wReach = w.reach ?? 1;
+          const inReach = candidates.find((c) => c.dist <= wReach && c.hasLos);
+          if (inReach) {
+            return { type: "strike", actor: actorId, target: inReach.unitId, weapon_index: wi };
+          }
+        }
+        // Second pass (thrown): melee weapons with thrown_N beyond reach
+        for (let wi = 0; wi < weaponCount; wi++) {
+          const w = actor.weapons![wi];
+          if (w.type !== "melee") continue;
+          const thrown = thrownRange(w);
+          if (thrown === null) continue;
+          const inThrown = candidates.find((c) => c.dist <= thrown && c.hasLos);
+          if (inThrown) {
+            return { type: "strike", actor: actorId, target: inThrown.unitId, weapon_index: wi };
+          }
+        }
+        // Third pass: try ranged weapons (with ammo)
+        for (let wi = 0; wi < weaponCount; wi++) {
+          const w = actor.weapons![wi];
+          if (w.type !== "ranged") continue;
+          // Skip weapons with no ammo
+          if (w.ammo != null) {
+            const remaining = actor.weaponAmmo?.[wi] ?? 0;
+            if (remaining <= 0) continue;
+          }
+          const maxRange = w.maxRange ?? (w.rangeIncrement ?? 6) * 6;
+          const inRange = candidates.find((c) => c.dist <= maxRange && c.dist >= 1 && c.hasLos);
+          if (inRange) {
+            return { type: "strike", actor: actorId, target: inRange.unitId, weapon_index: wi };
+          }
+        }
+        // Fourth pass: reload an empty weapon if no usable attack was found
+        for (let wi = 0; wi < weaponCount; wi++) {
+          const w = actor.weapons![wi];
+          if (w.ammo != null && w.reload && w.reload > 0) {
+            const remaining = actor.weaponAmmo?.[wi] ?? 0;
+            if (remaining <= 0 && actor.actionsRemaining >= w.reload) {
+              return { type: "reload", actor: actorId, weapon_index: wi };
+            }
+          }
+        }
+      } else {
+        // No weapons array — use flat fields (melee only, legacy)
+        const inReach = candidates.find((c) => c.dist <= reach && c.hasLos);
+        if (inReach) {
+          return { type: "strike", actor: actorId, target: inReach.unitId };
+        }
       }
+      // Move toward nearest enemy
       if (candidates.length > 0) {
         const targetUnit = state.units[candidates[0].unitId];
         const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
@@ -256,6 +308,14 @@ export function getAiCommand(
     case "use_item_entry_self": {
       return {
         type: "use_item",
+        actor: actorId,
+        content_entry_id: policy.contentEntryId ?? "",
+        target: actorId,
+      };
+    }
+    case "interact_entry_self": {
+      return {
+        type: "interact",
         actor: actorId,
         content_entry_id: policy.contentEntryId ?? "",
         target: actorId,

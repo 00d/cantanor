@@ -6,8 +6,9 @@
  */
 
 import { Container, Graphics } from "pixi.js";
-import { BattleState, unitAlive } from "../engine/state";
+import { BattleState, unitAlive, resolveWeapon } from "../engine/state";
 import { hasLineOfSight } from "../grid/los";
+import { thrownRange } from "../engine/traits";
 import { TILE_SIZE } from "./pixiApp";
 
 // ---------------------------------------------------------------------------
@@ -20,6 +21,8 @@ const DIFFICULT_FILL = 0xffaa22;   // amber — tile costs >1 movement to enter
 const DIFFICULT_ALPHA = 0.35;
 const STRIKE_FILL = 0xff4444;
 const STRIKE_ALPHA = 0.35;
+const RANGED_FILL = 0xff8844;     // orange — ranged strike targets
+const RANGED_ALPHA = 0.35;
 const ABILITY_FILL = 0xaa44ff;
 const ABILITY_ALPHA = 0.30;
 const BORDER_ALPHA = 0.55;
@@ -85,24 +88,50 @@ export function showMovementRange(tiles: Set<string>, state?: BattleState): void
 }
 
 /**
- * Highlight enemy units as strike targets. Only enemies within melee reach
- * (Chebyshev distance ≤ actor.reach) are shown — mirrors the reducer's reach
- * check so the overlay never advertises an illegal target.
+ * Highlight enemy units as strike targets. Supports both melee and ranged weapons.
+ * When `weaponIndex` is provided, uses that weapon's range/reach; otherwise uses
+ * the first weapon or flat fields. Melee targets shown in red, ranged in orange.
  */
-export function showStrikeTargets(state: BattleState, actorId: string): void {
+export function showStrikeTargets(state: BattleState, actorId: string, weaponIndex?: number): void {
   if (!_graphics) return;
   _graphics.clear();
   const actor = state.units[actorId];
   if (!actor) return;
-  const reach = actor.reach ?? 1;
+
+  let weapon;
+  try {
+    weapon = resolveWeapon(actor, weaponIndex);
+  } catch {
+    return;
+  }
+
+  // Don't highlight targets if weapon has no ammo
+  if (weapon.ammo != null) {
+    const remaining = actor.weaponAmmo?.[weaponIndex ?? 0] ?? 0;
+    if (remaining <= 0) return;
+  }
+
   for (const unit of Object.values(state.units)) {
     if (unit.unitId === actorId) continue;
     if (!unitAlive(unit)) continue;
     if (unit.team === actor.team) continue;
     const dist = Math.max(Math.abs(unit.x - actor.x), Math.abs(unit.y - actor.y));
-    if (dist > reach) continue;
     if (!hasLineOfSight(state, actor, unit)) continue;
-    drawTile(_graphics, unit.x, unit.y, STRIKE_FILL, STRIKE_ALPHA);
+
+    if (weapon.type === "melee") {
+      const reach = weapon.reach ?? 1;
+      const thrown = thrownRange(weapon);
+      if (dist <= reach) {
+        drawTile(_graphics, unit.x, unit.y, STRIKE_FILL, STRIKE_ALPHA);
+      } else if (thrown !== null && dist <= thrown) {
+        drawTile(_graphics, unit.x, unit.y, RANGED_FILL, RANGED_ALPHA);
+      }
+      // else: out of reach/thrown range — skip
+    } else {
+      const maxRange = weapon.maxRange ?? (weapon.rangeIncrement ?? 6) * 6;
+      if (dist < 1 || dist > maxRange) continue;
+      drawTile(_graphics, unit.x, unit.y, RANGED_FILL, RANGED_ALPHA);
+    }
   }
 }
 

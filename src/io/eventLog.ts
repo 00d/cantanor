@@ -1,6 +1,5 @@
 /**
  * Event log helpers and replay hash generation.
- * Mirrors engine/io/event_log.py
  *
  * Note: SHA-256 in browser uses SubtleCrypto (async). A sync fallback is
  * provided for determinism tests using a simple digest approach.

@@ -1,0 +1,52 @@
+{
+  "battle_id": "m2_save_effect_basic",
+  "seed": 404,
+  "map": {
+    "width": 6,
+    "height": 6,
+    "blocked": []
+  },
+  "units": [
+    {
+      "id": "pc_cleric",
+      "team": "pc",
+      "hp": 21,
+      "position": [0, 0],
+      "initiative": 14,
+      "attack_mod": 6,
+      "ac": 16,
+      "damage": "1d6+3",
+      "fortitude": 6,
+      "reflex": 3,
+      "will": 7
+    },
+    {
+      "id": "ghoul",
+      "team": "enemy",
+      "hp": 20,
+      "position": [1, 0],
+      "initiative": 12,
+      "attack_mod": 5,
+      "ac": 15,
+      "damage": "1d8+2",
+      "fortitude": 4,
+      "reflex": 2,
+      "will": 3
+    }
+  ],
+  "commands": [
+    {
+      "type": "apply_effect",
+      "actor": "pc_cleric",
+      "target": "ghoul",
+      "effect_kind": "condition",
+      "payload": {"name": "frightened", "value": 1, "clear_on_expire": true},
+      "duration_rounds": 1,
+      "tick_timing": null
+    },
+    {"type": "end_turn", "actor": "pc_cleric"},
+    {"type": "save_damage", "actor": "ghoul", "target": "pc_cleric", "dc": 17, "save_type": "Reflex", "damage": "1d6+2", "mode": "basic"},
+    {"type": "end_turn", "actor": "ghoul"},
+    {"type": "strike", "actor": "pc_cleric", "target": "ghoul"}
+  ]
+}

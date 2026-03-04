@@ -1,0 +1,717 @@
+# Bestiary - Creatures: O
+# Count: 8 creatures
+
+
+================================================================================
+# OLETHRODAEMON
+================================================================================
+
+
+SOUL GEMS AS GEAR
+Daemons often carry soul gems
+either as trophies or for powering
+an ability. Cacodaemons (Pathﬁnder
+Bestiary 70) are the most common
+source for soul gems, but they can
+also be created by spells like bind
+soul. If a daemon crushes a soul gem
+to power an ability, the trapped soul
+is released into the afterlife and can
+be resurrected normally.
+OLETHRODAEMON (APOCALYPSE DAEMON)
+Even daemons fear the most massive and terrifying of their kind, olethrodaemons.
+No single entity could embody the level of evil necessary to manifest one; instead,
+these living war machines are made from the souls of many—or so the story goes.
+Other theories suggest that the four Horsemen of the Apocalypse are responsible for
+creating the olethrodaemons, or that olethrodaemons are merely the seeping run-off
+of an even greater being: a mysterious ﬁfth Horseman.
+Whatever the truth, olethrodaemons are real, and their existence is terrifying
+enough to instill paralyzing existential dread. With dozens of unblinking glowing
+eyes above a drooling maw, two sets of four muscled limbs, and countless horns,
+olethrodaemons resemble no other creature known to mortalkind.
+OLETHRODAEMON
+CREATURE 20
+NE
+GARGANTUAN
+DAEMON
+FIEND
+Perception +33; darkvision, tremorsense (imprecise) 120 feet, true seeing
+Languages Common, Daemonic; telepathy 100 feet
+Skills Athletics +40, Intimidation +38, Religion +34
+Str +10, Dex +6, Con +7, Int +2, Wis +6, Cha +8
+Items soul gem (4)
+AC 44; Fort +35, Ref +32, Will +34; +1 status to all saves vs. magic
+HP 450; Immunities death eﬀects; Weaknesses good 20
+Aura of Doom (aura, death, divine) 60 feet. Any creature that begins its turn in the aura is
+doomed 1 for as long as it remains in the aura and for 1 hour thereafter.
+Speed 35 feet, burrow 35 feet, ﬂy 40 feet
+Melee Ȱɵ jaws +38 (evil, magical, reach 10 feet), Damage 4d12+17 piercing plus
+1d6 evil and Grab
+Melee Ȱɵ claw +38 (agile, evil, magical, reach 15 feet), Damage 4d8+17
+slashing plus 1d6 evil and Grab
+Divine Innate Spells DC 42, attack +34; 10th cataclysm,
+massacre; 9th disintegrate (×3), disjunction, wail of the
+banshee; 5th dimension door; 4th dimension door (at will);
+1st detect alignment (good only; at will); Constant (10th)
+true seeing
+Rituals DC 42; control weather (9th)
+Apocalypse Breath ʚʖ or ̂ˬ (divine, negative) The
+daemon expels a shrieking black cloud of smoke
+from its mouth in a 120-foot line or a 60-foot cone.
+(or both a line and a cone in the same direction if it
+spends 3 actions). Living creatures in the area take
+24d6 negative damage (DC 45 basic Reﬂex save).
+The olethrodaemon can’t use Apocalypse Breath
+again for 1d4 rounds.
+Soul Crush ʚʖ (manipulate) Requirement The
+olethrodaemon has a soul gem; Eﬀect The
+olethrodaemon crushes the soul gem in one
+hand and regains the use of Apocalypse
+Breath or any one of its innate spells.
+Swallow Whole Ȱɵ (attack) Huge, 4d10+10
+bludgeoning and drained 2, Rupture 43. An
+olethrodaemon has numerous stomachs
+connected by labyrinthine digestive
+organs. Swallowed creatures cannot
+Escape, but can attempt to cut their way
+out with a 1d6 roll. On a roll of 1–3, the
+creature cuts into yet another stomach.
+On a roll of 4–6, the creature manages to
+cut its way out of the olethrodaemon.
+
+================================================================================
+PAGE 65
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868562
+4425074
+Bestiary 2
+64
+64
+SIGNS OF MURDER
+Babaus revel in their art and often
+leave behind a grim token or marker
+as a signature. They may leave a
+distinctive mutilation upon the
+bodies of their victims, rather than
+harvesting keepsakes and trophies
+for a personal collection. Babaus
+want their legacy to grow among
+those they hunt and kill.
+Demon
+The living embodiment of mortal souls obsessed with sin and empowered by the
+Abyss, demons are armed and armored by their prior lives’ obsessions.
+BABAU (BLOOD DEMON)
+The babau is an assassin, a murderer, and a sadist—certainly not unusual traits,
+yet their penchant for stealth and surprise sets them apart from their kin. Babaus
+form from mortal souls of lone killers—those who took pleasure in more personal
+murders, and particularly those with grisly patterns to their killings.
+BABAU
+CREATURE 6
+CE
+MEDIUM
+DEMON
+FIEND
+Perception +13; darkvision, see invisibility
+Languages Abyssal, Celestial, Draconic; telepathy 100 feet
+Skills Acrobatics +12, Athletics +13, Intimidation +14, Religion +10, Stealth +16, Thievery +14
+Str +4, Dex +4, Con +4, Int +2, Wis +3, Cha +2
+Items +1 longspear
+AC 24; Fort +14, Ref +16, Will +11; +1 to all saves vs. magic
+HP 130; Weaknesses cold iron 5, good 5; Resistances
+acid 10
+Mercy Vulnerability Babaus revel in gore, and
+when wounds are healed, they recoil in
+pain. When a creature heals from damage
+that the babau dealt on their last turn
+with Grievous Strike, sneak attack, or a
+critical hit, the demon takes 4d6 mental
+damage. The babau can take this mental
+damage only once per round.
+Reactive Slime Ǻȓ Trigger A creature
+within the babau’s reach successfully
+hits the babau with a Strike; Eﬀect The
+babau excretes a gout of acidic, bloodlike
+slime against the attacker and its weapon. The
+attacker must attempt a DC 24 Reﬂex save.
+Critical Success The attacker is unaﬀected.
+Success The attacker takes 1d6 acid damage.
+Failure The attacker takes 2d6 acid damage.
+Critical Failure As failure, except the weapon used to Strike
+the babau becomes broken, unless the weapon is made of
+a material that is immune to acid.
+Speed 25 feet
+Melee Ȱɵ longspear +17 (evil, magical, reach 10 feet),
+Damage 1d8+7 piercing plus 1d6 evil
+Melee Ȱɵ jaws +16 (evil, magical), Damage 1d10+7
+piercing plus 1d6 evil
+Melee Ȱɵ claw +16 (agile, evil, magical), Damage
+1d4+7 slashing plus 1d6 evil
+Divine Innate Spells DC 24; 5th dimension
+door; 4th dimension door (at will); 2nd
+darkness; Constant (5th) see invisibility
+Rituals DC 24; Abyssal pact
+Grievous Strike ʚʖ The babau attacks with the intent of creating a particularly
+horriﬁc and gory wound. The babau makes a melee Strike. This counts
+as two attacks when calculating the daemon’s multiple attack penalty. If
+this Strike hits, the babau deals an additional 2d6 damage of the same
+damage type, and the creature struck is frightened 2.
+Sneak Attack The babau’s Strikes deal an extra 2d6 precision damage to ﬂat-footed creatures.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868562
+4425074
+
+PAGE 86
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868583
+4425095
+D
+85
+85
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+DOPRILLU MASKS
+A doprillu’s stylized mask isn’t a part
+of the creature itself, though doprillus
+inherently understand the mask’s
+purpose and power. When born,
+doprillus start out weak and small.
+Once one matures and gains suﬃcient
+intelligence and manual dexterity, it
+carves its personal mask. The ﬁrst
+time it dons the mask, the doprillu
+rushes out to seek a ﬁght. This mask
+is never replaced, and it might be
+marred from hundreds of battles.
+Doprillu
+The aberrations known as doprillus are hulks with banded muscles who wear ornate
+masks at all times that ﬁll their wearers with magical strength and ﬁghting spirit.
+Doprillus love to battle, especially by grappling, and are eager to start brawls. On
+neutral ground, a doprillu offers to duel the strongest-looking opponent, but when
+a doprillu’s home turf is invaded, no rules apply to the confrontation. As beﬁts the
+superheated blood that fuels them, doprillus make their homes in warm locations:
+hot jungles, sunny deserts, and underground caverns near sulfur vents.
+DOPRILLU
+CREATURE 14
+NE
+MEDIUM
+ABERRATION
+Perception +22; darkvision, see invisibility
+Languages Aklo, Common, Undercommon
+Skills Acrobatics +26, Athletics +30, Intimidation +22, Stealth +24
+Str +8, Dex +6, Con +7, Int +1, Wis +4, Cha +2
+AC 36; Fort +27, Ref +28, Will +24; +2 status to all saves vs. fear
+HP 260, regeneration 20 (deactivated by cold); Immunities enfeebled (while wearing its
+mask), slowed (while wearing its mask); Resistances ﬁre 15
+Mask of Power A doprillu’s unique wooden mask is the source of its power. A
+doprillu deprived of its mask loses its regeneration and its immunity to
+enfeebled and slowed, and it immediately becomes enfeebled 1. The
+enfeebled value increases by 1 at the start of each of the doprillu’s
+turns, to a maximum of enfeebled 4. If the mask is put back on, the
+doprillu immediately regains its abilities and loses the enfeebled
+condition. A creature can pull oﬀ the mask with a successful DC 34
+Athletics check to Force Open.
+Volcanic Veins (ﬁre) Fiery magma runs through the doprillu’s veins.
+A creature that starts its turn grabbed by the doprillu takes
+7d6 ﬁre damage.
+Deﬂect Arrow Ǻȓ Trigger The doprillu is the target
+of a physical ranged attack; Requirements The
+doprillu is aware of the attack, isn’t ﬂat-footed
+against it, and has a hand free; Eﬀect The
+doprillu gains a +4 circumstance bonus to
+its AC against the triggering attack.
+Speed 40 feet, climb 40 feet
+Melee Ȱɵ ﬁst +30 (agile, magical),
+Damage 3d8+16 plus 2d6 ﬁre and
+Improved Grab
+Occult Innate Spells DC 28; Constant
+(6th) see invisibility
+Body Strike Ȱɵ Requirements The
+doprillu has a creature grabbed;
+Eﬀect The doprillu swings the
+grabbed creature as a weapon. This
+Strike has a +30 attack modiﬁer and
+deals 3d8+16 bludgeoning damage.
+The Strike is magical and has a reach
+of 10 feet. On a hit, the grabbed creature
+takes half the damage dealt to the target.
+Whirlwind Throw ʚʖ Requirements The doprillu has a creature
+grabbed; Eﬀect The doprillu whirls the grabbed creature about,
+making a Body Strike against each creature in reach. After that
+Strike, the doprillu can hurl the grabbed creature up to 50 feet
+as a ranged Strike. This Strike has the same attack modiﬁer
+and damage as Body Strike, but has the thrown 20 feet
+weapon trait
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868583
+4425095
+
+PAGE 190
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868687
+4425199
+O-R
+O-R
+189
+189
+Introduction
+A-C
+D
+E-G
+H-K
+L-N
+O-R
+S-T
+U-Z
+Appendix
+ONI SHAPECHANGERS
+Oni humanoid forms are limited to one
+speciﬁc appearance. An ogre mage can
+assume only one speciﬁc ogre form,
+while an ice yai can appear only as
+one speciﬁc frost giant. Some oni have
+greater control over their shapeshifting
+power and can assume the form of any
+humanoid creature, and these oni tend
+to be the most dangerous.
+Items breastplate, composite shortbow with 20 arrows, +1 striking falchion
+AC 27; Fort +18, Ref +15, Will +15; +1 status on all saves vs. magic
+HP 125, regeneration 7 (deactivated by acid or ﬁre)
+Attack of Opportunity Ǻȓ
+Speed 30 feet, ﬂy 30 feet
+Melee Ȱɵ falchion +21 (forceful, magical, reach 10 feet, sweep), Damage 2d10+9 slashing
+Melee Ȱɵ ﬁst +20 (agile, evil, magical, reach 10 feet), Damage 2d8+9 bludgeoning
+Ranged Ȱɵ composite shortbow +17 (deadly 1d10, range increment 100 feet, reload 0),
+Damage 2d6+9 piercing
+Primal Innate Spells DC 24; 5th cone of cold; 4th charm, gaseous form, sleep; 3rd fear;
+2nd darkness, invisibility (at will, self only)
+Change Shape Ȱɵ (concentrate, polymorph, primal, transmutation) The onidoshi takes on
+the appearance of an ogre. This doesn’t change their Speed or Strike attack and damage.
+ICE YAI
+Ice yai combine the brutality of frost giants with the grace of martial artists. More
+than any other oni, ice yai delight not in the pleasures of the ﬂesh, but in ﬂesh
+itself—rather than indulging in oft-destructive mortal vices like drink or lust, ice
+yai pursue physical perfection, reveling in the process of turning their bodies into
+powerful ﬁghting machines.
+ICE YAI
+CREATURE 13
+CE
+LARGE
+COLD
+FIEND
+GIANT
+HUMANOID
+ONI
+Perception +26; greater darkvision
+Languages Common, Jotun
+Skills Acrobatics +24, Arcana +23, Athletics +25, Deception +27,
+Intimidation +27, Nature +24, Stealth +26
+Str +8, Dex +5, Con +5, Int +4, Wis +5, Cha +8
+AC 34; Fort +21, Ref +25, Will +23; +1 status on all saves vs. magic
+HP 230, regeneration 15 (deactivated by acid or ﬁre); Immunities
+cold; Weaknesses ﬁre 15
+Attack of Opportunity Ǻȓ
+Icy Deﬂection Ǻȓ Trigger The ice yai is targeted by a ranged Strike
+or spell attack roll that doesn’t have the ﬁre trait; Eﬀect The ice
+yai creates a reﬂective blockade of ice, gaining a +4 circumstance
+bonus to AC against the triggering attack roll. If the attack misses,
+the ice yai redirects the attack to another creature within 20 feet
+of the yai. The attacker rerolls the attack roll against the new target.
+Speed 40 feet, ﬂy 40 feet
+Melee Ȱɵ ﬁst +27 (agile, evil, magical, reach 10 feet), Damage 2d8+16
+bludgeoning plus 2d6 cold and frozen strike
+Ranged Ȱɵ ice missile +25 (cold, evil, magical, range increment 60 feet),
+Damage 2d10+12 cold and frozen strike
+Primal Innate Spells DC 33; 7th cone of cold, wall of ice; 6th cone of
+cold (×3); 4th charm (×3), darkness, gaseous form, solid fog; 2nd
+invisibility (at will, self only)
+Change Shape Ȱɵ (concentrate, polymorph, primal, transmutation)
+As onidoshi, but into a frost giant.
+Double Punch Ȱɵ Frequency once per round; Eﬀect The ice
+yai makes two ﬁst Strikes.
+Frozen Strike On a critical hit with a ﬁst Strike or a hit
+with an ice missile Strike, the target creature must
+attempt a DC 33 Fortitude save.
+Critical Success The creature is unaﬀected.
+Success The creature is slowed 1 for 1 round.
+Failure The creature is slowed 2 for 1 round.
+Critical Failure The creature is slowed 3 for 1 round.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868687
+4425199
+
+PAGE 203
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868700
+4425212
+Bestiary 2
+202
+202
+GENIEKIN ON GOLARION
+While most geniekin planar scions
+live on their genie parent’s ancestral
+plane, rare fonts of elemental power
+or genie activity sometimes give
+rise to geniekin on Golarion. By far,
+geniekin are most commonly found
+in Katapesh, as genies are more
+prevalent there than other regions
+due to the inﬂuence of genie binders.
+claims help to bolster those they travel with. Suli from regions other than deserts
+adjust their names to match their terrains, but regardless of whether they prefer
+forests, hills, or arctic plains, their boasts remain as compelling.
+SULI DUNE DANCER
+CREATURE 1
+N
+MEDIUM
+HUMAN
+HUMANOID
+SULI
+Perception +5
+Languages Aquan, Auran, Common, Ignan, Terran
+Skills Acrobatics +5, Deception +6, Diplomacy +7, Occultism +4, Performance +7,
+Society +4
+Str +2, Dex +2, Con +0, Int +1, Wis +0, Cha +4
+Items scimitar, tambourine
+AC 15; Fort +3, Ref +5, Will +5
+HP 16
+Elemental Bulwark Ǻȓ Trigger An enemy is about to damage the dune dancer with cold,
+electricity, or ﬁre, or with a spell that has the air, earth, ﬁre, or water trait; Eﬀect The
+dune dancer gain resistance 2 against the triggering damage.
+Speed 25 feet
+Melee Ȱɵ scimitar +7 (forceful, sweep), Damage 1d6+2 slashing
+Occult Spontaneous Spells DC 17, attack +9; 1st (2 slots) color spray, soothe, true strike;
+Cantrips (1st) detect magic, guidance, inspire courage (Core Rulebook 386), mage
+hand, shield, telekinetic projectile
+Elemental Assault ʚʖ Elemental magic ﬁlls the dune dancer’s body or
+weapon. The dune dancer chooses one element and makes a melee Strike.
+The Strike deals an additional 1d4 damage of the indicated type and has the
+trait corresponding to the element: Air electricity, Earth bludgeoning, Fire ﬁre, or
+Water cold.
+SYLPH
+Born with elemental gales coursing through their breath, sylphs are wispy planar
+scions whose bodies seem caught in a perpetual, gentle breeze. Born of unions
+between mortals and djinn, sylphs are quick-witted and creative, but
+they are prone to ﬂights of fancy and tend to be easily distracted.
+Sylphs are notorious for their practice of “listening to the wind,” which
+most others dismiss as a fancy name for eavesdropping. Yet this custom means
+much more to sylphs, who spend hours listening to the stories brought to
+them on the proverbial breeze. While some less scrupulous sylphs
+may use the information they learn to blackmail or abuse others,
+most of them see listening to the wind as their way of staying
+connected to the world around them while still keeping it
+comfortably at arm’s length. Certainly the typical sylph
+sneak doesn’t seek to use what they learn for ill, but
+instead tries to warn others of dangers yet unrealized
+or to prepare themself for a dangerous task.
+SYLPH SNEAK
+CREATURE 1
+CG
+MEDIUM
+HUMAN
+HUMANOID
+SYLPH
+Perception +5
+Languages Auran, Common
+Skills Acrobatics +7, Deception +6, Diplomacy +6, Society +4, Stealth +7,
+Thievery +7
+Str +0, Dex +4, Con +1, Int +1, Wis +0, Cha +3
+Items leather armor, starknife
+AC 18; Fort +4, Ref +9, Will +8
+HP 17
+Deﬂecting Gale Ǻȓ (air, evocation, primal) Trigger The sylph sneak is the target of a
+physical ranged attack; Requirements The sylph sneak is aware of the attack;
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868700
+4425212
+
+PAGE 251
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868748
+4425260
+Bestiary 2
+250
+250
+SPIRAL CENTURION GLITCHES
+A spiral centurion might have one of
+the following glitches.
+Dulled Blades: Its blade Strike deals
+only 2d10+5 bludgeoning damage.
+ Misaligned Gears: It loses Rev Up,
+and if it Strides more than once per
+round, it takes 1d10 damage.
+ Stuck in a Rut: It uses the same
+actions each round, regardless of
+the circumstances.
+Spiral Centurion
+These mechanical constructs were created to serve as guardians in an ancient
+and bygone era, although exactly who made them and the secrets of their
+construction have long since been lost to history. From the waist up, they
+resemble humanoids made of metal, but from the waist down their bodies
+take the form of spinning metal tops ringed with blades, which excel at cutting
+down nearby foes. Most spiral centurions can be directed to stand down with a
+password, although often these command phrases have been lost to the mists of
+time. In rare cases, a spiral centurion may also wield manufactured weapons or
+a shield in addition to its built-in weapons, giving it access to additional actions
+besides those listed below.
+Most spiral centurions are hundreds or even thousands of years old, only
+staying functional because of the powerful magic used in their creation. Still,
+millennia of neglect have caused many spiral centurions to develop small glitches
+or malfunctions.
+SPIRAL CENTURION
+CREATURE 11
+N
+MEDIUM
+CONSTRUCT
+MINDLESS
+Perception +20; darkvision
+Skills Acrobatics +23, Athletics +23
+Str +6, Dex +6, Con +5, Int –5, Wis +2, Cha –5
+AC 31; Fort +22, Ref +25, Will +16
+HP 170; Hardness 10; Immunities bleed, death eﬀects, disease, doomed, drained,
+fatigued, healing, mental, necromancy, nonlethal attacks, paralyzed, poison,
+sickened, unconscious
+Top-Heavy
+A
+spiral
+centurion’s
+top‑like design makes it susceptible
+to eﬀects that would cause it to fall
+prone. The DC of any attempt to knock
+the spiral centurion prone is reduced
+by 5. If the spiral centurion attempts
+a check or saving throw to resist being
+knocked prone, it takes a –5 status penalty. A
+spiral centurion that has been knocked prone can’t use any actions other
+than to attempt to Stand, but it must succeed at a DC 30 Acrobatics
+check to do so.
+Speed 40 feet
+Melee Ȱɵ blade +23 (agile, sweep), Damage 2d12+12
+slashing
+Hurl Blade ʚʖ The spiral centurion hurls one of its
+blades with an angled spin to ensure a swooping
+ﬂight path. The blade deals 6d6 slashing damage
+to each creature in a 40-foot line (DC 30 basic Reﬂex
+save). At the start of the spiral centurion’s next turn, the
+blade swoops around and returns along the same ﬂight path,
+again dealing 6d6 slashing damage (DC 30 basic Reﬂex save) to
+each creature along the same line.
+Rev Up Ȱɵ Requirements The spiral centurion has not acted yet this turn; Eﬀect The
+spiral centurion Strides up to its Speed. It then gains a +2 circumstance bonus to
+attack and damage rolls until the end of its turn.
+Trample ̂ˬ Medium or smaller, blade, DC 30
+Whirling Death ̂ˬ The spiral centurion spins furiously in place, its blades extended
+to slice through nearby creatures. It makes up to five melee blade Strikes. No
+single creature can be targeted by more than one blade Strike during one use
+of this ability. These attacks count toward the spiral centurion’s multiple attack
+penalty, but the multiple attack penalty doesn’t increase until after all the attacks
+are made.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868748
+4425260
+
+PAGE 283
+================================================================================
+
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868780
+4425292
+Bestiary 2
+282
+282
+DESPICABLE ORIGINS
+Velstracs originated with the ﬁrst
+debased thoughts of mortals, which
+divine beings found so deplorable
+that they locked all velstracs away
+in Hell. It wasn’t long, however,
+before the newly formed beings
+escaped their infernal prison to the
+Shadow Plane.
+Material Plane, leading covens of hedonistic mortal ﬂesh-sculptors or serving as
+wardens of horriﬁc dungeons. In regions ruled by infernal powers, evangelists may
+serve as lieutenants or advisors, whispering secret paths to power in exchange for
+mortal’s souls or choice mortal ﬂesh. Evangelists are the same size as humans,
+although with the heavy chains that always drape their forms, they often weigh
+350 pounds or more.
+EVANGELIST
+CREATURE 6
+LE
+MEDIUM
+FIEND
+VELSTRAC
+Perception +13; greater darkvision, painsight
+Languages Common, Infernal, Shadowtongue
+Skills Acrobatics +13, Athletics +15, Crafting +10, Intimidation +15, Religion +11, Torture
+Lore +12
+Str +4, Dex +3, Con +2, Int +0, Wis +1, Cha +1
+Painsight (divination, divine) As augur.
+AC 24; Fort +15, Ref +14, Will +11; +1 status to all saves vs. magic
+HP 90, regeneration 10 (deactivated by good or silver); Immunities cold; Weaknesses
+good 5, silver 5
+Unnerving Gaze (aura, divine, enchantment, fear, mental, visual) 30 feet. When a
+creature ends its turn in the aura, it sees the face of a departed loved one in place
+of the evangelist’s face. The creature must succeed at a DC 21 Will save or become
+frightened 2 (frightened 3 on a critical failure).
+Attack of Opportunity Ǻȓ
+Speed 25 feet
+Melee Ȱɵ chain +17 (disarm, evil, magical, reach 10 feet, trip), Damage
+2d8+7 piercing plus 1d6 persistent bleed and impaling chain
+Animate Chains (divine, transmutation) Chains in the evangelist’s
+vicinity sprout barbs and writhe menacingly. The evangelist can
+make chain Strikes against any creature that is adjacent to an
+unattended chain within 20 feet, in addition to those within the
+reach of the evangelist’s chain Strike.
+Focus Gaze Ȱɵ (concentrate, divine, enchantment, fear, mental, visual)
+The evangelist stares at a creature they can see within 30 feet. The
+target must immediately attempt a Will save against unnerving
+gaze. In addition, if the creature was already frightened, on a failed
+save, the evangelist is concealed from the creature for as long as the
+creature remains frightened. After attempting this save, the creature
+is then temporarily immune until the start of the evangelist’s next turn.
+Impaling Chain When the evangelist critically hits with a chain Strike,
+the target is impaled and anchored in place, becoming grabbed by
+the chain. The creature is unable to recover from persistent bleed
+damage until it gets free (DC 25 Escape).
+SACRISTAN
+Sacristans are failures among the velstracs, creatures
+whose bodies and minds have been utterly broken
+by the velstracs’ torments. These unfortunates are
+assembled from scrap metal, nerveless ﬂesh, and
+bits of darkness into loyal agents who take ecstatic
+pleasure in serving other velstracs. Sacristans
+are empowered by a miniature gateway to the
+Shadow Plane deep in their mouths. By distending
+their jaws, they can howl with the shrieks and
+windstorms of that plane. Sacristans vary in
+appearance but are the size of maimed humans.
+Their features are redundant or absent and they are
+wrapped in barbed and rusted chains.
+i
+W
+l Wi di
+<Wi
+ji
+j dh
+d@
+il
+> F b 23 2023
+paizo.com, Wexel Winding <Wiggyjiggyjedhead@gmail.com>, Feb 23, 2023
+24868780
+4425292

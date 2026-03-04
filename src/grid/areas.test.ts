@@ -1,6 +1,5 @@
 /**
  * Tests for area targeting mechanics.
- * Ported from tests/contract/test_targeting_areas.py
  *
  * These tests are CRITICAL for tactical combat - they validate:
  * - Burst/radius targeting (AOE spells)

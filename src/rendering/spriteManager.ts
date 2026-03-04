@@ -2,11 +2,17 @@
  * Sprite manager — creates and updates unit sprites on the battle map.
  * Uses colored rectangle placeholders until sprite sheets are available.
  * Each unit gets a container with a body graphic + label text.
+ *
+ * When a unit has a `spriteSheet` field, the loader fetches the descriptor
+ * asynchronously. The colored rectangle is shown immediately; once the sprite
+ * sheet loads, an AnimatedSprite replaces the rectangle body.
  */
 
-import { Container, Graphics, Text, TextStyle } from "pixi.js";
+import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js";
 import { BattleState, UnitState, unitAlive } from "../engine/state";
 import { TILE_SIZE } from "./pixiApp";
+import { loadSpriteSheet } from "./spriteSheetLoader";
+import type { AnimationStateName, LoadedSpriteSheet } from "./spriteSheetTypes";
 
 const TEAM_COLORS: Record<string, number> = {
   player: 0x4488ff,
@@ -28,6 +34,12 @@ interface UnitSprite {
   /** Thin HP bar above the unit body — track + fill drawn in one Graphics. */
   hpBar: Graphics;
   unitId: string;
+  /** Optional pixel-art sprite (replaces body when loaded). */
+  animatedSprite?: Sprite;
+  /** Loaded sprite sheet data (null until async load completes). */
+  spriteSheet?: LoadedSpriteSheet;
+  /** Current animation state name. */
+  currentAnimation?: AnimationStateName;
 }
 
 const HP_BAR_W = TILE_SIZE - UNIT_PADDING * 2;
@@ -43,6 +55,8 @@ function hpColor(pct: number): number {
 }
 
 const _sprites = new Map<string, UnitSprite>();
+/** Track which sprite sheet URLs are being loaded to avoid duplicate fetches. */
+const _loadingSheets = new Set<string>();
 let _parentLayer: Container | null = null;
 
 function teamColor(team: string): number {
@@ -65,30 +79,108 @@ function createUnitSprite(unit: UnitState): UnitSprite {
   container.addChild(body);
   container.addChild(label);
   container.addChild(hpBar);  // on top so it's never covered by the body outline
-  return { container, body, label, hpBar, unitId: unit.unitId };
+
+  const sprite: UnitSprite = { container, body, label, hpBar, unitId: unit.unitId };
+
+  // Kick off async sprite sheet loading if the unit has a spriteSheet path
+  if (unit.spriteSheet && !_loadingSheets.has(unit.spriteSheet)) {
+    _loadingSheets.add(unit.spriteSheet);
+    loadSpriteSheet(unit.spriteSheet).then((loaded) => {
+      if (loaded) {
+        _applySpriteSheet(sprite, loaded);
+      }
+    });
+  }
+
+  return sprite;
+}
+
+/**
+ * Apply a loaded sprite sheet to a unit sprite, replacing the colored
+ * rectangle body with a pixel-art Sprite showing the first idle frame.
+ */
+function _applySpriteSheet(sprite: UnitSprite, sheet: LoadedSpriteSheet): void {
+  sprite.spriteSheet = sheet;
+
+  // Get the first frame of the idle animation (or frame 0 as fallback)
+  const idleAnim = sheet.descriptor.animations.idle;
+  const frameIndex = idleAnim ? idleAnim.frames[0] : 0;
+  const texture = sheet.frames[frameIndex] as Texture;
+  if (!texture) return;
+
+  const pixelSprite = new Sprite(texture);
+  // Scale to fit tile size
+  pixelSprite.width = TILE_SIZE - UNIT_PADDING * 2;
+  pixelSprite.height = TILE_SIZE - UNIT_PADDING * 2;
+  pixelSprite.position.set(UNIT_PADDING, UNIT_PADDING);
+
+  sprite.animatedSprite = pixelSprite;
+  sprite.currentAnimation = "idle";
+
+  // Add the sprite and hide the rectangle body
+  sprite.container.addChildAt(pixelSprite, 1); // after body, before label
+  sprite.body.visible = false;
+}
+
+/**
+ * Set the animation state for a unit sprite.
+ * Updates the displayed frame based on the animation definition.
+ */
+export function setUnitAnimation(unitId: string, animation: AnimationStateName): void {
+  const sprite = _sprites.get(unitId);
+  if (!sprite || !sprite.spriteSheet || !sprite.animatedSprite) return;
+  if (sprite.currentAnimation === animation) return;
+
+  const animDef = sprite.spriteSheet.descriptor.animations[animation];
+  if (!animDef || animDef.frames.length === 0) return;
+
+  sprite.currentAnimation = animation;
+  const texture = sprite.spriteSheet.frames[animDef.frames[0]] as Texture;
+  if (texture) {
+    sprite.animatedSprite.texture = texture;
+  }
 }
 
 function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean, active: boolean): void {
   const alive = unitAlive(unit);
   const color = alive ? teamColor(unit.team) : DEAD_COLOR;
   const p = UNIT_PADDING;
-  sprite.body.clear();
-  sprite.body
-    .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
-    .fill(color);
+
+  // Only draw the rectangle body if no sprite sheet is loaded
+  if (!sprite.animatedSprite) {
+    sprite.body.clear();
+    sprite.body
+      .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
+      .fill(color);
+  } else {
+    sprite.body.clear();
+    // Still draw outlines over the sprite
+    sprite.animatedSprite.alpha = alive ? 1 : 0.3;
+  }
+
   // Active turn unit gets a gold outline; selected-but-not-active gets white.
   if (active) {
     sprite.body.setStrokeStyle({ width: 3, color: ACTIVE_OUTLINE });
     sprite.body
       .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
       .stroke();
+    sprite.body.visible = true;
   } else if (selected) {
     sprite.body.setStrokeStyle({ width: 2, color: SELECTED_OUTLINE });
     sprite.body
       .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
       .stroke();
+    sprite.body.visible = true;
+  } else if (sprite.animatedSprite) {
+    // Hide body graphics when we have a sprite and no outline needed
+    sprite.body.visible = false;
   }
+
   sprite.label.alpha = alive ? 1 : 0.4;
+  // Hide label when sprite sheet is loaded (the art replaces the 3-letter ID)
+  if (sprite.animatedSprite) {
+    sprite.label.visible = false;
+  }
 
   // HP bar — track + fill. Hidden on dead units (corpse clutter otherwise).
   sprite.hpBar.clear();
@@ -154,4 +246,5 @@ export function clearUnits(): void {
     }
   }
   _sprites.clear();
+  _loadingSheets.clear();
 }

@@ -1,6 +1,5 @@
 /**
  * Load and query Phase 2.5 tactical effect model artifacts.
- * Mirrors engine/io/effect_model_loader.py
  *
  * In the browser this fetches JSON via fetch() or uses bundled data.
  * The default path is the compiled effect models artifact.

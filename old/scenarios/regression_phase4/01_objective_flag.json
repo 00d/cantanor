@@ -1,0 +1,63 @@
+{
+  "battle_id": "phase4_objective_flag_basic",
+  "seed": 606,
+  "map": {
+    "width": 6,
+    "height": 6,
+    "blocked": []
+  },
+  "flags": {
+    "gate_open": false
+  },
+  "objectives": [
+    {
+      "id": "open_gate",
+      "type": "flag_set",
+      "flag": "gate_open",
+      "value": true,
+      "result": "victory"
+    },
+    {
+      "id": "keep_pc_alive",
+      "type": "unit_dead",
+      "unit_id": "pc",
+      "result": "defeat"
+    }
+  ],
+  "units": [
+    {
+      "id": "hazard_core",
+      "team": "hazard",
+      "hp": 999,
+      "position": [2, 2],
+      "initiative": 30,
+      "attack_mod": 0,
+      "ac": 10,
+      "damage": "1d1",
+      "fortitude": 0,
+      "reflex": 0,
+      "will": 0
+    },
+    {
+      "id": "pc",
+      "team": "pc",
+      "hp": 20,
+      "position": [3, 2],
+      "initiative": 10,
+      "attack_mod": 6,
+      "ac": 16,
+      "damage": "1d8+3",
+      "fortitude": 5,
+      "reflex": 4,
+      "will": 4
+    }
+  ],
+  "commands": [
+    {
+      "type": "set_flag",
+      "actor": "hazard_core",
+      "flag": "gate_open",
+      "value": true
+    }
+  ]
+}

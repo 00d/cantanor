@@ -1,0 +1,1660 @@
+{
+  "generated_at_utc": "2026-02-06T20:19:57.125502+00:00",
+  "schema_version": "tactical_effect_models_v1",
+  "phase": "phase_2_5_effect_models",
+  "source_artifact": "tactical_engine_rules_v1",
+  "hazards": {
+    "count": 29,
+    "entries": [
+      {
+        "hazard_id": "hidden-pit",
+        "hazard_name": "HIDDEN PIT",
+        "level": 0,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Pitfall",
+            "raw_text": "The triggering creature falls in and takes falling damage (typically 10 bludgeoning damage). That creature can use the Grab an Edge reaction to avoid falling.",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "10",
+                "damage_type": "bludgeoning",
+                "approximate": true,
+                "raw_fragment": "typically 10 bludgeoning damage"
+              },
+              {
+                "kind": "forced_movement",
+                "movement_type": "fall",
+                "distance_feet": null,
+                "raw_fragment": "falls in"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "poisoned-lock",
+        "hazard_name": "POISONED LOCK",
+        "level": 1,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Spring",
+            "raw_text": "A spine extends to attack the triggering creature.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "spine",
+            "raw_text": "1 piercing plus cladis poison Cladis Poison (poison) Saving Throw DC 19 Fortitude; Maximum Duration 4 hours; Stage 1 1d6 poison damage and drained 1 (1 hour); Stage 2 2d6 poison damage and drained 2 (1 hour); Stage 3 3d6 poison damage and drained 2 (1 hour)",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "1d6",
+                "damage_type": "poison",
+                "raw_fragment": "1d6 poison"
+              },
+              {
+                "kind": "damage",
+                "formula": "2d6",
+                "damage_type": "poison",
+                "raw_fragment": "2d6 poison"
+              },
+              {
+                "kind": "damage",
+                "formula": "3d6",
+                "damage_type": "poison",
+                "raw_fragment": "3d6 poison"
+              },
+              {
+                "kind": "save_check",
+                "dc": 19,
+                "save_type": "Fortitude",
+                "mode": "standard",
+                "raw_fragment": "DC 19 Fortitude"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "drained",
+                "value": 1,
+                "raw_fragment": "and drained 1"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "drained",
+                "value": 2,
+                "raw_fragment": "and drained 2"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "drained",
+                "value": 2,
+                "raw_fragment": "and drained 2"
+              },
+              {
+                "kind": "affliction",
+                "raw_fragment": "1 piercing plus cladis poison Cladis Poison (poison) Saving Throw DC 19 Fortitude; Maximum Duration 4 hours; Stage 1 1d6 poison damage and drained 1 (1 hour); Stage 2 2d6 poison damage and drained 2 (1 hour); Stage 3 3d6 poison damage and drained 2 (1 hour)",
+                "save": {
+                  "dc": 19,
+                  "save_type": "Fortitude"
+                },
+                "maximum_duration": {
+                  "amount": 4,
+                  "unit": "hour"
+                },
+                "stages": [
+                  {
+                    "stage": 1,
+                    "raw": "1d6 poison damage and drained 1 (1 hour)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "1d6",
+                        "damage_type": "poison",
+                        "raw_fragment": "1d6 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "drained",
+                        "value": 1,
+                        "raw_fragment": "and drained 1"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 hour)",
+                      "amount": 1,
+                      "unit": "hour"
+                    }
+                  },
+                  {
+                    "stage": 2,
+                    "raw": "2d6 poison damage and drained 2 (1 hour)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "2d6",
+                        "damage_type": "poison",
+                        "raw_fragment": "2d6 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "drained",
+                        "value": 2,
+                        "raw_fragment": "and drained 2"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 hour)",
+                      "amount": 1,
+                      "unit": "hour"
+                    }
+                  },
+                  {
+                    "stage": 3,
+                    "raw": "3d6 poison damage and drained 2 (1 hour)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "3d6",
+                        "damage_type": "poison",
+                        "raw_fragment": "3d6 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "drained",
+                        "value": 2,
+                        "raw_fragment": "and drained 2"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 hour)",
+                      "amount": 1,
+                      "unit": "hour"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "duration",
+                "raw": "(1 hour)",
+                "amount": 1,
+                "unit": "hour"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 9,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "slamming-door",
+        "hazard_name": "SLAMMING DOOR",
+        "level": 1,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Slam Shut",
+            "raw_text": "The door falls, closing off the hallway. The stone slab deals 3d8 bludgeoning damage to anyone beneath or adjacent to the slab when it drops and pushes them out of its space in a random direction. A creature that succeeds at a DC 17 Reflex save takes no damage and rolls out of the way in a random direction. On a critical success, they can choose the direction. Lifting the fallen slab requires a successful DC 25 Athletics check. Hitting the floor panels triggers the trap. The slab uses the same AC and saves as the trap, but it has Hardness 12, HP 48 (BT 24).",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "3d8",
+                "damage_type": "bludgeoning",
+                "raw_fragment": "deals 3d8 bludgeoning damage"
+              },
+              {
+                "kind": "damage",
+                "formula": "3d8",
+                "damage_type": "bludgeoning",
+                "raw_fragment": "3d8 bludgeoning"
+              },
+              {
+                "kind": "save_check",
+                "dc": 17,
+                "save_type": "Reflex",
+                "mode": "standard",
+                "raw_fragment": "DC 17 Reflex"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 3,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "spear-launcher",
+        "hazard_name": "SPEAR LAUNCHER",
+        "level": 2,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Spear",
+            "raw_text": "The trap shoots a spear, making an attack against the creature or object on the floor tile.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "spear",
+            "raw_text": "2d6+6 piercing",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "2d6+6",
+                "damage_type": "piercing",
+                "raw_fragment": "2d6+6 piercing"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "electric-latch-rune",
+        "hazard_name": "ELECTRIC LATCH RUNE",
+        "level": 3,
+        "complexity": "simple",
+        "tags": [
+          "electricity",
+          "evocation",
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Electrocution",
+            "raw_text": "The trap deals 3d12 electricity damage to the triggering creature (DC 22 basic Reflex save).",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "3d12",
+                "damage_type": "electricity",
+                "raw_fragment": "deals 3d12 electricity damage"
+              },
+              {
+                "kind": "damage",
+                "formula": "3d12",
+                "damage_type": "electricity",
+                "raw_fragment": "3d12 electricity"
+              },
+              {
+                "kind": "save_check",
+                "dc": 22,
+                "save_type": "Reflex",
+                "mode": "basic",
+                "raw_fragment": "DC 22 basic Reflex save"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 3,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "scythe-blades",
+        "hazard_name": "SCYTHE BLADES",
+        "level": 4,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Falling Scythes",
+            "raw_text": "Both blades swing down, each one attacking all creatures under the ceiling grooves.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "scythe",
+            "raw_text": "2d12+4 slashing no multiple attack penalty",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "2d12+4",
+                "damage_type": "slashing",
+                "raw_fragment": "2d12+4 slashing"
+              },
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "fireball-rune",
+        "hazard_name": "FIREBALL RUNE",
+        "level": 5,
+        "complexity": "simple",
+        "tags": [
+          "evocation",
+          "fire",
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Fireball",
+            "raw_text": "The rune detonates a fireball centered on the triggering creature\u2019s square. This is a 3rd- level fireball spell that deals 6d6 fire damage (DC 22 basic Reflex save).",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "6d6",
+                "damage_type": "fire",
+                "raw_fragment": "deals 6d6 fire damage"
+              },
+              {
+                "kind": "damage",
+                "formula": "6d6",
+                "damage_type": "fire",
+                "raw_fragment": "6d6 fire"
+              },
+              {
+                "kind": "save_check",
+                "dc": 22,
+                "save_type": "Reflex",
+                "mode": "basic",
+                "raw_fragment": "DC 22 basic Reflex save"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 3,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "hallucination-powder-trap",
+        "hazard_name": "HALLUCINATION POWDER TRAP",
+        "level": 6,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Powder Burst",
+            "raw_text": "The tube explodes, spraying hallucinogenic powder in a 30-foot cone. Any creature in the cone must succeed at a DC 24 Will save or be confused for 1 round and take a \u20132 status penalty to Perception checks and saves against mental effects for 1d4 hours. On a critical failure, the penalty is instead \u20134.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 24,
+                "save_type": "Will",
+                "mode": "standard",
+                "raw_fragment": "must succeed at a DC 24 Will save"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "confused",
+                "value": null,
+                "raw_fragment": "be confused"
+              },
+              {
+                "kind": "area",
+                "shape": "cone",
+                "size_feet": 30,
+                "raw_fragment": "30-foot cone"
+              },
+              {
+                "kind": "duration",
+                "raw": "for 1 round",
+                "amount": 1,
+                "unit": "round"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 4,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "pharaoh-s-ward",
+        "hazard_name": "PHARAOH\u2019S WARD",
+        "level": 7,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Curse the Intruders",
+            "raw_text": "Each living creature within 60 feet must succeed at a DC 23 Will save or be subjected to the pharaoh\u2019s curse. A cursed creature takes a \u20132 status penalty to Fortitude saves, and any natural or magical healing it receives is halved. The curse remains until removed by remove curse or similar magic.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 23,
+                "save_type": "Will",
+                "mode": "standard",
+                "raw_fragment": "must succeed at a DC 23 Will save"
+              },
+              {
+                "kind": "area",
+                "shape": "within_radius",
+                "size_feet": 60,
+                "raw_fragment": "within 60 feet"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "yellow-mold",
+        "hazard_name": "YELLOW MOLD",
+        "level": 8,
+        "complexity": "simple",
+        "tags": [
+          "environmental",
+          "fungus"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Spore Explosion",
+            "raw_text": "The triggering creature and all creatures within 10 feet are exposed to yellow mold spores. Yellow Mold Spores (inhaled, poison) Any drained condition from the spores persists after the poison\u2019s duration ends; Saving Throw DC 26 Fortitude; Maximum Duration 6 rounds; Stage 1 1d8 poison damage and drained 1 (1 round); Stage 2 2d8 poison damage and drained 2 (1 round); Stage 3 3d8 poison damage and drained 3 (1 round)",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "1d8",
+                "damage_type": "poison",
+                "raw_fragment": "1d8 poison"
+              },
+              {
+                "kind": "damage",
+                "formula": "2d8",
+                "damage_type": "poison",
+                "raw_fragment": "2d8 poison"
+              },
+              {
+                "kind": "damage",
+                "formula": "3d8",
+                "damage_type": "poison",
+                "raw_fragment": "3d8 poison"
+              },
+              {
+                "kind": "save_check",
+                "dc": 26,
+                "save_type": "Fortitude",
+                "mode": "standard",
+                "raw_fragment": "DC 26 Fortitude"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "drained",
+                "value": 1,
+                "raw_fragment": "and drained 1"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "drained",
+                "value": 2,
+                "raw_fragment": "and drained 2"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "drained",
+                "value": 3,
+                "raw_fragment": "and drained 3"
+              },
+              {
+                "kind": "area",
+                "shape": "within_radius",
+                "size_feet": 10,
+                "raw_fragment": "within 10 feet"
+              },
+              {
+                "kind": "affliction",
+                "raw_fragment": "The triggering creature and all creatures within 10 feet are exposed to yellow mold spores. Yellow Mold Spores (inhaled, poison) Any drained condition from the spores persists after the poison\u2019s duration ends; Saving Throw DC 26 Fortitude; Maximum Duration 6 rounds; Stage 1 1d8 poison damage and drained 1 (1 round); Stage 2 2d8 poison damage and drained 2 (1 round); Stage 3 3d8 poison damage and drained 3 (1 round)",
+                "save": {
+                  "dc": 26,
+                  "save_type": "Fortitude"
+                },
+                "maximum_duration": {
+                  "amount": 6,
+                  "unit": "round"
+                },
+                "stages": [
+                  {
+                    "stage": 1,
+                    "raw": "1d8 poison damage and drained 1 (1 round)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "1d8",
+                        "damage_type": "poison",
+                        "raw_fragment": "1d8 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "drained",
+                        "value": 1,
+                        "raw_fragment": "and drained 1"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 round)",
+                      "amount": 1,
+                      "unit": "round"
+                    }
+                  },
+                  {
+                    "stage": 2,
+                    "raw": "2d8 poison damage and drained 2 (1 round)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "2d8",
+                        "damage_type": "poison",
+                        "raw_fragment": "2d8 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "drained",
+                        "value": 2,
+                        "raw_fragment": "and drained 2"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 round)",
+                      "amount": 1,
+                      "unit": "round"
+                    }
+                  },
+                  {
+                    "stage": 3,
+                    "raw": "3d8 poison damage and drained 3 (1 round)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "3d8",
+                        "damage_type": "poison",
+                        "raw_fragment": "3d8 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "drained",
+                        "value": 3,
+                        "raw_fragment": "and drained 3"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 round)",
+                      "amount": 1,
+                      "unit": "round"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "duration",
+                "raw": "(1 round)",
+                "amount": 1,
+                "unit": "round"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 10,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "bottomless-pit",
+        "hazard_name": "BOTTOMLESS PIT",
+        "level": 9,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Infinite Pitfall",
+            "raw_text": "The triggering creature falls in and continues to fall, potentially forever. That creature can try to Grab an Edge to avoid falling (page 472). The DC to Climb the walls or Grab an Edge is 26. The pit contains many handholds, so the falling creature can try to Grab an Edge again every 6 seconds. If the creature succeeds, it can start to Climb out from that point (though it might be a very long climb, depending on how far the creature fell). Since the creature falls endlessly, it can rest and even prepare spells while falling, though items dropped while falling are usually lost forever.",
+            "effects": [
+              {
+                "kind": "forced_movement",
+                "movement_type": "fall",
+                "distance_feet": null,
+                "raw_fragment": "falls in"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "bloodthirsty-urge",
+        "hazard_name": "BLOODTHIRSTY URGE",
+        "level": 10,
+        "complexity": "simple",
+        "tags": [
+          "haunt"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Quietus",
+            "raw_text": "The haunt takes control of the triggering creature, forcing it to attack itself. The creature must attempt a DC 29 Will save. Critical Success The target is unaffected. Success The target makes a Strike against itself and automatically hits; the target also becomes frightened 1. Failure The target makes a Strike against itself and automatically scores a critical hit; the target also becomes frightened 2. Critical Failure The target attempts a Fortitude save. If the 524 target succeeds, it is subject to the effects of a failure instead. If the target fails, it is reduced to 0 Hit Points and dies.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 29,
+                "save_type": "Will",
+                "mode": "standard",
+                "raw_fragment": "must attempt a DC 29 Will save"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "frightened",
+                "value": 1,
+                "raw_fragment": "becomes frightened 1"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "frightened",
+                "value": 2,
+                "raw_fragment": "becomes frightened 2"
+              },
+              {
+                "kind": "instant_death",
+                "raw_fragment": "reduced to 0 Hit Points and dies"
+              },
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 5,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "hammer-of-forbiddance",
+        "hazard_name": "HAMMER OF FORBIDDANCE",
+        "level": 11,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Forbid Entry",
+            "raw_text": "The hammer swings down, making an attack against the triggering creature.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "hammer",
+            "raw_text": "6d8+20 bludgeoning plus the target is knocked back 10 feet and must succeed at a DC 30 Will save or be unable to enter the edifice through any entrance for 24 hours (on a critical hit, the target automatically fails the Will save) no multiple attack penalty",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "6d8+20",
+                "damage_type": "bludgeoning",
+                "raw_fragment": "6d8+20 bludgeoning"
+              },
+              {
+                "kind": "save_check",
+                "dc": 30,
+                "save_type": "Will",
+                "mode": "standard",
+                "raw_fragment": "must succeed at a DC 30 Will save"
+              },
+              {
+                "kind": "forced_movement",
+                "movement_type": "knockback",
+                "distance_feet": 10,
+                "raw_fragment": "knocked back 10 feet"
+              },
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              },
+              {
+                "kind": "duration",
+                "raw": "for 24 hours",
+                "amount": 24,
+                "unit": "hour"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 5,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "polymorph-trap",
+        "hazard_name": "POLYMORPH TRAP",
+        "level": 12,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Baleful Polymorph",
+            "raw_text": "The creature is targeted by baleful polymorph (DC 32 Will save).",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 32,
+                "save_type": "Will",
+                "mode": "standard",
+                "raw_fragment": "DC 32 Will"
+              },
+              {
+                "kind": "transform",
+                "transform_type": "baleful_polymorph",
+                "raw_fragment": "targeted by baleful polymorph"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "planar-rift",
+        "hazard_name": "PLANAR RIFT",
+        "level": 13,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Into the Great Beyond",
+            "raw_text": "The triggering creature and all creatures within 30 feet of the rift are drawn into another plane. Each creature can attempt a DC 33 Reflex save to avoid this fate.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 33,
+                "save_type": "Reflex",
+                "mode": "standard",
+                "raw_fragment": "can attempt a DC 33 Reflex save"
+              },
+              {
+                "kind": "teleport",
+                "teleport_type": "planar_shift_forced",
+                "raw_fragment": "drawn into another plane"
+              },
+              {
+                "kind": "area",
+                "shape": "within_radius",
+                "size_feet": 30,
+                "raw_fragment": "within 30 feet"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 3,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "frozen-moment",
+        "hazard_name": "FROZEN MOMENT",
+        "level": 17,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Adrift in Time",
+            "raw_text": "The triggering creature and all creatures within 30 feet are trapped in a disrupted time flow (DC 38 Fortitude negates). The creatures\u2019 minds move so quickly that each round seems to last a century, but their bodies and magical energies move so slowly that they can\u2019t use any actions except Recall Knowledge. An affected creature must attempt a DC 36 Will saving throw against a warp mind spell immediately and again for every minute of real time that passes while the creature is trapped in the frozen moment. This effect has an unlimited duration but can be counteracted.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 38,
+                "save_type": "Fortitude",
+                "mode": "negates",
+                "raw_fragment": "DC 38 Fortitude negates"
+              },
+              {
+                "kind": "save_check",
+                "dc": 36,
+                "save_type": "Will",
+                "mode": "standard",
+                "raw_fragment": "DC 36 Will"
+              },
+              {
+                "kind": "area",
+                "shape": "within_radius",
+                "size_feet": 30,
+                "raw_fragment": "within 30 feet"
+              },
+              {
+                "kind": "duration",
+                "raw": "unlimited duration",
+                "amount": null,
+                "unit": "unlimited"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 4,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "vorpal-executioner",
+        "hazard_name": "VORPAL EXECUTIONER",
+        "level": 19,
+        "complexity": "simple",
+        "tags": [
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Total Decapitation",
+            "raw_text": "The saw blade travels along its path, making one Strike against each creature in the room, twisting and varying its height for a maximum chance of beheading its targets.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "saw blade",
+            "raw_text": "6d12+25 slashing plus decapitation no multiple attack penalty Decapitation On a critical hit, a target must succeed at a DC 39 Fortitude save or be decapitated, dying instantly unless it can survive without a head.",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "6d12+25",
+                "damage_type": "slashing",
+                "raw_fragment": "6d12+25 slashing"
+              },
+              {
+                "kind": "save_check",
+                "dc": 39,
+                "save_type": "Fortitude",
+                "mode": "standard",
+                "raw_fragment": "must succeed at a DC 39 Fortitude save"
+              },
+              {
+                "kind": "special_lethality",
+                "effect": "decapitation",
+                "raw_fragment": "decapitated"
+              },
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 4,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "second-chance",
+        "hazard_name": "SECOND CHANCE",
+        "level": 21,
+        "complexity": "simple",
+        "tags": [
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "In the Beginning",
+            "raw_text": "The triggering creature and up to five coconspirators instantly revert to infants, losing all memories, class abilities, and other skills acquired during their lives (DC 44 Fortitude negates). Reversing this effect is nearly impossible, requiring powerful magic such as wish.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 44,
+                "save_type": "Fortitude",
+                "mode": "negates",
+                "raw_fragment": "DC 44 Fortitude negates"
+              },
+              {
+                "kind": "transform",
+                "transform_type": "age_regression",
+                "raw_fragment": "revert to infants"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "armageddon-orb",
+        "hazard_name": "ARMAGEDDON ORB",
+        "level": 23,
+        "complexity": "simple",
+        "tags": [
+          "rare",
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Burn It All",
+            "raw_text": "Fire rains from the sky in a 100-mile radius, dealing 10d6 fire damage to creatures and objects in the area. Each creature or object can attempt a DC 46 basic Reflex save. Any creature reduced to 0 Hit Points by this damage dies instantly. This is not enough damage to completely burn away a forest or level an entire mountain or city, but it typically kills most creatures in the area.",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "10d6",
+                "damage_type": "fire",
+                "raw_fragment": "10d6 fire"
+              },
+              {
+                "kind": "save_check",
+                "dc": 46,
+                "save_type": "Reflex",
+                "mode": "basic",
+                "raw_fragment": "DC 46 basic Reflex save"
+              },
+              {
+                "kind": "instant_death",
+                "raw_fragment": "dies instantly"
+              },
+              {
+                "kind": "area",
+                "shape": "radius",
+                "size_miles": 100,
+                "raw_fragment": "100-mile radius"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 4,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "summoning-rune",
+        "hazard_name": "SUMMONING RUNE",
+        "level": 1,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Summon Monster",
+            "raw_text": "This trap summons a specific level 1 creature, determined when the trap is created. The creature rolls initiative and remains for 2d6 rounds, after which the spell ends and the creature disappears. The creature also disappears if someone disables the trap before the duration expires. The summoned creature can use 3 actions each round and can use reactions, unlike most summoned creatures.",
+            "effects": [
+              {
+                "kind": "summon",
+                "creature_level": 1,
+                "raw_fragment": "summons a specific level 1 creature"
+              },
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "drowning-pit",
+        "hazard_name": "DROWNING PIT",
+        "level": 3,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Pitfall",
+            "raw_text": "The triggering creature falls in and takes damage from the fall, reduced by 5 feet for falling into the water (typically 12 bludgeoning damage). A creature can Grab an Edge to avoid falling (page 472). The trapdoor then slams shut, and the hazard rolls initiative.",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "12",
+                "damage_type": "bludgeoning",
+                "approximate": true,
+                "raw_fragment": "typically 12 bludgeoning damage"
+              },
+              {
+                "kind": "forced_movement",
+                "movement_type": "fall",
+                "distance_feet": null,
+                "raw_fragment": "falls in"
+              },
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 3,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "quicksand",
+        "hazard_name": "QUICKSAND",
+        "level": 3,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "environmental"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Submerge",
+            "raw_text": "The triggering creature sinks into the quicksand up to its waist. The quicksand rolls initiative if it hasn\u2019t already.",
+            "effects": [
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "spinning-blade-pillar",
+        "hazard_name": "SPINNING BLADE PILLAR",
+        "level": 4,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Rising Pillar",
+            "raw_text": "The trap pops up in a grid intersection and makes a spinning blade attack against one adjacent creature (if any), then rolls initiative.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              },
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "[one-action] spinning blade",
+            "raw_text": "2d10+5 slashing",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "2d10+5",
+                "damage_type": "slashing",
+                "raw_fragment": "2d10+5 slashing"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "wheel-of-misery",
+        "hazard_name": "WHEEL OF MISERY",
+        "level": 6,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "magical",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Wheel Spin",
+            "raw_text": "The wheel begins to spin and rolls initiative.",
+            "effects": [
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "poisoned-dart-gallery",
+        "hazard_name": "POISONED DART GALLERY",
+        "level": 8,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Dart Volley",
+            "raw_text": "The trap makes a poisoned dart Strike against the triggering creature, then rolls initiative.",
+            "effects": [
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              },
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "trigger_action",
+            "source_name": "Continuous Barrage",
+            "raw_text": "The trap makes a poisoned dart Strike against the triggering creature. Flesset Poison (poison); Saving Throw DC 22 Fortitude; Maximum Duration 6 rounds; Stage 1 1d6 poison damage and clumsy 1 (1 round); Stage 2 2d6 poison damage and clumsy 2 (1 round); Stage 3 3d6 poison damage and clumsy 3 (1 round)",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "1d6",
+                "damage_type": "poison",
+                "raw_fragment": "1d6 poison"
+              },
+              {
+                "kind": "damage",
+                "formula": "2d6",
+                "damage_type": "poison",
+                "raw_fragment": "2d6 poison"
+              },
+              {
+                "kind": "damage",
+                "formula": "3d6",
+                "damage_type": "poison",
+                "raw_fragment": "3d6 poison"
+              },
+              {
+                "kind": "save_check",
+                "dc": 22,
+                "save_type": "Fortitude",
+                "mode": "standard",
+                "raw_fragment": "DC 22 Fortitude"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "clumsy",
+                "value": 1,
+                "raw_fragment": "and clumsy 1"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "clumsy",
+                "value": 2,
+                "raw_fragment": "and clumsy 2"
+              },
+              {
+                "kind": "apply_condition",
+                "condition": "clumsy",
+                "value": 3,
+                "raw_fragment": "and clumsy 3"
+              },
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              },
+              {
+                "kind": "affliction",
+                "raw_fragment": "The trap makes a poisoned dart Strike against the triggering creature. Flesset Poison (poison); Saving Throw DC 22 Fortitude; Maximum Duration 6 rounds; Stage 1 1d6 poison damage and clumsy 1 (1 round); Stage 2 2d6 poison damage and clumsy 2 (1 round); Stage 3 3d6 poison damage and clumsy 3 (1 round)",
+                "save": {
+                  "dc": 22,
+                  "save_type": "Fortitude"
+                },
+                "maximum_duration": {
+                  "amount": 6,
+                  "unit": "round"
+                },
+                "stages": [
+                  {
+                    "stage": 1,
+                    "raw": "1d6 poison damage and clumsy 1 (1 round)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "1d6",
+                        "damage_type": "poison",
+                        "raw_fragment": "1d6 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "clumsy",
+                        "value": 1,
+                        "raw_fragment": "and clumsy 1"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 round)",
+                      "amount": 1,
+                      "unit": "round"
+                    }
+                  },
+                  {
+                    "stage": 2,
+                    "raw": "2d6 poison damage and clumsy 2 (1 round)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "2d6",
+                        "damage_type": "poison",
+                        "raw_fragment": "2d6 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "clumsy",
+                        "value": 2,
+                        "raw_fragment": "and clumsy 2"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 round)",
+                      "amount": 1,
+                      "unit": "round"
+                    }
+                  },
+                  {
+                    "stage": 3,
+                    "raw": "3d6 poison damage and clumsy 3 (1 round)",
+                    "damage": [
+                      {
+                        "kind": "damage",
+                        "formula": "3d6",
+                        "damage_type": "poison",
+                        "raw_fragment": "3d6 poison"
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "kind": "apply_condition",
+                        "condition": "clumsy",
+                        "value": 3,
+                        "raw_fragment": "and clumsy 3"
+                      }
+                    ],
+                    "duration": {
+                      "raw": "(1 round)",
+                      "amount": 1,
+                      "unit": "round"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "duration",
+                "raw": "(1 round)",
+                "amount": 1,
+                "unit": "round"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 10,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "poisoned dart",
+            "raw_text": "3d4 piercing plus flesset poison no multiple attack penalty",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "3d4",
+                "damage_type": "piercing",
+                "raw_fragment": "3d4 piercing"
+              },
+              {
+                "kind": "attack_trigger",
+                "raw_fragment": "attack/strike wording"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "lava-flume-tube",
+        "hazard_name": "LAVA FLUME TUBE",
+        "level": 10,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Flume Activation",
+            "raw_text": "The exits seal instantly and the trap rolls initiative.",
+            "effects": [
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "telekinetic-swarm-trap",
+        "hazard_name": "TELEKINETIC SWARM TRAP",
+        "level": 12,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "magical",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Agitate",
+            "raw_text": "Each telekinetic decoration constructs a cloud of objects in the room (three clouds total) and the trap rolls initiative. The creatures in the room when the trap is triggered become the trap\u2019s targets, regardless of whether they leave the room or other creatures later enter the room. Each decoration targets a different creature if possible. A target creature that moves at least 1 mile from the trap ceases being a target, at which point the decoration designates a new target.",
+            "effects": [
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          },
+          {
+            "source_type": "strike",
+            "source_name": "[one-action] objects",
+            "raw_text": "2d12+10 bludgeoning",
+            "effects": [
+              {
+                "kind": "damage",
+                "formula": "2d12+10",
+                "damage_type": "bludgeoning",
+                "raw_fragment": "2d12+10 bludgeoning"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 1,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "darkside-mirror",
+        "hazard_name": "DARKSIDE MIRROR",
+        "level": 14,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "magical",
+          "mechanical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Reflection of Evil",
+            "raw_text": "The mirror absorbs the creature into the mirror, replacing it with an evil mirror duplicate (DC 34 Reflex to avoid being absorbed into the mirror), and rolls initiative.",
+            "effects": [
+              {
+                "kind": "save_check",
+                "dc": 34,
+                "save_type": "Reflex",
+                "mode": "standard",
+                "raw_fragment": "DC 34 Reflex"
+              },
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      },
+      {
+        "hazard_id": "banshee-s-symphony",
+        "hazard_name": "BANSHEE\u2019S SYMPHONY",
+        "level": 18,
+        "complexity": "complex",
+        "tags": [
+          "complex",
+          "magical",
+          "trap"
+        ],
+        "sources": [
+          {
+            "source_type": "trigger_action",
+            "source_name": "Scream",
+            "raw_text": "The trap releases an arcane wail of the banshee (DC 40) with a 100-foot-radius emanation instead of 40 feet, targeting all living creatures in the area, and rolls initiative.",
+            "effects": [
+              {
+                "kind": "encounter_start",
+                "raw_fragment": "rolls initiative"
+              },
+              {
+                "kind": "area",
+                "shape": "emanation",
+                "size_feet": 100,
+                "raw_fragment": "100-foot-radius emanation"
+              }
+            ],
+            "coverage": {
+              "structured_effect_count": 2,
+              "has_structured_effects": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "coverage_summary": {
+    "total_sources": 38,
+    "covered_sources": 38,
+    "coverage_ratio": 1.0,
+    "effect_kind_counts": {
+      "damage": 25,
+      "forced_movement": 4,
+      "attack_trigger": 13,
+      "save_check": 18,
+      "apply_condition": 12,
+      "affliction": 3,
+      "duration": 6,
+      "area": 7,
+      "instant_death": 2,
+      "transform": 2,
+      "teleport": 1,
+      "special_lethality": 1,
+      "summon": 1,
+      "encounter_start": 10
+    }
+  }
+}

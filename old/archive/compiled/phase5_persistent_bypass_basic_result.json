@@ -1,0 +1,138 @@
+{
+  "battle_id": "phase5_persistent_bypass_basic",
+  "seed": 619,
+  "executed_commands": 2,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 6,
+  "replay_hash": "72b19c1c66850dc8f0ed0302521824836b453c14e4c748d0673ba1654d583a1f",
+  "final_state": {
+    "battle_id": "phase5_persistent_bypass_basic",
+    "round": 1,
+    "active_unit": "target",
+    "units": {
+      "caster": {
+        "team": "pc",
+        "hp": 25,
+        "max_hp": 25,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target": {
+        "team": "enemy",
+        "hp": 18,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": [
+          "fire"
+        ]
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "caster",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "caster",
+        "target": "target",
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "duration_rounds": 1,
+        "tick_timing": "turn_start",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "target": "target"
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "end_turn",
+      "payload": {
+        "actor": "caster",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "target",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "target",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "target",
+      "type": "effect_tick",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "persistent_damage",
+        "target": "target",
+        "damage": {
+          "formula": "2",
+          "rolls": [],
+          "flat_modifier": 2,
+          "raw_total": 2,
+          "total": 2,
+          "damage_type": "fire",
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "bypass": [
+            "fire"
+          ]
+        },
+        "recovery": null,
+        "target_hp": 18
+      }
+    }
+  ]
+}

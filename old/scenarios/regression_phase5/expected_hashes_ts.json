@@ -1,0 +1,14 @@
+{
+  "01_damage_mitigation.json": "a15018e917451b08b3fd26572cd5bc9a267e0c4e907b616aa8423729e8d199ed",
+  "02_affliction_mitigation.json": "64179b8a8ce379db7cac07865d2d8ea4fea95c1e7a4ca332f7bb9883b9a49fa5",
+  "03_mitigation_bypass.json": "d2ee7c1721b2937697524abc2a648a0c40a0c56742c7d0830a30ca002726c632",
+  "04_persistent_bypass.json": "603ec06f79a070533f268a173b1b193829dc8fbafe1f3bea154c45057b63f334",
+  "05_grouped_mitigation.json": "375690cf3dbaaaf8dd2a90cec5a54451f6a3f3dbe793a93c2af1917a330fdcb2",
+  "06_mitigation_precedence.json": "22f820e33421472f0e494f30fa2a81f9029ab927b1b7bd3f55c60c27f5b0dcc6",
+  "07_temp_hp_basic.json": "3629a950f57bade028f7c39f0e02758b80a9d4b2acebb2c3f1e758f3c56311db",
+  "08_temp_hp_effect.json": "faf30d5c9ce70e073a818fe822aaeda8bc08bf07477c9d3526691e43e671a63c",
+  "09_temp_hp_expire.json": "8792634840be78c280374680e628433227ee06b41cfafbce36725a2ca6630745",
+  "10_temp_hp_source_policy.json": "b944ed5768c3e4dfe4c0000425dce83393b209f64b364792622cb2a3a9ce0c27",
+  "11_persistent_recovery.json": "05dc9be8932698e211f796b386e12e0245b89e8c02f703d5ef77a164ccad48f2",
+  "12_condition_immunity.json": "8d79cc2fab93088f91412541935749e956e884a4b3e9036cb54ec1356029e9e6"
+}

@@ -1,0 +1,156 @@
+{
+  "battle_id": "phase5_temp_hp_effect_basic",
+  "seed": 609,
+  "executed_commands": 3,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 6,
+  "replay_hash": "cbdebb0814efe63cf96c92d473710b0140f293979d101004aa48af34adad50d4",
+  "final_state": {
+    "battle_id": "phase5_temp_hp_effect_basic",
+    "round": 1,
+    "active_unit": "striker",
+    "units": {
+      "buffer": {
+        "team": "pc",
+        "hp": 13,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "striker": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "buffer",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "buffer",
+        "target": "buffer",
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "duration_rounds": null,
+        "tick_timing": null,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "target": "buffer",
+        "requested_amount": 5,
+        "stack_mode": "max",
+        "cross_source": "higher_only",
+        "source_key": "unit:buffer",
+        "temp_hp_before": 0,
+        "temp_hp_after": 5,
+        "temp_hp_source_before": null,
+        "temp_hp_source_after": "unit:buffer",
+        "granted": 5,
+        "applied": true,
+        "decision": "same_source_refresh",
+        "reason": null
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "end_turn",
+      "payload": {
+        "actor": "buffer",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "striker",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "striker",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "striker",
+      "type": "strike",
+      "payload": {
+        "actor": "striker",
+        "target": "buffer",
+        "degree": "critical_success",
+        "roll": {
+          "die": 19,
+          "modifier": 100,
+          "total": 119,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 16
+        },
+        "damage": {
+          "formula": "6",
+          "damage_type": "physical",
+          "rolls": [],
+          "flat_modifier": 6,
+          "multiplier": 2,
+          "raw_total": 12,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 12,
+          "temp_hp_absorbed": 5
+        },
+        "target_hp": 13,
+        "actions_remaining": 2
+      }
+    }
+  ]
+}

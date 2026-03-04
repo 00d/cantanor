@@ -1,0 +1,1519 @@
+/* Global reset and split viewport layout */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --canvas-ratio: 62%;
+  --ui-ratio: 38%;
+  --bg-dark: #0f0f1a;
+  --bg-panel: #1a1a2e;
+  --bg-panel-alt: #16213e;
+  --border-color: #2a2a4a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0b0;
+  --accent-blue: #4488ff;
+  --accent-red: #ff4444;
+  --accent-green: #44ff88;
+  --accent-orange: #ffaa22;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Split viewport root
+   ============================================================ */
+.app-root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Canvas section — 62% */
+.canvas-section {
+  width: var(--canvas-ratio);
+  height: 100%;
+  background: #0a0a14;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.battle-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  display: block;
+}
+
+/* UI panels section — 38% */
+.ui-section {
+  width: var(--ui-ratio);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border-color);
+  background: var(--bg-panel);
+  overflow: hidden;
+}
+
+/* ============================================================
+   Turn-order ribbon
+   ------------------------------------------------------------
+   Horizontal initiative strip. Team colour lives on the left
+   border only — the top/right/bottom border are the state-
+   channel (active/selected). Keeping those two concerns on
+   separate sides means the team stripe is never overwritten
+   by a state border, so the "friend or foe" read survives on
+   the acting-now chip, which is exactly when it matters most.
+   ============================================================ */
+.turn-ribbon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.turn-ribbon-round {
+  flex: 0 0 auto;
+  /* Sticky so the round counter stays visible while chips scroll past it.
+     Needs an opaque bg — without one the chips slide underneath and bleed
+     through. z-index:1 because the chips sit at z:auto (=0) and auto vs
+     auto is paint-order, which sticky loses once scrolled. */
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg-panel);
+  padding: 0 10px 0 2px;
+  margin-right: 2px;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+
+.turn-chip {
+  flex: 0 0 auto;
+  min-width: 68px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--bg-panel-alt);
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1.3;
+  /* Team stripe on the left, state border on the other three sides. */
+  border-left:   4px solid #888888;
+  border-top:    1px solid var(--border-color);
+  border-right:  1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.turn-chip:hover {
+  background: #1e2a4a;
+}
+
+/* Team stripe — colours match spriteManager.ts TEAM_COLORS exactly so the
+   chip reads the same as the square on the map. */
+.turn-chip.team-pc      { border-left-color: var(--accent-blue);   }
+.turn-chip.team-ally    { border-left-color: var(--accent-green);  }
+.turn-chip.team-enemy   { border-left-color: var(--accent-red);    }
+.turn-chip.team-neutral { border-left-color: var(--accent-orange); }
+.turn-chip.team-unknown { border-left-color: #888888;              }
+
+/* Active = acting now. Glow + bright 3-side border. Team stripe untouched. */
+.turn-chip.active {
+  border-top-color:    var(--accent-blue);
+  border-right-color:  var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+  background: #1e2a4a;
+  box-shadow: 0 0 6px rgba(68, 136, 255, 0.5);
+}
+
+/* Selected = player clicked it. Same 3-side border, no glow — the glow is
+   reserved for "acting now" so the two never compete visually. */
+.turn-chip.selected:not(.active) {
+  border-top-color:    var(--accent-blue);
+  border-right-color:  var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+}
+
+/* Dead units stay visible — see TurnOrderRibbon.tsx header for rationale.
+   No pointer-events:none: title= tooltips still work on a faded chip. */
+.turn-chip.dead {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.turn-chip.dead:hover {
+  /* Kill the hover bg — nothing happens on click, don't invite one. */
+  background: var(--bg-panel-alt);
+}
+
+.chip-label {
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Long scenario unit-ids get clipped; full name is in the title= tooltip. */
+  max-width: 96px;
+}
+
+.chip-hp {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   Party panel
+   ============================================================ */
+.party-panel {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color);
+  max-height: 40%;
+  overflow-y: auto;
+}
+
+.party-panel h3,
+.combat-log-panel h3,
+.action-panel h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.team-group {
+  margin-bottom: 8px;
+}
+
+.team-label {
+  font-size: 10px;
+  color: var(--accent-blue);
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+
+.unit-row {
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 2px;
+  border: 1px solid transparent;
+}
+
+.unit-row:hover {
+  background: var(--bg-panel-alt);
+}
+
+.unit-row.selected {
+  border-color: var(--accent-blue);
+  background: #1e2a4a;
+}
+
+.unit-row.dead {
+  opacity: 0.5;
+}
+
+.unit-id {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.hp-bar-track {
+  width: 100%;
+  height: 6px;
+  background: #2a2a3a;
+  border-radius: 3px;
+  margin: 3px 0;
+  overflow: hidden;
+}
+
+.hp-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.2s ease, background-color 0.3s ease;
+}
+
+.unit-stats {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.temp-hp {
+  color: var(--accent-blue);
+}
+
+.conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.condition-tag {
+  font-size: 10px;
+  background: #2a1a1a;
+  color: var(--accent-orange);
+  border-radius: 2px;
+  padding: 1px 4px;
+}
+
+.condition-rounds {
+  margin-left: 2px;
+  opacity: 0.55;
+  font-size: 9px;
+}
+
+.active-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin: 3px 0 5px;
+}
+
+/* ============================================================
+   Combat log panel
+   ============================================================ */
+.combat-log-panel {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color);
+  min-height: 0;
+}
+
+.log-entries {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.log-empty {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.log-entry {
+  padding: 1px 0;
+  border-bottom: 1px solid #1a1a2a;
+}
+
+.log-battle_end {
+  color: var(--accent-green);
+  font-weight: bold;
+}
+
+.log-command_error {
+  color: var(--accent-red);
+}
+
+.log-use_feat,
+.log-use_item {
+  color: #c4a0e8;
+}
+
+.log-effect_apply {
+  color: var(--text-secondary);
+  padding-left: 8px;
+}
+
+.log-effect_expire {
+  color: #666;
+  padding-left: 8px;
+  font-style: italic;
+}
+
+/* ============================================================
+   Action panel
+   ============================================================ */
+.action-panel {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+}
+
+.action-panel.empty {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.active-unit-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.actor-name {
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+
+.pip {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+.pip.filled {
+  background: var(--accent-blue);
+}
+
+.pip.empty {
+  background: #2a2a4a;
+}
+
+.actions-pip {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.action-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: background 0.15s;
+}
+
+.action-btn:hover {
+  background: #1e2a4a;
+  border-color: var(--accent-blue);
+}
+
+.action-btn.end-turn {
+  border-color: var(--accent-orange);
+}
+
+.action-btn.end-turn:hover {
+  background: #2a1a0a;
+}
+
+/* Undo sits in the same row but isn't a PF2e action — muted border so it
+   reads as meta, not as something that costs an action pip. The enabled
+   state (stack non-empty) still gets the blue hover from .action-btn:hover. */
+.action-btn.undo {
+  border-color: #555;
+}
+
+.action-hint {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* ============================================================
+   Inspect panel — stats for a non-active selected unit
+   ============================================================ */
+.inspect-panel {
+  margin-top: 10px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+.inspect-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.inspect-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.inspect-unit-id {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.inspect-team {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--bg-panel-alt);
+}
+
+.inspect-team.team-pc,
+.inspect-team.team-player,
+.inspect-team.team-party {
+  color: #4488ff;
+}
+
+.inspect-team.team-enemy {
+  color: #ff4444;
+}
+
+.inspect-team.team-ally {
+  color: #44ff88;
+}
+
+.inspect-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.inspect-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-panel-alt);
+  border-radius: 3px;
+  padding: 3px 4px;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stat-value {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.inspect-dead {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #e53935;
+  font-weight: bold;
+  text-align: center;
+}
+
+.inspect-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   Scenario loader panel
+   ============================================================ */
+.scenario-loader {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+}
+
+.scenario-loader h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.scenario-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scenario-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.scenario-btn:hover:not(:disabled) {
+  background: #1e2a4a;
+  border-color: var(--accent-blue);
+}
+
+.scenario-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scenario-btn--continue {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.scenario-btn--continue:hover:not(:disabled) {
+  background: #0e2218;
+  border-color: var(--accent-green);
+}
+
+.scenario-section {
+  margin-bottom: 8px;
+}
+
+.scenario-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.loader-error {
+  padding: 6px;
+  margin-bottom: 6px;
+  background: #2a1010;
+  border: 1px solid var(--accent-red);
+  border-radius: 3px;
+  color: var(--accent-red);
+  font-size: 11px;
+}
+
+.loader-loaded {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.loaded-info {
+  font-size: 11px;
+  color: var(--accent-green);
+}
+
+.tiled-badge {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--accent-blue);
+  opacity: 0.8;
+}
+
+.loader-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.btn-clear {
+  padding: 4px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+
+.btn-clear:hover:not(:disabled) {
+  background: #2a1010;
+  border-color: var(--accent-red);
+}
+
+.loader-spinner {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   Mode Toggle
+   ============================================================ */
+.mode-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  display: flex;
+  gap: 4px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.mode-btn {
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.mode-btn:hover {
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+}
+
+.mode-btn.active {
+  background: var(--accent-blue);
+  color: #ffffff;
+  border-color: var(--accent-blue);
+}
+
+/* ============================================================
+   Designer Section
+   ============================================================ */
+.designer-section {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+
+/* ============================================================
+   Scenario Viewer
+   ============================================================ */
+.scenario-viewer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.viewer-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.viewer-browser {
+  width: 350px;
+  height: 100%;
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-panel);
+  overflow-y: auto;
+}
+
+.viewer-inspector {
+  flex: 1;
+  height: 100%;
+  background: var(--bg-dark);
+  overflow-y: auto;
+}
+
+/* ============================================================
+   Scenario File Browser
+   ============================================================ */
+.scenario-file-browser {
+  padding: 16px;
+}
+
+.browser-header {
+  margin-bottom: 16px;
+}
+
+.browser-header h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.browser-subtitle {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.browser-error {
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: #2a1010;
+  border: 1px solid var(--accent-red);
+  border-radius: 3px;
+  color: var(--accent-red);
+  font-size: 12px;
+}
+
+.browser-loading {
+  padding: 8px 12px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 12px;
+}
+
+.scenario-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scenario-group {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.group-header {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-panel-alt);
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.group-header:hover {
+  background: #1e2a4a;
+}
+
+.expand-icon {
+  width: 12px;
+  font-size: 10px;
+}
+
+.group-name {
+  flex: 1;
+  text-align: left;
+  font-weight: bold;
+}
+
+.group-count {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.scenario-list {
+  background: var(--bg-panel);
+  display: flex;
+  flex-direction: column;
+}
+
+.scenario-item {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.scenario-item:hover:not(:disabled) {
+  background: var(--bg-panel-alt);
+}
+
+.scenario-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scenario-name {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.scenario-description {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   Scenario Inspector
+   ============================================================ */
+.scenario-inspector {
+  padding: 16px;
+  max-width: 900px;
+}
+
+.scenario-inspector.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.inspector-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inspector-title h3 {
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.unsaved-indicator {
+  color: var(--accent-orange);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.inspector-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.inspector-actions button {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.inspector-actions button:hover {
+  background: #1e2a4a;
+  border-color: var(--accent-blue);
+}
+
+.btn-preview {
+  border-color: var(--accent-green) !important;
+}
+
+.btn-preview:hover {
+  background: #1a2a1a !important;
+}
+
+.btn-export {
+  border-color: var(--accent-blue) !important;
+}
+
+.btn-close {
+  border-color: var(--accent-red) !important;
+}
+
+.btn-close:hover {
+  background: #2a1010 !important;
+}
+
+.inspector-section {
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-blue);
+  margin-bottom: 8px;
+}
+
+.file-path {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: 'Courier New', monospace;
+  padding: 6px 8px;
+  background: var(--bg-panel);
+  border-radius: 3px;
+  word-break: break-all;
+}
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.property-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.property-input {
+  padding: 6px 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.property-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.property-info {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  background: var(--bg-panel);
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.units-summary {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: var(--bg-panel);
+  border-radius: 3px;
+}
+
+.team-summary {
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.team-name {
+  color: var(--text-secondary);
+}
+
+.team-count {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.units-list,
+.commands-list,
+.objectives-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.unit-item,
+.command-item,
+.objective-item {
+  padding: 6px 8px;
+  background: var(--bg-panel);
+  border-radius: 3px;
+  font-size: 11px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.unit-id,
+.command-type,
+.objective-id {
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.unit-team,
+.command-actor,
+.objective-type {
+  color: var(--text-secondary);
+}
+
+.unit-hp,
+.unit-pos {
+  color: var(--text-secondary);
+  font-size: 10px;
+}
+
+.command-more {
+  padding: 6px 8px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* ============================================================
+   Inspector Empty State
+   ============================================================ */
+.inspector-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+}
+
+.empty-state {
+  text-align: center;
+  max-width: 500px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.empty-hint {
+  text-align: left;
+  padding: 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.empty-hint strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent-blue);
+}
+
+.empty-hint ul {
+  margin-left: 20px;
+  color: var(--text-secondary);
+}
+
+.empty-hint li {
+  margin-bottom: 4px;
+}
+
+
+/* ============================================================
+   Interactive Actions
+   ============================================================ */
+.target-mode-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: #2a3a1a;
+  border: 1px solid var(--accent-green);
+  border-radius: 3px;
+}
+
+.target-mode-text {
+  font-size: 12px;
+  color: var(--accent-green);
+  font-weight: bold;
+}
+
+.btn-cancel-target {
+  padding: 4px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+
+.btn-cancel-target:hover {
+  background: #2a1010;
+  border-color: var(--accent-red);
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--border-color);
+}
+
+.action-btn:disabled:hover {
+  background: var(--bg-panel-alt);
+  border-color: var(--border-color);
+}
+
+/* ============================================================
+   Action panel section labels + AI turn banner
+   ============================================================ */
+.action-section-label {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 10px 0 6px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ai-turn-banner {
+  padding: 10px 12px;
+  background: #1a1010;
+  border: 1px solid var(--accent-red);
+  border-radius: 3px;
+  color: var(--accent-red);
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   Abilities section (spells / feats / items)
+   ============================================================ */
+.abilities-section {
+  margin-top: 4px;
+}
+
+.ability-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.ability-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all 0.15s;
+  min-width: 0;
+}
+
+.ability-btn:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+
+.ability-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Spell — blue-purple theme */
+.kind-spell {
+  border-color: #6655cc;
+  background: #1a1530;
+}
+.kind-spell .ability-icon {
+  color: #aa88ff;
+}
+
+/* Feat — gold theme */
+.kind-feat {
+  border-color: #887722;
+  background: #1e1a10;
+}
+.kind-feat .ability-icon {
+  color: var(--accent-orange);
+}
+
+/* Item — teal theme */
+.kind-item {
+  border-color: #226644;
+  background: #101e18;
+}
+.kind-item .ability-icon {
+  color: var(--accent-green);
+}
+
+.ability-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.ability-uses {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+.ability-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+/* Number-key hotkey badge on ability buttons */
+.ability-hotkey {
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 9px;
+  font-weight: bold;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Battle-end overlay
+   ============================================================ */
+.battle-end-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.battle-end-card {
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 36px 48px;
+  min-width: 340px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+}
+
+.battle-end-card.victory {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 40px rgba(68, 255, 136, 0.15);
+}
+
+.battle-end-card.defeat {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 40px rgba(255, 68, 68, 0.15);
+}
+
+.battle-end-card.draw {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 40px rgba(255, 170, 34, 0.12);
+}
+
+.battle-end-heading {
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+}
+
+.victory .battle-end-heading  { color: var(--accent-green);  }
+.defeat  .battle-end-heading  { color: var(--accent-red);    }
+.draw    .battle-end-heading  { color: var(--accent-orange); }
+
+.battle-end-subheading {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.battle-end-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.battle-end-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn-play-again,
+.btn-new-scenario {
+  padding: 9px 22px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.btn-play-again {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.btn-play-again:hover {
+  background: #0e2018;
+}
+
+.btn-new-scenario:hover {
+  background: #1e2030;
+  border-color: var(--accent-blue);
+}
+
+/* ============================================================
+   Forecast tooltip — strike hit/damage preview
+   Absolutely positioned in the bottom-left of the canvas area.
+   ============================================================ */
+.forecast-tooltip {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 5;
+  background: rgba(22, 33, 62, 0.96);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 4px;
+  padding: 10px 14px;
+  min-width: 220px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  pointer-events: none; /* don't intercept canvas clicks */
+}
+
+.forecast-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.forecast-actor  { color: var(--accent-blue); font-weight: bold; }
+.forecast-target { color: var(--accent-red);  font-weight: bold; }
+.forecast-arrow  { opacity: 0.5; }
+
+.forecast-hit {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 3px;
+}
+
+.forecast-hit-pct {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.forecast-hit-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.forecast-hit-crit {
+  font-size: 11px;
+  color: var(--accent-orange);
+  margin-left: auto;
+}
+
+.forecast-dmg {
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.forecast-dmg-detail {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.forecast-mods {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: var(--text-secondary);
+  padding-top: 6px;
+  border-top: 1px solid var(--border-color);
+}
+
+.forecast-mod-map {
+  color: var(--accent-red);
+  font-weight: bold;
+}
+
+.forecast-mod-cover {
+  color: var(--accent-orange);
+}
+

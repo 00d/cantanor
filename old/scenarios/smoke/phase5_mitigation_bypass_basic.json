@@ -1,0 +1,102 @@
+{
+  "battle_id": "phase5_mitigation_bypass_basic",
+  "seed": 617,
+  "map": {
+    "width": 6,
+    "height": 6,
+    "blocked": []
+  },
+  "units": [
+    {
+      "id": "caster",
+      "team": "pc",
+      "hp": 30,
+      "position": [1, 1],
+      "initiative": 20,
+      "attack_mod": 100,
+      "ac": 18,
+      "damage": "10",
+      "attack_damage_type": "fire",
+      "attack_damage_bypass": ["fire"],
+      "fortitude": 6,
+      "reflex": 6,
+      "will": 6
+    },
+    {
+      "id": "target_strike",
+      "team": "enemy",
+      "hp": 40,
+      "position": [2, 1],
+      "initiative": 10,
+      "attack_mod": 5,
+      "ac": 10,
+      "damage": "1d8+2",
+      "fortitude": 4,
+      "reflex": 4,
+      "will": 4,
+      "resistances": {
+        "fire": 5
+      },
+      "immunities": ["fire"]
+    },
+    {
+      "id": "target_save",
+      "team": "enemy",
+      "hp": 40,
+      "position": [1, 2],
+      "initiative": 9,
+      "attack_mod": 5,
+      "ac": 16,
+      "damage": "1d8+2",
+      "fortitude": 4,
+      "reflex": -10,
+      "will": 4,
+      "immunities": ["fire"]
+    },
+    {
+      "id": "target_area",
+      "team": "enemy",
+      "hp": 40,
+      "position": [2, 2],
+      "initiative": 8,
+      "attack_mod": 5,
+      "ac": 16,
+      "damage": "1d8+2",
+      "fortitude": 4,
+      "reflex": -10,
+      "will": 4,
+      "immunities": ["fire"]
+    }
+  ],
+  "commands": [
+    {
+      "type": "strike",
+      "actor": "caster",
+      "target": "target_strike"
+    },
+    {
+      "type": "save_damage",
+      "actor": "caster",
+      "target": "target_save",
+      "dc": 30,
+      "save_type": "Reflex",
+      "damage": "10",
+      "damage_type": "fire",
+      "damage_bypass": ["fire"],
+      "mode": "basic"
+    },
+    {
+      "type": "area_save_damage",
+      "actor": "caster",
+      "center_x": 1,
+      "center_y": 1,
+      "radius_feet": 10,
+      "dc": 30,
+      "save_type": "Reflex",
+      "damage": "10",
+      "damage_type": "fire",
+      "damage_bypass": ["fire"],
+      "mode": "basic"
+    }
+  ]
+}

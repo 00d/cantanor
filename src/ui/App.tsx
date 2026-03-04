@@ -12,8 +12,10 @@ import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
 import { ForecastTooltip } from "./ForecastTooltip";
+import { TurnOrderBar } from "./TurnOrderBar";
 import { ScenarioLoader } from "./ScenarioLoader";
 import { BattleEndOverlay } from "./BattleEndOverlay";
+import { CampScreen } from "./CampScreen";
 import { ScenarioViewer } from "./designer/ScenarioViewer";
 import { initPixiApp, getPixiLayers, getPixiWorld } from "../rendering/pixiApp";
 import { renderTileMap, clearTileMap, setHoverTile } from "../rendering/tileRenderer";
@@ -30,6 +32,11 @@ import {
   showAllyTargets,
   clearRangeOverlay,
 } from "../rendering/rangeOverlay";
+import {
+  initTerrainOverlay,
+  renderTerrainOverlay,
+  clearTerrainOverlay,
+} from "../rendering/terrainOverlay";
 
 type AppMode = "game" | "designer";
 
@@ -45,6 +52,13 @@ export function App() {
   const targetMode    = useBattleStore((s) => s.targetMode);
   const battleEnded   = useBattleStore((s) => s.battleEnded);
   const isAiTurn      = useBattleStore((s) => s.isAiTurn);
+
+  const campaignDefinition = useBattleStore((s) => s.campaignDefinition);
+  const campaignProgress   = useBattleStore((s) => s.campaignProgress);
+  const showCampScreen     = useBattleStore((s) => s.showCampScreen);
+  const healCampaignParty  = useBattleStore((s) => s.healCampaignParty);
+  const startCampaignStage = useBattleStore((s) => s.startCampaignStage);
+  const clearCampaign      = useBattleStore((s) => s.clearCampaign);
 
   const selectUnit       = useBattleStore((s) => s.selectUnit);
   const setHoverTileStore = useBattleStore((s) => s.setHoverTile);
@@ -78,6 +92,7 @@ export function App() {
       initCamera(getPixiWorld(), app.screen.width, app.screen.height);
       initEffectRenderer(layers.effects);
       initRangeOverlay(layers.overlay);
+      initTerrainOverlay(layers.overlay);
       pixiReadyRef.current = true;
 
       // Game loop ticker — camera lerp + animation queue drain.
@@ -109,6 +124,7 @@ export function App() {
         clearTileMap(mapLayer);
         clearUnits();
         clearRangeOverlay();
+        clearTerrainOverlay();
         clearEffectRenderer();
       } catch { /* PixiJS not yet ready */ }
       return;
@@ -126,6 +142,7 @@ export function App() {
           renderTileMap(layers.map, battle!.battleMap);
         }
 
+        renderTerrainOverlay(battle!.battleMap);
         syncUnits(layers.units, battle!, selectedUnitId, getActiveUnitId(battle!));
 
         // Only re-centre the camera when a new battle is loaded, not on every
@@ -172,7 +189,7 @@ export function App() {
       const tiles = reachableTiles(battle, actorId);
       showMovementRange(tiles, battle);
     } else if (targetMode.type === "strike") {
-      showStrikeTargets(battle, actorId);
+      showStrikeTargets(battle, actorId, targetMode.weaponIndex);
     } else if (["spell", "feat", "item"].includes(targetMode.type)) {
       if (targetMode.allyTarget) {
         showAllyTargets(battle, actorId);
@@ -275,6 +292,26 @@ export function App() {
   }, [setTargetMode, dispatchCommand, toggleGrid]);
 
   // ---------------------------------------------------------------------------
+  // Resize observer — keeps PixiJS camera + renderer in sync when the
+  // canvas-section changes size (e.g. portrait ↔ landscape media query).
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const section = canvas.parentElement;
+    if (!section) return;
+
+    const ro = new ResizeObserver(() => {
+      if (!pixiReadyRef.current) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      resizeCamera(rect.width, rect.height);
+    });
+    ro.observe(section);
+    return () => ro.disconnect();
+  }, []);
+
+  // ---------------------------------------------------------------------------
   // Scroll wheel zoom (non-passive so we can preventDefault)
   // ---------------------------------------------------------------------------
   useEffect(() => {
@@ -362,7 +399,9 @@ export function App() {
           selectUnit(targetUnit.unitId);
           return;
         }
-        dispatchCommand({ type: "strike", actor: actorId, target: targetUnit.unitId });
+        const strikeCmd: Record<string, unknown> = { type: "strike", actor: actorId, target: targetUnit.unitId };
+        if (targetMode.weaponIndex != null) strikeCmd["weapon_index"] = targetMode.weaponIndex;
+        dispatchCommand(strikeCmd);
         setTargetMode(null);
         return;
       }
@@ -454,10 +493,23 @@ export function App() {
         <>
           {/* UI panels section — 38% width */}
           <div className="ui-section">
-            <ScenarioLoader onTiledMapUrl={(url) => { tiledMapUrlRef.current = url; }} />
-            <PartyPanel />
-            <CombatLogPanel />
-            <ActionPanel />
+            <TurnOrderBar />
+            {showCampScreen && campaignDefinition && campaignProgress ? (
+              <CampScreen
+                definition={campaignDefinition}
+                progress={campaignProgress}
+                onHealAtCamp={healCampaignParty}
+                onContinue={() => startCampaignStage()}
+                onExitCampaign={() => { clearCampaign(); handleNewScenario(); }}
+              />
+            ) : (
+              <>
+                <ScenarioLoader onTiledMapUrl={(url) => { tiledMapUrlRef.current = url; }} />
+                <PartyPanel />
+                <CombatLogPanel />
+                <ActionPanel />
+              </>
+            )}
           </div>
 
           {/* Battle-end overlay — renders on top of everything */}

@@ -1,6 +1,5 @@
 /**
  * ID helpers for battle entities and events.
- * Mirrors engine/core/ids.py
  */
 
 const ID_PATTERN = /^[a-z][a-z0-9_-]{1,63}$/;

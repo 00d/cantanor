@@ -1,0 +1,151 @@
+{
+  "battle_id": "phase5_temp_hp_expire_basic",
+  "seed": 610,
+  "executed_commands": 2,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 7,
+  "replay_hash": "a8a67918eec833aa49aeab323d18cdfcc289e4c2fee299ee67f746e9f724b65c",
+  "final_state": {
+    "battle_id": "phase5_temp_hp_expire_basic",
+    "round": 1,
+    "active_unit": "enemy",
+    "units": {
+      "buffer": {
+        "team": "pc",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "enemy": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "buffer",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "buffer",
+        "target": "buffer",
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "duration_rounds": 1,
+        "tick_timing": null,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "target": "buffer",
+        "requested_amount": 5,
+        "stack_mode": "max",
+        "cross_source": "higher_only",
+        "source_key": "unit:buffer",
+        "temp_hp_before": 0,
+        "temp_hp_after": 5,
+        "temp_hp_source_before": null,
+        "temp_hp_source_after": "unit:buffer",
+        "granted": 5,
+        "applied": true,
+        "decision": "same_source_refresh",
+        "reason": null
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "end_turn",
+      "payload": {
+        "actor": "buffer",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "effect_duration",
+      "payload": {
+        "effect_id": "eff_0001",
+        "remaining_rounds": 0,
+        "target": "buffer"
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "buffer",
+      "type": "effect_expire",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "target": "buffer",
+        "stack_mode": "max",
+        "cross_source": "higher_only",
+        "source_key": "unit:buffer",
+        "remove_on_expire": true,
+        "owner_match": true,
+        "source_match": true,
+        "removed_temp_hp": 5,
+        "temp_hp_after": 0
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 1,
+      "active_unit": "enemy",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "enemy",
+        "round": 1
+      }
+    }
+  ]
+}

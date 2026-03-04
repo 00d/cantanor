@@ -1,13 +1,8 @@
 /**
  * Deterministic RNG wrapper with trace metadata.
- * Mirrors engine/core/rng.py
  *
- * Uses a seeded linear congruential generator matching Python's random.Random
- * sequence for cross-language determinism. Python uses the Mersenne Twister
- * (MT19937), which is complex to replicate exactly in JS. For browser use we
- * implement a simple seeded PRNG that is self-consistent across TypeScript runs.
- * Regression hashes are TS-only after the port; Python hashes are kept as
- * reference in the regression fixtures.
+ * Uses a seeded linear congruential generator that is self-consistent across
+ * TypeScript runs.
  */
 
 export interface RollResult {

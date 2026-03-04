@@ -1,0 +1,13 @@
+{
+  "battle_id": "reg_05_hallucination_powder",
+  "seed": 9005,
+  "map": {"width": 12, "height": 12, "blocked": [[5, 4]]},
+  "units": [
+    {"id": "hazard_core", "team": "hazard", "hp": 999, "position": [4, 4], "initiative": 30, "attack_mod": 0, "ac": 10, "damage": "1d1", "fortitude": 0, "reflex": 0, "will": 0},
+    {"id": "pc_front", "team": "pc", "hp": 30, "position": [7, 4], "initiative": 10, "attack_mod": 7, "ac": 17, "damage": "1d8+3", "fortitude": 6, "reflex": 5, "will": 4},
+    {"id": "pc_side", "team": "pc", "hp": 30, "position": [4, 7], "initiative": 9, "attack_mod": 7, "ac": 17, "damage": "1d8+3", "fortitude": 6, "reflex": 5, "will": 4}
+  ],
+  "commands": [
+    {"type": "trigger_hazard_source", "actor": "hazard_core", "hazard_id": "hallucination-powder-trap", "source_name": "Powder Burst", "source_type": "trigger_action", "center_x": 8, "center_y": 4}
+  ]
+}

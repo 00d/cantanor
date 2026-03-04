@@ -1,9 +1,8 @@
 /**
  * Scenario loading and lightweight validation.
- * Mirrors engine/io/scenario_loader.py
  */
 
-import { BattleState, MapState, UnitState } from "../engine/state";
+import { BattleState, MapState, UnitState, WeaponData } from "../engine/state";
 import { buildTurnOrder } from "../engine/turnOrder";
 import type { ResolvedTiledMap } from "./tiledTypes";
 import { resolveScenarioContentContext, type ContentContext } from "./contentPackLoader";
@@ -115,6 +114,10 @@ const VALID_COMMAND_TYPES = new Set([
   "use_feat",
   "use_item",
   "interact",
+  "reload",
+  "raise_shield",
+  "shield_block",
+  "reaction_strike",
 ]);
 
 function validateCommand(
@@ -653,6 +656,32 @@ export function validateScenario(data: Record<string, unknown>): void {
   }
 }
 
+function parseWeapons(rawWeapons: Record<string, unknown>[]): WeaponData[] {
+  return rawWeapons.map((w) => {
+    const wpnType = String(w["type"] ?? "melee");
+    require(wpnType === "melee" || wpnType === "ranged", `weapon type must be melee or ranged, got ${wpnType}`);
+    const weapon: WeaponData = {
+      name: String(w["name"] ?? "weapon"),
+      type: wpnType as "melee" | "ranged",
+      attackMod: Number(w["attack_mod"] ?? 0),
+      damage: String(w["damage"] ?? "1d4"),
+      damageType: String(w["damage_type"] ?? "physical").toLowerCase(),
+    };
+    if (w["damage_bypass"]) {
+      weapon.damageBypass = (w["damage_bypass"] as string[]).map((x) => String(x).toLowerCase());
+    }
+    if (w["reach"] != null) weapon.reach = Number(w["reach"]);
+    if (w["range_increment"] != null) weapon.rangeIncrement = Number(w["range_increment"]);
+    if (w["max_range"] != null) weapon.maxRange = Number(w["max_range"]);
+    if (w["propulsive_mod"] != null) weapon.propulsiveMod = Number(w["propulsive_mod"]);
+    if (Array.isArray(w["traits"])) weapon.traits = (w["traits"] as string[]).map(String);
+    if (w["ammo"] != null) weapon.ammo = Number(w["ammo"]);
+    if (w["reload"] != null) weapon.reload = Number(w["reload"]);
+    if (w["hands"] != null) weapon.hands = Number(w["hands"]);
+    return weapon;
+  });
+}
+
 export function battleStateFromScenario(data: Record<string, unknown>): BattleState {
   const mapData = data["map"] as Record<string, unknown>;
   const blocked: [number, number][] = ((mapData["blocked"] as unknown[]) ?? []).map(
@@ -711,6 +740,22 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
       attacksThisTurn: 0,
       ...(Array.isArray(raw["abilities"]) && { abilities: (raw["abilities"] as string[]).map(String) }),
       abilitiesRemaining: {},
+      ...(Array.isArray(raw["weapons"]) && (() => {
+        const weapons = parseWeapons(raw["weapons"] as Record<string, unknown>[]);
+        const weaponAmmo: Record<number, number> = {};
+        let hasAmmo = false;
+        for (let i = 0; i < weapons.length; i++) {
+          if (weapons[i].ammo != null) {
+            weaponAmmo[i] = weapons[i].ammo!;
+            hasAmmo = true;
+          }
+        }
+        return { weapons, ...(hasAmmo && { weaponAmmo }) };
+      })()),
+      ...(typeof raw["sprite_sheet"] === "string" && { spriteSheet: raw["sprite_sheet"] }),
+      ...(Array.isArray(raw["reactions"]) && { reactions: (raw["reactions"] as string[]).map(String) }),
+      ...(raw["shield_hardness"] != null && { shieldHardness: Number(raw["shield_hardness"]) }),
+      ...(raw["shield_hp"] != null && { shieldHp: Number(raw["shield_hp"]), shieldMaxHp: Number(raw["shield_hp"]), shieldRaised: false }),
     };
   }
 

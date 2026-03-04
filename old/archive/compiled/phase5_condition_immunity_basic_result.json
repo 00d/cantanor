@@ -1,0 +1,152 @@
+{
+  "battle_id": "phase5_condition_immunity_basic",
+  "seed": 605,
+  "executed_commands": 3,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 9,
+  "replay_hash": "31654d07bf55867a00b9d13a7b0ea71760930508bd79278c323f78a11b4e9db1",
+  "final_state": {
+    "battle_id": "phase5_condition_immunity_basic",
+    "round": 2,
+    "active_unit": "caster",
+    "units": {
+      "caster": {
+        "team": "pc",
+        "hp": 24,
+        "max_hp": 24,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "caster",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "caster",
+        "target": "target",
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "duration_rounds": 1,
+        "tick_timing": null,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "target": "target",
+        "condition": "frightened",
+        "value": 2,
+        "applied": false,
+        "reason": "condition_immune"
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "end_turn",
+      "payload": {
+        "actor": "caster",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "target",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "target",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "target",
+      "type": "end_turn",
+      "payload": {
+        "actor": "target",
+        "actions_remaining": 3
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 1,
+      "active_unit": "target",
+      "type": "effect_duration",
+      "payload": {
+        "effect_id": "eff_0001",
+        "remaining_rounds": 0,
+        "target": "target"
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 1,
+      "active_unit": "target",
+      "type": "effect_expire",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "condition",
+        "target": "target",
+        "cleared_condition": "frightened"
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 2,
+      "active_unit": "caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "caster",
+        "round": 2
+      }
+    }
+  ]
+}

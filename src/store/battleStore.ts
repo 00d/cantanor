@@ -35,6 +35,10 @@ import {
   materializeRawCommand,
 } from "../io/battleOrchestrator";
 import { loadScenarioFromUrl } from "../io/scenarioLoader";
+import { type ReactionTrigger, detectMoveReactions, detectDamageReactions } from "../engine/reactions";
+import type { CampaignDefinition, CampaignProgress } from "../campaign/campaignTypes";
+import { snapshotParty, applyPartySnapshot, healPartyAtCamp, resetAbilitiesForBattle } from "../campaign/campaignState";
+import { writeCampaignSave, readCampaignSave, clearCampaignSave } from "../campaign/campaignPersistence";
 
 // ---------------------------------------------------------------------------
 // Re-export useful types for consumers
@@ -138,6 +142,8 @@ export interface TargetMode {
   contentEntryId?: string;
   /** True when the ability targets allies rather than enemies. */
   allyTarget?: boolean;
+  /** Index into the unit's weapons array (used for strike target mode). */
+  weaponIndex?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -171,6 +177,16 @@ export interface BattleStore {
 
   // AI state
   isAiTurn: boolean;
+
+  // Reaction state
+  pendingReaction: ReactionTrigger | null;
+  reactionQueue: ReactionTrigger[];
+
+  // Campaign state
+  campaignDefinition: CampaignDefinition | null;
+  campaignProgress: CampaignProgress | null;
+  /** True when the player is at the camp screen between battles. */
+  showCampScreen: boolean;
 
   // Last loaded scenario URL — used by "Play Again"
   lastScenarioUrl: string | null;
@@ -211,6 +227,19 @@ export interface BattleStore {
   loadSavedGame: () => boolean;
   /** Internal — schedules one AI step after a short delay. */
   _scheduleAiTurn: () => void;
+  /** Resolve a pending reaction (accept or decline). */
+  resolveReaction: (accept: boolean) => void;
+  /** Internal — process next reaction in queue. */
+  _processNextReaction: () => void;
+
+  // Campaign actions
+  loadCampaign: (definition: CampaignDefinition) => void;
+  advanceCampaignStage: () => void;
+  saveCampaignProgress: () => void;
+  healCampaignParty: () => void;
+  startCampaignStage: (stageIndex?: number) => Promise<void>;
+  loadSavedCampaign: () => boolean;
+  clearCampaign: () => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -323,6 +352,13 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     battleEnded: false,
     battleOutcome: null,
     isAiTurn: false,
+
+    pendingReaction: null,
+    reactionQueue: [],
+
+    campaignDefinition: null,
+    campaignProgress: null,
+    showCampScreen: false,
 
     lastScenarioUrl: null,
 
@@ -453,7 +489,41 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         transient.animationQueue.push(...animations);
 
         if (!ended) {
-          get()._scheduleAiTurn();
+          // Detect reaction triggers after move/strike commands
+          const cmdType = String(cmd["type"] ?? "");
+          let triggers: ReactionTrigger[] = [];
+
+          if (cmdType === "move") {
+            // fromX/fromY from the move event
+            const moveEvent = newEvents.find(e => e["type"] === "move");
+            if (moveEvent) {
+              const payload = moveEvent["payload"] as Record<string, unknown>;
+              const from = payload["from"] as number[];
+              if (from) {
+                triggers = detectMoveReactions(nextState, String(cmd["actor"]), from[0], from[1]);
+              }
+            }
+          } else if (cmdType === "strike" || cmdType === "reaction_strike") {
+            // Check for Shield Block triggers after strike damage
+            const strikeEvent = newEvents.find(e => e["type"] === "strike" || e["type"] === "reaction_strike");
+            if (strikeEvent) {
+              const payload = strikeEvent["payload"] as Record<string, unknown>;
+              const dmg = payload["damage"] as Record<string, unknown> | null;
+              if (dmg && Number(dmg["total"] ?? 0) > 0) {
+                const targetId = String(payload["target"]);
+                const damageType = String(dmg["damage_type"] ?? "physical");
+                triggers = detectDamageReactions(nextState, targetId, Number(dmg["total"]), damageType);
+              }
+            }
+          }
+
+          if (triggers.length > 0) {
+            // Queue reactions and process
+            set({ reactionQueue: triggers });
+            get()._processNextReaction();
+          } else {
+            get()._scheduleAiTurn();
+          }
         }
       } catch (err) {
         if (err instanceof ReductionError) {
@@ -519,6 +589,65 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     },
 
     // -------------------------------------------------------------------------
+    _processNextReaction: () => {
+      const { reactionQueue, battle, orchestratorConfig, battleEnded } = get();
+      if (!battle || !orchestratorConfig || battleEnded) {
+        set({ pendingReaction: null, reactionQueue: [] });
+        return;
+      }
+
+      if (reactionQueue.length === 0) {
+        set({ pendingReaction: null });
+        get()._scheduleAiTurn();
+        return;
+      }
+
+      const [next, ...rest] = reactionQueue;
+      set({ reactionQueue: rest, pendingReaction: next });
+
+      // Check if the reactor is AI-controlled — auto-resolve
+      const reactor = battle.units[next.reactorId];
+      if (reactor && !orchestratorConfig.playerTeams.includes(reactor.team)) {
+        // AI always accepts reactions
+        setTimeout(() => {
+          get().resolveReaction(true);
+        }, 300);
+      }
+      // If player-controlled, the UI will show a prompt
+    },
+
+    // -------------------------------------------------------------------------
+    resolveReaction: (accept: boolean) => {
+      const { pendingReaction, battle } = get();
+      if (!pendingReaction || !battle) {
+        set({ pendingReaction: null });
+        get()._processNextReaction();
+        return;
+      }
+
+      if (accept) {
+        if (pendingReaction.reactionType === "attack_of_opportunity" ||
+            pendingReaction.reactionType === "reactive_strike") {
+          get().dispatchCommand({
+            type: "reaction_strike",
+            actor: pendingReaction.reactorId,
+            target: pendingReaction.provokerId,
+          });
+        } else if (pendingReaction.reactionType === "shield_block") {
+          const damageAmount = Number(pendingReaction.data?.["damageAmount"] ?? 0);
+          get().dispatchCommand({
+            type: "shield_block",
+            actor: pendingReaction.reactorId,
+            damage_amount: damageAmount,
+          });
+        }
+      }
+
+      set({ pendingReaction: null });
+      get()._processNextReaction();
+    },
+
+    // -------------------------------------------------------------------------
     reloadLastBattle: async (urlOverride?: string) => {
       const url = urlOverride ?? get().lastScenarioUrl;
       if (!url) return;
@@ -561,10 +690,164 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: saved.selectedUnitId,
         hoveredTilePos: null,
         targetMode: null,
+        pendingReaction: null,
+        reactionQueue: [],
         transient: { animationQueue: [] },
       });
       get()._scheduleAiTurn();
       return true;
+    },
+
+    // -------------------------------------------------------------------------
+    // Campaign actions
+    // -------------------------------------------------------------------------
+    loadCampaign: (definition) => {
+      const progress: CampaignProgress = {
+        campaignId: definition.campaignId,
+        currentStageIndex: 0,
+        completedStages: [],
+        partyState: [],
+      };
+      set({
+        campaignDefinition: definition,
+        campaignProgress: progress,
+        showCampScreen: false,
+      });
+      writeCampaignSave(definition, progress);
+    },
+
+    advanceCampaignStage: () => {
+      const { campaignDefinition, campaignProgress, battle } = get();
+      if (!campaignDefinition || !campaignProgress || !battle) return;
+
+      const currentStage = campaignDefinition.stages[campaignProgress.currentStageIndex];
+      if (!currentStage) return; // bounds safety
+      const partySnaps = snapshotParty(battle);
+
+      const nextIndex = Math.min(
+        campaignProgress.currentStageIndex + 1,
+        campaignDefinition.stages.length,
+      );
+
+      const newProgress: CampaignProgress = {
+        ...campaignProgress,
+        currentStageIndex: nextIndex,
+        completedStages: [...campaignProgress.completedStages, currentStage.stageId],
+        partyState: partySnaps,
+      };
+
+      clearSavedGame(); // clear stale battle save
+      set({
+        campaignProgress: newProgress,
+        showCampScreen: true,
+        battle: null,
+        rng: null,
+        eventLog: [],
+        battleEnded: false,
+        battleOutcome: null,
+        orchestratorConfig: null,
+        contentContext: null,
+        contentEntries: [],
+        isAiTurn: false,
+        tiledMap: null,
+        tiledMapUrl: null,
+        selectedUnitId: null,
+        hoveredTilePos: null,
+        targetMode: null,
+        pendingReaction: null,
+        reactionQueue: [],
+        transient: { animationQueue: [] },
+      });
+
+      writeCampaignSave(campaignDefinition, newProgress);
+    },
+
+    saveCampaignProgress: () => {
+      const { campaignDefinition, campaignProgress } = get();
+      if (campaignDefinition && campaignProgress) {
+        writeCampaignSave(campaignDefinition, campaignProgress);
+      }
+    },
+
+    healCampaignParty: () => {
+      const { campaignProgress, campaignDefinition } = get();
+      if (!campaignProgress || !campaignDefinition) return;
+      const healedParty = healPartyAtCamp(campaignProgress.partyState);
+      const newProgress = { ...campaignProgress, partyState: healedParty };
+      set({ campaignProgress: newProgress });
+      writeCampaignSave(campaignDefinition, newProgress);
+    },
+
+    startCampaignStage: async (stageIndex?: number) => {
+      const { campaignDefinition, campaignProgress } = get();
+      if (!campaignDefinition || !campaignProgress) return;
+
+      const idx = stageIndex ?? campaignProgress.currentStageIndex;
+      if (idx >= campaignDefinition.stages.length) return;
+
+      const stage = campaignDefinition.stages[idx];
+      try {
+        const result = await loadScenarioFromUrl(stage.scenarioUrl);
+        // Apply party snapshot if we have one
+        let battleState = result.battle;
+        if (campaignProgress.partyState.length > 0) {
+          const mergedUnits = applyPartySnapshot(battleState.units, campaignProgress.partyState);
+          // Reset spell/feat uses for new battle (items stay consumed)
+          // Build ability defaults from content pack entries (usesPerDay)
+          const abilityDefaults: Record<string, number> = {};
+          for (const [entryId, entry] of Object.entries(result.contentContext.entryLookup)) {
+            if (entry.usesPerDay != null) {
+              abilityDefaults[entryId] = entry.usesPerDay;
+            }
+          }
+          if (Object.keys(abilityDefaults).length > 0) {
+            for (const unitId of Object.keys(mergedUnits)) {
+              const unit = mergedUnits[unitId];
+              if (unit.team !== "pc") continue;
+              mergedUnits[unitId] = {
+                ...unit,
+                abilitiesRemaining: resetAbilitiesForBattle(unit.abilitiesRemaining, abilityDefaults),
+              };
+            }
+          }
+          battleState = { ...battleState, units: mergedUnits };
+        }
+
+        get().loadBattle(
+          battleState,
+          result.enginePhase,
+          result.tiledMap,
+          result.contentContext,
+          result.rawScenario,
+          result.tiledMapUrl,
+        );
+        set({
+          showCampScreen: false,
+          lastScenarioUrl: stage.scenarioUrl,
+        });
+      } catch (err) {
+        console.error("Failed to load campaign stage:", err);
+      }
+    },
+
+    loadSavedCampaign: () => {
+      const saved = readCampaignSave();
+      if (!saved) return false;
+      set({
+        campaignDefinition: saved.definition,
+        campaignProgress: saved.progress,
+        showCampScreen: true,
+      });
+      return true;
+    },
+
+    clearCampaign: () => {
+      clearCampaignSave();
+      set({
+        campaignDefinition: null,
+        campaignProgress: null,
+        showCampScreen: false,
+      });
     },
 
     // -------------------------------------------------------------------------
@@ -575,6 +858,8 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
 
     clearBattle: () => {
       clearSavedGame();
+      // Only clear campaign if explicitly ending the campaign (via clearCampaign)
+      const { campaignDefinition, campaignProgress } = get();
       set({
         battle: null,
         rng: null,
@@ -590,7 +875,13 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,
+        pendingReaction: null,
+        reactionQueue: [],
         transient: { animationQueue: [] },
+        // Preserve campaign state
+        campaignDefinition,
+        campaignProgress,
+        showCampScreen: false,
       });
     },
   }));

@@ -1,0 +1,35 @@
+{
+  "battle_id": "phase6_enemy_policy_duel_basic",
+  "seed": 6605,
+  "map": {"width": 6, "height": 6, "blocked": []},
+  "enemy_policy": {
+    "enabled": true,
+    "teams": ["pc", "enemy"],
+    "action": "strike_nearest",
+    "auto_end_turn": true
+  },
+  "units": [
+    {
+      "id": "pc_duelist",
+      "team": "pc",
+      "hp": 25,
+      "position": [1, 1],
+      "initiative": 20,
+      "attack_mod": 100,
+      "ac": 16,
+      "damage": "10"
+    },
+    {
+      "id": "enemy_duelist",
+      "team": "enemy",
+      "hp": 25,
+      "position": [2, 1],
+      "initiative": 10,
+      "attack_mod": 100,
+      "ac": 16,
+      "damage": "10"
+    }
+  ],
+  "commands": [],
+  "max_steps": 20
+}

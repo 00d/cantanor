@@ -1,6 +1,5 @@
 /**
  * Tests for command authoring helpers.
- * Ported from tests/contract/test_command_authoring.py
  *
  * These tests validate:
  * - Content entry listing and filtering

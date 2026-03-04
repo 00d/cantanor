@@ -1,0 +1,201 @@
+{
+  "battle_id": "poisoned_dart_gallery_basic",
+  "seed": 303,
+  "executed_commands": 6,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 10,
+  "replay_hash": "3e19c237efd62f5f97ef2c3fa55566eb1184b8545a892039b3adb4ec364d5bbc",
+  "final_state": {
+    "battle_id": "poisoned_dart_gallery_basic",
+    "round": 2,
+    "active_unit": "dungeon_slime",
+    "units": {
+      "dungeon_slime": {
+        "team": "enemy",
+        "hp": 14,
+        "max_hp": 19,
+        "position": [
+          1,
+          3
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "pc_ranger": {
+        "team": "pc",
+        "hp": 18,
+        "max_hp": 18,
+        "position": [
+          0,
+          3
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "pc_ranger",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_ranger",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "pc_ranger",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_ranger",
+        "target": "dungeon_slime",
+        "degree": "failure",
+        "roll": {
+          "die": 2,
+          "modifier": 7,
+          "total": 9,
+          "base_dc": 14,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 14
+        },
+        "damage": null,
+        "target_hp": 19,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc_ranger",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_ranger",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "dungeon_slime",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "dungeon_slime",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "dungeon_slime",
+      "type": "strike",
+      "payload": {
+        "actor": "dungeon_slime",
+        "target": "pc_ranger",
+        "degree": "failure",
+        "roll": {
+          "die": 8,
+          "modifier": 4,
+          "total": 12,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 16
+        },
+        "damage": null,
+        "target_hp": 18,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "dungeon_slime",
+      "type": "end_turn",
+      "payload": {
+        "actor": "dungeon_slime",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 2,
+      "active_unit": "pc_ranger",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_ranger",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 2,
+      "active_unit": "pc_ranger",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_ranger",
+        "target": "dungeon_slime",
+        "degree": "success",
+        "roll": {
+          "die": 7,
+          "modifier": 7,
+          "total": 14,
+          "base_dc": 14,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 14
+        },
+        "damage": {
+          "formula": "1d6+4",
+          "damage_type": "physical",
+          "rolls": [
+            1
+          ],
+          "flat_modifier": 4,
+          "multiplier": 1,
+          "raw_total": 5,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 5
+        },
+        "target_hp": 14,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 2,
+      "active_unit": "pc_ranger",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_ranger",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000009",
+      "round": 2,
+      "active_unit": "dungeon_slime",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "dungeon_slime",
+        "round": 2
+      }
+    }
+  ]
+}

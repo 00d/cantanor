@@ -1,0 +1,255 @@
+{
+  "battle_id": "phase6_enemy_policy_duel_basic",
+  "seed": 6605,
+  "executed_commands": 0,
+  "auto_executed_commands": 5,
+  "stop_reason": "battle_end",
+  "event_count": 12,
+  "replay_hash": "73ebae7d8a36d1303b2c55bc49bc6a02fe448a7f422bcfcfc23af7b2fe9b88f7",
+  "final_state": {
+    "battle_id": "phase6_enemy_policy_duel_basic",
+    "round": 2,
+    "active_unit": "pc_duelist",
+    "units": {
+      "enemy_duelist": {
+        "team": "enemy",
+        "hp": 0,
+        "max_hp": 25,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "pc_duelist": {
+        "team": "pc",
+        "hp": 5,
+        "max_hp": 25,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "pc_duelist",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_duelist",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_policy_0000",
+      "round": 1,
+      "active_unit": "pc_duelist",
+      "type": "enemy_policy_decision",
+      "payload": {
+        "command": {
+          "type": "strike",
+          "actor": "pc_duelist",
+          "target": "enemy_duelist"
+        }
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "pc_duelist",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_duelist",
+        "target": "enemy_duelist",
+        "degree": "critical_success",
+        "roll": {
+          "die": 3,
+          "modifier": 100,
+          "total": 103,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 16
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "physical",
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 20
+        },
+        "target_hp": 5,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "pc_duelist",
+      "type": "end_turn",
+      "payload": {
+        "actor": "pc_duelist",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "enemy_duelist",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "enemy_duelist",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_policy_0002",
+      "round": 1,
+      "active_unit": "enemy_duelist",
+      "type": "enemy_policy_decision",
+      "payload": {
+        "command": {
+          "type": "strike",
+          "actor": "enemy_duelist",
+          "target": "pc_duelist"
+        }
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "enemy_duelist",
+      "type": "strike",
+      "payload": {
+        "actor": "enemy_duelist",
+        "target": "pc_duelist",
+        "degree": "critical_success",
+        "roll": {
+          "die": 5,
+          "modifier": 100,
+          "total": 105,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 16
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "physical",
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 20
+        },
+        "target_hp": 5,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "enemy_duelist",
+      "type": "end_turn",
+      "payload": {
+        "actor": "enemy_duelist",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 2,
+      "active_unit": "pc_duelist",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "pc_duelist",
+        "round": 2
+      }
+    },
+    {
+      "event_id": "ev_policy_0004",
+      "round": 2,
+      "active_unit": "pc_duelist",
+      "type": "enemy_policy_decision",
+      "payload": {
+        "command": {
+          "type": "strike",
+          "actor": "pc_duelist",
+          "target": "enemy_duelist"
+        }
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 2,
+      "active_unit": "pc_duelist",
+      "type": "strike",
+      "payload": {
+        "actor": "pc_duelist",
+        "target": "enemy_duelist",
+        "degree": "critical_success",
+        "roll": {
+          "die": 11,
+          "modifier": 100,
+          "total": 111,
+          "base_dc": 16,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 16
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "physical",
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "total": 20
+        },
+        "target_hp": 0,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_done_0005",
+      "round": 2,
+      "active_unit": "pc_duelist",
+      "type": "battle_end",
+      "payload": {
+        "winner_team": "pc"
+      }
+    }
+  ]
+}

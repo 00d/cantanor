@@ -1,0 +1,55 @@
+{
+  "battle_id": "m35_affliction_tick_basic",
+  "seed": 888,
+  "map": {
+    "width": 8,
+    "height": 8,
+    "blocked": []
+  },
+  "units": [
+    {
+      "id": "hazard_core",
+      "team": "hazard",
+      "hp": 999,
+      "position": [3, 3],
+      "initiative": 20,
+      "attack_mod": 0,
+      "ac": 10,
+      "damage": "1d1",
+      "fortitude": 0,
+      "reflex": 0,
+      "will": 0
+    },
+    {
+      "id": "pc_1",
+      "team": "pc",
+      "hp": 40,
+      "position": [3, 4],
+      "initiative": 10,
+      "attack_mod": 7,
+      "ac": 17,
+      "damage": "1d8+3",
+      "fortitude": -5,
+      "reflex": 4,
+      "will": 3
+    }
+  ],
+  "commands": [
+    {
+      "type": "trigger_hazard_source",
+      "actor": "hazard_core",
+      "hazard_id": "poisoned-dart-gallery",
+      "source_name": "Continuous Barrage",
+      "source_type": "trigger_action",
+      "target": "pc_1"
+    },
+    {
+      "type": "end_turn",
+      "actor": "hazard_core"
+    },
+    {
+      "type": "end_turn",
+      "actor": "pc_1"
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 /**
  * Effect lifecycle hooks for apply/tick/expire phases.
- * Mirrors engine/effects/lifecycle.py
  *
  * Pathfinder 2e ORC affliction rules: staged disease/poison with save
  * progression. Persistent damage with recovery checks. Temp HP stacking policies.

@@ -1,0 +1,146 @@
+{
+  "battle_id": "phase5_grouped_mitigation_basic",
+  "seed": 606,
+  "executed_commands": 2,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 3,
+  "replay_hash": "c74ff645c104fddfb14c4c1f14d6e1dc4a3427aeadaae2120de5c901076f96f9",
+  "final_state": {
+    "battle_id": "phase5_grouped_mitigation_basic",
+    "round": 1,
+    "active_unit": "caster",
+    "units": {
+      "caster": {
+        "team": "pc",
+        "hp": 30,
+        "max_hp": 30,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "slashing",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target_energy": {
+        "team": "enemy",
+        "hp": 18,
+        "max_hp": 40,
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {
+          "energy": 2
+        },
+        "immunities": []
+      },
+      "target_physical": {
+        "team": "enemy",
+        "hp": 24,
+        "max_hp": 40,
+        "position": [
+          1,
+          2
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {
+          "physical": 4
+        },
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "caster",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "save_damage",
+      "payload": {
+        "actor": "caster",
+        "target": "target_energy",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "roll": {
+          "die": 2,
+          "modifier": -10,
+          "total": -8,
+          "dc": 30,
+          "degree": "critical_failure"
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "fire",
+          "rolled_total": 10,
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2.0,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 2,
+          "applied_total": 22
+        },
+        "target_hp": 18,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "caster",
+      "type": "strike",
+      "payload": {
+        "actor": "caster",
+        "target": "target_physical",
+        "degree": "critical_success",
+        "roll": {
+          "die": 12,
+          "modifier": 100,
+          "total": 112,
+          "base_dc": 10,
+          "cover_grade": "none",
+          "cover_bonus": 0,
+          "dc": 10
+        },
+        "damage": {
+          "formula": "10",
+          "damage_type": "slashing",
+          "rolls": [],
+          "flat_modifier": 10,
+          "multiplier": 2,
+          "raw_total": 20,
+          "immune": false,
+          "resistance_total": 4,
+          "weakness_total": 0,
+          "total": 16
+        },
+        "target_hp": 24,
+        "actions_remaining": 1
+      }
+    }
+  ]
+}

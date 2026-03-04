@@ -12,16 +12,10 @@
  */
 
 import { useBattleStore } from "../store/battleStore";
-import { activeUnitId, unitAlive } from "../engine/state";
+import { activeUnitId, unitAlive, resolveWeapon } from "../engine/state";
 import { strikeForecast } from "../engine/forecast";
-import { coverAcBonusForUnits } from "../grid/loe";
-
-/** Mirror the reducer's MAP table — no shared export worth adding for three lines. */
-function mapPenalty(attacksThisTurn: number): number {
-  if (attacksThisTurn <= 0) return 0;
-  if (attacksThisTurn === 1) return -5;
-  return -10;
-}
+import { adjustCoverForMelee, coverAcBonusFromGrade, coverGradeForUnits } from "../grid/loe";
+import { isAgile, mapPenalty, volleyPenalty, deadlyDice, fatalDice, thrownRange } from "../engine/traits";
 
 function pct(n: number): string {
   return `${Math.round(n * 100)}%`;
@@ -45,17 +39,62 @@ export function ForecastTooltip() {
   );
   if (!target) return null;
 
-  // Reach gate — don't show a forecast the player can't act on.
-  const reach = actor.reach ?? 1;
+  // Resolve weapon for forecast
+  let weapon;
+  try {
+    weapon = resolveWeapon(actor, targetMode.weaponIndex);
+  } catch {
+    return null;
+  }
+
   const dist = Math.max(Math.abs(actor.x - target.x), Math.abs(actor.y - target.y));
-  if (dist > reach) return null;
 
-  const coverBonus = coverAcBonusForUnits(battle, actor, target);
-  const mapPen = mapPenalty(actor.attacksThisTurn);
-  const effectiveMod = actor.attackMod + mapPen;
-  const effectiveAc = target.ac + coverBonus;
+  // Ammo gate — don't show forecast when weapon has no ammo
+  if (weapon.ammo != null) {
+    const remaining = actor.weaponAmmo?.[targetMode.weaponIndex ?? 0] ?? 0;
+    if (remaining <= 0) return null;
+  }
 
-  const f = strikeForecast(effectiveMod, effectiveAc, actor.damage);
+  // Range/reach gate — don't show a forecast the player can't act on.
+  const reach = weapon.reach ?? 1;
+  const thrown = thrownRange(weapon);
+  let rangePenalty = 0;
+  let volPen = 0;
+  if (weapon.type === "melee") {
+    // Melee weapon — allow thrown fallback
+    if (dist > reach) {
+      if (thrown !== null && dist <= thrown) {
+        // Thrown: no range increment penalty within thrown range
+      } else {
+        return null;
+      }
+    }
+  } else {
+    const rangeIncrement = weapon.rangeIncrement ?? 6;
+    const maxRange = weapon.maxRange ?? rangeIncrement * 6;
+    if (dist < 1 || dist > maxRange) return null;
+    const incrementsPastFirst = Math.max(0, Math.ceil(dist / rangeIncrement) - 1);
+    rangePenalty = incrementsPastFirst * -2;
+  }
+  volPen = volleyPenalty(weapon, dist);
+  rangePenalty += volPen;
+
+  // Determine effective weapon type for cover calculation
+  const effectiveType: "melee" | "ranged" = weapon.type === "melee" && dist <= (weapon.reach ?? 1) ? "melee" : "ranged";
+  const rawGrade = coverGradeForUnits(battle, actor, target);
+  const adjustedGrade = adjustCoverForMelee(rawGrade, effectiveType, dist);
+  const coverBonus = coverAcBonusFromGrade(adjustedGrade);
+  const shieldBonus = target.shieldRaised ? 2 : 0;
+  const weaponAgile = isAgile(weapon);
+  const mapPen = mapPenalty(actor.attacksThisTurn, weaponAgile);
+  const effectiveMod = weapon.attackMod + mapPen + rangePenalty;
+  const effectiveAc = target.ac + coverBonus + shieldBonus;
+
+  const f = strikeForecast(effectiveMod, effectiveAc, weapon.damage, {
+    deadlyDie: deadlyDice(weapon),
+    fatalDie: fatalDice(weapon),
+    propulsiveMod: weapon.propulsiveMod ?? 0,
+  });
   const odds = f["degree_odds"] as Record<string, number>;
   const dmg = f["expected_damage_raw"] as Record<string, number>;
   const hitChance = odds["success"] + odds["critical_success"];
@@ -79,10 +118,13 @@ export function ForecastTooltip() {
         </span>
       </div>
       <div className="forecast-mods">
-        <span>+{actor.attackMod}</span>
-        {mapPen !== 0 && <span className="forecast-mod-map">{mapPen} MAP</span>}
+        <span>+{weapon.attackMod}</span>
+        {mapPen !== 0 && <span className="forecast-mod-map">{mapPen} MAP{weaponAgile ? " (agile)" : ""}</span>}
+        {(rangePenalty - volPen) !== 0 && <span className="forecast-mod-range">{rangePenalty - volPen} range</span>}
+        {volPen !== 0 && <span className="forecast-mod-range">{volPen} volley</span>}
         <span>vs AC {target.ac}</span>
         {coverBonus > 0 && <span className="forecast-mod-cover">+{coverBonus} cover</span>}
+        {shieldBonus > 0 && <span className="forecast-mod-cover">+{shieldBonus} shield</span>}
       </div>
     </div>
   );

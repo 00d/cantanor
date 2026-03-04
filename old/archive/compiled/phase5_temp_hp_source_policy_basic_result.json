@@ -1,0 +1,214 @@
+{
+  "battle_id": "phase5_temp_hp_source_policy_basic",
+  "seed": 611,
+  "executed_commands": 4,
+  "auto_executed_commands": 0,
+  "stop_reason": "script_exhausted",
+  "event_count": 9,
+  "replay_hash": "2f174c26db9ccbc2583e1714ee431245541e2aff0d1a9e6d9868c764c6c8022f",
+  "final_state": {
+    "battle_id": "phase5_temp_hp_source_policy_basic",
+    "round": 1,
+    "active_unit": "src_b",
+    "units": {
+      "src_a": {
+        "team": "pc",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "src_b": {
+        "team": "pc",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          2
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "target": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 4,
+        "temp_hp_source": "unit:src_b",
+        "position": [
+          2,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "events": [
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "src_a",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "src_a",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "src_a",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "src_a",
+        "target": "target",
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "duration_rounds": null,
+        "tick_timing": null,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000002",
+      "round": 1,
+      "active_unit": "src_a",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0001",
+        "kind": "temp_hp",
+        "target": "target",
+        "requested_amount": 5,
+        "stack_mode": "max",
+        "cross_source": "higher_only",
+        "source_key": "unit:src_a",
+        "temp_hp_before": 0,
+        "temp_hp_after": 5,
+        "temp_hp_source_before": null,
+        "temp_hp_source_after": "unit:src_a",
+        "granted": 5,
+        "applied": true,
+        "decision": "same_source_refresh",
+        "reason": null
+      }
+    },
+    {
+      "event_id": "ev_000003",
+      "round": 1,
+      "active_unit": "src_a",
+      "type": "end_turn",
+      "payload": {
+        "actor": "src_a",
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000004",
+      "round": 1,
+      "active_unit": "src_b",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "src_b",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_000005",
+      "round": 1,
+      "active_unit": "src_b",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "src_b",
+        "target": "target",
+        "effect_id": "eff_0002",
+        "kind": "temp_hp",
+        "duration_rounds": null,
+        "tick_timing": null,
+        "actions_remaining": 2
+      }
+    },
+    {
+      "event_id": "ev_000006",
+      "round": 1,
+      "active_unit": "src_b",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0002",
+        "kind": "temp_hp",
+        "target": "target",
+        "requested_amount": 9,
+        "stack_mode": "max",
+        "cross_source": "ignore",
+        "source_key": "unit:src_b",
+        "temp_hp_before": 5,
+        "temp_hp_after": 5,
+        "temp_hp_source_before": "unit:src_a",
+        "temp_hp_source_after": "unit:src_a",
+        "granted": 0,
+        "applied": false,
+        "decision": "cross_source_ignored",
+        "reason": "cross_source_policy_ignore"
+      }
+    },
+    {
+      "event_id": "ev_000007",
+      "round": 1,
+      "active_unit": "src_b",
+      "type": "apply_effect_command",
+      "payload": {
+        "actor": "src_b",
+        "target": "target",
+        "effect_id": "eff_0003",
+        "kind": "temp_hp",
+        "duration_rounds": null,
+        "tick_timing": null,
+        "actions_remaining": 1
+      }
+    },
+    {
+      "event_id": "ev_000008",
+      "round": 1,
+      "active_unit": "src_b",
+      "type": "effect_apply",
+      "payload": {
+        "effect_id": "eff_0003",
+        "kind": "temp_hp",
+        "target": "target",
+        "requested_amount": 4,
+        "stack_mode": "max",
+        "cross_source": "replace",
+        "source_key": "unit:src_b",
+        "temp_hp_before": 5,
+        "temp_hp_after": 4,
+        "temp_hp_source_before": "unit:src_a",
+        "temp_hp_source_after": "unit:src_b",
+        "granted": 0,
+        "applied": true,
+        "decision": "cross_source_replaced",
+        "reason": null
+      }
+    }
+  ]
+}

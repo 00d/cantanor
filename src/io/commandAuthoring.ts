@@ -1,6 +1,5 @@
 /**
  * Browser-facing command-authoring helpers for content-entry driven commands.
- * Mirrors engine/io/command_authoring.py
  */
 
 import { ContentContext } from "./contentPackLoader";

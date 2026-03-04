@@ -1,6 +1,5 @@
 /**
  * Line of sight helpers.
- * Mirrors engine/grid/los.py
  */
 
 import { BattleState, UnitState } from "../engine/state";

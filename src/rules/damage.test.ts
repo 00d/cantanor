@@ -1,13 +1,13 @@
 // @ts-nocheck - Test fixtures use dynamic types
 /**
  * Tests for damage and conditions.
- * Ported from tests/contract/test_damage_and_conditions.py
  */
 
 import { describe, test, expect } from "vitest";
 import {
   parseFormula,
   rollDamage,
+  rollTraitBonusDice,
   applyDamageModifiers,
   applyDamageToPool,
 } from "./damage";
@@ -45,6 +45,32 @@ describe("Damage and Conditions", () => {
 
       expect(r1.total).toBe(r2.total);
       expect(r1.rolls).toEqual(r2.rolls);
+    });
+  });
+
+  describe("rollTraitBonusDice", () => {
+    test("rolls the correct number of dice with expected range", () => {
+      const rng = new DeterministicRNG(42);
+      const result = rollTraitBonusDice(rng, 10, 3);
+      expect(result.rolls).toHaveLength(3);
+      result.rolls.forEach((r) => {
+        expect(r).toBeGreaterThanOrEqual(1);
+        expect(r).toBeLessThanOrEqual(10);
+      });
+      expect(result.total).toBe(result.rolls.reduce((s, r) => s + r, 0));
+    });
+
+    test("is deterministic for same seed", () => {
+      const r1 = rollTraitBonusDice(new DeterministicRNG(99), 12, 2);
+      const r2 = rollTraitBonusDice(new DeterministicRNG(99), 12, 2);
+      expect(r1.rolls).toEqual(r2.rolls);
+      expect(r1.total).toBe(r2.total);
+    });
+
+    test("count of 0 returns empty rolls and total 0", () => {
+      const result = rollTraitBonusDice(new DeterministicRNG(1), 8, 0);
+      expect(result.rolls).toHaveLength(0);
+      expect(result.total).toBe(0);
     });
   });
 

@@ -12,7 +12,7 @@
 
 import { useBattleStore, selectActiveUnit } from "../store/battleStore";
 import { activeUnitId, unitAlive } from "../engine/state";
-import type { UnitState } from "../engine/state";
+import type { UnitState, WeaponData } from "../engine/state";
 import type { ContentPackEntry, ResolvedEntry } from "../io/contentPackLoader";
 
 type EntryView = ContentPackEntry & { resolvedEntry: ResolvedEntry };
@@ -132,6 +132,8 @@ export function ActionPanel() {
   const isAiTurn       = useBattleStore((s) => s.isAiTurn);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
   const orchestratorConfig = useBattleStore((s) => s.orchestratorConfig);
+  const pendingReaction = useBattleStore((s) => s.pendingReaction);
+  const resolveReaction = useBattleStore((s) => s.resolveReaction);
 
   // The unit the player is currently inspecting (may differ from active unit)
   const inspectedUnit =
@@ -157,7 +159,7 @@ export function ActionPanel() {
   const playerTeams = orchestratorConfig?.playerTeams ?? ["pc"];
   const isPlayerUnit = playerTeams.includes(activeUnit.team);
 
-  if (!isPlayerUnit) {
+  if (!isPlayerUnit && !pendingReaction) {
     return (
       <div className="action-panel">
         <div className="ai-turn-banner">Waiting for AI…</div>
@@ -165,14 +167,42 @@ export function ActionPanel() {
     );
   }
 
+  // Show reaction prompt if player has a pending reaction
+  if (pendingReaction && battle) {
+    const reactor = battle.units[pendingReaction.reactorId];
+    if (reactor && orchestratorConfig?.playerTeams.includes(reactor.team)) {
+      const reactionLabel = pendingReaction.reactionType === "shield_block"
+        ? "Use Shield Block?"
+        : "Use Attack of Opportunity?";
+      return (
+        <div className="action-panel">
+          <div className="reaction-prompt">
+            <div className="reaction-prompt-label">{reactionLabel}</div>
+            <div className="reaction-prompt-detail">
+              {reactor.unitId} can react to {pendingReaction.provokerId}
+            </div>
+            <div className="reaction-prompt-buttons">
+              <button className="action-btn" onClick={() => resolveReaction(true)}>
+                Use Reaction
+              </button>
+              <button className="action-btn" onClick={() => resolveReaction(false)}>
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
   function handleMove() {
     if (!hasActions) return;
     setTargetMode({ type: "move" });
   }
 
-  function handleStrike() {
+  function handleStrike(weaponIndex?: number) {
     if (!hasActions) return;
-    setTargetMode({ type: "strike" });
+    setTargetMode({ type: "strike", weaponIndex });
   }
 
   function handleAbility(entryId: string, kind: string, tags: string[]) {
@@ -279,14 +309,58 @@ export function ActionPanel() {
         >
           🚶 Move
         </button>
-        <button
-          className="action-btn"
-          onClick={handleStrike}
-          disabled={!hasActions || targetMode !== null}
-          title="Strike an enemy (1 action) — press K"
-        >
-          ⚔️ Strike
-        </button>
+        {activeUnit.weapons && activeUnit.weapons.length > 1 ? (
+          activeUnit.weapons.map((w: WeaponData, idx: number) => (
+            <button
+              key={idx}
+              className="action-btn"
+              onClick={() => handleStrike(idx)}
+              disabled={!hasActions || targetMode !== null}
+              title={`${w.name} (${w.type}) — 1 action`}
+            >
+              {w.type === "melee" ? "⚔️" : "🏹"} {w.name}
+            </button>
+          ))
+        ) : (
+          <button
+            className="action-btn"
+            onClick={() => handleStrike()}
+            disabled={!hasActions || targetMode !== null}
+            title="Strike an enemy (1 action) — press K"
+          >
+            ⚔️ Strike
+          </button>
+        )}
+        {/* Reload button — shown when a weapon has reload > 0 and ammo is depleted */}
+        {activeUnit.weapons && activeUnit.weapons.map((w: WeaponData, idx: number) => {
+          if (!w.ammo || !w.reload || w.reload <= 0) return null;
+          const currentAmmo = activeUnit.weaponAmmo?.[idx] ?? 0;
+          if (currentAmmo > 0) return null;
+          return (
+            <button
+              key={`reload-${idx}`}
+              className="action-btn"
+              onClick={() => { dispatchCommand({ type: "reload", actor: actorId, weapon_index: idx }); }}
+              disabled={!hasActions || targetMode !== null}
+              title={`Reload ${w.name} (${w.reload} action)`}
+            >
+              Reload {w.name}
+            </button>
+          );
+        })}
+        {activeUnit.shieldHardness != null && activeUnit.shieldHp != null && activeUnit.shieldHp > 0 && !activeUnit.shieldRaised && !(activeUnit.weapons?.[0]?.hands === 2) && (
+          <button
+            className="action-btn"
+            onClick={() => { dispatchCommand({ type: "raise_shield", actor: actorId }); }}
+            disabled={!hasActions || targetMode !== null}
+            title="Raise Shield (1 action) — +2 AC until turn start"
+          >
+            🛡️ Raise Shield
+          </button>
+        )}
+        {activeUnit.shieldRaised && (
+          <span className="shield-raised-indicator">🛡️ Shield Raised</span>
+        )}
         <button
           className="action-btn end-turn"
           onClick={handleEndTurn}

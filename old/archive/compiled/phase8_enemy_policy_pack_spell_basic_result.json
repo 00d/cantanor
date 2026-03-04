@@ -1,0 +1,232 @@
+{
+  "battle_id": "phase8_enemy_policy_pack_spell_basic",
+  "seed": 8804,
+  "engine_phase": 8,
+  "executed_commands": 0,
+  "auto_executed_commands": 1,
+  "stop_reason": "battle_end",
+  "event_count": 5,
+  "replay_hash": "2b15f683cb33aaa820f17f22edc3476b3e5c4a707401a42e4cea58e10f5797d2",
+  "final_state": {
+    "battle_id": "phase8_enemy_policy_pack_spell_basic",
+    "round": 1,
+    "active_unit": "enemy_caster",
+    "units": {
+      "enemy_caster": {
+        "team": "enemy",
+        "hp": 20,
+        "max_hp": 20,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          1,
+          1
+        ],
+        "alive": true,
+        "conditions": {},
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      },
+      "pc_target": {
+        "team": "pc",
+        "hp": 0,
+        "max_hp": 8,
+        "temp_hp": 0,
+        "temp_hp_source": null,
+        "position": [
+          2,
+          1
+        ],
+        "alive": false,
+        "conditions": {
+          "unconscious": 1
+        },
+        "attack_damage_type": "physical",
+        "resistances": {},
+        "weaknesses": {},
+        "immunities": []
+      }
+    },
+    "flags": {}
+  },
+  "content_pack_context": {
+    "selected_pack_id": "phase7-baseline-v1",
+    "packs": [
+      {
+        "pack_id": "phase7-baseline-v1",
+        "version": "1.0.0",
+        "entry_count": 3,
+        "compatibility": {
+          "min_engine_phase": 7,
+          "max_engine_phase": 8,
+          "feature_tags": [
+            "content_pack_loader",
+            "phase7_m1"
+          ]
+        }
+      }
+    ],
+    "entry_lookup": {
+      "feat.quick_patch": {
+        "pack_id": "phase7-baseline-v1",
+        "kind": "feat",
+        "source_ref": "advanced-players-guide",
+        "tags": [
+          "support"
+        ],
+        "payload": {
+          "command_type": "use_feat",
+          "effect_kind": "temp_hp",
+          "payload": {
+            "amount": 3,
+            "source_key": "feat:quick_patch"
+          }
+        }
+      },
+      "item.battle_tonic": {
+        "pack_id": "phase7-baseline-v1",
+        "kind": "item",
+        "source_ref": "game-mastery-guide",
+        "tags": [
+          "consumable"
+        ],
+        "payload": {
+          "command_type": "use_item",
+          "effect_kind": "condition",
+          "payload": {
+            "name": "frightened",
+            "value": 1
+          },
+          "duration_rounds": 1,
+          "tick_timing": "turn_end"
+        }
+      },
+      "spell.arc_flash": {
+        "pack_id": "phase7-baseline-v1",
+        "kind": "spell",
+        "source_ref": "core-rulebook",
+        "tags": [
+          "electricity",
+          "offense"
+        ],
+        "payload": {
+          "command_type": "cast_spell",
+          "save_type": "Reflex",
+          "mode": "basic",
+          "damage": "2d6",
+          "damage_type": "electricity"
+        }
+      }
+    }
+  },
+  "events": [
+    {
+      "event_id": "ev_pack_000000",
+      "round": 1,
+      "active_unit": "enemy_caster",
+      "type": "content_pack_resolved",
+      "payload": {
+        "engine_phase": 8,
+        "selected_pack_id": "phase7-baseline-v1",
+        "pack_count": 1,
+        "entry_count": 3
+      }
+    },
+    {
+      "event_id": "ev_000000",
+      "round": 1,
+      "active_unit": "enemy_caster",
+      "type": "turn_start",
+      "payload": {
+        "active_unit": "enemy_caster",
+        "round": 1
+      }
+    },
+    {
+      "event_id": "ev_policy_0000",
+      "round": 1,
+      "active_unit": "enemy_caster",
+      "type": "enemy_policy_decision",
+      "payload": {
+        "requested_action": "cast_spell_entry_nearest",
+        "command": {
+          "save_type": "Reflex",
+          "mode": "basic",
+          "damage": "2d6",
+          "damage_type": "electricity",
+          "type": "cast_spell",
+          "actor": "enemy_caster",
+          "content_entry_id": "spell.arc_flash",
+          "target": "pc_target",
+          "dc": 22,
+          "spell_id": "arc_flash"
+        }
+      }
+    },
+    {
+      "event_id": "ev_000001",
+      "round": 1,
+      "active_unit": "enemy_caster",
+      "type": "cast_spell",
+      "payload": {
+        "actor": "enemy_caster",
+        "spell_id": "arc_flash",
+        "target": "pc_target",
+        "action_cost": 2,
+        "save_type": "Reflex",
+        "mode": "basic",
+        "roll": {
+          "die": 13,
+          "modifier": -10,
+          "total": 3,
+          "dc": 22,
+          "degree": "critical_failure"
+        },
+        "forecast": {
+          "kind": "cast_spell",
+          "save_modifier": -10,
+          "dc": 22,
+          "mode": "basic",
+          "damage_formula": "2d6",
+          "degree_odds": {
+            "critical_success": 0.0,
+            "success": 0.0,
+            "failure": 0.05,
+            "critical_failure": 0.95
+          },
+          "expected_multiplier": 1.95,
+          "expected_damage_raw": 13.65
+        },
+        "damage": {
+          "formula": "2d6",
+          "damage_type": "electricity",
+          "rolled_total": 7,
+          "rolls": [
+            2,
+            5
+          ],
+          "flat_modifier": 0,
+          "multiplier": 2.0,
+          "raw_total": 14,
+          "immune": false,
+          "resistance_total": 0,
+          "weakness_total": 0,
+          "applied_total": 14
+        },
+        "target_hp": 0,
+        "actions_remaining": 1
+      }
+    },
+    {
+      "event_id": "ev_done_0001",
+      "round": 1,
+      "active_unit": "enemy_caster",
+      "type": "battle_end",
+      "payload": {
+        "winner_team": "enemy"
+      }
+    }
+  ]
+}
