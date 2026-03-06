@@ -1,6 +1,5 @@
 /**
  * Degree-of-success rules.
- * Mirrors engine/rules/degrees.py
  *
  * Pathfinder 2e ORC rules: critical success/failure shifts on natural 1/20.
  */

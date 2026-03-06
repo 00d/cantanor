@@ -1,6 +1,5 @@
 /**
  * Tests for line of effect and cover mechanics.
- * Ported from tests/contract/test_line_of_effect.py
  *
  * These tests are CRITICAL for tactical combat - they validate:
  * - Line of effect blocking (walls, diagonal corners)
@@ -10,10 +9,12 @@
 
 import { describe, test, expect } from "vitest";
 import { battleStateFromScenario } from "../io/scenarioLoader";
+import { createTestBattle, createTestUnit } from "../test-utils/fixtures";
 import {
   hasTileLineOfEffect,
   coverGradeBetweenTiles,
   coverAcBonusBetweenTiles,
+  adjustCoverForMelee,
 } from "./loe";
 
 function createScenario(blocked: Array<[number, number]>) {
@@ -162,5 +163,109 @@ describe("Cover Edge Cases", () => {
       ]),
     );
     expect(coverGradeBetweenTiles(state, 1, 1, 1, 5)).toBe("standard");
+  });
+});
+
+describe("adjustCoverForMelee", () => {
+  test("melee adjacent ignores standard cover", () => {
+    expect(adjustCoverForMelee("standard", "melee", 1)).toBe("none");
+  });
+
+  test("melee adjacent keeps greater cover", () => {
+    expect(adjustCoverForMelee("greater", "melee", 1)).toBe("greater");
+  });
+
+  test("melee at distance 2 keeps standard cover", () => {
+    expect(adjustCoverForMelee("standard", "melee", 2)).toBe("standard");
+  });
+
+  test("ranged adjacent keeps standard cover", () => {
+    expect(adjustCoverForMelee("standard", "ranged", 1)).toBe("standard");
+  });
+
+  test("ranged at distance keeps standard cover", () => {
+    expect(adjustCoverForMelee("standard", "ranged", 5)).toBe("standard");
+  });
+
+  test("melee adjacent with no cover stays none", () => {
+    expect(adjustCoverForMelee("none", "melee", 1)).toBe("none");
+  });
+
+  test("blocked is never adjusted", () => {
+    expect(adjustCoverForMelee("blocked", "melee", 1)).toBe("blocked");
+  });
+});
+
+describe("Cover Grade from tile properties", () => {
+  test("standard cover from single coverGrade: 1 adjacent tile", () => {
+    // Horizontal attack from (1,1) to (5,1) — cover candidates are (5,0) and (5,2)
+    const state = createTestBattle({
+      units: {
+        a: createTestUnit({ unitId: "a", team: "pc", x: 1, y: 1 }),
+        b: createTestUnit({ unitId: "b", team: "enemy", x: 5, y: 1 }),
+      },
+      battleMap: {
+        width: 8, height: 8, blocked: [],
+        coverGrade: { "5,0": 1 },
+      },
+    });
+    expect(coverGradeBetweenTiles(state, 1, 1, 5, 1)).toBe("standard");
+  });
+
+  test("greater cover from single coverGrade: 2 adjacent tile", () => {
+    const state = createTestBattle({
+      units: {
+        a: createTestUnit({ unitId: "a", team: "pc", x: 1, y: 1 }),
+        b: createTestUnit({ unitId: "b", team: "enemy", x: 5, y: 1 }),
+      },
+      battleMap: {
+        width: 8, height: 8, blocked: [],
+        coverGrade: { "5,0": 2 },
+      },
+    });
+    expect(coverGradeBetweenTiles(state, 1, 1, 5, 1)).toBe("greater");
+  });
+
+  test("two coverGrade: 1 tiles summing to greater cover", () => {
+    const state = createTestBattle({
+      units: {
+        a: createTestUnit({ unitId: "a", team: "pc", x: 1, y: 1 }),
+        b: createTestUnit({ unitId: "b", team: "enemy", x: 5, y: 1 }),
+      },
+      battleMap: {
+        width: 8, height: 8, blocked: [],
+        coverGrade: { "5,0": 1, "5,2": 1 },
+      },
+    });
+    expect(coverGradeBetweenTiles(state, 1, 1, 5, 1)).toBe("greater");
+  });
+
+  test("mixed: one blocked tile + one coverGrade: 1 tile → greater cover", () => {
+    const state = createTestBattle({
+      units: {
+        a: createTestUnit({ unitId: "a", team: "pc", x: 1, y: 1 }),
+        b: createTestUnit({ unitId: "b", team: "enemy", x: 5, y: 1 }),
+      },
+      battleMap: {
+        width: 8, height: 8, blocked: [[5, 0]],
+        coverGrade: { "5,2": 1 },
+      },
+    });
+    expect(coverGradeBetweenTiles(state, 1, 1, 5, 1)).toBe("greater");
+  });
+
+  test("coverGrade on non-adjacent tile → no cover (control)", () => {
+    // coverGrade at (3,3) is not adjacent to target (5,1) — should not contribute
+    const state = createTestBattle({
+      units: {
+        a: createTestUnit({ unitId: "a", team: "pc", x: 1, y: 1 }),
+        b: createTestUnit({ unitId: "b", team: "enemy", x: 5, y: 1 }),
+      },
+      battleMap: {
+        width: 8, height: 8, blocked: [],
+        coverGrade: { "3,3": 1 },
+      },
+    });
+    expect(coverGradeBetweenTiles(state, 1, 1, 5, 1)).toBe("none");
   });
 });

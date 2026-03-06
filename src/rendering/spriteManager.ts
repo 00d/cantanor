@@ -6,6 +6,22 @@
  * When a unit has a `spriteSheet` field, the loader fetches the descriptor
  * asynchronously. The colored rectangle is shown immediately; once the sprite
  * sheet loads, an AnimatedSprite replaces the rectangle body.
+ *
+ * Movement tweens (Phase 14 M1)
+ * -----------------------------
+ * syncUnits() does NOT snap sprite positions. It sets `targetX/targetY` and,
+ * if the target has changed, captures the current on-screen position as
+ * `fromX/fromY` and resets `lerpT = 0`. The actual motion happens in
+ * tickSprites(), called from the main Pixi ticker at 60fps, which advances
+ * `lerpT` toward 1 and writes the eased interpolated position to the
+ * container. Settled sprites (lerpT >= 1) cost one comparison per frame.
+ *
+ * tickSprites() also writes the count of still-moving sprites to
+ * `transient.activeAnimCount` so _scheduleAiTurn can gate on it (M2), and
+ * owns the walk↔idle animation transitions — walk on when lerpT < 1, idle
+ * on settle. This keeps walk-state frame-locked with visible motion rather
+ * than one frame early (syncUnits fires in a passive React effect; the Pixi
+ * ticker can beat it by a frame).
  */
 
 import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js";
@@ -13,6 +29,7 @@ import { BattleState, UnitState, unitAlive } from "../engine/state";
 import { TILE_SIZE } from "./pixiApp";
 import { loadSpriteSheet } from "./spriteSheetLoader";
 import type { AnimationStateName, LoadedSpriteSheet } from "./spriteSheetTypes";
+import type { TransientState } from "../store/battleStore";
 
 const TEAM_COLORS: Record<string, number> = {
   player: 0x4488ff,
@@ -27,6 +44,13 @@ const ACTIVE_OUTLINE = 0xffd700;   // Gold — whose turn it is
 const SELECTED_OUTLINE = 0xffffff; // White — player-inspected unit
 const UNIT_PADDING = 6;
 
+/** Fixed tween duration in ms. Short and long moves take the same time;
+ *  distance is absorbed by the easing curve, not the clock. */
+const TWEEN_MS = 280;
+/** Below this pixel delta a target change is treated as "already there"
+ *  (guards against float drift re-arming the tween every syncUnits). */
+const SETTLE_EPS = 0.5;
+
 interface UnitSprite {
   container: Container;
   body: Graphics;
@@ -34,6 +58,14 @@ interface UnitSprite {
   /** Thin HP bar above the unit body — track + fill drawn in one Graphics. */
   hpBar: Graphics;
   unitId: string;
+  /** Tween target (pixels, world space). Set by syncUnits(). */
+  targetX: number;
+  targetY: number;
+  /** Tween origin — wherever the sprite was on screen when the target last changed. */
+  fromX: number;
+  fromY: number;
+  /** 0 = tween just armed, 1 = settled. Advanced by tickSprites(). */
+  lerpT: number;
   /** Optional pixel-art sprite (replaces body when loaded). */
   animatedSprite?: Sprite;
   /** Loaded sprite sheet data (null until async load completes). */
@@ -55,8 +87,6 @@ function hpColor(pct: number): number {
 }
 
 const _sprites = new Map<string, UnitSprite>();
-/** Track which sprite sheet URLs are being loaded to avoid duplicate fetches. */
-const _loadingSheets = new Set<string>();
 let _parentLayer: Container | null = null;
 
 function teamColor(team: string): number {
@@ -80,13 +110,23 @@ function createUnitSprite(unit: UnitState): UnitSprite {
   container.addChild(label);
   container.addChild(hpBar);  // on top so it's never covered by the body outline
 
-  const sprite: UnitSprite = { container, body, label, hpBar, unitId: unit.unitId };
+  // Tween state at rest — syncUnits() will snap on first sight (isNew branch)
+  // so a fresh sprite never tweens in from (0,0).
+  const sprite: UnitSprite = {
+    container, body, label, hpBar, unitId: unit.unitId,
+    targetX: 0, targetY: 0, fromX: 0, fromY: 0, lerpT: 1,
+  };
 
-  // Kick off async sprite sheet loading if the unit has a spriteSheet path
-  if (unit.spriteSheet && !_loadingSheets.has(unit.spriteSheet)) {
-    _loadingSheets.add(unit.spriteSheet);
+  // Kick off async sprite sheet loading if the unit has a spriteSheet path.
+  // loadSpriteSheet caches by URL — second-and-later callers get an instant
+  // cache hit. No need to dedup here; doing so would leave late requesters
+  // (units sharing a sheet URL) without art. Guard on _sprites membership
+  // so a unit destroyed mid-load doesn't get a sprite applied to a dead
+  // container.
+  if (unit.spriteSheet) {
+    const uid = unit.unitId;
     loadSpriteSheet(unit.spriteSheet).then((loaded) => {
-      if (loaded) {
+      if (loaded && _sprites.get(uid) === sprite) {
         _applySpriteSheet(sprite, loaded);
       }
     });
@@ -123,12 +163,13 @@ function _applySpriteSheet(sprite: UnitSprite, sheet: LoadedSpriteSheet): void {
 }
 
 /**
- * Set the animation state for a unit sprite.
+ * Set the animation state on a sprite object directly.
  * Updates the displayed frame based on the animation definition.
+ * No-ops cleanly if the sprite has no sheet loaded or the sheet lacks the
+ * requested state — units without sprite art fall back to sliding rectangles.
  */
-export function setUnitAnimation(unitId: string, animation: AnimationStateName): void {
-  const sprite = _sprites.get(unitId);
-  if (!sprite || !sprite.spriteSheet || !sprite.animatedSprite) return;
+function _setSpriteAnimation(sprite: UnitSprite, animation: AnimationStateName): void {
+  if (!sprite.spriteSheet || !sprite.animatedSprite) return;
   if (sprite.currentAnimation === animation) return;
 
   const animDef = sprite.spriteSheet.descriptor.animations[animation];
@@ -139,6 +180,16 @@ export function setUnitAnimation(unitId: string, animation: AnimationStateName):
   if (texture) {
     sprite.animatedSprite.texture = texture;
   }
+}
+
+/**
+ * Set the animation state for a unit sprite by ID.
+ * Thin wrapper over _setSpriteAnimation for callers outside this module.
+ */
+export function setUnitAnimation(unitId: string, animation: AnimationStateName): void {
+  const sprite = _sprites.get(unitId);
+  if (!sprite) return;
+  _setSpriteAnimation(sprite, animation);
 }
 
 function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean, active: boolean): void {
@@ -215,14 +266,38 @@ export function syncUnits(
   // Add/update sprites for current units
   for (const unit of Object.values(state.units)) {
     let sprite = _sprites.get(unit.unitId);
+    const isNew = !sprite;
     if (!sprite) {
       sprite = createUnitSprite(unit);
       parent.addChild(sprite.container);
       _sprites.set(unit.unitId, sprite);
     }
 
-    // Position
-    sprite.container.position.set(unit.x * TILE_SIZE, unit.y * TILE_SIZE);
+    // Position — set the tween target; tickSprites() drives the actual slide.
+    // New sprites snap so they don't tween in from (0,0).
+    const tx = unit.x * TILE_SIZE;
+    const ty = unit.y * TILE_SIZE;
+    if (isNew) {
+      sprite.container.position.set(tx, ty);
+      sprite.targetX = tx; sprite.targetY = ty;
+      sprite.fromX   = tx; sprite.fromY   = ty;
+      sprite.lerpT   = 1;
+    } else if (
+      Math.abs(tx - sprite.targetX) > SETTLE_EPS ||
+      Math.abs(ty - sprite.targetY) > SETTLE_EPS
+    ) {
+      // Target moved — arm a new tween from wherever the sprite is right now.
+      // Reading container.position (not fromX) means a mid-tween re-target
+      // cuts the corner smoothly instead of rubber-banding to the old start.
+      sprite.fromX   = sprite.container.position.x;
+      sprite.fromY   = sprite.container.position.y;
+      sprite.targetX = tx;
+      sprite.targetY = ty;
+      sprite.lerpT   = 0;
+      // Walk-animation onset is NOT set here — tickSprites sets it on the
+      // frame it first sees lerpT < 1, keeping the animation frame-locked
+      // with visible motion. See module doc comment.
+    }
 
     // Appearance — active (gold) takes visual priority over selected (white)
     const active = unit.unitId === activeUnitId;
@@ -238,6 +313,74 @@ export function syncUnits(
   parent.sortChildren();
 }
 
+/** Quadratic ease-out: fast launch, gentle arrival. Matches the float-text
+ *  easing in effectRenderer so the game has one consistent motion feel. */
+function easeOut(t: number): number {
+  return 1 - (1 - t) * (1 - t);
+}
+
+/**
+ * Advance all active sprite tweens by `deltaMS` and write the count of
+ * still-moving sprites into `transient.activeAnimCount`.
+ *
+ * Called from the main Pixi ticker (see App.tsx). Mutates the transient
+ * slice directly — no React re-render, no allocation.
+ *
+ * Also owns the walk↔idle animation transition: walk on when lerpT < 1
+ * (first frame the tween is visibly advancing), idle on settle. This is
+ * done here rather than in syncUnits because syncUnits fires in a passive
+ * React effect that the Pixi ticker can beat by a frame; doing it here
+ * keeps the walk-state frame-locked with visible motion.
+ */
+export function tickSprites(deltaMS: number, transient: TransientState): void {
+  let moving = 0;
+  for (const sprite of _sprites.values()) {
+    if (sprite.lerpT >= 1) continue;
+
+    // Walk onset — first frame we see this tween live. Guarded by the
+    // currentAnimation !== "walk" check inside _setSpriteAnimation so this
+    // is a no-op on subsequent frames. No-op entirely if the sprite has
+    // no sheet or the sheet has no walk state.
+    _setSpriteAnimation(sprite, "walk");
+
+    sprite.lerpT = Math.min(1, sprite.lerpT + deltaMS / TWEEN_MS);
+    const e = easeOut(sprite.lerpT);
+    sprite.container.position.set(
+      sprite.fromX + (sprite.targetX - sprite.fromX) * e,
+      sprite.fromY + (sprite.targetY - sprite.fromY) * e,
+    );
+
+    if (sprite.lerpT >= 1) {
+      // Exact landing — kill any accumulated float error.
+      sprite.container.position.set(sprite.targetX, sprite.targetY);
+      // Return to idle. No-op if no sheet / no idle state.
+      _setSpriteAnimation(sprite, "idle");
+    } else {
+      moving++;
+    }
+  }
+  transient.activeAnimCount = moving;
+}
+
+/**
+ * Force every sprite to its current target instantly and reset animation
+ * to idle. Called on new-battle load (Play Again reuses unit IDs — without
+ * this, corpses tween back to their spawn points and units stuck mid-walk
+ * keep the walk frame).
+ *
+ * activeAnimCount is stale until the next tick writes it — that's the
+ * contract. Callers that care poll via rAF anyway.
+ */
+export function snapAllSprites(): void {
+  for (const sprite of _sprites.values()) {
+    sprite.container.position.set(sprite.targetX, sprite.targetY);
+    sprite.fromX = sprite.targetX;
+    sprite.fromY = sprite.targetY;
+    sprite.lerpT = 1;
+    _setSpriteAnimation(sprite, "idle");
+  }
+}
+
 export function clearUnits(): void {
   if (_parentLayer) {
     for (const sprite of _sprites.values()) {
@@ -246,5 +389,4 @@ export function clearUnits(): void {
     }
   }
   _sprites.clear();
-  _loadingSheets.clear();
 }

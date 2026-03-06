@@ -1,6 +1,5 @@
 /**
  * Damage formula parsing and rolling.
- * Mirrors engine/rules/damage.py
  *
  * Pathfinder 2e ORC damage rules: resistances reduce, weaknesses increase,
  * immunities negate. Temp HP absorbs first.
@@ -109,6 +108,22 @@ function highestMatchingModifier(
     }
   }
   return Math.max(0, best);
+}
+
+/**
+ * Roll N bonus dice of a given size (for deadly/fatal trait bonus).
+ * Returns individual rolls and their sum.
+ */
+export function rollTraitBonusDice(
+  rng: DeterministicRNG,
+  diceSize: number,
+  count: number,
+): { rolls: number[]; total: number } {
+  const rolls: number[] = [];
+  for (let i = 0; i < count; i++) {
+    rolls.push(rng.randint(1, diceSize).value);
+  }
+  return { rolls, total: rolls.reduce((s, r) => s + r, 0) };
 }
 
 export function applyDamageModifiers(opts: {

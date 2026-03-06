@@ -1,6 +1,5 @@
 /**
  * Command discriminated union types for scenario playback.
- * Mirrors engine/core/commands.py
  */
 
 export interface MoveCommand {
@@ -14,6 +13,7 @@ export interface StrikeCommand {
   type: "strike";
   actor: string;
   target: string;
+  weaponIndex?: number;
   emitForecast?: boolean;
 }
 
@@ -140,6 +140,25 @@ export interface UseItemCommand {
   contentEntryId?: string;
 }
 
+export interface ReactionStrikeCommand {
+  type: "reaction_strike";
+  actor: string;
+  target: string;
+  weaponIndex?: number;
+}
+
+export interface RaiseShieldCommand {
+  type: "raise_shield";
+  actor: string;
+}
+
+export interface ShieldBlockCommand {
+  type: "shield_block";
+  actor: string;
+  /** The amount of damage to retroactively reduce. */
+  damageAmount: number;
+}
+
 export interface InteractCommand {
   type: "interact";
   actor: string;
@@ -169,7 +188,10 @@ export type Command =
   | CastSpellCommand
   | UseFeatCommand
   | UseItemCommand
-  | InteractCommand;
+  | InteractCommand
+  | ReactionStrikeCommand
+  | RaiseShieldCommand
+  | ShieldBlockCommand;
 
 /** Raw command dict shape used in scenario JSON — snake_case keys matching the Python schema */
 export interface RawCommand {
@@ -210,4 +232,6 @@ export interface RawCommand {
   content_entry_id?: string;
   uses_per_day?: number;
   emit_forecast?: boolean;
+  weapon_index?: number;
+  damage_amount?: number;
 }

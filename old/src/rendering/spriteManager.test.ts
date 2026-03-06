@@ -6,6 +6,10 @@
  * Graphics/Text need only no-op draw methods that return `this` for chaining.
  * We're testing the lerp math and the activeAnimCount bookkeeping — not WebGL.
  *
+ * spriteSheetLoader is mocked to resolve null: _applySpriteSheet never fires,
+ * so tests exercise the placeholder-rect path. That's correct — tween math
+ * doesn't care whether the body is a rect or a texture.
+ *
  * Module-level sprite state (`_sprites`) persists across tests, so every test
  * calls clearUnits() in cleanup.
  */
@@ -14,7 +18,6 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 
 // --- PixiJS mock -----------------------------------------------------------
 // Hoisted by vitest, so this MUST come before the spriteManager import.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 vi.mock("pixi.js", () => {
   class Position {
     x = 0;
@@ -27,13 +30,16 @@ vi.mock("pixi.js", () => {
     alpha = 1;
     zIndex = 0;
     label = "";
-    addChild(c: unknown)    { this.children.push(c); }
-    removeChild(c: unknown) { const i = this.children.indexOf(c); if (i >= 0) this.children.splice(i, 1); }
-    sortChildren()          { /* zIndex sort is cosmetic */ }
-    destroy()               { this.children.length = 0; }
+    visible = true;
+    addChild(c: unknown)        { this.children.push(c); }
+    addChildAt(c: unknown, i: number) { this.children.splice(i, 0, c); }
+    removeChild(c: unknown)     { const i = this.children.indexOf(c); if (i >= 0) this.children.splice(i, 1); }
+    sortChildren()              { /* zIndex sort is cosmetic */ }
+    destroy()                   { this.children.length = 0; }
   }
   // Graphics chain-returns `this` so .rect().fill().rect().fill() works.
   class Graphics {
+    visible = true;
     clear()          { return this; }
     roundRect()      { return this; }
     rect()           { return this; }
@@ -45,6 +51,7 @@ vi.mock("pixi.js", () => {
     text = "";
     style: unknown;
     alpha = 1;
+    visible = true;
     anchor = { set() {} };
     position = new Position();
     constructor(opts: { text: string; style: unknown }) {
@@ -53,12 +60,28 @@ vi.mock("pixi.js", () => {
     }
   }
   class TextStyle { constructor(_: unknown) {} }
-  return { Container, Graphics, Text, TextStyle };
+  // Sprite is only constructed inside _applySpriteSheet, which our
+  // spriteSheetLoader mock prevents — but stub it anyway for type safety.
+  class Sprite {
+    width = 0; height = 0; texture: unknown; alpha = 1; visible = true;
+    position = new Position();
+    constructor(t: unknown) { this.texture = t; }
+  }
+  class Texture {}
+  return { Container, Graphics, Text, TextStyle, Sprite, Texture };
 });
 
 // pixiApp pulls in the real pixi.js Application at module load — stub TILE_SIZE
 // so we don't transitively import the unmocked bits.
 vi.mock("./pixiApp", () => ({ TILE_SIZE: 64 }));
+
+// createUnitSprite kicks off an async loadSpriteSheet if unit.spriteSheet is set.
+// Our test fixtures don't set it, so this is belt-and-braces — but if a future
+// fixture change accidentally does, resolving null means _applySpriteSheet is
+// never called and the test still exercises the intended code path.
+vi.mock("./spriteSheetLoader", () => ({
+  loadSpriteSheet: () => Promise.resolve(null),
+}));
 
 import { syncUnits, tickSprites, snapAllSprites, clearUnits } from "./spriteManager";
 import type { TransientState } from "../store/battleStore";

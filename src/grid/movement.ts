@@ -62,8 +62,17 @@ const DIRS: ReadonlyArray<readonly [number, number]> = [
 interface DijkstraResult {
   /** Minimum cost to reach each visited tile, keyed by "x,y". */
   dist: Map<string, number>;
-  /** Parent tile for each visited tile, for path reconstruction. */
-  prev: Map<string, string>;
+  /** Parent *state* for each visited state, keyed by "x,y,parity".
+   *  Walk back from `bestEntry[tile]` to reconstruct a parity-consistent
+   *  path. State-keyed (not tile-keyed) because with PF2e alternating
+   *  diagonals the optimal parent depends on the parity you arrive at —
+   *  a tile-keyed map can stitch together segments with incompatible
+   *  parity, producing a walk-back that costs more than `dist[dest]`. */
+  statePrev: Map<string, string>;
+  /** For each tile, the state key ("x,y,parity") that achieved `dist[tile]`.
+   *  This is where path reconstruction starts. The start tile has no entry
+   *  (there's no path to where you already are). */
+  bestEntry: Map<string, string>;
 }
 
 /**
@@ -95,7 +104,8 @@ function dijkstra(
   const stateDist = new Map<string, number>();
   // Best distance per tile (min across both parities)
   const dist = new Map<string, number>();
-  const prev = new Map<string, string>();
+  const statePrev = new Map<string, string>();
+  const bestEntry = new Map<string, string>();
 
   // Bucket queue: buckets[c] = list of [x, y, parity] entries
   const maxBucket = maxCost * 4; // worst case: every step is diagonal parity-1 on difficult terrain (tileCost 2 × parity multiplier 2)
@@ -156,12 +166,17 @@ function dijkstra(
         const knownState = stateDist.get(nStateKey);
         if (knownState !== undefined && knownState <= nc) continue;
         stateDist.set(nStateKey, nc);
+        // Record the parent *state*, not the parent tile — the walk-back
+        // must stay on a single parity-consistent chain. `stateKey` is the
+        // parent at the parity we're actually relaxing from.
+        statePrev.set(nStateKey, stateKey);
 
-        // Update best dist for this tile position
+        // Update best dist for this tile position. bestEntry records which
+        // state key achieved it so pathTo knows where to start walking back.
         const knownTile = dist.get(nkey);
         if (knownTile === undefined || nc < knownTile) {
           dist.set(nkey, nc);
-          prev.set(nkey, `${x},${y}`);
+          bestEntry.set(nkey, nStateKey);
         }
 
         buckets[nc].push([nx, ny, nextParity]);
@@ -169,7 +184,41 @@ function dijkstra(
     }
   }
 
-  return { dist, prev };
+  return { dist, statePrev, bestEntry };
+}
+
+/**
+ * Reachability result — the tile set for range highlighting plus the
+ * parity-aware walk-back maps. Computed together because all three come
+ * from the same Dijkstra pass; the UI memoises this once on entering Move
+ * mode and feeds `pathTo()` from the cache on every hover.
+ */
+export interface ReachResult {
+  /** "x,y" keys the unit can end its move on. Start tile excluded. */
+  tiles: Set<string>;
+  /** State-level parent map ("x,y,parity" → "x,y,parity"). */
+  statePrev: Map<string, string>;
+  /** Per-tile entry point for walk-back ("x,y" → "x,y,parity"). */
+  bestEntry: Map<string, string>;
+}
+
+/**
+ * Run Dijkstra once from the unit's position and hand back everything needed
+ * for range highlighting and path reconstruction. Callers hold onto the
+ * result and feed it to `pathTo()` per hovered destination — no re-search
+ * as the mouse moves.
+ */
+export function reachableWithPrev(state: BattleState, unitId: string): ReachResult {
+  const unit = state.units[unitId];
+  if (!unit) return { tiles: new Set(), statePrev: new Map(), bestEntry: new Map() };
+  const speed = unit.speed ?? 5;
+  const { dist, statePrev, bestEntry } = dijkstra(state, unit.x, unit.y, unitId, speed);
+  const tiles = new Set<string>();
+  const startKey = `${unit.x},${unit.y}`;
+  for (const key of dist.keys()) {
+    if (key !== startKey) tiles.add(key);
+  }
+  return { tiles, statePrev, bestEntry };
 }
 
 /**
@@ -178,18 +227,56 @@ function dijkstra(
  * Blocked and occupied tiles are walls. Corner-cutting is prevented.
  * The unit's own starting tile is excluded from the result.
  * Per-tile moveCost (default 1) is read from MapState.moveCost.
+ *
+ * Thin wrapper over reachableWithPrev — kept for callers (reducer move
+ * validation, AI) that don't need path reconstruction.
  */
 export function reachableTiles(state: BattleState, unitId: string): Set<string> {
-  const unit = state.units[unitId];
-  if (!unit) return new Set();
-  const speed = unit.speed ?? 5;
-  const { dist } = dijkstra(state, unit.x, unit.y, unitId, speed);
-  const result = new Set<string>();
-  const startKey = `${unit.x},${unit.y}`;
-  for (const key of dist.keys()) {
-    if (key !== startKey) result.add(key);
+  return reachableWithPrev(state, unitId).tiles;
+}
+
+/**
+ * Reconstruct the shortest path from the search origin to `(destX, destY)`
+ * by walking the state-level parent map backward. Returns tiles in travel
+ * order — element 0 is the start, last is the destination — or null if the
+ * destination is unreachable.
+ *
+ * The walk starts from `bestEntry[dest]` (the lowest-cost parity state for
+ * that tile) and chases `statePrev` until it hits the origin state, which
+ * has no entry. Because every step in the chain was recorded at a single
+ * consistent parity, replaying the returned path from the start reproduces
+ * exactly `dist[dest]` — no parity mismatch, no over-budget routes through
+ * difficult terrain.
+ *
+ * Hovering the start tile returns null (start has no bestEntry — there's no
+ * path to "where you already are").
+ *
+ * O(path length) — the search already ran when `reach` was built; this is
+ * just pointer chasing.
+ */
+export function pathTo(
+  reach: ReachResult,
+  destX: number,
+  destY: number,
+): Array<[number, number]> | null {
+  const entry = reach.bestEntry.get(`${destX},${destY}`);
+  if (!entry) return null;
+
+  const path: Array<[number, number]> = [[destX, destY]];
+  let cur = entry;
+  // Cap at statePrev.size steps — a cycle would otherwise loop forever.
+  // Dijkstra never produces cycles; this is a cheap seatbelt.
+  let steps = reach.statePrev.size;
+  while (reach.statePrev.has(cur) && steps-- > 0) {
+    cur = reach.statePrev.get(cur)!;
+    // cur is "x,y,parity" — parity is always a single digit, so the
+    // second comma cleanly separates y from parity.
+    const c1 = cur.indexOf(",");
+    const c2 = cur.indexOf(",", c1 + 1);
+    path.push([Number(cur.slice(0, c1)), Number(cur.slice(c1 + 1, c2))]);
   }
-  return result;
+  path.reverse();
+  return path;
 }
 
 /**

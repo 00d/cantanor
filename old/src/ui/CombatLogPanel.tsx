@@ -91,6 +91,19 @@ function formatEvent(event: Record<string, unknown>): string {
       const degree = String(rollInfo["degree"] ?? "unknown");
       return `${target} takes ${total} dmg (${degree})`;
     }
+    case "hazard_tick": {
+      const target = String(payload["target"] ?? "?");
+      const hazardId = String(payload["hazard_id"] ?? "hazard").replace(/_/g, " ");
+      const damageInfo = (payload["damage"] as Record<string, unknown>) ?? {};
+      const applied = Number(damageInfo["applied_total"] ?? 0);
+      const dmgType = String(damageInfo["damage_type"] ?? "");
+      if (damageInfo["immune"]) return `  ⚠ ${target} immune to ${hazardId}`;
+      const rollInfo = (payload["roll"] as Record<string, unknown>) ?? {};
+      const degree = String(rollInfo["degree"] ?? "");
+      if (applied === 0) return `  ⚠ ${target} avoids ${hazardId} (${degree})`;
+      const typeStr = dmgType ? ` ${dmgType}` : "";
+      return `  ⚠ ${target} takes ${applied}${typeStr} from ${hazardId} (${degree})`;
+    }
     case "battle_end": {
       const winner = payload["winner_team"];
       const outcome = payload["outcome"];
@@ -111,7 +124,14 @@ export function CombatLogPanel() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Snap during AI chains — smooth scrolls interrupt each other mid-flight
+    // and the log jitters without ever settling. isAiTurn is read via
+    // getState() (not a selector subscription) so the flag can't itself
+    // trigger a scroll. By the time this effect fires, dispatchCommand's set()
+    // and _scheduleAiTurn's set({isAiTurn:true}) have landed in the same
+    // React batch, so the read is fresh.
+    const behavior = useBattleStore.getState().isAiTurn ? "auto" : "smooth";
+    bottomRef.current?.scrollIntoView({ behavior });
   }, [eventLog.length]);
 
   return (

@@ -343,6 +343,7 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
   const mapState = extractMapState(tiledMap);
   const spawns = extractSpawnPoints(tiledMap);
   const objectives = extractObjectives(tiledMap);
+  const hazards = extractHazardZones(tiledMap);
 
   if (spawns.length === 0) {
     throw new Error(
@@ -397,6 +398,14 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
       ...(mapState.moveCost && { move_cost: mapState.moveCost }),
       ...(mapState.coverGrade && { cover_grade: mapState.coverGrade }),
       ...(mapState.elevation && { elevation: mapState.elevation }),
+      ...(hazards.length > 0 && { hazards: hazards.map((z) => ({
+        id: z.id,
+        damage_type: z.element,
+        damage_per_turn: z.damagePerTurn,
+        dc: z.dc,
+        save_type: z.saveType,
+        tiles: z.tiles,
+      })) }),
     },
     units,
     commands: [],

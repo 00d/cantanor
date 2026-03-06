@@ -1,6 +1,5 @@
 /**
  * Tests for area targeting mechanics.
- * Ported from tests/contract/test_targeting_areas.py
  *
  * These tests are CRITICAL for tactical combat - they validate:
  * - Burst/radius targeting (AOE spells)
@@ -9,7 +8,7 @@
  */
 
 import { describe, test, expect } from "vitest";
-import { radiusPoints, linePoints, conePoints } from "./areas";
+import { radiusPoints, linePoints, conePoints, lineAimPoints } from "./areas";
 
 describe("Radius Points (Burst AOE)", () => {
   test("radius points contains center and adjacent tiles", () => {
@@ -88,6 +87,57 @@ describe("Line Points", () => {
 
     // Should be continuous (no gaps)
     expect(pts.length).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe("Line Aim Points (fixed-length line spells)", () => {
+  test("extends a close aim out to full length", () => {
+    // Aim 1 tile east, but the line is 5 tiles long → still 5 tiles east.
+    const pts = lineAimPoints(0, 0, 1, 0, 5);
+    expect(pts).toHaveLength(5);
+    expect(pts[0]).toEqual([1, 0]);
+    expect(pts[4]).toEqual([5, 0]);
+  });
+
+  test("truncates a far aim to length", () => {
+    // Aim 20 tiles east, line is 3 tiles long → 3 tiles only.
+    const pts = lineAimPoints(0, 0, 20, 0, 3);
+    expect(pts).toHaveLength(3);
+    expect(pts[0]).toEqual([1, 0]);
+    expect(pts[2]).toEqual([3, 0]);
+  });
+
+  test("skips the origin tile", () => {
+    const pts = lineAimPoints(5, 5, 8, 5, 3);
+    expect(pts).not.toContainEqual([5, 5]);
+    expect(pts[0]).toEqual([6, 5]);
+  });
+
+  test("preserves direction on diagonal aim", () => {
+    // Aim NE at (6,6) from (5,5), length 4 → extends to (9,9)
+    const pts = lineAimPoints(5, 5, 6, 6, 4);
+    expect(pts).toHaveLength(4);
+    expect(pts[0]).toEqual([6, 6]);
+    expect(pts[3]).toEqual([9, 9]);
+  });
+
+  test("returns empty when aim === origin (no direction)", () => {
+    const pts = lineAimPoints(3, 3, 3, 3, 5);
+    expect(pts).toHaveLength(0);
+  });
+
+  test("handles off-axis aim via Bresenham", () => {
+    // Aim at (3,1) from (0,0): the Bresenham line runs mostly east with a
+    // step north. Length 6 → projected endpoint preserves that ratio.
+    const pts = lineAimPoints(0, 0, 3, 1, 6);
+    expect(pts).toHaveLength(6);
+    expect(pts[0]).not.toEqual([0, 0]);  // origin skipped
+    // Every tile is one Bresenham step from the previous (8-connected)
+    for (let i = 1; i < pts.length; i++) {
+      const dx = Math.abs(pts[i][0] - pts[i - 1][0]);
+      const dy = Math.abs(pts[i][1] - pts[i - 1][1]);
+      expect(Math.max(dx, dy)).toBe(1);
+    }
   });
 });
 

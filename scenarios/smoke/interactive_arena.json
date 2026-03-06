@@ -49,6 +49,7 @@
       "abilities": [
         "spell.magic_missile",
         "spell.acid_splash",
+        "spell.fireball",
         "spell.lightning_bolt",
         "spell.electric_arc",
         "item.healing_potion"

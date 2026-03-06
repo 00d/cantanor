@@ -15,6 +15,10 @@ export function BattleEndOverlay({ onNewScenario }: Props) {
   const battleOutcome = useBattleStore((s) => s.battleOutcome);
   const eventLog = useBattleStore((s) => s.eventLog);
   const reloadLastBattle = useBattleStore((s) => s.reloadLastBattle);
+  const campaignDefinition = useBattleStore((s) => s.campaignDefinition);
+  const campaignProgress = useBattleStore((s) => s.campaignProgress);
+  const advanceCampaignStage = useBattleStore((s) => s.advanceCampaignStage);
+  const clearCampaign = useBattleStore((s) => s.clearCampaign);
 
   if (!battle) return null;
 
@@ -63,18 +67,59 @@ export function BattleEndOverlay({ onNewScenario }: Props) {
         </div>
 
         <div className="battle-end-actions">
-          <button
-            className="btn-play-again"
-            onClick={() => reloadLastBattle()}
-          >
-            Play Again
-          </button>
-          <button
-            className="btn-new-scenario"
-            onClick={onNewScenario}
-          >
-            New Scenario
-          </button>
+          {campaignDefinition && campaignProgress && isVictory ? (
+            <>
+              <button
+                className="btn-play-again"
+                onClick={advanceCampaignStage}
+              >
+                {campaignProgress.currentStageIndex < campaignDefinition.stages.length - 1
+                  ? "Continue Campaign"
+                  : "Campaign Complete!"}
+              </button>
+            </>
+          ) : (
+            <>
+              {campaignDefinition && campaignProgress ? (
+                <>
+                  <button
+                    className="btn-play-again"
+                    onClick={() => {
+                      // Retry the current campaign stage (re-applies party snapshot)
+                      const store = useBattleStore.getState();
+                      store.startCampaignStage(campaignProgress.currentStageIndex);
+                    }}
+                  >
+                    Retry Stage
+                  </button>
+                  <button
+                    className="btn-new-scenario"
+                    onClick={() => {
+                      clearCampaign();
+                      onNewScenario();
+                    }}
+                  >
+                    Abandon Campaign
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="btn-play-again"
+                    onClick={() => reloadLastBattle()}
+                  >
+                    Play Again
+                  </button>
+                  <button
+                    className="btn-new-scenario"
+                    onClick={onNewScenario}
+                  >
+                    New Scenario
+                  </button>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

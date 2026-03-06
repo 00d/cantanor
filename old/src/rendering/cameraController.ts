@@ -36,10 +36,10 @@ let _stageRoot: Container | null = null;
 let _viewWidth = 0;
 let _viewHeight = 0;
 // World extents in world-pixels (pre-zoom). 0 means "unbounded" — the clamp
-// is a no-op until setCameraBounds() has been called. That's deliberate:
-// the camera shouldn't have to know the map size at init time (it doesn't
-// exist yet — battle loads later), and the unbounded default preserves
-// pre-clamp behaviour on any load path that forgets to set bounds.
+// is a no-op until setCameraBounds() has been called. Deliberate: the camera
+// shouldn't have to know the map size at init time (battle loads later), and
+// the unbounded default preserves pre-clamp behaviour on any load path that
+// forgets to set bounds.
 let _worldW = 0;
 let _worldH = 0;
 
@@ -55,11 +55,10 @@ export function resizeCamera(viewWidth: number, viewHeight: number): void {
 }
 
 /** Set the pannable world extent, in TILES. tickCamera() clamps targetX/Y
- *  to keep this box filling the viewport — no panning into the void past
- *  the map edge. Call once per battle load. Pass 0 on either axis to
- *  disable the clamp on that axis. Takes tile counts (not pixels) for the
- *  same reason focusTile does: TILE_SIZE is a rendering constant, callers
- *  shouldn't need it. */
+ *  to keep this box filling the viewport — no panning into the void past the
+ *  map edge. Call once per battle load. Pass 0 on either axis to disable the
+ *  clamp on that axis. Takes tile counts (not pixels) for the same reason
+ *  focusTile does: TILE_SIZE is a rendering constant, callers shouldn't need it. */
 export function setCameraBounds(tilesW: number, tilesH: number): void {
   _worldW = tilesW * TILE_SIZE;
   _worldH = tilesH * TILE_SIZE;
@@ -70,18 +69,15 @@ export function setCameraBounds(tilesW: number, tilesH: number): void {
  *  targetX is the screen-space position of world-origin (0,0): a world point
  *  `wx` appears at screen `targetX + wx*zoom`. We want the map to always fill
  *  the viewport:
- *    - left edge of map (wx=0) at screen `targetX` must not drift right of 0
- *      → targetX ≤ 0
- *    - right edge (wx=worldW) at `targetX + worldW*zoom` must not drift left
- *      of viewW → targetX ≥ viewW − worldW*zoom
+ *    - left edge (wx=0) at screen `targetX` must not drift right of 0 → targetX ≤ 0
+ *    - right edge (wx=worldW) at `targetX + worldW*zoom` must not drift left of
+ *      viewW → targetX ≥ viewW − worldW*zoom
  *    → targetX ∈ [viewW − worldW*zoom, 0]
  *
  *  If worldW*zoom < viewW the map is smaller than the viewport and that range
- *  inverts (lo > hi). Centre instead — pins a tiny test arena to the middle
- *  of the screen rather than letting it float around in the void or snap to a
- *  corner. This is also what happens if the player zooms out far enough on a
- *  normal-sized map; MIN_ZOOM=0.3 × a 20-tile map = 192px, smaller than most
- *  viewports, so this branch fires in practice. */
+ *  inverts (lo > hi). Centre instead — pins a tiny test arena to the middle of
+ *  the screen rather than letting it float. Also fires when the player zooms
+ *  out far enough on a normal map (MIN_ZOOM=0.3 × a 20-tile map = 192px). */
 function clampAxis(target: number, viewLen: number, worldLen: number, zoom: number): number {
   if (worldLen === 0) return target;  // unbounded
   const worldScreenLen = worldLen * zoom;
@@ -121,13 +117,12 @@ export function tickCamera(): void {
   // means that dragging the pan way off-map pins targetX at the wall and the
   // lerp settles gently against it — clamping currentX instead would leave
   // targetX at -5000, and every frame the lerp would pull toward -5000 and
-  // the clamp would yank it back. That reads as "sticky" (the edge has no
-  // give; release is instant because there's no lerp distance to unwind).
+  // the clamp would yank it back (reads as "sticky" at the edge).
   //
-  // Re-runs every frame against targetZoom, so a zoom-out can't leave
-  // targetX stuck at a now-invalid position. The valid range shrinks as zoom
-  // shrinks (worldW*zoom gets smaller, lo rises toward 0) — the clamp will
-  // pull targetX in to match, and the lerp will ease the camera inward.
+  // Re-runs every frame against targetZoom, so a zoom-out can't leave targetX
+  // stuck at a now-invalid position. The valid range shrinks as zoom shrinks
+  // (worldW*zoom gets smaller, lo rises toward 0) — the clamp will pull
+  // targetX in to match, and the lerp will ease the camera inward.
   _cam.targetX = clampAxis(_cam.targetX, _viewWidth,  _worldW, _cam.targetZoom);
   _cam.targetY = clampAxis(_cam.targetY, _viewHeight, _worldH, _cam.targetZoom);
 

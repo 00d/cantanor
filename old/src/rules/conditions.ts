@@ -1,6 +1,5 @@
 /**
  * Condition mutation helpers.
- * Mirrors engine/rules/conditions.py
  *
  * Pathfinder 2e ORC conditions: tracked as {name: value} where value is
  * usually a numeric severity (e.g. frightened 2).

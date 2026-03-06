@@ -4,10 +4,10 @@
  * Inspired by Gold Box tactical RPG style.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { activeUnitId as getActiveUnitId } from "../engine/state";
-import { reachableTiles } from "../grid/movement";
+import { reachableWithPrev, pathTo } from "../grid/movement";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
@@ -21,8 +21,8 @@ import { initPixiApp, getPixiLayers, getPixiWorld } from "../rendering/pixiApp";
 import { renderTileMap, clearTileMap, setHoverTile } from "../rendering/tileRenderer";
 import { renderTiledMap, setHoverTileTiled, updateGridOverlay, clearTiledRenderer } from "../rendering/tiledTilemapRenderer";
 import { loadTilesetTextures } from "../rendering/tilesetLoader";
-import { syncUnits, clearUnits } from "../rendering/spriteManager";
-import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera, panBy, zoom } from "../rendering/cameraController";
+import { syncUnits, clearUnits, tickSprites, snapAllSprites } from "../rendering/spriteManager";
+import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera, panBy, zoom, setCameraBounds } from "../rendering/cameraController";
 import { initEffectRenderer, clearEffectRenderer, processAnimationQueue } from "../rendering/effectRenderer";
 import {
   initRangeOverlay,
@@ -31,6 +31,10 @@ import {
   showAbilityTargets,
   showAllyTargets,
   clearRangeOverlay,
+  showPathPreview,
+  clearPathPreview,
+  showAreaFootprint,
+  clearAreaFootprint,
 } from "../rendering/rangeOverlay";
 import {
   initTerrainOverlay,
@@ -72,12 +76,13 @@ export function App() {
   /** Whether PixiJS has been initialised. */
   const pixiReadyRef = useRef(false);
   /**
-   * Battle identity tracker — we only auto-focus the camera when a NEW battle
-   * is loaded, not on every state mutation. Without this gate, every strike
-   * snaps the camera back to centre, which is disorienting when the player
-   * has panned/zoomed manually.
+   * Battle load-generation tracker — we only auto-focus the camera when a NEW
+   * battle is loaded, not on every state mutation. Without this gate, every
+   * strike snaps the camera back to centre. Uses loadGeneration (not battleId)
+   * so Play Again of the same scenario is treated as a fresh load — same
+   * scenario identity but distinct generation, camera should re-centre.
    */
-  const lastBattleIdRef = useRef<string | null>(null);
+  const lastLoadGenRef = useRef<number>(-1);
 
   // ---------------------------------------------------------------------------
   // Initialize PixiJS on mount
@@ -95,12 +100,20 @@ export function App() {
       initTerrainOverlay(layers.overlay);
       pixiReadyRef.current = true;
 
-      // Game loop ticker — camera lerp + animation queue drain.
+      // Game loop ticker — camera lerp, sprite tweens, animation queue drain.
       // Reads transient state directly (no React subscription) so this
       // fires at 60fps without causing re-renders.
-      app.ticker.add(() => {
+      //
+      // Note: on the very first frame after a move dispatch, NEITHER signal
+      // is live yet — processAnimationQueue drains the queue to 0 and
+      // tickSprites writes activeAnimCount=0 because syncUnits (passive
+      // useEffect, below) hasn't armed the tween yet. M2's _scheduleAiTurn
+      // handles that with a 2-frame settle debounce; nothing in this
+      // callback can paper over it.
+      app.ticker.add((ticker) => {
         tickCamera();
         const state = useBattleStore.getState();
+        tickSprites(ticker.deltaMS, state.transient);
         if (state.battle) {
           processAnimationQueue(state.transient.animationQueue, state.battle);
         }
@@ -117,7 +130,7 @@ export function App() {
     if (!pixiReadyRef.current) return;
 
     if (!battle) {
-      lastBattleIdRef.current = null;
+      lastLoadGenRef.current = -1;
       try {
         const mapLayer = getPixiLayers().map;
         clearTiledRenderer(mapLayer);
@@ -145,11 +158,19 @@ export function App() {
         renderTerrainOverlay(battle!.battleMap);
         syncUnits(layers.units, battle!, selectedUnitId, getActiveUnitId(battle!));
 
-        // Only re-centre the camera when a new battle is loaded, not on every
-        // state tick. Replays / strikes shouldn't steal the player's pan.
-        const isNewBattle = battle!.battleId !== lastBattleIdRef.current;
+        // Only re-centre the camera + snap sprites when a new battle is loaded,
+        // not on every state tick. Replays / strikes shouldn't steal the
+        // player's pan, and normal moves SHOULD tween.
+        const currentGen = useBattleStore.getState().loadGeneration;
+        const isNewBattle = currentGen !== lastLoadGenRef.current;
         if (isNewBattle) {
-          lastBattleIdRef.current = battle!.battleId;
+          lastLoadGenRef.current = currentGen;
+          // Play Again reuses unit IDs, so sprites survive the reload.
+          // syncUnits just armed tweens toward every unit's spawn tile —
+          // snap so corpses don't slide home. Must be AFTER syncUnits
+          // (targets are set) and in the same effect tick (no frame
+          // renders with a backward tween armed).
+          snapAllSprites();
           if (canvasRef.current) {
             const rect = canvasRef.current.getBoundingClientRect();
             // Skip resize when canvas is hidden (display:none → zero dims)
@@ -157,6 +178,7 @@ export function App() {
               resizeCamera(rect.width, rect.height);
             }
           }
+          setCameraBounds(battle!.battleMap.width, battle!.battleMap.height);
           const centerX = (battle!.battleMap.width - 1) / 2;
           const centerY = (battle!.battleMap.height - 1) / 2;
           focusTile(centerX, centerY);
@@ -168,6 +190,20 @@ export function App() {
 
     renderBattle();
   }, [battle, selectedUnitId, tiledMap]);
+
+  // ---------------------------------------------------------------------------
+  // Move reachability — memoised so Dijkstra runs once on entering move
+  // mode, not once per hover. The same result feeds both the blue tile
+  // fills (tiles) and the path preview walk-back (statePrev + bestEntry).
+  //
+  // Keyed on targetMode?.type rather than targetMode itself because
+  // setTargetMode hands back a fresh object every call even when the type
+  // hasn't changed; keying on the full object would thrash the memo.
+  // ---------------------------------------------------------------------------
+  const moveReach = useMemo(() => {
+    if (!battle || battleEnded || targetMode?.type !== "move") return null;
+    return reachableWithPrev(battle, getActiveUnitId(battle));
+  }, [battle, battleEnded, targetMode?.type]);
 
   // ---------------------------------------------------------------------------
   // Range overlay — update whenever targetMode or battle changes
@@ -186,10 +222,16 @@ export function App() {
     const actorId = getActiveUnitId(battle);
 
     if (targetMode.type === "move") {
-      const tiles = reachableTiles(battle, actorId);
-      showMovementRange(tiles, battle);
+      // moveReach is guaranteed non-null here — the memo's null-gate is the
+      // exact inverse of this branch's entry conditions.
+      showMovementRange(moveReach!.tiles, battle);
     } else if (targetMode.type === "strike") {
       showStrikeTargets(battle, actorId, targetMode.weaponIndex);
+    } else if (targetMode.area) {
+      // Area spells don't advertise a fixed target set — any tile is a
+      // legal center. Leave the base layer blank; the M5 AoE footprint
+      // hover will provide targeting feedback.
+      clearRangeOverlay();
     } else if (["spell", "feat", "item"].includes(targetMode.type)) {
       if (targetMode.allyTarget) {
         showAllyTargets(battle, actorId);
@@ -197,7 +239,57 @@ export function App() {
         showAbilityTargets(battle, actorId);
       }
     }
-  }, [targetMode, battle, battleEnded]);
+  }, [targetMode, battle, battleEnded, moveReach]);
+
+  // ---------------------------------------------------------------------------
+  // Path preview — on hover during move mode, walk the cached prev map back
+  // from the hovered tile and draw the route. pathTo() is O(path length);
+  // the expensive search already happened in the memo above.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (!pixiReadyRef.current) return;
+
+    if (!moveReach || !hoveredTilePos) {
+      clearPathPreview();
+      return;
+    }
+
+    const [hx, hy] = hoveredTilePos;
+    // Only preview when hovering inside the blue move range. Hovering a wall
+    // or an out-of-range tile should show nothing (not a partial path).
+    if (!moveReach.tiles.has(`${hx},${hy}`)) {
+      clearPathPreview();
+      return;
+    }
+
+    const path = pathTo(moveReach, hx, hy);
+    if (path) {
+      showPathPreview(path);
+    } else {
+      clearPathPreview();
+    }
+  }, [hoveredTilePos, moveReach]);
+
+  // ---------------------------------------------------------------------------
+  // AoE footprint — on hover during area-target mode, paint the blast diamond
+  // centred on the hovered tile. Mirrors reducer's area_save_damage tile set
+  // (radiusPoints + LOE filter) so the red tiles are exactly what gets hit.
+  //
+  // Keyed on targetMode?.area (not targetMode itself) for the same reason as
+  // moveReach: setTargetMode returns a fresh object every call, and we only
+  // care whether area-mode is active + what the radius is.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (!pixiReadyRef.current) return;
+
+    if (!battle || !targetMode?.area || !hoveredTilePos) {
+      clearAreaFootprint();
+      return;
+    }
+
+    const [hx, hy] = hoveredTilePos;
+    showAreaFootprint(hx, hy, targetMode.area.radiusFeet, battle);
+  }, [hoveredTilePos, targetMode?.area, battle]);
 
   // ---------------------------------------------------------------------------
   // Sync grid overlay when showGrid changes
@@ -343,6 +435,9 @@ export function App() {
       resizeCamera(rect.width, rect.height);
       const currentBattle = useBattleStore.getState().battle;
       if (currentBattle) {
+        // Bounds re-set here because the viewport may have resized while
+        // hidden — setCameraBounds is cheap and idempotent.
+        setCameraBounds(currentBattle.battleMap.width, currentBattle.battleMap.height);
         focusTile(
           (currentBattle.battleMap.width - 1) / 2,
           (currentBattle.battleMap.height - 1) / 2,
@@ -378,8 +473,11 @@ export function App() {
 
       // ── Move ──────────────────────────────────────────────────────────────
       if (targetMode.type === "move") {
-        const reachable = reachableTiles(battle, actorId);
-        if (!reachable.has(`${tx},${ty}`)) {
+        // moveReach is the same memoised Dijkstra that painted the blue
+        // tiles — guaranteed non-null here for the same reason as the
+        // overlay effect (see memo null-gate). Reuse it instead of searching
+        // again to validate.
+        if (!moveReach!.tiles.has(`${tx},${ty}`)) {
           // Invalid move tile — inspect any unit standing there instead
           const unitAtTile = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
           if (unitAtTile) selectUnit(unitAtTile.unitId);
@@ -402,6 +500,27 @@ export function App() {
         const strikeCmd: Record<string, unknown> = { type: "strike", actor: actorId, target: targetUnit.unitId };
         if (targetMode.weaponIndex != null) strikeCmd["weapon_index"] = targetMode.weaponIndex;
         dispatchCommand(strikeCmd);
+        setTargetMode(null);
+        return;
+      }
+
+      // ── Area spell ────────────────────────────────────────────────────────
+      // Checked before the single-target branch — an area spell with the
+      // cursor over a unit should still target the TILE (the player is
+      // aiming at the unit's feet, not picking the unit itself). Dispatched
+      // as cast_spell so materializeRawCommand's whitelist accepts it; the
+      // rewrite to area_save_damage happens inside materialize once it sees
+      // the payload's area block.
+      if (targetMode.area) {
+        const entryId = targetMode.contentEntryId;
+        if (!entryId) { setTargetMode(null); return; }
+        dispatchCommand({
+          type: "cast_spell",
+          actor: actorId,
+          center_x: tx,
+          center_y: ty,
+          content_entry_id: entryId,
+        });
         setTargetMode(null);
         return;
       }

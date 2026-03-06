@@ -1,6 +1,5 @@
 /**
  * Turn order helpers.
- * Mirrors engine/core/turn_order.py
  */
 
 import { UnitState } from "./state";

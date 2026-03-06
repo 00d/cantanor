@@ -1,6 +1,5 @@
 /**
  * Tests for checks, saves, and degree-of-success rules.
- * Ported from tests/contract/test_checks_and_saves.py
  */
 
 import { describe, test, expect } from "vitest";

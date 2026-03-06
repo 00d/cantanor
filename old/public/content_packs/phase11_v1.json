@@ -1,0 +1,248 @@
+{
+  "pack_id": "phase11-v1",
+  "version": "1.0.0",
+  "compatibility": {
+    "min_engine_phase": 7,
+    "max_engine_phase": 99,
+    "feature_tags": ["content_pack_loader", "phase11"]
+  },
+  "entries": [
+    {
+      "id": "spell.produce_flame",
+      "kind": "spell",
+      "source_ref": "player-core",
+      "tags": ["fire", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "produce_flame",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "1d4+3",
+        "damage_type": "fire",
+        "dc": 16
+      }
+    },
+    {
+      "id": "spell.void_touch",
+      "kind": "spell",
+      "source_ref": "player-core",
+      "tags": ["void", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "void_touch",
+        "save_type": "Fortitude",
+        "mode": "basic",
+        "damage": "1d8",
+        "damage_type": "void",
+        "dc": 17
+      }
+    },
+    {
+      "id": "spell.telekinetic_projectile",
+      "kind": "spell",
+      "source_ref": "player-core",
+      "tags": ["force", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "telekinetic_projectile",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "2d6",
+        "damage_type": "force",
+        "dc": 17
+      }
+    },
+    {
+      "id": "spell.electric_arc",
+      "kind": "spell",
+      "source_ref": "player-core",
+      "tags": ["electricity", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "electric_arc",
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "1d4+4",
+        "damage_type": "electricity",
+        "dc": 15
+      }
+    },
+    {
+      "id": "spell.harm",
+      "kind": "spell",
+      "source_ref": "player-core",
+      "tags": ["void", "offense"],
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "harm",
+        "save_type": "Fortitude",
+        "mode": "basic",
+        "damage": "3d8",
+        "damage_type": "void",
+        "dc": 20
+      }
+    },
+    {
+      "id": "feat.demoralize",
+      "kind": "feat",
+      "source_ref": "player-core",
+      "tags": ["intimidation", "offense", "social"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "demoralize",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "frightened",
+          "value": 1
+        },
+        "duration_rounds": 1,
+        "tick_timing": "turn_end"
+      }
+    },
+    {
+      "id": "feat.dirty_trick",
+      "kind": "feat",
+      "source_ref": "player-core",
+      "tags": ["offense", "maneuver"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "dirty_trick",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "blinded",
+          "value": 1
+        },
+        "duration_rounds": 1,
+        "tick_timing": "turn_end"
+      }
+    },
+    {
+      "id": "feat.bon_mot",
+      "kind": "feat",
+      "source_ref": "player-core",
+      "tags": ["diplomacy", "social", "offense"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "bon_mot",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "stupefied",
+          "value": 1
+        },
+        "duration_rounds": 1,
+        "tick_timing": "turn_end"
+      }
+    },
+    {
+      "id": "feat.hamstring",
+      "kind": "feat",
+      "source_ref": "player-core-2",
+      "tags": ["offense", "maneuver"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "hamstring",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "clumsy",
+          "value": 1
+        },
+        "duration_rounds": 2,
+        "tick_timing": "turn_end"
+      }
+    },
+    {
+      "id": "feat.lay_on_hands",
+      "kind": "feat",
+      "source_ref": "player-core",
+      "tags": ["heal", "support", "divine"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "lay_on_hands",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 10,
+          "source_key": "feat:lay_on_hands"
+        }
+      }
+    },
+    {
+      "id": "feat.channel_vitality",
+      "kind": "feat",
+      "source_ref": "player-core",
+      "tags": ["heal", "support", "divine"],
+      "payload": {
+        "command_type": "use_feat",
+        "feat_id": "channel_vitality",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 14,
+          "source_key": "feat:channel_vitality"
+        }
+      }
+    },
+    {
+      "id": "item.greater_healing_potion",
+      "kind": "item",
+      "source_ref": "player-core",
+      "tags": ["heal", "consumable", "restore"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "greater_healing_potion",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 24,
+          "source_key": "item:greater_healing_potion"
+        }
+      }
+    },
+    {
+      "id": "item.elixir_of_life",
+      "kind": "item",
+      "source_ref": "player-core",
+      "tags": ["heal", "consumable", "restore"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "elixir_of_life",
+        "effect_kind": "temp_hp",
+        "payload": {
+          "amount": 17,
+          "source_key": "item:elixir_of_life"
+        }
+      }
+    },
+    {
+      "id": "item.tanglefoot_bag",
+      "kind": "item",
+      "source_ref": "player-core",
+      "tags": ["consumable", "offense"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "tanglefoot_bag",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "immobilized",
+          "value": 1
+        },
+        "duration_rounds": 2,
+        "tick_timing": "turn_end"
+      }
+    },
+    {
+      "id": "item.smokestick",
+      "kind": "item",
+      "source_ref": "player-core",
+      "tags": ["consumable", "support"],
+      "payload": {
+        "command_type": "use_item",
+        "item_id": "smokestick",
+        "effect_kind": "condition",
+        "payload": {
+          "name": "concealed",
+          "value": 1
+        },
+        "duration_rounds": 2,
+        "tick_timing": "turn_end"
+      }
+    }
+  ]
+}

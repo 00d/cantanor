@@ -1,6 +1,5 @@
 /**
  * Tests for scenario validation.
- * Ported from tests/contract/test_scenario_validation.py
  *
  * These tests validate:
  * - Scenario structure validation

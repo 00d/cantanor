@@ -1,6 +1,5 @@
 /**
  * Grid map helpers.
- * Mirrors engine/grid/map.py
  */
 
 import { BattleState, unitAlive } from "../engine/state";

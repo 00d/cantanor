@@ -2,10 +2,61 @@ import { describe, it, expect } from "vitest";
 import { createTestBattle, createTestUnit } from "../test-utils/fixtures";
 import {
   reachableTiles,
+  reachableWithPrev,
+  pathTo,
   stepToward,
   canStepTo,
   chebyshevDistance,
 } from "./movement";
+import type { BattleState } from "../engine/state";
+
+/** Asserts every consecutive pair in `path` is a legal single step in `state`
+ *  — Chebyshev distance 1, not blocked/occupied, and diagonal corners clear.
+ *  This is the same ruleset as dijkstra's neighbor loop; if a walk-back path
+ *  violates it, the prev map has stitched together an impossible route. */
+function isLegalWalk(path: Array<[number, number]>, state: BattleState): boolean {
+  const blocked = new Set(state.battleMap.blocked.map(([x, y]) => `${x},${y}`));
+  const occupied = new Set(
+    Object.values(state.units).filter((u) => u.hp > 0).map((u) => `${u.x},${u.y}`),
+  );
+  for (let i = 1; i < path.length; i++) {
+    const [px, py] = path[i - 1];
+    const [x, y] = path[i];
+    const dx = x - px, dy = y - py;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) !== 1) return false;
+    if (blocked.has(`${x},${y}`)) return false;
+    // Step target occupied? (Start tile is the unit's own, fine; intermediate/dest must be clear.)
+    if (occupied.has(`${x},${y}`)) return false;
+    // Corner-cutting prevention for diagonals
+    if (dx !== 0 && dy !== 0) {
+      if (blocked.has(`${px + dx},${py}`) || occupied.has(`${px + dx},${py}`)) return false;
+      if (blocked.has(`${px},${py + dy}`) || occupied.has(`${px},${py + dy}`)) return false;
+    }
+  }
+  return true;
+}
+
+/** Replay a path from the start with parity tracking and return total cost.
+ *  Mirrors dijkstra's cost model exactly — this is the "does the walk-back
+ *  path actually fit in the budget" check that motivated the parity-aware
+ *  prev map (Option A, Phase 14 M4). */
+function replayCost(path: Array<[number, number]>, state: BattleState): number {
+  let cost = 0;
+  let parity = 0;
+  for (let i = 1; i < path.length; i++) {
+    const [px, py] = path[i - 1];
+    const [x, y] = path[i];
+    const tileCost = state.battleMap.moveCost?.[`${x},${y}`] ?? 1;
+    const isDiag = (x - px) !== 0 && (y - py) !== 0;
+    if (isDiag) {
+      cost += parity === 0 ? tileCost : tileCost * 2;
+      parity = 1 - parity;
+    } else {
+      cost += tileCost;
+    }
+  }
+  return cost;
+}
 
 describe("chebyshevDistance", () => {
   it("returns max of axis deltas", () => {
@@ -270,6 +321,157 @@ describe("canStepTo (8-connected)", () => {
     const unit = createTestUnit({ x: 5, y: 5 });
     expect(canStepTo(battle, unit, 7, 5)).toBe(false);
     expect(canStepTo(battle, unit, 5, 5)).toBe(false); // same tile
+  });
+});
+
+describe("reachableWithPrev + pathTo", () => {
+  it("returns the same tile set as reachableTiles", () => {
+    // Back-compat guard: reachableTiles is now a wrapper, make sure the
+    // wrapper and the direct call agree bit-for-bit so the reducer's move
+    // validation (which still calls reachableTiles) isn't drifted.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 3, y: 3, speed: 4 }) },
+    });
+    const viaWrapper = reachableTiles(battle, "hero");
+    const viaDirect  = reachableWithPrev(battle, "hero").tiles;
+
+    expect(viaDirect).toEqual(viaWrapper);
+    expect(viaDirect.has("3,3")).toBe(false);   // start tile stays excluded
+  });
+
+  it("returns empty everything for an unknown unit", () => {
+    const battle = createTestBattle();
+    const reach = reachableWithPrev(battle, "ghost");
+    expect(reach.tiles.size).toBe(0);
+    expect(reach.statePrev.size).toBe(0);
+    expect(reach.bestEntry.size).toBe(0);
+  });
+
+  it("reconstructs a straight orthogonal path on an open map", () => {
+    // (0,0)→(4,0): purely orthogonal, no diagonals involved. The shortest
+    // path is the obvious straight shot at cost 4; any diagonal detour
+    // would be longer. Exact-sequence assertion is safe here.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 0, y: 0, speed: 5 }) },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    const path = pathTo(reach, 4, 0);
+    expect(path).toEqual([[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]);
+  });
+
+  it("routes around walls with legal steps", () => {
+    // Wall column at x=1, y=1..2. Don't assert which side the path takes —
+    // only that whatever it picks is a legal 8-connected walk that starts
+    // at S, ends at D, and never steps onto a blocked tile. Pinning the
+    // exact route would make this brittle against a valid tie-break change.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 1, y: 0, speed: 8 }) },
+      battleMap: { width: 5, height: 4, blocked: [[1, 1], [1, 2]] },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    expect(reach.tiles.has("1,3")).toBe(true);
+
+    const path = pathTo(reach, 1, 3)!;
+    expect(path[0]).toEqual([1, 0]);
+    expect(path[path.length - 1]).toEqual([1, 3]);
+    expect(isLegalWalk(path, battle)).toBe(true);
+  });
+
+  it("path length is Chebyshev+1 on open uniform-cost terrain", () => {
+    // With 8-connected movement and no obstacles, the shortest path to any
+    // tile uses Chebyshev-distance steps (diagonals cover both axes at once).
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 5, y: 5, speed: 6 }) },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+
+    // (5,5) → (8,3): Chebyshev max(3,2) = 3 steps → 4 tiles
+    const path = pathTo(reach, 8, 3)!;
+    expect(path.length).toBe(4);
+    expect(isLegalWalk(path, battle)).toBe(true);
+  });
+
+  it("parity correctness: walk-back through difficult terrain stays in budget", () => {
+    // This is the scenario that motivated parity-aware prev (Option A).
+    // moveCost[2,2]=3. Naive tile-level prev can record (1,1)→(2,2) from
+    // the parity-0 relaxation while (1,1)'s own prev was recorded at parity
+    // 1 (via diagonal from S). Walking that chain forward replays as two
+    // diagonals: 1 + 3×2 = 7. The parity-aware prev instead walks back
+    // along a consistent chain whose replay cost = dist[dest] = 5.
+    //
+    // We don't assert the exact path — only that its replay cost matches
+    // the Dijkstra distance, proving the walk-back is parity-consistent.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 0, y: 0, speed: 5 }) },
+      battleMap: {
+        width: 5, height: 5, blocked: [],
+        moveCost: { "2,2": 3 },
+      },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    expect(reach.tiles.has("2,2")).toBe(true);
+
+    const path = pathTo(reach, 2, 2)!;
+    expect(path[0]).toEqual([0, 0]);
+    expect(path[path.length - 1]).toEqual([2, 2]);
+    expect(isLegalWalk(path, battle)).toBe(true);
+    // THE assertion: replayed cost ≤ speed. Naive prev would give 7 here.
+    expect(replayCost(path, battle)).toBeLessThanOrEqual(5);
+  });
+
+  it("every reachable tile's walk-back replays within budget (open + difficult mix)", () => {
+    // Sweep assertion: for EVERY tile in reach, pathTo gives a route whose
+    // replayed cost is ≤ speed. This is the contract the path preview relies
+    // on — if any tile fails, the chevrons would show an impossible route.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 3, y: 3, speed: 5 }) },
+      battleMap: {
+        width: 10, height: 10, blocked: [[4, 4]],
+        moveCost: { "5,5": 2, "4,3": 3, "2,2": 2 },
+      },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    const speed = 5;
+
+    for (const key of reach.tiles) {
+      const [x, y] = key.split(",").map(Number);
+      const path = pathTo(reach, x, y)!;
+      expect(path).not.toBeNull();
+      expect(path[0]).toEqual([3, 3]);
+      expect(path[path.length - 1]).toEqual([x, y]);
+      expect(isLegalWalk(path, battle)).toBe(true);
+      expect(replayCost(path, battle)).toBeLessThanOrEqual(speed);
+    }
+  });
+
+  it("returns null for an unreachable tile", () => {
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 0, y: 0, speed: 2 }) },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    expect(pathTo(reach, 7, 7)).toBeNull();
+  });
+
+  it("returns null for the start tile itself", () => {
+    // Start tile has no bestEntry — "path to where I already am" is a
+    // non-concept. The UI uses this to avoid drawing a lone ring under
+    // the unit's feet when the cursor happens to be over its own tile.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 2, y: 2, speed: 5 }) },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    expect(pathTo(reach, 2, 2)).toBeNull();
+  });
+
+  it("handles a 1-step path (adjacent destination)", () => {
+    // Edge case for the renderer: a 2-element path means no intermediate
+    // chevrons, just the landing ring.
+    const battle = createTestBattle({
+      units: { hero: createTestUnit({ unitId: "hero", x: 3, y: 3, speed: 5 }) },
+    });
+    const reach = reachableWithPrev(battle, "hero");
+    expect(pathTo(reach, 4, 3)).toEqual([[3, 3], [4, 3]]);   // orthogonal
+    expect(pathTo(reach, 4, 4)).toEqual([[3, 3], [4, 4]]);   // diagonal
   });
 });
 

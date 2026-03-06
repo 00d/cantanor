@@ -1,6 +1,5 @@
 /**
  * Saving throw resolution.
- * Mirrors engine/rules/saves.py
  */
 
 import { DeterministicRNG } from "../engine/rng";

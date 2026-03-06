@@ -490,6 +490,59 @@ describe("buildScenarioFromTiledMap", () => {
     expect(isBlocked).toBe(true);
   });
 
+  it("passes hazard zones through to battleMap.hazards", () => {
+    const map = makeMap({
+      layers: [
+        makeGroundLayer([1, 1, 1, 1, 1, 1, 1, 1, 1]),
+        makeSpawnLayer([
+          { name: "pc_warrior", x: 0, y: 0, team: "pc", hp: 20 },
+          { name: "orc_guard", x: 64, y: 64, team: "enemy", hp: 15 },
+        ]),
+        {
+          id: 20, name: "Hazards", type: "objectgroup",
+          visible: true, opacity: 1, x: 0, y: 0,
+          objects: [{
+            id: 200, name: "lava_pool", type: "hazard",
+            x: 32, y: 64, width: 64, height: 32, rotation: 0, visible: true,
+            properties: [
+              { name: "element", type: "string", value: "fire" },
+              { name: "damagePerTurn", type: "int", value: 5 },
+              { name: "dc", type: "int", value: 14 },
+              { name: "saveType", type: "string", value: "Reflex" },
+            ],
+          }],
+        },
+      ],
+    });
+    const scenario = buildScenarioFromTiledMap(map);
+    // Scenario JSON has map.hazards in snake_case
+    const scenarioMap = scenario["map"] as Record<string, unknown>;
+    expect(scenarioMap["hazards"]).toBeDefined();
+    expect((scenarioMap["hazards"] as unknown[])).toHaveLength(1);
+
+    // Full chain: validate → parse → battleMap.hazards populated
+    expect(() => validateScenario(scenario)).not.toThrow();
+    const state = battleStateFromScenario(scenario);
+    expect(state.battleMap.hazards).toBeDefined();
+    expect(state.battleMap.hazards).toHaveLength(1);
+    const hz = state.battleMap.hazards![0];
+    expect(hz.id).toBe("lava_pool");
+    expect(hz.damageType).toBe("fire");   // element → damageType
+    expect(hz.damagePerTurn).toBe(5);
+    expect(hz.dc).toBe(14);
+    expect(hz.saveType).toBe("Reflex");
+    expect(hz.tiles).toContainEqual([1, 2]);
+    expect(hz.tiles).toContainEqual([2, 2]);
+  });
+
+  it("omits map.hazards when no Hazards layer present", () => {
+    const scenario = buildScenarioFromTiledMap(makeValidMap());
+    const scenarioMap = scenario["map"] as Record<string, unknown>;
+    expect(scenarioMap["hazards"]).toBeUndefined();
+    const state = battleStateFromScenario(scenario);
+    expect(state.battleMap.hazards).toBeUndefined();
+  });
+
   it("throws when the map has no spawn points", () => {
     const map = makeMap(); // no Spawns layer
     expect(() => buildScenarioFromTiledMap(map)).toThrow(/spawn/i);

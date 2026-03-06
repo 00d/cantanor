@@ -8,13 +8,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { activeUnitId as getActiveUnitId } from "../engine/state";
 import { reachableWithPrev, pathTo } from "../grid/movement";
-import { TurnOrderRibbon } from "./TurnOrderRibbon";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
 import { ForecastTooltip } from "./ForecastTooltip";
+import { TurnOrderBar } from "./TurnOrderBar";
 import { ScenarioLoader } from "./ScenarioLoader";
 import { BattleEndOverlay } from "./BattleEndOverlay";
+import { CampScreen } from "./CampScreen";
 import { ScenarioViewer } from "./designer/ScenarioViewer";
 import { initPixiApp, getPixiLayers, getPixiWorld } from "../rendering/pixiApp";
 import { renderTileMap, clearTileMap, setHoverTile } from "../rendering/tileRenderer";
@@ -35,6 +36,11 @@ import {
   showAreaFootprint,
   clearAreaFootprint,
 } from "../rendering/rangeOverlay";
+import {
+  initTerrainOverlay,
+  renderTerrainOverlay,
+  clearTerrainOverlay,
+} from "../rendering/terrainOverlay";
 
 type AppMode = "game" | "designer";
 
@@ -51,7 +57,13 @@ export function App() {
   const battleEnded   = useBattleStore((s) => s.battleEnded);
   const isAiTurn      = useBattleStore((s) => s.isAiTurn);
   const loadGeneration = useBattleStore((s) => s.loadGeneration);
-  const undoGeneration = useBattleStore((s) => s.undoGeneration);
+
+  const campaignDefinition = useBattleStore((s) => s.campaignDefinition);
+  const campaignProgress   = useBattleStore((s) => s.campaignProgress);
+  const showCampScreen     = useBattleStore((s) => s.showCampScreen);
+  const healCampaignParty  = useBattleStore((s) => s.healCampaignParty);
+  const startCampaignStage = useBattleStore((s) => s.startCampaignStage);
+  const clearCampaign      = useBattleStore((s) => s.clearCampaign);
 
   const selectUnit       = useBattleStore((s) => s.selectUnit);
   const setHoverTileStore = useBattleStore((s) => s.setHoverTile);
@@ -59,27 +71,19 @@ export function App() {
   const dispatchCommand  = useBattleStore((s) => s.dispatchCommand);
   const clearBattle      = useBattleStore((s) => s.clearBattle);
   const toggleGrid       = useBattleStore((s) => s.toggleGrid);
-  const undo             = useBattleStore((s) => s.undo);
 
   /** URL of the most recently loaded .tmj file — needed to resolve tileset image paths. */
   const tiledMapUrlRef = useRef<string | null>(null);
   /** Whether PixiJS has been initialised. */
   const pixiReadyRef = useRef(false);
   /**
-   * Load-generation tracker — we only auto-focus the camera and snap sprites
-   * when a fresh battle is loaded, not on every state mutation. Tracking
-   * battleId is not sufficient because Play Again reloads the same scenario
-   * with the same battleId; the store's monotonic loadGeneration bumps on
-   * every loadBattle/loadSavedGame regardless.
+   * Load-generation tracker — we only auto-focus the camera when a NEW battle
+   * is loaded, not on every state mutation. Keyed on `loadGeneration` (a
+   * monotonic counter bumped by the store on every loadBattle/loadSavedGame),
+   * NOT on `battle.battleId`. battleId comes from scenario JSON and doesn't
+   * change on Play Again — loadGeneration does.
    */
-  const lastLoadGenRef = useRef(0);
-  /**
-   * Undo-generation tracker — same snap-after-syncUnits pattern as
-   * lastLoadGenRef but a different signal, because the load branch ALSO
-   * re-centres the camera and we don't want that on undo. Undoing a move
-   * shouldn't yank the viewport to the map midpoint.
-   */
-  const lastUndoGenRef = useRef(0);
+  const lastLoadGenRef = useRef<number>(0);
 
   // ---------------------------------------------------------------------------
   // Initialize PixiJS on mount
@@ -94,9 +98,10 @@ export function App() {
       initCamera(getPixiWorld(), app.screen.width, app.screen.height);
       initEffectRenderer(layers.effects);
       initRangeOverlay(layers.overlay);
+      initTerrainOverlay(layers.overlay);
       pixiReadyRef.current = true;
 
-      // Game loop ticker — camera lerp + sprite tween + animation queue drain.
+      // Game loop ticker — camera lerp, sprite tweens, animation queue drain.
       // Reads transient state directly (no React subscription) so this
       // fires at 60fps without causing re-renders.
       //
@@ -120,42 +125,6 @@ export function App() {
   }, []);
 
   // ---------------------------------------------------------------------------
-  // Keep camera view dimensions in sync with the canvas element.
-  //
-  // Pixi's own `resizeTo: canvas.parentElement` (pixiApp.ts) already resizes
-  // the WebGL backbuffer — that side is covered. What ISN'T covered is
-  // cameraController's private _viewWidth/_viewHeight, which focusTile() and
-  // the wheel-zoom pivot both read. Without this, resizing the window (or any
-  // future media-query reflow) leaves those numbers stale: focusTile lerps
-  // toward the old centre and zoom pivots around the wrong point. Clicks are
-  // fine regardless — screenToTile never reads _viewWidth.
-  //
-  // The two manual resizeCamera() calls in the fresh-load path and the
-  // appMode path are intentionally kept. Both are immediately followed by
-  // focusTile(), and focusTile() reads _viewWidth synchronously. The observer
-  // fires async at end-of-frame; it can't win that race. The manual calls are
-  // the sync-calibrate-then-use path, this observer is the keep-it-calibrated
-  // path. They overlap harmlessly (resizeCamera is idempotent).
-  // ---------------------------------------------------------------------------
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ro = new ResizeObserver((entries) => {
-      // Single observed element → single entry. contentRect is the content
-      // box; the canvas has no padding so that's the drawable area.
-      const { width, height } = entries[0].contentRect;
-      // display:none (designer mode) reports 0×0. Don't calibrate to zero —
-      // the next resize when display flips back will carry the real numbers.
-      if (width > 0 && height > 0) {
-        resizeCamera(width, height);
-      }
-    });
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, []);
-
-  // ---------------------------------------------------------------------------
   // Sync battle state to PixiJS when battle changes
   // ---------------------------------------------------------------------------
   useEffect(() => {
@@ -168,6 +137,7 @@ export function App() {
         clearTileMap(mapLayer);
         clearUnits();
         clearRangeOverlay();
+        clearTerrainOverlay();
         clearEffectRenderer();
       } catch { /* PixiJS not yet ready */ }
       return;
@@ -185,17 +155,21 @@ export function App() {
           renderTileMap(layers.map, battle!.battleMap);
         }
 
+        renderTerrainOverlay(battle!.battleMap);
         syncUnits(layers.units, battle!, selectedUnitId, getActiveUnitId(battle!));
 
-        // Only re-centre the camera + snap sprites on a fresh load, not on
-        // every state tick. Replays / strikes shouldn't steal the player's pan.
+        // Only re-centre the camera when a new battle is loaded, not on every
+        // state tick. Replays / strikes shouldn't steal the player's pan.
         const isFreshLoad = loadGeneration !== lastLoadGenRef.current;
         if (isFreshLoad) {
           lastLoadGenRef.current = loadGeneration;
           // Play Again reuses unit IDs, so sprites survive the reload.
-          // syncUnits just armed tweens toward every unit's spawn tile —
-          // snap so corpses don't slide home.
+          // syncUnits above just armed tweens toward every spawn tile —
+          // snap so nothing slides home. Must run AFTER syncUnits (so
+          // targets are correct) and in the SAME effect tick (so no frame
+          // renders with a backward tween); both hold here.
           snapAllSprites();
+          setCameraBounds(battle!.battleMap.width, battle!.battleMap.height);
           if (canvasRef.current) {
             const rect = canvasRef.current.getBoundingClientRect();
             // Skip resize when canvas is hidden (display:none → zero dims)
@@ -203,31 +177,9 @@ export function App() {
               resizeCamera(rect.width, rect.height);
             }
           }
-          // World extent is known from the battle regardless of canvas
-          // visibility — arm the clamp unconditionally so tickCamera is
-          // bounded by the time the canvas reappears (designer-mode toggle).
-          // Must come before focusTile only by convention (grouping all
-          // "calibrate camera to new world" calls together); the clamp
-          // actually runs in tickCamera so the order here doesn't matter.
-          setCameraBounds(battle!.battleMap.width, battle!.battleMap.height);
           const centerX = (battle!.battleMap.width - 1) / 2;
           const centerY = (battle!.battleMap.height - 1) / 2;
           focusTile(centerX, centerY);
-        }
-
-        // Undo snap — syncUnits above just armed tweens toward the pre-undo
-        // positions. Without this, the undone unit slides backward as if it
-        // walked. Undo is discontinuous; it shouldn't animate. Separate from
-        // isFreshLoad so we get the snap without the camera-to-midpoint.
-        //
-        // Ordering: this has to be AFTER syncUnits (otherwise we'd snap to the
-        // post-action targets, then syncUnits would re-arm tweens anyway) and
-        // in the same effect tick (so no frame is rendered with the wrong
-        // tween in flight). Checking a ref-tracked generation inside this
-        // effect gets both for free.
-        if (undoGeneration !== lastUndoGenRef.current) {
-          lastUndoGenRef.current = undoGeneration;
-          snapAllSprites();
         }
       } catch (err) {
         console.warn("Failed to render battle:", err);
@@ -235,14 +187,16 @@ export function App() {
     }
 
     renderBattle();
-  }, [battle, selectedUnitId, tiledMap, loadGeneration, undoGeneration]);
+  }, [battle, selectedUnitId, tiledMap]);
 
   // ---------------------------------------------------------------------------
-  // Move reachability — memoised so Dijkstra runs once on entering move
-  // mode, not once per hover. `prev` is kept around for pathTo().
+  // Move reachability — memoised so Dijkstra runs ONCE on entering move mode,
+  // not once per hover. `prev` is kept for pathTo(): the hover-effect below
+  // walks the cached parent map per hovered tile (O(path-length), no re-search).
   //
   // Keyed on targetMode?.type (not targetMode) because targetMode is a fresh
-  // object on every setTargetMode() call even when the type hasn't changed.
+  // object on every setTargetMode() call even when the type hasn't changed —
+  // re-keying on the object would re-run Dijkstra spuriously.
   // ---------------------------------------------------------------------------
   const moveReach = useMemo(() => {
     if (!battle || battleEnded || targetMode?.type !== "move") return null;
@@ -266,15 +220,19 @@ export function App() {
     const actorId = getActiveUnitId(battle);
 
     if (targetMode.type === "move") {
-      // moveReach is guaranteed non-null here — the memo gate at its
-      // definition is the exact inverse of this branch's entry conditions.
+      // moveReach is guaranteed non-null here — the memo's null-gate above is
+      // the exact inverse of this branch's entry conditions (both check
+      // battle/battleEnded/type==="move").
       showMovementRange(moveReach!.tiles, battle);
     } else if (targetMode.type === "strike") {
-      showStrikeTargets(battle, actorId);
+      showStrikeTargets(battle, actorId, targetMode.weaponIndex);
     } else if (targetMode.area) {
-      // Area spells don't advertise a fixed target set — any tile is a
-      // legal center. Leave the base layer blank; the red blast diamond
-      // (painted by the hover effect below) IS the targeting feedback.
+      // Area spells don't advertise a fixed target set — any tile is a legal
+      // center. Leave the base layer blank; the red blast diamond (painted by
+      // the area-hover effect below) IS the targeting feedback. Checked
+      // before the single-target spell branch because an area spell still has
+      // type:"spell" — letting it fall through would paint every enemy as if
+      // they were individually targetable, which they aren't.
       clearRangeOverlay();
     } else if (["spell", "feat", "item"].includes(targetMode.type)) {
       if (targetMode.allyTarget) {
@@ -287,8 +245,8 @@ export function App() {
 
   // ---------------------------------------------------------------------------
   // Path preview — on hover during move mode, walk the cached prev map back
-  // from the hovered tile and draw the route. pathTo() is O(path length);
-  // the expensive search already happened in the memo above.
+  // from the hovered tile and draw the route. pathTo() is O(path length); the
+  // expensive 8-dir Dijkstra already happened in the memo above.
   // ---------------------------------------------------------------------------
   useEffect(() => {
     if (!pixiReadyRef.current) return;
@@ -300,7 +258,7 @@ export function App() {
 
     const [hx, hy] = hoveredTilePos;
     // Only preview when hovering inside the blue move range. Hovering a wall
-    // or an out-of-range tile should show nothing (not a partial path).
+    // or an out-of-range tile shows nothing (not a partial path).
     if (!moveReach.tiles.has(`${hx},${hy}`)) {
       clearPathPreview();
       return;
@@ -316,10 +274,22 @@ export function App() {
 
   // ---------------------------------------------------------------------------
   // Area footprint — on hover during area-targeting mode, paint the blast
-  // radius centred on the cursor. Redrawn every mouse-move; the LOE walk is
-  // one Bresenham line per tile in the diamond, negligible at 4-tile radius
-  // (41 tiles). Keying on targetMode.area — if the player swaps from a
-  // 20ft spell to a 10ft one without moving the mouse, the footprint shrinks.
+  // radius centred on the cursor. Redrawn every mouse-move; cost is one
+  // Bresenham LOE walk per tile in the diamond (41 tiles at 20ft/4-tile
+  // radius, negligible).
+  //
+  // Keyed on targetMode?.area (the object, not a derived value). Two reasons:
+  //   • Arm/disarm fires the effect: undefined → object → undefined toggles
+  //     clear/paint/clear. The range-overlay effect's clearRangeOverlay()
+  //     wipes all three layers on every targetMode change, but this effect
+  //     runs AFTER it (useEffect declaration order) and repaints, so the
+  //     footprint survives the arm transition.
+  //   • Swapping from a 20ft spell to a 10ft one without moving the mouse
+  //     (back-to-back hotkey presses) gives a fresh area object →
+  //     footprint shrinks on the swap, not on the next mouse-move.
+  //
+  // The clearRangeOverlay-then-repaint dance works because both effects fire
+  // in the same commit; the intermediate cleared state never hits a frame.
   // ---------------------------------------------------------------------------
   useEffect(() => {
     if (!pixiReadyRef.current) return;
@@ -330,7 +300,11 @@ export function App() {
     }
 
     const [hx, hy] = hoveredTilePos;
-    showAreaFootprint(hx, hy, targetMode.area.radiusFeet, battle);
+    const actor = battle.units[getActiveUnitId(battle)];
+    // Cone/line emanate from the caster — need the actor's tile. For burst
+    // the actor coords are ignored but we pass them anyway to keep one
+    // signature for all three shapes.
+    showAreaFootprint(hx, hy, targetMode.area, battle, actor.x, actor.y);
   }, [hoveredTilePos, targetMode?.area, battle]);
 
   // ---------------------------------------------------------------------------
@@ -355,7 +329,6 @@ export function App() {
   // Keyboard shortcuts
   //   Esc         cancel target mode
   //   WASD/arrows pan camera
-  //   Ctrl/Cmd+Z  undo last action
   //   M / K / E   enter move / strike / end-turn  (S & A are camera pan keys)
   //   G           toggle grid
   //   1-9         trigger nth ability button
@@ -381,24 +354,6 @@ export function App() {
         case "s": case "S": case "ArrowDown":  e.preventDefault(); panBy(0, -PAN); return;
         case "a": case "A": case "ArrowLeft":  e.preventDefault(); panBy( PAN, 0); return;
         case "d": case "D": case "ArrowRight": e.preventDefault(); panBy(-PAN, 0); return;
-      }
-
-      // Undo — checked BEFORE the battleEnded guard so you can undo the
-      // winning blow. ("Did I really want to fireball the last goblin? Let
-      // me see what a crit-strike does instead.") The stack is only non-empty
-      // during a PC turn (flushed on end_turn, AI dispatches don't push), and
-      // popping a snapshot restores a by-definition-not-ended battle state,
-      // so this can't put the game in a weird place. undo() itself no-ops on
-      // an empty stack, so the only guard that matters here is isAiTurn — and
-      // even that's belt-and-suspenders (stack is empty during AI turns).
-      // metaKey covers Cmd on Mac; Ctrl works everywhere.
-      if ((e.ctrlKey || e.metaKey) && (e.key === "z" || e.key === "Z")) {
-        const s = useBattleStore.getState();
-        if (!s.isAiTurn) {
-          e.preventDefault();
-          undo();
-        }
-        return;
       }
 
       // Action shortcuts — guard against AI turns / ended battles / no actions
@@ -442,7 +397,27 @@ export function App() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setTargetMode, dispatchCommand, toggleGrid, undo]);
+  }, [setTargetMode, dispatchCommand, toggleGrid]);
+
+  // ---------------------------------------------------------------------------
+  // Resize observer — keeps PixiJS camera + renderer in sync when the
+  // canvas-section changes size (e.g. portrait ↔ landscape media query).
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const section = canvas.parentElement;
+    if (!section) return;
+
+    const ro = new ResizeObserver(() => {
+      if (!pixiReadyRef.current) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      resizeCamera(rect.width, rect.height);
+    });
+    ro.observe(section);
+    return () => ro.disconnect();
+  }, []);
 
   // ---------------------------------------------------------------------------
   // Scroll wheel zoom (non-passive so we can preventDefault)
@@ -512,9 +487,10 @@ export function App() {
       // ── Move ──────────────────────────────────────────────────────────────
       if (targetMode.type === "move") {
         // moveReach is the same memoised Dijkstra that painted the blue tiles
-        // — guaranteed non-null here (line 450 rules out !battle/battleEnded,
-        // this if rules out the type mismatch; together those are the memo's
-        // whole null-gate). Reuse it instead of searching again to validate.
+        // — guaranteed non-null here: the function guard at the top rules out
+        // !battle/battleEnded, and this `if` rules out the type mismatch; those
+        // are the memo's whole null-gate. Reusing the cache means the click
+        // validates against the EXACT tile set the player saw highlighted.
         if (!moveReach!.tiles.has(`${tx},${ty}`)) {
           // Invalid move tile — inspect any unit standing there instead
           const unitAtTile = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
@@ -535,18 +511,26 @@ export function App() {
           selectUnit(targetUnit.unitId);
           return;
         }
-        dispatchCommand({ type: "strike", actor: actorId, target: targetUnit.unitId });
+        const strikeCmd: Record<string, unknown> = { type: "strike", actor: actorId, target: targetUnit.unitId };
+        if (targetMode.weaponIndex != null) strikeCmd["weapon_index"] = targetMode.weaponIndex;
+        dispatchCommand(strikeCmd);
         setTargetMode(null);
         return;
       }
 
       // ── Area spell ────────────────────────────────────────────────────────
       // Checked before the single-target branch — an area spell with the
-      // cursor over a unit should still target the TILE (the player is
-      // aiming at the unit's feet, not picking the unit itself). Dispatched
-      // as cast_spell so materializeRawCommand's whitelist accepts it; the
+      // cursor over a unit should still target the TILE (the player is aiming
+      // at the unit's feet, not picking the unit itself). Dispatched as
+      // cast_spell so materializeRawCommand's whitelist accepts it; the
       // rewrite to area_save_damage happens inside materialize once it sees
-      // the payload's area block.
+      // the payload's area block and lifts radius_feet to the top level.
+      //
+      // No bounds check: hoveredTilePos is clamped by handleCanvasMove (which
+      // wrote it), and a click at an out-of-bounds tile simply hits nothing
+      // in the reducer — radiusPoints emits the diamond, inBounds/LOE filter
+      // strip every target, zero resolutions are returned. One action spent,
+      // which is correct for "you cast Fireball into the void".
       if (targetMode.area) {
         const entryId = targetMode.contentEntryId;
         if (!entryId) { setTargetMode(null); return; }
@@ -648,11 +632,23 @@ export function App() {
         <>
           {/* UI panels section — 38% width */}
           <div className="ui-section">
-            <ScenarioLoader onTiledMapUrl={(url) => { tiledMapUrlRef.current = url; }} />
-            <TurnOrderRibbon />
-            <PartyPanel />
-            <CombatLogPanel />
-            <ActionPanel />
+            <TurnOrderBar />
+            {showCampScreen && campaignDefinition && campaignProgress ? (
+              <CampScreen
+                definition={campaignDefinition}
+                progress={campaignProgress}
+                onHealAtCamp={healCampaignParty}
+                onContinue={() => startCampaignStage()}
+                onExitCampaign={() => { clearCampaign(); handleNewScenario(); }}
+              />
+            ) : (
+              <>
+                <ScenarioLoader onTiledMapUrl={(url) => { tiledMapUrlRef.current = url; }} />
+                <PartyPanel />
+                <CombatLogPanel />
+                <ActionPanel />
+              </>
+            )}
           </div>
 
           {/* Battle-end overlay — renders on top of everything */}

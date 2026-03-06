@@ -131,6 +131,44 @@ export function materializeRawCommand(
     merged["interact_id"] = defaultCommandIdFromEntry(entryId);
   }
 
+  // ── Area spell rewrite ────────────────────────────────────────────────────
+  // When the content entry declares an area shape, the UI dispatches the
+  // command as "cast_spell" (so this function's whitelist + the template
+  // merge above both work unchanged) with center_x/center_y instead of a
+  // target. We then swap the type so the reducer takes its area_save_damage
+  // branch. Done post-merge because radius_feet comes from the template, the
+  // center comes from the click — both are in `merged` by now.
+  //
+  // Gate reads payloadTemplate.area (the content-pack author's declaration),
+  // NOT merged.area — a malicious dispatch can't inject an area block and
+  // turn a single-target spell into an AoE.
+  //
+  // Only burst is wired today; `shape` is kept in the schema so a later
+  // line/cone pass has somewhere to hang its dispatch.
+  const areaRaw = payloadTemplate["area"];
+  if (commandType === "cast_spell" && areaRaw && typeof areaRaw === "object") {
+    const area = areaRaw as Record<string, unknown>;
+    const shape = String(area["shape"] ?? "");
+    if (shape !== "burst") {
+      throw new ReductionError(
+        `content entry ${entryId}: area shape '${shape}' not supported (only 'burst')`,
+      );
+    }
+    if (merged["center_x"] === undefined || merged["center_y"] === undefined) {
+      throw new ReductionError(
+        `content entry ${entryId}: area spell requires center_x/center_y, not target`,
+      );
+    }
+    merged["type"] = "area_save_damage";
+    merged["radius_feet"] = Number(area["radius_feet"]);
+    // Scrub fields the area_save_damage reducer path doesn't read. Leaving
+    // them in is harmless to the reducer (it ignores unknowns) but it makes
+    // the event log confusing — a Fireball event shouldn't carry spell_id.
+    delete merged["area"];
+    delete merged["spell_id"];
+    delete merged["target"];
+  }
+
   return merged;
 }
 

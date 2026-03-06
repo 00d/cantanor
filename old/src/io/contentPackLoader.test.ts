@@ -1,6 +1,5 @@
 /**
  * Tests for content pack loading and validation.
- * Ported from tests/contract/test_content_pack_loader.py
  *
  * These tests validate:
  * - Content pack JSON schema validation

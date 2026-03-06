@@ -3,6 +3,10 @@
  * Uses colored rectangle placeholders until sprite sheets are available.
  * Each unit gets a container with a body graphic + label text.
  *
+ * When a unit has a `spriteSheet` field, the loader fetches the descriptor
+ * asynchronously. The colored rectangle is shown immediately; once the sprite
+ * sheet loads, a Sprite replaces the rectangle body.
+ *
  * Movement tweens
  * ---------------
  * syncUnits() does NOT snap sprite positions. It sets `targetX/targetY` and,
@@ -13,13 +17,18 @@
  * container. Settled sprites (lerpT >= 1) cost one comparison per frame.
  *
  * tickSprites() also writes the count of still-moving sprites to
- * `transient.activeAnimCount` so _scheduleAiTurn can gate on it —
- * see battleStore.ts.
+ * `transient.activeAnimCount` so _scheduleAiTurn can gate on it.
+ *
+ * Tweens and sprite-sheets are orthogonal: the tween moves
+ * `container.position`, the sheet swaps `animatedSprite.texture`. During a
+ * tween the walk pose is shown (frame 0); on settle, back to idle frame 0.
  */
 
-import { Container, Graphics, Text, TextStyle } from "pixi.js";
+import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js";
 import { BattleState, UnitState, unitAlive } from "../engine/state";
 import { TILE_SIZE } from "./pixiApp";
+import { loadSpriteSheet } from "./spriteSheetLoader";
+import type { AnimationStateName, LoadedSpriteSheet } from "./spriteSheetTypes";
 import type { TransientState } from "../store/battleStore";
 
 const TEAM_COLORS: Record<string, number> = {
@@ -49,6 +58,12 @@ interface UnitSprite {
   /** Thin HP bar above the unit body — track + fill drawn in one Graphics. */
   hpBar: Graphics;
   unitId: string;
+  /** Optional pixel-art sprite (replaces body when loaded). */
+  animatedSprite?: Sprite;
+  /** Loaded sprite sheet data (null until async load completes). */
+  spriteSheet?: LoadedSpriteSheet;
+  /** Current animation state name. */
+  currentAnimation?: AnimationStateName;
   /** Tween target (pixels, world space). Set by syncUnits(). */
   targetX: number;
   targetY: number;
@@ -72,6 +87,8 @@ function hpColor(pct: number): number {
 }
 
 const _sprites = new Map<string, UnitSprite>();
+/** Track which sprite sheet URLs are being loaded to avoid duplicate fetches. */
+const _loadingSheets = new Set<string>();
 let _parentLayer: Container | null = null;
 
 function teamColor(team: string): number {
@@ -94,34 +111,112 @@ function createUnitSprite(unit: UnitState): UnitSprite {
   container.addChild(body);
   container.addChild(label);
   container.addChild(hpBar);  // on top so it's never covered by the body outline
-  // Tween state is left at origin — syncUnits() will snap on first sight.
-  return {
+
+  // Tween state starts settled — syncUnits() snaps on first sight.
+  const sprite: UnitSprite = {
     container, body, label, hpBar, unitId: unit.unitId,
     targetX: 0, targetY: 0, fromX: 0, fromY: 0, lerpT: 1,
   };
+
+  // Kick off async sprite sheet loading if the unit has a spriteSheet path
+  if (unit.spriteSheet && !_loadingSheets.has(unit.spriteSheet)) {
+    _loadingSheets.add(unit.spriteSheet);
+    loadSpriteSheet(unit.spriteSheet).then((loaded) => {
+      if (loaded) {
+        _applySpriteSheet(sprite, loaded);
+      }
+    });
+  }
+
+  return sprite;
+}
+
+/**
+ * Apply a loaded sprite sheet to a unit sprite, replacing the colored
+ * rectangle body with a pixel-art Sprite showing the first idle frame.
+ */
+function _applySpriteSheet(sprite: UnitSprite, sheet: LoadedSpriteSheet): void {
+  sprite.spriteSheet = sheet;
+
+  // Get the first frame of the idle animation (or frame 0 as fallback)
+  const idleAnim = sheet.descriptor.animations.idle;
+  const frameIndex = idleAnim ? idleAnim.frames[0] : 0;
+  const texture = sheet.frames[frameIndex] as Texture;
+  if (!texture) return;
+
+  const pixelSprite = new Sprite(texture);
+  // Scale to fit tile size
+  pixelSprite.width = TILE_SIZE - UNIT_PADDING * 2;
+  pixelSprite.height = TILE_SIZE - UNIT_PADDING * 2;
+  pixelSprite.position.set(UNIT_PADDING, UNIT_PADDING);
+
+  sprite.animatedSprite = pixelSprite;
+  sprite.currentAnimation = "idle";
+
+  // Add the sprite and hide the rectangle body
+  sprite.container.addChildAt(pixelSprite, 1); // after body, before label
+  sprite.body.visible = false;
+}
+
+/**
+ * Set the animation state for a unit sprite.
+ * Updates the displayed frame based on the animation definition.
+ */
+export function setUnitAnimation(unitId: string, animation: AnimationStateName): void {
+  const sprite = _sprites.get(unitId);
+  if (!sprite || !sprite.spriteSheet || !sprite.animatedSprite) return;
+  if (sprite.currentAnimation === animation) return;
+
+  const animDef = sprite.spriteSheet.descriptor.animations[animation];
+  if (!animDef || animDef.frames.length === 0) return;
+
+  sprite.currentAnimation = animation;
+  const texture = sprite.spriteSheet.frames[animDef.frames[0]] as Texture;
+  if (texture) {
+    sprite.animatedSprite.texture = texture;
+  }
 }
 
 function drawUnitBody(sprite: UnitSprite, unit: UnitState, selected: boolean, active: boolean): void {
   const alive = unitAlive(unit);
   const color = alive ? teamColor(unit.team) : DEAD_COLOR;
   const p = UNIT_PADDING;
-  sprite.body.clear();
-  sprite.body
-    .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
-    .fill(color);
+
+  // Only draw the rectangle body if no sprite sheet is loaded
+  if (!sprite.animatedSprite) {
+    sprite.body.clear();
+    sprite.body
+      .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
+      .fill(color);
+  } else {
+    sprite.body.clear();
+    // Still draw outlines over the sprite
+    sprite.animatedSprite.alpha = alive ? 1 : 0.3;
+  }
+
   // Active turn unit gets a gold outline; selected-but-not-active gets white.
   if (active) {
     sprite.body.setStrokeStyle({ width: 3, color: ACTIVE_OUTLINE });
     sprite.body
       .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
       .stroke();
+    sprite.body.visible = true;
   } else if (selected) {
     sprite.body.setStrokeStyle({ width: 2, color: SELECTED_OUTLINE });
     sprite.body
       .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
       .stroke();
+    sprite.body.visible = true;
+  } else if (sprite.animatedSprite) {
+    // Hide body graphics when we have a sprite and no outline needed
+    sprite.body.visible = false;
   }
+
   sprite.label.alpha = alive ? 1 : 0.4;
+  // Hide label when sprite sheet is loaded (the art replaces the 3-letter ID)
+  if (sprite.animatedSprite) {
+    sprite.label.visible = false;
+  }
 
   // HP bar — track + fill. Hidden on dead units (corpse clutter otherwise).
   sprite.hpBar.clear();
@@ -212,6 +307,11 @@ function easeOut(t: number): number {
  *
  * Called from the main Pixi ticker (see App.tsx). Mutates the transient
  * slice directly — no React re-render, no allocation.
+ *
+ * Walk pose: swaps to 'walk' frame-0 while lerpT<1, back to 'idle' on land.
+ * setUnitAnimation no-ops if the sheet isn't loaded or the anim is absent,
+ * and early-returns on `currentAnimation === target`, so the per-frame call
+ * is cheap (one comparison per moving sprite, zero texture swaps).
  */
 export function tickSprites(deltaMS: number, transient: TransientState): void {
   let moving = 0;
@@ -228,17 +328,19 @@ export function tickSprites(deltaMS: number, transient: TransientState): void {
     if (sprite.lerpT >= 1) {
       // Exact landing — kill any accumulated float error.
       sprite.container.position.set(sprite.targetX, sprite.targetY);
+      setUnitAnimation(sprite.unitId, "idle");
     } else {
       moving++;
+      setUnitAnimation(sprite.unitId, "walk");
     }
   }
   transient.activeAnimCount = moving;
 }
 
 /**
- * Force every sprite to its current target instantly. Called on new-battle
- * load (Play Again reuses unit IDs — without this, corpses tween back to
- * their spawn points) and on undo.
+ * Force every sprite to its current target instantly. Called on fresh battle
+ * load: Play Again reuses unit IDs, so sprites survive the reload — without
+ * this, corpses tween back to their spawn points.
  */
 export function snapAllSprites(): void {
   for (const sprite of _sprites.values()) {
@@ -246,6 +348,9 @@ export function snapAllSprites(): void {
     sprite.fromX = sprite.targetX;
     sprite.fromY = sprite.targetY;
     sprite.lerpT = 1;
+    // tickSprites won't touch a lerpT>=1 sprite again, so if it was mid-walk
+    // (Play Again during a tween) clear the pose now. No-ops on placeholders.
+    setUnitAnimation(sprite.unitId, "idle");
   }
 }
 
@@ -257,4 +362,5 @@ export function clearUnits(): void {
     }
   }
   _sprites.clear();
+  _loadingSheets.clear();
 }

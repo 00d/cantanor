@@ -17,10 +17,11 @@ npm run dev        # Dev server at localhost:5173
 npm run dev          # Vite dev server with hot reload
 npm run build        # tsc -b && vite build
 npm run typecheck    # Type-check without emitting
-npm run test         # Run all tests (Vitest) — 176 tests, 12 files
+npm run test         # Run all tests (Vitest) — 344 tests, 22 files
 npm run test:watch   # Watch mode
 npm run test:ui      # Interactive Vitest UI
 npm run preview      # Preview production build
+npm run validate:determinism  # 44 smoke scenarios × 2 runs — catches hash drift + command errors
 ```
 
 Run a single test file: `npx vitest run src/path/to/file.test.ts`
@@ -31,37 +32,57 @@ The app is a split viewport: left 62% is a PixiJS WebGL canvas, right 38% is Rea
 
 ```
 src/
-  engine/       Pure functional state machine (reducer, commands, RNG, turn order)
+  engine/       Pure functional state machine (reducer, commands, RNG, traits, reactions)
+  campaign/     Multi-battle progression, party snapshots, localStorage save/load
   effects/      Effect lifecycle handlers (damage, conditions, summons, movement)
   rules/        PF2e mechanics (checks, saves, degrees of success, damage)
-  grid/         BFS pathfinding, line-of-sight, area shapes
+  grid/         8-connected Dijkstra pathfinding, line-of-sight, area shapes
   io/           Scenario loading, content packs, Tiled map bridge, AI orchestration
-  rendering/    PixiJS layers — tilemap, sprites, range overlay, camera
-  store/        Zustand battle store (state, dispatch, AI scheduling)
-  ui/           React components (ActionPanel, PartyPanel, CombatLogPanel, designer)
+  rendering/    PixiJS layers — tilemap, sprites, terrain overlay, range overlay, camera
+  store/        Zustand battle store (state, dispatch, AI scheduling, reaction queue)
+  ui/           React components (ActionPanel, PartyPanel, CharacterSheet, CampScreen)
+docs/
+  adr/          Architecture Decision Records — permanent design choices
 ```
 
-See `CLAUDE.md` for development guidance and detailed architecture notes.
+See `CLAUDE.md` for development guidance and load-bearing architecture invariants.
+See `docs/adr/` for permanent design decisions (e.g. why this codebase has no undo system).
 
 ## Current Status
 
-**Phase 10 complete** — end-to-end playable battles:
+**Phase 14 complete** — feel parity on top of the Phase 13 engine:
 
-- Player controls PC units, AI controls enemies (420ms turn delay)
-- Move, Strike, Cast Spell, Use Feat, Use Item actions
-- BFS movement highlighting and LOS-gated strike targets
-- Victory/defeat detection via scenario objectives
-- Battle-end overlay with stats and Play Again
-- Content pack abilities (spells, feats, items)
-- Tiled `.tmj` map loading with GPU-batched tile rendering
-- In-app scenario designer (Inspector, File Browser, map preview)
-- Inspect any unit mid-combat to see its stats without interrupting the turn
+- Sprite tweens: units slide to their destination over ~280ms with quad-ease-out
+- Animation-gated AI: enemy turns wait for sprite settlement (rAF poll on `activeAnimCount`), not a fixed delay
+- Path preview: hover a reachable tile → chevron waypoints trace the parity-correct Dijkstra route
+- AoE footprint: hover with an area spell armed → blast diamond with LOE-shadowed tiles (what's behind a wall)
+- Camera bounds: pan clamps at map edge; small maps centre; zoom-out pulls the target in
+- Turn bar: chip hover highlights the unit on the map, click pans the camera there
 
-See `ROADMAP.md` for upcoming phases (rich terrain, character depth, campaign flow, polish).
+Phase 13 foundation — full campaign progression on a deep PF2e engine:
+
+- Multi-weapon units (melee/ranged/thrown) with per-weapon-index ammo tracking and reload
+- Weapon traits evaluated at runtime: agile, deadly_dN, fatal_dN, volley_N, thrown_N, propulsive
+- Shields: Raise Shield action (+2 AC), Shield Block reaction (reduce damage by hardness)
+- Reactions: attack_of_opportunity (move provokes from reach), shield_block — with prompt UI
+- 8-connected diagonal movement with PF2e alternating-cost Dijkstra and corner-cut prevention
+- Tiled `.tmj` maps with `moveCost`/`coverGrade`/`elevation` tile properties; persistent terrain overlay
+- 3-stage tutorial campaign with party HP/ammo/conditions carrying between battles
+- Camp screen healing between stages; localStorage save/load
+- Character sheet panel with AC, saves, resistances, available abilities
+- Trait-aware strike forecast: expected damage accounts for deadly/fatal/propulsive on crit
+- AI weapon selection: 4-pass strategy (melee → thrown → ranged with ammo check → reload)
+
+See `ROADMAP.md` for Phase 15 (two-stage commit for movement — the gameplay mitigation for
+having no undo).
 
 ## Test Scenarios
 
-Pre-built scenarios are served from `public/scenarios/smoke/` (38 files covering engine phases 3–10). The interactive arena (`interactive_arena.json`, 2 PCs vs 2 enemies) is the primary playtest scenario. The Tiled map `public/maps/dungeon_arena_01.tmj` provides a 12×10 rendered arena.
+Pre-built scenarios are served from `public/scenarios/smoke/` (44 files covering engine
+phases 3–13). The interactive arena (`interactive_arena.json`) is the primary playtest
+scenario. Tiled maps in `public/maps/`: `dungeon_arena_01`, `castle_courtyard`,
+`forest_clearing`, `dungeon_corridor`. The tutorial campaign
+(`public/campaigns/tutorial_campaign.json`) chains three of these arenas.
 
 ## Content Packs
 

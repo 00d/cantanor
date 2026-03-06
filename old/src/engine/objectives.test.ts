@@ -1,6 +1,5 @@
 /**
  * Tests for objective evaluation.
- * Ported from tests/contract/test_objectives.py
  */
 
 import { describe, test, expect } from "vitest";

@@ -4,8 +4,8 @@ This document tracks the forward-looking feature phases for Cantanor, a browser-
 TRPG built on Pathfinder 2e ORC mechanics.
 
 The engine (Phases 3–9) and its TypeScript browser port are **complete**: 13 command types,
-deterministic RNG, content packs, enemy AI, mission events, hazard routines. **210 passing
-tests across 16 files.** The phases below build the gameplay and production layers on top.
+deterministic RNG, content packs, enemy AI, mission events, hazard routines, and 275 passing
+tests across 17 test files. The phases below build the gameplay and production layers on top.
 
 ---
 
@@ -30,107 +30,81 @@ a victory or defeat screen, and abilities from content packs are usable.
 
 ---
 
-## Phase 11 — Rich Maps & Visual Terrain
+## Phase 11 — Weapon Traits & Combat UI ✅
+
+**Goal:** PF2e weapon traits evaluated at runtime; responsive layout and turn-order visibility.
+
+**Deliverables:**
+- Weapon trait engine: `src/engine/traits.ts` pure helpers shared by reducer, forecast, tooltip, overlay ✅
+- **Agile**: MAP becomes −4/−8 instead of −5/−10 ✅
+- **Deadly_dN**: On crit, roll 1 extra dN and add to damage (after ×2) ✅
+- **Fatal_dN**: On crit, upgrade all weapon dice to dN, add 1 extra dN (after ×2) ✅
+- **Propulsive**: Add `weapon.propulsiveMod` to damage ✅
+- **Volley_N**: −2 penalty when target is within N tiles ✅
+- **Thrown_N**: Melee weapon usable at range N; AI throws when melee is out of reach ✅
+- Trait-aware `strikeForecast()` with `StrikeTraitInfo` (deadly/fatal/propulsive) ✅
+- `ForecastTooltip` displays agile MAP, volley penalty, thrown range gate ✅
+- `rangeOverlay` highlights thrown targets in orange beyond melee reach ✅
+- `rollTraitBonusDice()` helper in `rules/damage.ts` ✅
+- 26 trait unit tests + 13 trait integration tests ✅
+
+**UI & layout deliverables:**
+- Responsive portrait layout: CSS `@media (max-aspect-ratio: 1/1)` switches to vertical 55/45 split ✅
+- `ResizeObserver` keeps PixiJS camera synced on layout changes ✅
+- Turn order bar (`TurnOrderBar.tsx`): horizontal scrollable strip with team-colour chips, initiative scores, mini HP bars, auto-scroll to active unit ✅
+- Active-unit indicator in `PartyPanel` with blue border + arrow ✅
+- Reaction prompt CSS (`.reaction-prompt`, `.reaction-prompt-buttons`) ✅
+- Shield-raised indicator CSS ✅
+- Portrait-responsive turn order bar ✅
+
+---
+
+## Phase 12 — Rich Maps & Visual Terrain ✅
 
 **Goal:** Tiled maps become fully functional game surfaces.
 
-**Already landed (ahead of schedule):**
+**Deliverables:**
 - Tiled `.tmj` loader, GPU tilemap renderer, tileset image resolution ✅
 - `mapDataBridge` extracts spawn points, blocked tiles, hazard zones, objectives ✅
 - Auto-generated `enemy_policy` from Tiled spawn team properties ✅
-
-**Landed (Phase 12 reach-back):**
-- Camera pan (drag) and zoom (scroll wheel) ✅
-- Camera bounds clamp — viewport never shows void past the map edge ✅
-
-**Remaining deliverables:**
-- Tiled custom properties: `moveCost`, `elevation`, `coverGrade` per tile-layer
-- BFS movement cost uses `moveCost` (difficult terrain = 2 tiles of speed per step)
-- LOE/cover grade derived from `coverGrade` tile property
-- 2–3 new Tiled arenas: castle courtyard, forest clearing, dungeon corridor
-
----
-
-## Phase 12 — Make It Feel Like A Game ✅
-
-**Axis pivot.** The original Phase 12 plan (Character Depth & Campaign — preserved below) was
-deferred in favour of a feel-and-flow pass. The engine was correct but the game didn't read as
-a game: moves teleported, the AI acted before the player could see the previous action land,
-there was no undo, and the turn order was opaque.
-
-**M1 — Animation-gated AI**
-- Sprite tweens: units lerp to their destination instead of snapping (`spriteManager.ts`)
-- `_scheduleAiTurn` polls `transient.activeAnimCount` via rAF instead of a flat delay — the
-  AI waits for your move to finish animating before it responds
-- `SETTLE_FRAMES=2` bridges the React-passive-effect-vs-Pixi-ticker ordering gap
-
-**M2 — Path preview**
-- Hovering a reachable tile during Move mode paints the BFS path the unit will take
-
-**M3 — AoE footprint + Fireball**
-- Area-shaped spells (burst/cone/line) with live hover-painted blast footprints
-- Fireball in `phase10_v1` content pack as the reference implementation
-
-**M4 — Turn-order ribbon** (`TurnOrderRibbon.tsx`)
-- Horizontal initiative strip; auto-scrolls to the active unit
-- Click-to-focus-camera, hover-to-highlight-tile; dead units stay faded in the strip
-
-**M5 — Undo stack** (`undo.test.ts`: 13 tests)
-- Step-back within the current PC turn; `end_turn` commits and flushes
-- Snapshots hold `battle` **by reference** — safe because `applyCommand` deep-clones the entire
-  state as its first statement, so prev-state is never mutated (~24 B/snapshot, not a tree)
-- RNG reconstructed via `new DeterministicRNG(seed, skipCount)` on pop (mulberry32 can't seek)
-- Ctrl/Cmd+Z works even after the winning blow — checked before the `battleEnded` guard
-- RNG reset-on-throw in `dispatchCommand`'s catch: `rng.callCount` always matches committed
-  `battle`, even if a handler rolls then throws
-
-**M6 — Polish** (partial)
-- `loadGeneration` gen-fence discipline: every deferred store write captures gen at
-  schedule-time, checks it at fire-time; stale timers silently retire instead of stomping
-  the fresh battle's `isAiTurn` / flushing its `undoStack`. Three sites fixed: `act()`,
-  `pollSettled()`, anti-deadlock `setTimeout` in the catch block
-- Camera bounds clamp: `setCameraBounds(tilesW, tilesH)`; viewport never shows void past the
-  map edge; maps smaller than the viewport centre
-- Ribbon scroll jitter: `behavior: isAiTurn ? "auto" : "smooth"` read via `getState()` at
-  effect-fire-time (not subscription); AI-to-AI hops snap, the final AI-to-PC handoff smooths
-
-**Tracked, not shipped** (surfaced by post-M6 scan):
-- `CombatLogPanel.tsx:114` has the same scroll-jitter shape as the ribbon had — keyed on
-  `eventLog.length` (changes per-action), hardcoded `behavior:"smooth"`. Same cure applies.
-- `undo.test.ts:90-91` — module-level `vi.spyOn(console)` never restored. Safe under
-  Vitest's default `isolate:true`; breaks if anyone flips to `isolate:false` for speed.
-- `clearBattle` doesn't bump `loadGeneration`. Currently benign (stale timers hit `!battle`
-  same-gen abort), but any future timer that fences on gen-only won't be caught.
-- Death fade-out, damage-number stagger for multi-target AoE, portrait CSS, Lightning Bolt.
+- Tiled custom properties pipeline: `moveCost`, `elevation`, `coverGrade` per tile-layer ✅
+- BFS movement cost via `dijkstra()` in `movement.ts` respects `moveCost` (difficult terrain) ✅
+- LOE/cover grade derived from `coverGrade` tile property via `coverGradeBetweenTiles()` ✅
+- Terrain overlay: persistent indicators rendered in `terrainOverlay.ts` + `tileRenderer.ts` ✅
+- Camera pan (WASD / drag) and zoom (scroll wheel) via `cameraController.ts` ✅
+- 3 new Tiled arenas with matching smoke-test scenarios: ✅
+  - `castle_courtyard` — 14×12 walled courtyard with pillar chokepoints, rubble, and cover rocks
+  - `forest_clearing` — 12×12 open forest with undergrowth (difficult terrain) and tree cover
+  - `dungeon_corridor` — 16×8 narrow corridors with central room, chokepoints, and cover tiles
+- Elevation parsed and stored (data-ready for future phases) ✅
 
 ---
 
-## Phase 12 (original plan — deferred) — Character Depth & Campaign
+## Phase 13 — Character Depth & Campaign ✅
 
 **Goal:** Player-facing character systems and linked multi-battle progression.
 
 **Deliverables:**
 - Character sheet panel: AC, saves, resistances/immunities, available abilities
 - Per-unit ability tracking: feats have limited uses per day; items are consumable
+- Ranged resource tracking: ammunition consumption, reload action cost, hands-required validation
+- Cover distinction: ranged attacks respect cover grade; melee at adjacent range ignores standard cover
 - Campaign flow: ordered scenario list with locked stages and a simple narrative frame
 - Persistent party: HP state carries between battles, healing available at camp screens
-- Save / load: game state serialised to `localStorage` ✅ *(landed early in Phase 10)*
+- Save / load: game state serialised to `localStorage`
 
 ---
 
-## Phase 13 — Polish & Production
+## Phase 14 — Polish & Production
 
 **Goal:** Animation, audio, accessibility, and deployment-readiness.
 
-**Landed early via Phase 12:**
-- Smooth move animation: sprite tweens via PixiJS Ticker ✅
-- Attack / spell animations: hit-flash + floating damage numbers ✅ *(stagger for multi-target still open)*
-- Keyboard shortcuts: E end-turn, Esc cancel, G grid, Ctrl/Cmd+Z undo ✅ *(WASD camera, ability slots still open)*
-
-**Remaining deliverables:**
+**Deliverables:**
+- Smooth move animation: sprite tweens to destination via PixiJS Ticker
+- Attack / spell animations: flash effects and floating damage numbers
 - Particle effects for spells (fire burst, lightning arc)
 - Sound effects and ambient music via Web Audio API
-- WASD camera pan, 1–9 ability slot hotkeys, Enter/Space confirm
+- Keyboard shortcuts: WASD camera, 1–9 ability slots, Enter / Space confirm
 - First-battle tutorial overlay
 - Mobile layout (tablet support minimum; phone layout deferred)
 - Vite production build + static hosting pipeline

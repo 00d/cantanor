@@ -16,6 +16,7 @@
 import { useEffect, useRef } from "react";
 import { useBattleStore } from "../store/battleStore";
 import { activeUnitId, unitAlive } from "../engine/state";
+import { focusTile } from "../rendering/cameraController";
 
 const TEAM_COLORS: Record<string, string> = {
   pc: "var(--accent-blue)",
@@ -33,11 +34,24 @@ export function TurnOrderBar() {
   const battle = useBattleStore((s) => s.battle);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
   const selectUnit = useBattleStore((s) => s.selectUnit);
+  const setHoverTile = useBattleStore((s) => s.setHoverTile);
   const activeRef = useRef<HTMLButtonElement>(null);
 
-  // Auto-scroll the active unit into view when the turn changes
+  // Auto-scroll the active chip into view when the turn changes.
+  //
+  // Snap (behavior:"auto") during AI chains. With "smooth", each AI end_turn
+  // re-fires this effect and starts a new scrollIntoView which INTERRUPTS
+  // the previous one mid-flight — the bar chases without settling (jitter).
+  // Instant scroll sidesteps that. The final AI→PC handoff smooths because
+  // isAiTurn has flipped back to false by the time this effect runs.
+  //
+  // isAiTurn is read via getState(), NOT via a selector subscription.
+  // Adding it to the dep array would re-fire this effect on every flag flip
+  // even when turnIndex hasn't moved — wasted scrolls to the same chip.
+  // We want to READ the flag at fire-time, not TRIGGER on it.
   useEffect(() => {
-    activeRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const behavior = useBattleStore.getState().isAiTurn ? "auto" : "smooth";
+    activeRef.current?.scrollIntoView({ behavior, block: "nearest", inline: "center" });
   }, [battle?.turnIndex]);
 
   if (!battle) return null;
@@ -55,7 +69,12 @@ export function TurnOrderBar() {
   return (
     <div className="turn-order-bar" role="list" aria-label="Turn order">
       <span className="turn-order-label">Turn</span>
-      <div className="turn-order-scroll">
+      <div
+        className="turn-order-scroll"
+        // Clear the map hover-cursor when the mouse leaves the bar entirely.
+        // Per-chip onMouseLeave would flicker as the pointer passes between chips.
+        onMouseLeave={() => setHoverTile(null)}
+      >
         {ordered.map((unitId, idx) => {
           const unit = units[unitId];
           if (!unit) return null;
@@ -76,7 +95,21 @@ export function TurnOrderBar() {
                 (isSelected ? " selected" : "")
               }
               style={{ "--team-color": teamColor(unit.team) } as React.CSSProperties}
-              onClick={() => selectUnit(isSelected ? null : unitId)}
+              // Hovering a chip sets the canvas hover tile → the map cursor
+              // highlights them. With an area spell armed, this also paints
+              // the blast diamond centred there — a free "what if I fireball
+              // that guy's feet" preview, because setHoverTile is the same
+              // action the canvas mousemove uses.
+              onMouseEnter={() => setHoverTile([unit.x, unit.y])}
+              // Click selects + pans. Gated on alive: panning to a corpse
+              // is a dead end. The chip is still hoverable so you can spot
+              // where the body fell.
+              onClick={
+                isDead
+                  ? undefined
+                  : () => { selectUnit(unitId); focusTile(unit.x, unit.y); }
+              }
+              disabled={isDead}
               title={`${unitId} — Init ${unit.initiative} — ${unit.hp}/${unit.maxHp} HP`}
             >
               {isActive && <span className="turn-arrow" aria-label="Current turn" />}

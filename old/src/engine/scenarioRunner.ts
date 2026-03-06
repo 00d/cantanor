@@ -1,6 +1,5 @@
 /**
  * Deterministic scenario runner — orchestrates the full battle loop.
- * Mirrors engine/cli/run_scenario.py
  *
  * Handles mission events, hazard routines, enemy policy, objective checking,
  * and produces a final result with replay hash.
@@ -391,7 +390,7 @@ function enemyCandidatesForActor(state: BattleState, actorId: string): Array<[st
   );
   if (enemies.length === 0) return [];
   return enemies
-    .map((u): [string, number] => [u.unitId, Math.abs(u.x - actor.x) + Math.abs(u.y - actor.y)])
+    .map((u): [string, number] => [u.unitId, Math.max(Math.abs(u.x - actor.x), Math.abs(u.y - actor.y))])
     .sort(([idA, dA], [idB, dB]) => {
       const dd = dA - dB;
       if (dd !== 0) return dd;

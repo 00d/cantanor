@@ -111,7 +111,12 @@ export function CombatLogPanel() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    // During AI turns events arrive in rapid bursts (Move→Strike→EndTurn in
+    // ~1.3s). Smooth-scroll interrupts itself and jitters; auto-scroll snaps
+    // cleanly. Read isAiTurn at effect-fire-time (not via selector) so the
+    // component doesn't re-render on AI-turn transitions.
+    const isAiTurn = useBattleStore.getState().isAiTurn;
+    bottomRef.current?.scrollIntoView({ behavior: isAiTurn ? "auto" : "smooth" });
   }, [eventLog.length]);
 
   return (

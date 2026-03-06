@@ -12,7 +12,7 @@
 
 import { useBattleStore, selectActiveUnit } from "../store/battleStore";
 import { activeUnitId, unitAlive } from "../engine/state";
-import type { UnitState } from "../engine/state";
+import type { UnitState, WeaponData } from "../engine/state";
 import type { ContentPackEntry, ResolvedEntry } from "../io/contentPackLoader";
 
 type EntryView = ContentPackEntry & { resolvedEntry: ResolvedEntry };
@@ -87,19 +87,25 @@ function abilityTargetsAllies(tags: string[]): boolean {
   return tags.some((t) => ["heal", "support", "medicine", "restore"].includes(t));
 }
 
-/** Pull the area block out of a content-pack payload if it has one. Shape
- *  check is defensive — the loader only validates that payload is an object,
- *  so a malformed area entry would otherwise surface as a cryptic render bug. */
+/** Pull the area block out of a content-pack payload if it has one. Defensive
+ *  shape check — the loader only validates that payload is an object, so a
+ *  malformed `area` key would otherwise surface as a cryptic render bug when
+ *  the hover effect tries to paint with NaN size. Returns null for anything
+ *  that isn't a well-formed burst/cone/line spec; the caller falls through to
+ *  single-target mode so a bad entry degrades to "works but ignores area"
+ *  rather than "button does nothing". */
 function readAreaShape(
   payload: Record<string, unknown>,
-): { shape: "burst"; radiusFeet: number } | null {
+): { shape: "burst" | "cone" | "line"; sizeFeet: number } | null {
   const raw = payload["area"];
   if (!raw || typeof raw !== "object") return null;
   const a = raw as Record<string, unknown>;
-  if (a["shape"] !== "burst") return null;
-  const r = Number(a["radius_feet"]);
-  if (!Number.isFinite(r) || r <= 0) return null;
-  return { shape: "burst", radiusFeet: r };
+  const shape = String(a["shape"] ?? "");
+  if (shape !== "burst" && shape !== "cone" && shape !== "line") return null;
+  // Burst uses radius_feet; cone/line use length_feet. Accept either.
+  const size = Number(a["length_feet"] ?? a["radius_feet"]);
+  if (!Number.isFinite(size) || size <= 0) return null;
+  return { shape, sizeFeet: size };
 }
 
 /** Single ability button — renders with kind-appropriate theme + use counter. */
@@ -147,12 +153,8 @@ export function ActionPanel() {
   const isAiTurn       = useBattleStore((s) => s.isAiTurn);
   const selectedUnitId = useBattleStore((s) => s.selectedUnitId);
   const orchestratorConfig = useBattleStore((s) => s.orchestratorConfig);
-  // Subscribe to just the length, not the whole stack — we don't care what's
-  // IN the snapshots, only how many there are. (The stack is a fresh array
-  // every push anyway so this doesn't actually save re-renders today, but it
-  // keeps the subscription honest about what it reads.)
-  const undoDepth      = useBattleStore((s) => s.undoStack.length);
-  const undo           = useBattleStore((s) => s.undo);
+  const pendingReaction = useBattleStore((s) => s.pendingReaction);
+  const resolveReaction = useBattleStore((s) => s.resolveReaction);
 
   // The unit the player is currently inspecting (may differ from active unit)
   const inspectedUnit =
@@ -178,7 +180,7 @@ export function ActionPanel() {
   const playerTeams = orchestratorConfig?.playerTeams ?? ["pc"];
   const isPlayerUnit = playerTeams.includes(activeUnit.team);
 
-  if (!isPlayerUnit) {
+  if (!isPlayerUnit && !pendingReaction) {
     return (
       <div className="action-panel">
         <div className="ai-turn-banner">Waiting for AI…</div>
@@ -186,29 +188,60 @@ export function ActionPanel() {
     );
   }
 
+  // Show reaction prompt if player has a pending reaction
+  if (pendingReaction && battle) {
+    const reactor = battle.units[pendingReaction.reactorId];
+    if (reactor && orchestratorConfig?.playerTeams.includes(reactor.team)) {
+      const reactionLabel = pendingReaction.reactionType === "shield_block"
+        ? "Use Shield Block?"
+        : "Use Attack of Opportunity?";
+      return (
+        <div className="action-panel">
+          <div className="reaction-prompt">
+            <div className="reaction-prompt-label">{reactionLabel}</div>
+            <div className="reaction-prompt-detail">
+              {reactor.unitId} can react to {pendingReaction.provokerId}
+            </div>
+            <div className="reaction-prompt-buttons">
+              <button className="action-btn" onClick={() => resolveReaction(true)}>
+                Use Reaction
+              </button>
+              <button className="action-btn" onClick={() => resolveReaction(false)}>
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
   function handleMove() {
     if (!hasActions) return;
     setTargetMode({ type: "move" });
   }
 
-  function handleStrike() {
+  function handleStrike(weaponIndex?: number) {
     if (!hasActions) return;
-    setTargetMode({ type: "strike" });
+    setTargetMode({ type: "strike", weaponIndex });
   }
 
   function handleAbility(entryId: string, kind: string, tags: string[]) {
     if (!hasActions) return;
     // Look up the full entry so we can sniff the payload for an area shape.
-    // contentEntries is the same list the buttons were rendered from, so
-    // this find always hits.
+    // contentEntries is the same list the buttons were rendered from, so this
+    // find always hits unless the pack mutates between render and click
+    // (which doesn't happen — contentEntries is set once at load).
     const entry = contentEntries.find((e) => e.id === entryId);
     const area = entry ? readAreaShape(entry.payload) : null;
     setTargetMode({
       type: kind as "spell" | "feat" | "item",
       contentEntryId: entryId,
       // allyTarget is meaningless for area spells (they hit everyone in the
-      // blast); leave it undefined so the click handler doesn't try to
-      // match a clicked unit's team.
+      // blast — including the caster unless include_actor is false). Leave it
+      // undefined so App.tsx's click handler doesn't try to team-match the
+      // clicked tile. readAreaShape returning non-null is the sole decider:
+      // an area spell with a "heal" tag still area-targets.
       ...(area ? { area } : { allyTarget: abilityTargetsAllies(tags) }),
     });
   }
@@ -225,7 +258,10 @@ export function ActionPanel() {
   function targetBannerText() {
     if (!targetMode) return "";
     if (targetMode.area) {
-      return `Click a tile to center the blast (${targetMode.area.radiusFeet}ft ${targetMode.area.shape})`;
+      const { shape, sizeFeet } = targetMode.area;
+      return shape === "burst"
+        ? `Click a tile to centre the blast (${sizeFeet}ft burst)`
+        : `Click a tile to aim the ${shape} (${sizeFeet}ft)`;
     }
     switch (targetMode.type) {
       case "move":   return "Click a highlighted tile to move";
@@ -302,25 +338,6 @@ export function ActionPanel() {
       {/* Core actions */}
       <div className="action-section-label">Actions</div>
       <div className="action-buttons">
-        {/* Undo goes leftmost — "go back" is the first thing you reach for.
-            Disabled during targetMode for the same reason Move/Strike are:
-            finish or cancel what you're aiming first. (Ctrl+Z doesn't have
-            this gate — same asymmetry as E-hotkey vs End Turn button. The
-            button is the cautious path; the hotkey is the power-user path.)
-            The stack-depth-in-label tells the player how many steps they can
-            rewind without having to click-and-see. */}
-        <button
-          className="action-btn undo"
-          onClick={undo}
-          disabled={undoDepth === 0 || targetMode !== null}
-          title={
-            undoDepth === 0
-              ? "Nothing to undo — stack clears when you end your turn"
-              : `Undo last action (${undoDepth} step${undoDepth === 1 ? "" : "s"} back available) — press Ctrl+Z`
-          }
-        >
-          ↶ Undo{undoDepth > 0 ? ` (${undoDepth})` : ""}
-        </button>
         <button
           className="action-btn"
           onClick={handleMove}
@@ -329,14 +346,58 @@ export function ActionPanel() {
         >
           🚶 Move
         </button>
-        <button
-          className="action-btn"
-          onClick={handleStrike}
-          disabled={!hasActions || targetMode !== null}
-          title="Strike an enemy (1 action) — press K"
-        >
-          ⚔️ Strike
-        </button>
+        {activeUnit.weapons && activeUnit.weapons.length > 1 ? (
+          activeUnit.weapons.map((w: WeaponData, idx: number) => (
+            <button
+              key={idx}
+              className="action-btn"
+              onClick={() => handleStrike(idx)}
+              disabled={!hasActions || targetMode !== null}
+              title={`${w.name} (${w.type}) — 1 action`}
+            >
+              {w.type === "melee" ? "⚔️" : "🏹"} {w.name}
+            </button>
+          ))
+        ) : (
+          <button
+            className="action-btn"
+            onClick={() => handleStrike()}
+            disabled={!hasActions || targetMode !== null}
+            title="Strike an enemy (1 action) — press K"
+          >
+            ⚔️ Strike
+          </button>
+        )}
+        {/* Reload button — shown when a weapon has reload > 0 and ammo is depleted */}
+        {activeUnit.weapons && activeUnit.weapons.map((w: WeaponData, idx: number) => {
+          if (!w.ammo || !w.reload || w.reload <= 0) return null;
+          const currentAmmo = activeUnit.weaponAmmo?.[idx] ?? 0;
+          if (currentAmmo > 0) return null;
+          return (
+            <button
+              key={`reload-${idx}`}
+              className="action-btn"
+              onClick={() => { dispatchCommand({ type: "reload", actor: actorId, weapon_index: idx }); }}
+              disabled={!hasActions || targetMode !== null}
+              title={`Reload ${w.name} (${w.reload} action)`}
+            >
+              Reload {w.name}
+            </button>
+          );
+        })}
+        {activeUnit.shieldHardness != null && activeUnit.shieldHp != null && activeUnit.shieldHp > 0 && !activeUnit.shieldRaised && !(activeUnit.weapons?.[0]?.hands === 2) && (
+          <button
+            className="action-btn"
+            onClick={() => { dispatchCommand({ type: "raise_shield", actor: actorId }); }}
+            disabled={!hasActions || targetMode !== null}
+            title="Raise Shield (1 action) — +2 AC until turn start"
+          >
+            🛡️ Raise Shield
+          </button>
+        )}
+        {activeUnit.shieldRaised && (
+          <span className="shield-raised-indicator">🛡️ Shield Raised</span>
+        )}
         <button
           className="action-btn end-turn"
           onClick={handleEndTurn}

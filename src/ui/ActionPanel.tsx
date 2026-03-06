@@ -87,6 +87,21 @@ function abilityTargetsAllies(tags: string[]): boolean {
   return tags.some((t) => ["heal", "support", "medicine", "restore"].includes(t));
 }
 
+/** Pull the area block out of a content-pack payload if it has one. Shape
+ *  check is defensive — the loader only validates that payload is an object,
+ *  so a malformed area entry would otherwise surface as a cryptic render bug. */
+function readAreaShape(
+  payload: Record<string, unknown>,
+): { shape: "burst"; radiusFeet: number } | null {
+  const raw = payload["area"];
+  if (!raw || typeof raw !== "object") return null;
+  const a = raw as Record<string, unknown>;
+  if (a["shape"] !== "burst") return null;
+  const r = Number(a["radius_feet"]);
+  if (!Number.isFinite(r) || r <= 0) return null;
+  return { shape: "burst", radiusFeet: r };
+}
+
 /** Single ability button — renders with kind-appropriate theme + use counter. */
 function AbilityButton({
   entry,
@@ -207,11 +222,18 @@ export function ActionPanel() {
 
   function handleAbility(entryId: string, kind: string, tags: string[]) {
     if (!hasActions) return;
-    const allyTarget = abilityTargetsAllies(tags);
+    // Look up the full entry so we can sniff the payload for an area shape.
+    // contentEntries is the same list the buttons were rendered from, so
+    // this find always hits.
+    const entry = contentEntries.find((e) => e.id === entryId);
+    const area = entry ? readAreaShape(entry.payload) : null;
     setTargetMode({
       type: kind as "spell" | "feat" | "item",
       contentEntryId: entryId,
-      allyTarget,
+      // allyTarget is meaningless for area spells (they hit everyone in the
+      // blast); leave it undefined so the click handler doesn't try to
+      // match a clicked unit's team.
+      ...(area ? { area } : { allyTarget: abilityTargetsAllies(tags) }),
     });
   }
 
@@ -226,6 +248,9 @@ export function ActionPanel() {
 
   function targetBannerText() {
     if (!targetMode) return "";
+    if (targetMode.area) {
+      return `Click a tile to center the blast (${targetMode.area.radiusFeet}ft ${targetMode.area.shape})`;
+    }
     switch (targetMode.type) {
       case "move":   return "Click a highlighted tile to move";
       case "strike": return "Click an enemy to attack";

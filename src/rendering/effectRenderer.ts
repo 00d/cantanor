@@ -248,10 +248,11 @@ export function processAnimationQueue(
       showDamageNumber(unit.x, unit.y, anim.amount, anim.damageType);
     } else if (anim.type === "heal") {
       showHealNumber(unit.x, unit.y, anim.amount);
-    } else if (anim.type === "miss") {
+    } else {
       showMiss(unit.x, unit.y);
     }
-    // "move" animations are handled implicitly by syncUnits() snapping the
-    // sprite; a future slide-tween would go here.
+    // Slide-tweens don't route through here — spriteManager's syncUnits
+    // arms them directly from the battle state, tickSprites advances. This
+    // queue is float-text / hit-flash only; those overlap with tweens fine.
   }
 }

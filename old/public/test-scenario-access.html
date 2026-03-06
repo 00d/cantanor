@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test Scenario Access</title></head>
+<body>
+<h1>Testing scenario access</h1>
+<script>
+fetch('/scenarios/smoke/hidden_pit_basic.json')
+  .then(r => r.json())
+  .then(data => document.body.innerHTML += '<pre>' + JSON.stringify(data, null, 2).slice(0, 500) + '...</pre>')
+  .catch(e => document.body.innerHTML += '<p style="color:red">Error: ' + e + '</p>');
+</script>
+</body>
+</html>

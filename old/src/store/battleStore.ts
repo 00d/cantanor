@@ -35,6 +35,10 @@ import {
   materializeRawCommand,
 } from "../io/battleOrchestrator";
 import { loadScenarioFromUrl } from "../io/scenarioLoader";
+import { type ReactionTrigger, detectMoveReactions, detectDamageReactions } from "../engine/reactions";
+import type { CampaignDefinition, CampaignProgress } from "../campaign/campaignTypes";
+import { snapshotParty, applyPartySnapshot, healPartyAtCamp, resetAbilitiesForBattle } from "../campaign/campaignState";
+import { writeCampaignSave, readCampaignSave, clearCampaignSave } from "../campaign/campaignPersistence";
 
 // ---------------------------------------------------------------------------
 // Re-export useful types for consumers
@@ -96,48 +100,6 @@ export function clearSavedGame(): void {
 }
 
 // ---------------------------------------------------------------------------
-// Undo stack
-//
-// One snapshot per PC-originated, non-end_turn dispatch. The stack holds the
-// steps WITHIN the current PC turn — end_turn flushes it. That's the chosen
-// "step-back" granularity: the player can rewind their own mistakes, but once
-// they commit (E), the turn is locked in and the AI responds.
-//
-// `battle` is held BY REFERENCE. This is safe because applyCommand() does
-// deepClone(state) as its first statement — the prev-state object is never
-// touched again once the reducer returns. Verified by sweep: zero mutation
-// sites on store.battle outside the reducer. Holding a reference means each
-// snapshot costs ~24 bytes of overhead, not a full state tree.
-//
-// `rngCallCount` is captured at the TOP of dispatchCommand, before applyCommand
-// runs. This matters because the RNG is passed by reference into the reducer
-// and advanced in-place. By the time we'd normally push (post-applyCommand),
-// rng.callCount already reflects the new state, not the state we're saving.
-// We want the pre-roll count so undo-pop can reconstruct the RNG to exactly
-// where it was before the undone action rolled anything.
-//
-// `eventLogLength` lets us trim the log back without storing a whole copy.
-// The log is append-only (fresh array via spread every dispatch, never
-// mutated), so slicing to a remembered length is safe.
-//
-// Not snapshotted: everything in SavedGame that isn't here.
-//   - orchestratorConfig/contentContext/enginePhase/tiledMap — immutable
-//     mid-battle (only change on loadBattle, which flushes the stack anyway)
-//   - battleEnded/battleOutcome — derived; undo sets both false (you can only
-//     have reached an ended-battle state via a PC action on a non-ended state,
-//     so the pre-action state is definitionally not-ended)
-//   - selectedUnitId/targetMode — UI state; undo clears targetMode (aiming
-//     context is invalid after a state discontinuity) and leaves selection
-//     alone (the player re-selects if they want)
-// ---------------------------------------------------------------------------
-
-interface UndoSnapshot {
-  battle: BattleState;
-  rngCallCount: number;
-  eventLogLength: number;
-}
-
-// ---------------------------------------------------------------------------
 // Animation types (for PixiJS rendering layer)
 // ---------------------------------------------------------------------------
 
@@ -159,16 +121,7 @@ export interface MissAnimation {
   unitId: string;
 }
 
-export interface MoveAnimation {
-  type: "move";
-  unitId: string;
-  fromX: number;
-  fromY: number;
-  toX: number;
-  toY: number;
-}
-
-export type BattleAnimation = DamageAnimation | HealAnimation | MissAnimation | MoveAnimation;
+export type BattleAnimation = DamageAnimation | HealAnimation | MissAnimation;
 
 // ---------------------------------------------------------------------------
 // Target mode
@@ -180,13 +133,20 @@ export interface TargetMode {
   contentEntryId?: string;
   /** True when the ability targets allies rather than enemies. */
   allyTarget?: boolean;
-  /** Present when the ability targets a tile rather than a unit — the click
-   *  handler reads this to dispatch with center_x/center_y and the hover
-   *  effect reads radiusFeet to paint the blast footprint. Absent =
-   *  single-target (the default for every existing spell/feat/item). */
+  /** Index into the unit's weapons array (used for strike target mode). */
+  weaponIndex?: number;
+  /** Present when the ability targets a tile rather than a unit. The click
+   *  handler reads this to dispatch with center_x/center_y (not target); the
+   *  hover effect reads sizeFeet + shape to paint the footprint. Absent =
+   *  single-target, which every pre-Phase-15 entry is.
+   *
+   *  For burst, the click is the centre. For cone/line, the click is the AIM
+   *  point (direction from the caster) — the spell emanates from the caster's
+   *  tile out to sizeFeet in that direction. */
   area?: {
-    shape: "burst";
-    radiusFeet: number;
+    shape: "burst" | "cone" | "line";
+    /** Burst: radius in feet. Cone/line: length in feet. */
+    sizeFeet: number;
   };
 }
 
@@ -196,9 +156,10 @@ export interface TargetMode {
 
 export interface TransientState {
   animationQueue: BattleAnimation[];
-  /** Number of sprites with an in-flight position tween. Written every
-   *  frame by tickSprites(); read by _scheduleAiTurn's settle-poll so the AI
-   *  waits for the previous action's visual to land before thinking. */
+  /** Count of sprites still mid-tween. Written unconditionally by
+   *  tickSprites() every frame from the Pixi ticker. _scheduleAiTurn polls
+   *  this to gate on settled visuals instead of a flat timer — AI doesn't
+   *  act until the player's move has visibly landed. */
   activeAnimCount: number;
 }
 
@@ -226,13 +187,22 @@ export interface BattleStore {
   // AI state
   isAiTurn: boolean;
 
-  /**
-   * Monotonic counter bumped every time a battle is (re)loaded. Unlike
-   * battleId this changes on Play Again of the same scenario, so rendering
-   * code and in-flight rAF polls can detect "this is a fresh load" even when
-   * the underlying scenario identity is unchanged.
-   */
+  /** Monotonic counter bumped on every loadBattle / loadSavedGame. Stale
+   *  setTimeout / rAF callbacks capture this at schedule-time and compare
+   *  at fire-time; gen-mismatch → silent return. Unlike `battle.battleId`
+   *  (which comes from scenario JSON and doesn't change on Play Again),
+   *  this catches same-scenario reloads. */
   loadGeneration: number;
+
+  // Reaction state
+  pendingReaction: ReactionTrigger | null;
+  reactionQueue: ReactionTrigger[];
+
+  // Campaign state
+  campaignDefinition: CampaignDefinition | null;
+  campaignProgress: CampaignProgress | null;
+  /** True when the player is at the camp screen between battles. */
+  showCampScreen: boolean;
 
   // Last loaded scenario URL — used by "Play Again"
   lastScenarioUrl: string | null;
@@ -253,15 +223,6 @@ export interface BattleStore {
   // Transient state — direct updates, bypasses React
   transient: TransientState;
 
-  // Undo — step-back stack within the current PC turn.
-  // Reactive so the UI can show the stack depth on the Undo button.
-  undoStack: UndoSnapshot[];
-  /** Monotonic, bumped on every undo(). Drives the sprite-snap in App.tsx —
-   *  can't reuse loadGeneration for this because loadGeneration's effect also
-   *  re-centres the camera, which undo must not do (the player panned there
-   *  for a reason; undoing a move shouldn't throw that away). */
-  undoGeneration: number;
-
   // Actions
   loadBattle: (
     state: BattleState,
@@ -280,10 +241,21 @@ export interface BattleStore {
   reloadLastBattle: (url?: string) => Promise<void>;
   /** Restores state from localStorage. Returns true if a save was found and loaded. */
   loadSavedGame: () => boolean;
-  /** Pop one undo snapshot. No-op if the stack is empty. */
-  undo: () => void;
   /** Internal — schedules one AI step after a short delay. */
   _scheduleAiTurn: () => void;
+  /** Resolve a pending reaction (accept or decline). */
+  resolveReaction: (accept: boolean) => void;
+  /** Internal — process next reaction in queue. */
+  _processNextReaction: () => void;
+
+  // Campaign actions
+  loadCampaign: (definition: CampaignDefinition) => void;
+  advanceCampaignStage: () => void;
+  saveCampaignProgress: () => void;
+  healCampaignParty: () => void;
+  startCampaignStage: (stageIndex?: number) => Promise<void>;
+  loadSavedCampaign: () => boolean;
+  clearCampaign: () => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -323,32 +295,14 @@ function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[
         // Miss — strike landed no damage
         animations.push({ type: "miss", unitId: target });
       }
-    } else if (type === "cast_spell" || type === "save_damage") {
+    } else if (type === "cast_spell" || type === "save_damage" || type === "area_save_damage") {
       const target = String(payload["target"] ?? "");
       const dmg = readDamage(payload);
       if (target && dmg) {
         animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
       }
-    } else if (type === "area_save_damage") {
-      // Area events carry a resolutions array — one entry per unit that was
-      // in the blast and had line of effect from the center. Fan out to one
-      // damage number per hit target. Targets that crit-succeeded their save
-      // take 0 → readDamage returns null → they get no float text (correct:
-      // a number would be noise, the log already says who saved).
-      const resolutions = payload["resolutions"];
-      if (Array.isArray(resolutions)) {
-        for (const res of resolutions) {
-          if (!res || typeof res !== "object") continue;
-          const r = res as Record<string, unknown>;
-          const target = String(r["target"] ?? "");
-          const dmg = readDamage(r);
-          if (target && dmg) {
-            animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
-          }
-        }
-      }
-    } else if (type === "effect_tick") {
-      // Persistent damage / affliction ticks
+    } else if (type === "effect_tick" || type === "hazard_tick") {
+      // Persistent damage / affliction ticks / spatial hazard zones
       const target = String(payload["target"] ?? "");
       const dmg = readDamage(payload);
       if (target && dmg) {
@@ -364,19 +318,9 @@ function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[
           animations.push({ type: "heal", unitId: target, amount: granted });
         }
       }
-    } else if (type === "move") {
-      const actor = String(payload["actor"] ?? "");
-      const from = payload["from"] as number[] | undefined;
-      const to = payload["to"] as number[] | undefined;
-      if (actor && from && to) {
-        animations.push({
-          type: "move",
-          unitId: actor,
-          fromX: from[0], fromY: from[1],
-          toX: to[0], toY: to[1],
-        });
-      }
     }
+    // Note: "move" events aren't enqueued. Sprite slides are driven by
+    // syncUnits→tickSprites reading battle.units[].x/y directly (14B).
   }
   return animations;
 }
@@ -414,8 +358,14 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     battleEnded: false,
     battleOutcome: null,
     isAiTurn: false,
-
     loadGeneration: 0,
+
+    pendingReaction: null,
+    reactionQueue: [],
+
+    campaignDefinition: null,
+    campaignProgress: null,
+    showCampScreen: false,
 
     lastScenarioUrl: null,
 
@@ -428,9 +378,6 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     targetMode: null,
 
     transient: { animationQueue: [], activeAnimCount: 0 },
-
-    undoStack: [],
-    undoGeneration: 0,
 
     // -------------------------------------------------------------------------
     loadBattle: (state, enginePhase = 9, tiledMap = null, contentContext, rawScenario, tiledMapUrl = null) => {
@@ -463,11 +410,8 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: initialSelectedId,
         hoveredTilePos: null,
         targetMode: null,
-        transient: { animationQueue: [], activeAnimCount: 0 },
-        // Undo stack is turn-scoped; a new battle is a new world. Any stale
-        // snapshots reference the previous battle's deep-frozen state tree —
-        // popping one would swap in a completely unrelated BattleState.
-        undoStack: [],
+        pendingReaction: null,
+        reactionQueue: [],
       }));
 
       // If the first unit in initiative order is AI-controlled, kick off AI immediately.
@@ -476,17 +420,15 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
 
     // -------------------------------------------------------------------------
     dispatchCommand: (command) => {
-      const {
-        battle, rng, eventLog, contentContext, orchestratorConfig,
-        battleEnded, isAiTurn, undoStack,
-      } = get();
+      const { battle, rng, eventLog, contentContext, orchestratorConfig, battleEnded } = get();
       if (!battle || !rng || battleEnded) return;
 
-      // Snapshot the RNG position NOW, before anything rolls. applyCommand
-      // advances rng in-place (passed by reference), so reading .callCount
-      // after the reducer returns would give us the post-action count — wrong
-      // for an undo snapshot, which needs to reconstruct the pre-action RNG.
-      // Also used in the catch block to reset the RNG on a mid-roll throw.
+      // Capture RNG position BEFORE anything rolls. All current handlers
+      // throw before their first roll, so resetting in the catch is a no-op
+      // today. But it buys a guarantee: after dispatchCommand returns —
+      // success OR throw — rng.callCount exactly matches the committed
+      // battle state. Future handlers with roll-then-validate patterns won't
+      // silently drift the RNG and desync a later save/load or replay.
       const rngCallCountBefore = rng.callCount;
 
       // Materialize content-entry commands before sending to the reducer
@@ -530,38 +472,6 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           nextUnit && orchestratorConfig?.playerTeams.includes(nextUnit.team);
         const newSelectedId = isNextPC ? nextActiveId : get().selectedUnitId;
 
-        // ── Undo stack maintenance ────────────────────────────────────────
-        // Gate on isAiTurn as read at the TOP of this function. The AI loop
-        // sets isAiTurn:true in _scheduleAiTurn before act() calls us, and
-        // we set it back to false below — so the value destructured at entry
-        // reliably answers "did this dispatch come from the AI loop?".
-        //
-        // end_turn flushes: that's the commit point. The PC pressed E, the
-        // turn is locked, the AI is about to respond. Step-back granularity
-        // means you can undo Move→Strike→Move within a turn but not across
-        // the end_turn boundary.
-        //
-        // AI dispatches touch nothing. The stack was already flushed by the
-        // PC's end_turn, so this is a no-op either way — but explicitly
-        // skipping makes the intent legible and guards against a future
-        // phase where AI actions somehow happen with a non-empty PC stack.
-        //
-        // Read the type from `cmd` (post-materialize), not `command` —
-        // materialize can rewrite cast_spell→area_save_damage but it never
-        // rewrites TO end_turn, so today the distinction is academic. Reading
-        // cmd is still correct: what we want to know is "what did the reducer
-        // actually do", and that's cmd.
-        const undoPatch =
-          isAiTurn
-            ? {}
-            : cmd["type"] === "end_turn"
-              ? { undoStack: [] }
-              : { undoStack: [...undoStack, {
-                  battle,
-                  rngCallCount: rngCallCountBefore,
-                  eventLogLength: eventLog.length,
-                }] };
-
         set({
           battle: nextState,
           eventLog: [...eventLog, ...newEvents, ...endEvent],
@@ -569,7 +479,6 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           battleOutcome: outcome,
           isAiTurn: false,
           selectedUnitId: newSelectedId,
-          ...undoPatch,
         });
 
         // Auto-save after every successful command (skip if battle ended)
@@ -598,7 +507,41 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         transient.animationQueue.push(...animations);
 
         if (!ended) {
-          get()._scheduleAiTurn();
+          // Detect reaction triggers after move/strike commands
+          const cmdType = String(cmd["type"] ?? "");
+          let triggers: ReactionTrigger[] = [];
+
+          if (cmdType === "move") {
+            // fromX/fromY from the move event
+            const moveEvent = newEvents.find(e => e["type"] === "move");
+            if (moveEvent) {
+              const payload = moveEvent["payload"] as Record<string, unknown>;
+              const from = payload["from"] as number[];
+              if (from) {
+                triggers = detectMoveReactions(nextState, String(cmd["actor"]), from[0], from[1]);
+              }
+            }
+          } else if (cmdType === "strike" || cmdType === "reaction_strike") {
+            // Check for Shield Block triggers after strike damage
+            const strikeEvent = newEvents.find(e => e["type"] === "strike" || e["type"] === "reaction_strike");
+            if (strikeEvent) {
+              const payload = strikeEvent["payload"] as Record<string, unknown>;
+              const dmg = payload["damage"] as Record<string, unknown> | null;
+              if (dmg && Number(dmg["total"] ?? 0) > 0) {
+                const targetId = String(payload["target"]);
+                const damageType = String(dmg["damage_type"] ?? "physical");
+                triggers = detectDamageReactions(nextState, targetId, Number(dmg["total"]), damageType);
+              }
+            }
+          }
+
+          if (triggers.length > 0) {
+            // Queue reactions and process
+            set({ reactionQueue: triggers });
+            get()._processNextReaction();
+          } else {
+            get()._scheduleAiTurn();
+          }
         }
       } catch (err) {
         if (err instanceof ReductionError) {
@@ -606,17 +549,10 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         } else {
           console.error("Unexpected reducer error:", err);
         }
-        // Reset the RNG to where it was before the try. All current handlers
-        // throw before their first roll, so today this is a no-op (callCount
-        // hasn't moved). But it costs one compare-and-construct, and it buys
-        // us a guarantee: after dispatchCommand returns — success OR throw —
-        // rng.callCount exactly matches the committed battle state. Future
-        // handlers with roll-then-validate patterns won't silently drift the
-        // RNG and desync a later replay.
-        //
-        // battle.seed is safe to read here: `battle` is the pre-try scope
-        // capture; the throw happened before set({battle:nextState}) so the
-        // store's battle is still this same object.
+        // Reset the RNG to where it was before the try. `battle.seed` is safe
+        // to read here: `battle` is the pre-try scope capture; the throw
+        // happened before set({battle:nextState}) so the store's battle is
+        // still this same object.
         if (rng.callCount !== rngCallCountBefore) {
           set({ rng: new DeterministicRNG(battle.seed, rngCallCountBefore) });
         }
@@ -631,10 +567,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
             // capture from THIS gen; setTimeout(0) fires on the next macrotask.
             // If Play Again runs in between (synchronous onClick → loadBattle
             // → gen++), we'd end_turn against the NEW battle with a stale ID.
-            // Scenarios reuse ids (`hero`, `goblin_0`) so collision isn't rare,
-            // and since loadBattle just set isAiTurn:false, the undo gate would
-            // read the stale dispatch as PC-originated and flush the fresh
-            // stack. Same bug class as the act()/pollSettled() stomp; same cure.
+            // Scenarios reuse IDs (`hero`, `goblin_0`) so collision is likely.
             setTimeout(() => {
               if (get().loadGeneration !== genAtCatch) return;
               get().dispatchCommand({ type: "end_turn", actor: failedActorId });
@@ -645,26 +578,19 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     },
 
     // -------------------------------------------------------------------------
-    // Animation-gated AI scheduling.
+    // Animation-gated AI dispatch.
     //
-    // The old implementation used a flat setTimeout(420) — a magic number
-    // picked to be "long enough" for the previous frame's float-text to land.
-    // With movement tweens in play that guess is wrong: a 5-tile slide takes
-    // ~280ms but a damage number lingers for 900ms, and chaining Move→Strike
-    // →EndTurn would spawn the damage flash while the sprite is still
-    // mid-slide.
+    // Instead of a flat delay, poll transient state on requestAnimationFrame
+    // until both:
+    //   • animationQueue is empty (hit-flash / float-text drained), AND
+    //   • activeAnimCount is 0 (every sprite tween has settled per tickSprites)
+    // …then wait a short grace period so the player registers the landed state
+    // before the AI acts again.
     //
-    // Instead we poll the transient slice on requestAnimationFrame until BOTH
-    //   • animationQueue is drained (processAnimationQueue has consumed
-    //     every pending cue), AND
-    //   • activeAnimCount is 0 (every sprite tween has settled, per
-    //     tickSprites)
-    // …then wait a short grace period so the player registers the landed
-    // state before the AI acts again.
-    //
-    // We deliberately do NOT wait for float-text / hit-flash to finish —
-    // those are cosmetic overlays and should overlap with the next action,
-    // not block it. Only sprite positions gate.
+    // We do NOT wait for float-text / hit-flash to FINISH — those are cosmetic
+    // overlays and should overlap with the next action. Only sprite POSITIONS
+    // gate: the AI shouldn't start its move while the player's mover is still
+    // visually mid-slide.
     // -------------------------------------------------------------------------
     _scheduleAiTurn: () => {
       const { battle, orchestratorConfig, battleEnded, isAiTurn } = get();
@@ -674,33 +600,30 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       set({ isAiTurn: true });
 
       // Capture load-generation so we can abort if a new battle is loaded
-      // mid-poll. battleId is not sufficient here: Play Again reloads the
-      // same scenario → same battleId, and a stale poll would otherwise
-      // survive into the fresh battle and fire act() against it.
+      // mid-poll. battleId is NOT sufficient here: Play Again reloads the
+      // same scenario → same battleId, and a stale poll would survive into
+      // the fresh battle and fire act() against it.
       const genAtSchedule = get().loadGeneration;
 
       const act = () => {
         const state = get();
-        // Two abort reasons, two behaviours. They used to share a branch
-        // that did set({isAiTurn:false}) — that was the stomp.
+        // Two abort reasons, two behaviours.
         //
         // Gen-mismatch: we're a stale timer from a PREVIOUS battle. The new
-        // gen's loadBattle() has already bumped loadGeneration and then
-        // called _scheduleAiTurn() (store:474). If that fresh battle's first
-        // unit is AI, the NEW _scheduleAiTurn has already set isAiTurn:true
-        // and fired its own rAF poll. Writing false here would stomp that
-        // flag — the fresh poll would still run, but the UI would un-dim
-        // (End Turn button re-enables, action buttons light up) and the
-        // player could click during what's supposed to be a locked AI turn.
-        // Silent return. The gen fence is the only thing we're allowed to
-        // read across the discontinuity; everything else is the new gen's
-        // state and we mustn't touch it.
+        // gen's loadBattle() has already bumped loadGeneration and (if the
+        // fresh battle's first unit is AI) fired its OWN _scheduleAiTurn,
+        // which has already set isAiTurn:true and kicked off its own rAF
+        // poll. Writing false here would stomp that flag — the fresh poll
+        // would still run, but the UI would un-dim (End Turn button re-enables,
+        // action buttons light up) and the player could click during what's
+        // supposed to be a locked AI turn. Silent return: the gen fence is
+        // the only thing we're allowed to read across the discontinuity.
         if (state.loadGeneration !== genAtSchedule) return;
-        // Same-gen abort: the battle ended or was cleared WHILE OUR poll was
-        // in flight, on the same generation. Now it IS correct to release
+        // Same-gen abort: battle ended or was cleared WHILE OUR poll was in
+        // flight, on the same generation. Now it IS correct to release
         // isAiTurn — we're the only loop on this gen, no one else will. If
         // we don't release it, battleEnded:true + isAiTurn:true is a UI dead
-        // end: the overlay shows but all the inputs stay dimmed.
+        // end: the overlay shows but all inputs stay dimmed.
         if (!state.battle || !state.orchestratorConfig || state.battleEnded) {
           set({ isAiTurn: false });
           return;
@@ -718,7 +641,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           return;
         }
 
-        const rawCmd = getAiCommand(state.battle, policy);
+        const rawCmd = getAiCommand(state.battle, policy, state.contentContext);
 
         // Materialize if needed
         let cmd = rawCmd;
@@ -737,16 +660,17 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       const GRACE_MS = 120;
       // Hard cap on poll frames. At 60fps this is ~2s — if we're still
       // waiting after that, something has wedged (e.g. a tween that never
-      // settles because tickSprites isn't being called). Better to act on
-      // stale visuals than to soft-lock the game.
+      // settles because tickSprites isn't being called — headless, tab
+      // backgrounded, Pixi app paused). Act anyway: stale visuals are better
+      // than a soft-lock.
       const MAX_POLL_FRAMES = 120;
       // Require this many consecutive settled frames before firing. A single
       // settled read is not trustworthy: on frame 1 after dispatch the Pixi
-      // ticker drains the animation queue and writes activeAnimCount=0, but
-      // syncUnits — which actually arms the tween — lives in a passive
-      // useEffect and doesn't run until AFTER that rAF batch. One frame
-      // later the tween is armed and the counter reads nonzero. Two is
-      // exactly enough to bridge that gap; costs ~16ms per AI turn.
+      // ticker drains the animation queue to 0 and tickSprites writes
+      // activeAnimCount=0, but syncUnits — which actually ARMS the tween —
+      // lives in a passive useEffect and doesn't run until AFTER that rAF
+      // batch. One frame later the tween is armed and the counter reads
+      // nonzero. Two is exactly enough to bridge that gap; costs ~16ms/turn.
       const SETTLE_FRAMES = 2;
       let polls = 0;
       let settledStreak = 0;
@@ -755,8 +679,8 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         const s = get();
         // Same split as act(). This is the HIGHER-RISK site: act() has a
         // 120ms window, but pollSettled runs once per frame for up to ~2s
-        // while waiting for sprites to settle. Play Again during an AI
-        // turn almost always lands HERE, not in act(). No orchestratorConfig
+        // while waiting for sprites to settle. Play Again during an AI turn
+        // almost always lands HERE, not in act(). No orchestratorConfig
         // check needed — config only nulls via clearBattle(), which also
         // nulls battle, so !s.battle already covers it.
         if (s.loadGeneration !== genAtSchedule) return;
@@ -775,6 +699,68 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       };
 
       requestAnimationFrame(pollSettled);
+    },
+
+    // -------------------------------------------------------------------------
+    _processNextReaction: () => {
+      const { reactionQueue, battle, orchestratorConfig, battleEnded } = get();
+      if (!battle || !orchestratorConfig || battleEnded) {
+        set({ pendingReaction: null, reactionQueue: [] });
+        return;
+      }
+
+      if (reactionQueue.length === 0) {
+        set({ pendingReaction: null });
+        get()._scheduleAiTurn();
+        return;
+      }
+
+      const [next, ...rest] = reactionQueue;
+      set({ reactionQueue: rest, pendingReaction: next });
+
+      // Check if the reactor is AI-controlled — auto-resolve
+      const reactor = battle.units[next.reactorId];
+      if (reactor && !orchestratorConfig.playerTeams.includes(reactor.team)) {
+        // AI always accepts reactions. Gen-fence the deferred accept so a
+        // Play Again mid-prompt doesn't auto-resolve against the fresh battle.
+        const genAtSchedule = get().loadGeneration;
+        setTimeout(() => {
+          if (get().loadGeneration !== genAtSchedule) return;
+          get().resolveReaction(true);
+        }, 300);
+      }
+      // If player-controlled, the UI will show a prompt
+    },
+
+    // -------------------------------------------------------------------------
+    resolveReaction: (accept: boolean) => {
+      const { pendingReaction, battle } = get();
+      if (!pendingReaction || !battle) {
+        set({ pendingReaction: null });
+        get()._processNextReaction();
+        return;
+      }
+
+      if (accept) {
+        if (pendingReaction.reactionType === "attack_of_opportunity" ||
+            pendingReaction.reactionType === "reactive_strike") {
+          get().dispatchCommand({
+            type: "reaction_strike",
+            actor: pendingReaction.reactorId,
+            target: pendingReaction.provokerId,
+          });
+        } else if (pendingReaction.reactionType === "shield_block") {
+          const damageAmount = Number(pendingReaction.data?.["damageAmount"] ?? 0);
+          get().dispatchCommand({
+            type: "shield_block",
+            actor: pendingReaction.reactorId,
+            damage_amount: damageAmount,
+          });
+        }
+      }
+
+      set({ pendingReaction: null });
+      get()._processNextReaction();
     },
 
     // -------------------------------------------------------------------------
@@ -821,57 +807,164 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: saved.selectedUnitId,
         hoveredTilePos: null,
         targetMode: null,
+        pendingReaction: null,
+        reactionQueue: [],
         transient: { animationQueue: [], activeAnimCount: 0 },
-        // Undo doesn't persist across save/load. The step-back stack is an
-        // in-session affordance, not a replay log. If the player reloads
-        // mid-turn, they've chosen a new starting point.
-        undoStack: [],
       }));
       get()._scheduleAiTurn();
       return true;
     },
 
     // -------------------------------------------------------------------------
-    undo: () => {
-      const { undoStack, eventLog, transient } = get();
-      if (undoStack.length === 0) return;
-      const snap = undoStack[undoStack.length - 1];
+    // Campaign actions
+    // -------------------------------------------------------------------------
+    loadCampaign: (definition) => {
+      const progress: CampaignProgress = {
+        campaignId: definition.campaignId,
+        currentStageIndex: 0,
+        completedStages: [],
+        partyState: [],
+      };
+      set({
+        campaignDefinition: definition,
+        campaignProgress: progress,
+        showCampScreen: false,
+      });
+      writeCampaignSave(definition, progress);
+    },
 
-      // The RNG can't be seeked — mulberry32's state lives in a closure that
-      // has no rewind. The only way back is a fresh instance fast-forwarded
-      // through skipCount dummy rolls. Same trick loadSavedGame uses.
-      const rng = new DeterministicRNG(snap.battle.seed, snap.rngCallCount);
+    advanceCampaignStage: () => {
+      const { campaignDefinition, campaignProgress, battle } = get();
+      if (!campaignDefinition || !campaignProgress || !battle) return;
 
-      set((s) => ({
-        battle: snap.battle,
-        rng,
-        // slice, not replace — the log from [0, snap) is still true history.
-        // Only the undone action's events get dropped.
-        eventLog: eventLog.slice(0, snap.eventLogLength),
-        undoStack: undoStack.slice(0, -1),
-        undoGeneration: s.undoGeneration + 1,
-        // The pre-action state was definitionally not-ended: battleEnded
-        // is a dispatchCommand entry guard, so we could only have PUSHED
-        // this snapshot from a not-ended state.
+      const currentStage = campaignDefinition.stages[campaignProgress.currentStageIndex];
+      if (!currentStage) return; // bounds safety
+      const partySnaps = snapshotParty(battle);
+
+      const nextIndex = Math.min(
+        campaignProgress.currentStageIndex + 1,
+        campaignDefinition.stages.length,
+      );
+
+      const newProgress: CampaignProgress = {
+        ...campaignProgress,
+        currentStageIndex: nextIndex,
+        completedStages: [...campaignProgress.completedStages, currentStage.stageId],
+        partyState: partySnaps,
+      };
+
+      clearSavedGame(); // clear stale battle save
+      set({
+        campaignProgress: newProgress,
+        showCampScreen: true,
+        battle: null,
+        rng: null,
+        eventLog: [],
         battleEnded: false,
         battleOutcome: null,
-        // Aiming context is now nonsense — the armed spell might have been
-        // the thing we just undid, or the blue move tiles are stale. Clear it.
-        // The player re-arms if they want to retry.
+        orchestratorConfig: null,
+        contentContext: null,
+        contentEntries: [],
+        isAiTurn: false,
+        tiledMap: null,
+        tiledMapUrl: null,
+        selectedUnitId: null,
+        hoveredTilePos: null,
         targetMode: null,
-      }));
+        pendingReaction: null,
+        reactionQueue: [],
+        transient: { animationQueue: [], activeAnimCount: 0 },
+      });
 
-      // Flush pending animation cues — they describe the undone action.
-      // Anything already drained into the effect renderer (float-text,
-      // hit-flash) keeps going; those are cosmetic and the player has
-      // already seen them — that's why they're hitting undo.
-      // activeAnimCount needs no touch: tickSprites rewrites it every frame.
-      transient.animationQueue.length = 0;
+      writeCampaignSave(campaignDefinition, newProgress);
+    },
 
-      // Sprite snap happens in App.tsx, keyed on undoGeneration. Can't call
-      // it from here without importing rendering into the store, which would
-      // invert the layering. App.tsx already imports snapAllSprites for the
-      // fresh-load path; undo just needs a parallel signal.
+    saveCampaignProgress: () => {
+      const { campaignDefinition, campaignProgress } = get();
+      if (campaignDefinition && campaignProgress) {
+        writeCampaignSave(campaignDefinition, campaignProgress);
+      }
+    },
+
+    healCampaignParty: () => {
+      const { campaignProgress, campaignDefinition } = get();
+      if (!campaignProgress || !campaignDefinition) return;
+      const healedParty = healPartyAtCamp(campaignProgress.partyState);
+      const newProgress = { ...campaignProgress, partyState: healedParty };
+      set({ campaignProgress: newProgress });
+      writeCampaignSave(campaignDefinition, newProgress);
+    },
+
+    startCampaignStage: async (stageIndex?: number) => {
+      const { campaignDefinition, campaignProgress } = get();
+      if (!campaignDefinition || !campaignProgress) return;
+
+      const idx = stageIndex ?? campaignProgress.currentStageIndex;
+      if (idx >= campaignDefinition.stages.length) return;
+
+      const stage = campaignDefinition.stages[idx];
+      try {
+        const result = await loadScenarioFromUrl(stage.scenarioUrl);
+        // Apply party snapshot if we have one
+        let battleState = result.battle;
+        if (campaignProgress.partyState.length > 0) {
+          const mergedUnits = applyPartySnapshot(battleState.units, campaignProgress.partyState);
+          // Reset spell/feat uses for new battle (items stay consumed)
+          // Build ability defaults from content pack entries (usesPerDay)
+          const abilityDefaults: Record<string, number> = {};
+          for (const [entryId, entry] of Object.entries(result.contentContext.entryLookup)) {
+            if (entry.usesPerDay != null) {
+              abilityDefaults[entryId] = entry.usesPerDay;
+            }
+          }
+          if (Object.keys(abilityDefaults).length > 0) {
+            for (const unitId of Object.keys(mergedUnits)) {
+              const unit = mergedUnits[unitId];
+              if (unit.team !== "pc") continue;
+              mergedUnits[unitId] = {
+                ...unit,
+                abilitiesRemaining: resetAbilitiesForBattle(unit.abilitiesRemaining, abilityDefaults),
+              };
+            }
+          }
+          battleState = { ...battleState, units: mergedUnits };
+        }
+
+        get().loadBattle(
+          battleState,
+          result.enginePhase,
+          result.tiledMap,
+          result.contentContext,
+          result.rawScenario,
+          result.tiledMapUrl,
+        );
+        set({
+          showCampScreen: false,
+          lastScenarioUrl: stage.scenarioUrl,
+        });
+      } catch (err) {
+        console.error("Failed to load campaign stage:", err);
+      }
+    },
+
+    loadSavedCampaign: () => {
+      const saved = readCampaignSave();
+      if (!saved) return false;
+      set({
+        campaignDefinition: saved.definition,
+        campaignProgress: saved.progress,
+        showCampScreen: true,
+      });
+      return true;
+    },
+
+    clearCampaign: () => {
+      clearCampaignSave();
+      set({
+        campaignDefinition: null,
+        campaignProgress: null,
+        showCampScreen: false,
+      });
     },
 
     // -------------------------------------------------------------------------
@@ -882,6 +975,8 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
 
     clearBattle: () => {
       clearSavedGame();
+      // Only clear campaign if explicitly ending the campaign (via clearCampaign)
+      const { campaignDefinition, campaignProgress } = get();
       set({
         battle: null,
         rng: null,
@@ -897,8 +992,13 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,
+        pendingReaction: null,
+        reactionQueue: [],
         transient: { animationQueue: [], activeAnimCount: 0 },
-        undoStack: [],
+        // Preserve campaign state
+        campaignDefinition,
+        campaignProgress,
+        showCampScreen: false,
       });
     },
   }));

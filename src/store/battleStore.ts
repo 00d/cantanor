@@ -121,16 +121,7 @@ export interface MissAnimation {
   unitId: string;
 }
 
-export interface MoveAnimation {
-  type: "move";
-  unitId: string;
-  fromX: number;
-  fromY: number;
-  toX: number;
-  toY: number;
-}
-
-export type BattleAnimation = DamageAnimation | HealAnimation | MissAnimation | MoveAnimation;
+export type BattleAnimation = DamageAnimation | HealAnimation | MissAnimation;
 
 // ---------------------------------------------------------------------------
 // Target mode
@@ -140,10 +131,19 @@ export interface TargetMode {
   type: "move" | "strike" | "spell" | "feat" | "item" | "interact";
   range?: number;
   contentEntryId?: string;
-  /** True when the ability targets allies rather than enemies. */
+  /** True when the ability targets allies rather than enemies. Ignored when
+   *  `area` is set — area spells hit everyone in the blast. */
   allyTarget?: boolean;
   /** Index into the unit's weapons array (used for strike target mode). */
   weaponIndex?: number;
+  /** Set when the ability targets a tile (AoE centre) rather than a unit.
+   *  When present, the canvas click handler dispatches with center_x/center_y
+   *  and materializeRawCommand rewrites cast_spell → area_save_damage. Only
+   *  burst is wired; shape is in the schema for future line/cone work. */
+  area?: {
+    shape: "burst";
+    radiusFeet: number;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -152,6 +152,13 @@ export interface TargetMode {
 
 export interface TransientState {
   animationQueue: BattleAnimation[];
+  /**
+   * Count of sprites with an in-flight position tween (0 ≤ lerpT < 1).
+   * Written unconditionally every Pixi tick by tickSprites. Read by
+   * _scheduleAiTurn's rAF poll (M2) to gate AI on sprite settlement.
+   * Direct mutation — no React re-render.
+   */
+  activeAnimCount: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -177,6 +184,15 @@ export interface BattleStore {
 
   // AI state
   isAiTurn: boolean;
+
+  /**
+   * Monotonic counter bumped every time a battle is (re)loaded. Unlike
+   * battleId this changes on Play Again of the same scenario, so in-flight
+   * setTimeout/rAF callbacks can detect "this is a fresh load" even when the
+   * underlying scenario identity is unchanged. See CLAUDE.md Load-Bearing
+   * Invariants.
+   */
+  loadGeneration: number;
 
   // Reaction state
   pendingReaction: ReactionTrigger | null;
@@ -279,11 +295,29 @@ function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[
         // Miss — strike landed no damage
         animations.push({ type: "miss", unitId: target });
       }
-    } else if (type === "cast_spell" || type === "save_damage" || type === "area_save_damage") {
+    } else if (type === "cast_spell" || type === "save_damage") {
       const target = String(payload["target"] ?? "");
       const dmg = readDamage(payload);
       if (target && dmg) {
         animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
+      }
+    } else if (type === "area_save_damage") {
+      // Area events carry a resolutions array — one entry per unit that was
+      // in the blast and had line-of-effect from the center. Fan out to one
+      // damage number per hit target. Targets that crit-succeeded their save
+      // take 0 → readDamage returns null → no float text (correct: a number
+      // would be noise, the combat log already says who saved).
+      const resolutions = payload["resolutions"];
+      if (Array.isArray(resolutions)) {
+        for (const res of resolutions) {
+          if (!res || typeof res !== "object") continue;
+          const r = res as Record<string, unknown>;
+          const target = String(r["target"] ?? "");
+          const dmg = readDamage(r);
+          if (target && dmg) {
+            animations.push({ type: "damage", unitId: target, amount: dmg.total, damageType: dmg.type });
+          }
+        }
       }
     } else if (type === "effect_tick") {
       // Persistent damage / affliction ticks
@@ -302,19 +336,13 @@ function eventsToAnimations(events: Record<string, unknown>[]): BattleAnimation[
           animations.push({ type: "heal", unitId: target, amount: granted });
         }
       }
-    } else if (type === "move") {
-      const actor = String(payload["actor"] ?? "");
-      const from = payload["from"] as number[] | undefined;
-      const to = payload["to"] as number[] | undefined;
-      if (actor && from && to) {
-        animations.push({
-          type: "move",
-          unitId: actor,
-          fromX: from[0], fromY: from[1],
-          toX: to[0], toY: to[1],
-        });
-      }
     }
+    // No "move" branch. Slide-tweens are armed by spriteManager's syncUnits
+    // directly from the battle state — it sees the unit's new position in
+    // the next React effect and lerps toward it. Pushing a move entry here
+    // was dead work: effectRenderer drained it with no visual, and it
+    // couldn't bridge the syncUnits race anyway (see SETTLE_FRAMES comment
+    // in _scheduleAiTurn — the queue drains before syncUnits runs).
   }
   return animations;
 }
@@ -353,6 +381,8 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     battleOutcome: null,
     isAiTurn: false,
 
+    loadGeneration: 0,
+
     pendingReaction: null,
     reactionQueue: [],
 
@@ -370,7 +400,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     hoveredTilePos: null,
     targetMode: null,
 
-    transient: { animationQueue: [] },
+    transient: { animationQueue: [], activeAnimCount: 0 },
 
     // -------------------------------------------------------------------------
     loadBattle: (state, enginePhase = 9, tiledMap = null, contentContext, rawScenario, tiledMapUrl = null) => {
@@ -386,7 +416,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           ? firstId
           : null;
 
-      set({
+      set((s) => ({
         battle: state,
         rng,
         eventLog: [],
@@ -397,21 +427,37 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         battleEnded: false,
         battleOutcome: null,
         isAiTurn: false,
+        loadGeneration: s.loadGeneration + 1,
         tiledMap,
         tiledMapUrl,
         selectedUnitId: initialSelectedId,
         hoveredTilePos: null,
         targetMode: null,
-      });
+        // M0.3: reaction queue is battle-scoped; a stale prompt from the
+        // previous battle references units that don't exist in the new one.
+        pendingReaction: null,
+        reactionQueue: [],
+        transient: { animationQueue: [], activeAnimCount: 0 },
+      }));
 
-      // If the first unit in initiative order is AI-controlled, kick off AI immediately.
-      get()._scheduleAiTurn();
+      // Route through _processNextReaction so _scheduleAiTurn has exactly
+      // one caller. reactionQueue is empty (just reset above) so this takes
+      // the queue-empty branch: clear pendingReaction (idempotent), schedule
+      // AI if the first unit in initiative order is AI-controlled.
+      get()._processNextReaction();
     },
 
     // -------------------------------------------------------------------------
     dispatchCommand: (command) => {
       const { battle, rng, eventLog, contentContext, orchestratorConfig, battleEnded } = get();
       if (!battle || !rng || battleEnded) return;
+
+      // Snapshot the RNG position NOW, before anything rolls. applyCommand
+      // advances rng in-place (passed by reference), so reading .callCount
+      // after the reducer returns would give us the post-action count. Used
+      // in the catch block to reset the RNG on a mid-roll throw — ensures
+      // rng.callCount always matches the committed battle state (M0.2).
+      const rngCallCountBefore = rng.callCount;
 
       // Materialize content-entry commands before sending to the reducer
       let cmd: Record<string, unknown> = command as Record<string, unknown>;
@@ -518,12 +564,19 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           }
 
           if (triggers.length > 0) {
-            // Queue reactions and process
-            set({ reactionQueue: triggers });
-            get()._processNextReaction();
-          } else {
-            get()._scheduleAiTurn();
+            // Prepend, don't replace — a nested reaction dispatch (inside
+            // resolveReaction) must not discard reactions the outer dispatch
+            // queued. Prepend so cascading reactions (e.g. shield_block
+            // triggered by a reaction_strike) resolve before the next outer
+            // reaction fires — PF2e-correct: you block the damage you just
+            // took before the next enemy swings.
+            set((s) => ({ reactionQueue: [...triggers, ...s.reactionQueue] }));
           }
+          // Always route through _processNextReaction. It schedules AI when
+          // the queue is empty and surfaces the next prompt when it isn't.
+          // Correct for BOTH outer dispatches (queue was empty before) and
+          // nested reaction dispatches (queue may hold outer reactions).
+          get()._processNextReaction();
         }
       } catch (err) {
         if (err instanceof ReductionError) {
@@ -531,29 +584,90 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         } else {
           console.error("Unexpected reducer error:", err);
         }
+        // Reset the RNG to where it was before the try. All current handlers
+        // throw before their first roll, so today this is a no-op (callCount
+        // hasn't moved). But it costs one compare-and-construct, and it buys
+        // us a guarantee: after dispatchCommand returns — success OR throw —
+        // rng.callCount exactly matches the committed battle state. Future
+        // handlers with roll-then-validate patterns won't silently drift the
+        // RNG and desync a later replay.
+        //
+        // battle.seed is safe to read here: `battle` is the pre-try scope
+        // capture; the throw happened before set({battle:nextState}) so the
+        // store's battle is still this same object.
+        if (rng.callCount !== rngCallCountBefore) {
+          set({ rng: new DeterministicRNG(battle.seed, rngCallCountBefore) });
+        }
         // Anti-deadlock: if the active unit is AI-controlled and its command failed,
         // force an end_turn so the game doesn't soft-lock.
-        const { battle: currentBattle, orchestratorConfig } = get();
-        if (currentBattle && orchestratorConfig) {
+        const { battle: currentBattle, orchestratorConfig: cfg, loadGeneration: genAtCatch } = get();
+        if (currentBattle && cfg) {
           const failedActorId = activeUnitId(currentBattle);
           const failedActor = currentBattle.units[failedActorId];
-          if (failedActor && !orchestratorConfig.playerTeams.includes(failedActor.team)) {
-            setTimeout(() => get().dispatchCommand({ type: "end_turn", actor: failedActorId }), 0);
+          if (failedActor && !cfg.playerTeams.includes(failedActor.team)) {
+            // Gen-fence the deferred dispatch. `failedActorId` is a closure
+            // capture from THIS gen; setTimeout(0) fires on the next macrotask.
+            // If Play Again runs in between (synchronous onClick → loadBattle
+            // → gen++), we'd end_turn against the NEW battle with a stale ID.
+            // Scenarios reuse ids (`hero`, `goblin_0`) so collision isn't rare.
+            setTimeout(() => {
+              if (get().loadGeneration !== genAtCatch) return;
+              get().dispatchCommand({ type: "end_turn", actor: failedActorId });
+            }, 0);
           }
         }
       }
     },
 
     // -------------------------------------------------------------------------
+    // Animation-gated AI (M2): instead of a fixed delay, poll the transient
+    // slice every frame and fire act() only once:
+    //   • animationQueue is empty (processAnimationQueue has drained it), AND
+    //   • activeAnimCount is 0 (every sprite tween has settled per tickSprites)
+    // …for two consecutive frames, then wait a short grace so the player
+    // registers the landed state before the AI acts again.
+    //
+    // Reaction prompts do NOT gate the poll: this function has a single caller
+    // (_processNextReaction's queue-empty branch) which clears pendingReaction
+    // before calling. The invariant is asserted at entry, not per-frame.
+    //
+    // We deliberately do NOT wait for float-text / hit-flash to finish — those
+    // are cosmetic overlays and should overlap with the next action, not block
+    // it. Only sprite positions gate.
+    // -------------------------------------------------------------------------
     _scheduleAiTurn: () => {
-      const { battle, orchestratorConfig, battleEnded, isAiTurn } = get();
+      const { battle, orchestratorConfig, battleEnded, isAiTurn, pendingReaction } = get();
       if (!battle || !orchestratorConfig || battleEnded || isAiTurn) return;
+      // Invariant: _scheduleAiTurn has exactly one caller (_processNextReaction's
+      // queue-empty branch) and that caller clears pendingReaction immediately
+      // before calling us. This guard is an assertion, not a defense — if it
+      // ever trips, the single-gateway refactor has been broken.
+      if (pendingReaction !== null) return;
       if (!isAiUnit(battle, orchestratorConfig)) return;
 
       set({ isAiTurn: true });
 
-      setTimeout(() => {
+      // Capture load-generation so we can abort if a new battle is loaded
+      // mid-poll. battleId is not sufficient here: Play Again reloads the
+      // same scenario → same battleId, and a stale poll would otherwise
+      // survive into the fresh battle and fire act() against it.
+      const genAtSchedule = get().loadGeneration;
+
+      const act = () => {
         const state = get();
+        // Two abort reasons, two behaviours.
+        //
+        // Gen-mismatch: we're a stale timer from a PREVIOUS battle. The new
+        // gen's loadBattle() has already bumped loadGeneration and may have
+        // set isAiTurn:true via its own _scheduleAiTurn. Writing false here
+        // would stomp that flag — the fresh poll would still run, but the UI
+        // would un-dim and the player could click during what's supposed to
+        // be a locked AI turn. Silent return.
+        if (state.loadGeneration !== genAtSchedule) return;
+        // Same-gen abort: the battle ended or was cleared while our poll was
+        // in flight. Now it IS correct to release isAiTurn — we're the only
+        // loop on this gen, no one else will. If we don't, battleEnded:true +
+        // isAiTurn:true is a UI dead end (overlay shows, inputs stay dimmed).
         if (!state.battle || !state.orchestratorConfig || state.battleEnded) {
           set({ isAiTurn: false });
           return;
@@ -585,7 +699,49 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
 
         set({ isAiTurn: false });
         get().dispatchCommand(cmd as unknown as RawCommand);
-      }, 420);
+      };
+
+      const GRACE_MS = 120;
+      // Hard cap on poll frames. At 60fps this is ~2s — if we're still
+      // waiting after that, something has wedged (e.g. a tween that never
+      // settles because tickSprites isn't being called). Better to act on
+      // stale visuals than to soft-lock the game.
+      const MAX_POLL_FRAMES = 120;
+      // Require this many consecutive settled frames before firing. A single
+      // settled read is not trustworthy: on frame 1 after dispatch the Pixi
+      // ticker drains the animation queue and writes activeAnimCount=0, but
+      // syncUnits — which actually arms the tween — lives in a passive
+      // useEffect and doesn't run until AFTER that rAF batch. One frame
+      // later the tween is armed and the counter reads nonzero. Two is
+      // exactly enough to bridge that gap; costs ~16ms per AI turn.
+      const SETTLE_FRAMES = 2;
+      let polls = 0;
+      let settledStreak = 0;
+
+      const pollSettled = () => {
+        const s = get();
+        // Same split as act(). This is the HIGHER-RISK site: act() has a
+        // 120ms window, but pollSettled runs once per frame for up to ~2s
+        // while waiting for sprites to settle. Play Again during an AI
+        // turn almost always lands HERE, not in act(). No orchestratorConfig
+        // check needed — config only nulls via clearBattle(), which also
+        // nulls battle, so !s.battle already covers it.
+        if (s.loadGeneration !== genAtSchedule) return;
+        if (!s.battle || s.battleEnded) {
+          set({ isAiTurn: false });
+          return;
+        }
+        const t = s.transient;
+        const settled = t.animationQueue.length === 0 && t.activeAnimCount === 0;
+        settledStreak = settled ? settledStreak + 1 : 0;
+        if (settledStreak >= SETTLE_FRAMES || ++polls >= MAX_POLL_FRAMES) {
+          setTimeout(act, GRACE_MS);
+        } else {
+          requestAnimationFrame(pollSettled);
+        }
+      };
+
+      requestAnimationFrame(pollSettled);
     },
 
     // -------------------------------------------------------------------------
@@ -608,8 +764,15 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       // Check if the reactor is AI-controlled — auto-resolve
       const reactor = battle.units[next.reactorId];
       if (reactor && !orchestratorConfig.playerTeams.includes(reactor.team)) {
-        // AI always accepts reactions
+        // AI always accepts reactions. Fence on BOTH loadGeneration (Play
+        // Again mid-prompt) and reaction identity (cascade replaced
+        // pendingReaction before the timer fired — e.g. test code or a fast
+        // PC click raced the auto-resolve; the stale timer would otherwise
+        // resolve the NEW pendingReaction with the OLD one's accept).
+        const genAtQueue = get().loadGeneration;
         setTimeout(() => {
+          if (get().loadGeneration !== genAtQueue) return;
+          if (get().pendingReaction !== next) return;
           get().resolveReaction(true);
         }, 300);
       }
@@ -625,25 +788,48 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         return;
       }
 
+      // Clear BEFORE dispatch. The nested dispatchCommand may detect a
+      // cascading reaction (reaction_strike → shield_block) and set a fresh
+      // pendingReaction via its _processNextReaction tail. Clearing AFTER
+      // would clobber the cascade — the original bug this restructure fixes.
+      set({ pendingReaction: null });
+
       if (accept) {
+        let cmd: Record<string, unknown> | null = null;
         if (pendingReaction.reactionType === "attack_of_opportunity" ||
             pendingReaction.reactionType === "reactive_strike") {
-          get().dispatchCommand({
+          cmd = {
             type: "reaction_strike",
             actor: pendingReaction.reactorId,
             target: pendingReaction.provokerId,
-          });
+          };
         } else if (pendingReaction.reactionType === "shield_block") {
-          const damageAmount = Number(pendingReaction.data?.["damageAmount"] ?? 0);
-          get().dispatchCommand({
+          cmd = {
             type: "shield_block",
             actor: pendingReaction.reactorId,
-            damage_amount: damageAmount,
-          });
+            damage_amount: Number(pendingReaction.data?.["damageAmount"] ?? 0),
+          };
+        }
+        if (cmd) {
+          get().dispatchCommand(cmd);
+          // dispatchCommand's success tail calls _processNextReaction, which
+          // either arms the next prompt (pendingReaction set) or schedules AI
+          // (isAiTurn set). If dispatch THREW before reaching its tail (e.g.
+          // target died from a previous reaction), NEITHER is set and turn
+          // flow is stranded — queue non-empty would never surface the next
+          // prompt, queue empty would never schedule AI. Recover by calling
+          // _processNextReaction ourselves. The double-call hazard when
+          // dispatch succeeded is excluded by the condition: one of the two
+          // flags is always set on success.
+          const post = get();
+          if (post.pendingReaction === null && !post.isAiTurn) {
+            get()._processNextReaction();
+          }
+          return;
         }
       }
 
-      set({ pendingReaction: null });
+      // Declined, or unrecognized reaction type — move to next in queue.
       get()._processNextReaction();
     },
 
@@ -651,8 +837,10 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     reloadLastBattle: async (urlOverride?: string) => {
       const url = urlOverride ?? get().lastScenarioUrl;
       if (!url) return;
+      const genAtStart = get().loadGeneration;
       try {
         const result = await loadScenarioFromUrl(url);
+        if (get().loadGeneration !== genAtStart) return;
         get().loadBattle(
           result.battle,
           result.enginePhase,
@@ -673,7 +861,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       if (!saved) return false;
       const rng = new DeterministicRNG(saved.battle.seed, saved.rngCallCount);
       const contentEntries = buildContentEntries(saved.contentContext);
-      set({
+      set((s) => ({
         battle: saved.battle,
         rng,
         eventLog: [],
@@ -684,6 +872,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         battleEnded: saved.battleEnded,
         battleOutcome: saved.battleOutcome,
         isAiTurn: false,
+        loadGeneration: s.loadGeneration + 1,
         tiledMap: saved.tiledMap,
         tiledMapUrl: saved.tiledMapUrl ?? null,
         lastScenarioUrl: saved.lastScenarioUrl,
@@ -692,9 +881,10 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         targetMode: null,
         pendingReaction: null,
         reactionQueue: [],
-        transient: { animationQueue: [] },
-      });
-      get()._scheduleAiTurn();
+        transient: { animationQueue: [], activeAnimCount: 0 },
+      }));
+      // Single-gateway: see loadBattle tail comment.
+      get()._processNextReaction();
       return true;
     },
 
@@ -756,7 +946,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         targetMode: null,
         pendingReaction: null,
         reactionQueue: [],
-        transient: { animationQueue: [] },
+        transient: { animationQueue: [], activeAnimCount: 0 },
       });
 
       writeCampaignSave(campaignDefinition, newProgress);
@@ -786,8 +976,13 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       if (idx >= campaignDefinition.stages.length) return;
 
       const stage = campaignDefinition.stages[idx];
+      // Gen-fence the async load: if the player clicks something else that
+      // loads a different battle while this fetch is in flight, the captured
+      // gen will be stale by the time the await resolves.
+      const genAtStart = get().loadGeneration;
       try {
         const result = await loadScenarioFromUrl(stage.scenarioUrl);
+        if (get().loadGeneration !== genAtStart) return;
         // Apply party snapshot if we have one
         let battleState = result.battle;
         if (campaignProgress.partyState.length > 0) {
@@ -877,7 +1072,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         targetMode: null,
         pendingReaction: null,
         reactionQueue: [],
-        transient: { animationQueue: [] },
+        transient: { animationQueue: [], activeAnimCount: 0 },
         // Preserve campaign state
         campaignDefinition,
         campaignProgress,

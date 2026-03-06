@@ -1,9 +1,8 @@
 /**
  * Scenario loading and lightweight validation.
- * Mirrors engine/io/scenario_loader.py
  */
 
-import { BattleState, MapState, UnitState } from "../engine/state";
+import { BattleState, MapState, UnitState, WeaponData } from "../engine/state";
 import { buildTurnOrder } from "../engine/turnOrder";
 import type { ResolvedTiledMap } from "./tiledTypes";
 import { resolveScenarioContentContext, type ContentContext } from "./contentPackLoader";
@@ -115,6 +114,10 @@ const VALID_COMMAND_TYPES = new Set([
   "use_feat",
   "use_item",
   "interact",
+  "reload",
+  "raise_shield",
+  "shield_block",
+  "reaction_strike",
 ]);
 
 function validateCommand(
@@ -425,6 +428,36 @@ export function validateScenario(data: Record<string, unknown>): void {
     "map.height must be positive int",
   );
 
+  const mapHazards = (mapData["hazards"] as unknown[]) ?? [];
+  require(Array.isArray(mapHazards), "map.hazards must be list when present");
+  for (let idx = 0; idx < mapHazards.length; idx++) {
+    const hz = mapHazards[idx] as Record<string, unknown>;
+    require(typeof hz === "object" && hz !== null, `map.hazards[${idx}] must be object`);
+    for (const key of ["id", "damage_type", "damage_per_turn", "dc", "save_type", "tiles"]) {
+      require(key in hz, `map.hazards[${idx}] missing key: ${key}`);
+    }
+    require(typeof hz["id"] === "string" && Boolean(hz["id"]), `map.hazards[${idx}].id must be non-empty string`);
+    require(
+      typeof hz["damage_per_turn"] === "number" && Number(hz["damage_per_turn"]) >= 0,
+      `map.hazards[${idx}].damage_per_turn must be non-negative number`,
+    );
+    require(
+      typeof hz["dc"] === "number" && Number.isInteger(hz["dc"]),
+      `map.hazards[${idx}].dc must be integer`,
+    );
+    require(
+      Array.isArray(hz["tiles"]) && (hz["tiles"] as unknown[]).length > 0,
+      `map.hazards[${idx}].tiles must be non-empty list`,
+    );
+    for (const tile of hz["tiles"] as unknown[]) {
+      require(
+        Array.isArray(tile) && tile.length === 2 &&
+          Number.isInteger(tile[0]) && Number.isInteger(tile[1]),
+        `map.hazards[${idx}] tile must be [int, int] pair`,
+      );
+    }
+  }
+
   const contentPacks = (data["content_packs"] as unknown[]) ?? [];
   require(Array.isArray(contentPacks), "content_packs must be list when present");
   for (let idx = 0; idx < contentPacks.length; idx++) {
@@ -653,6 +686,32 @@ export function validateScenario(data: Record<string, unknown>): void {
   }
 }
 
+function parseWeapons(rawWeapons: Record<string, unknown>[]): WeaponData[] {
+  return rawWeapons.map((w) => {
+    const wpnType = String(w["type"] ?? "melee");
+    require(wpnType === "melee" || wpnType === "ranged", `weapon type must be melee or ranged, got ${wpnType}`);
+    const weapon: WeaponData = {
+      name: String(w["name"] ?? "weapon"),
+      type: wpnType as "melee" | "ranged",
+      attackMod: Number(w["attack_mod"] ?? 0),
+      damage: String(w["damage"] ?? "1d4"),
+      damageType: String(w["damage_type"] ?? "physical").toLowerCase(),
+    };
+    if (w["damage_bypass"]) {
+      weapon.damageBypass = (w["damage_bypass"] as string[]).map((x) => String(x).toLowerCase());
+    }
+    if (w["reach"] != null) weapon.reach = Number(w["reach"]);
+    if (w["range_increment"] != null) weapon.rangeIncrement = Number(w["range_increment"]);
+    if (w["max_range"] != null) weapon.maxRange = Number(w["max_range"]);
+    if (w["propulsive_mod"] != null) weapon.propulsiveMod = Number(w["propulsive_mod"]);
+    if (Array.isArray(w["traits"])) weapon.traits = (w["traits"] as string[]).map(String);
+    if (w["ammo"] != null) weapon.ammo = Number(w["ammo"]);
+    if (w["reload"] != null) weapon.reload = Number(w["reload"]);
+    if (w["hands"] != null) weapon.hands = Number(w["hands"]);
+    return weapon;
+  });
+}
+
 export function battleStateFromScenario(data: Record<string, unknown>): BattleState {
   const mapData = data["map"] as Record<string, unknown>;
   const blocked: [number, number][] = ((mapData["blocked"] as unknown[]) ?? []).map(
@@ -665,6 +724,18 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
     ...(mapData["move_cost"] ? { moveCost: mapData["move_cost"] as Record<string, number> } : {}),
     ...(mapData["cover_grade"] ? { coverGrade: mapData["cover_grade"] as Record<string, number> } : {}),
     ...(mapData["elevation"] ? { elevation: mapData["elevation"] as Record<string, number> } : {}),
+    ...(mapData["hazards"] ? {
+      hazards: (mapData["hazards"] as Record<string, unknown>[]).map((h) => ({
+        id: String(h["id"]),
+        damageType: String(h["damage_type"]),
+        damagePerTurn: Number(h["damage_per_turn"]),
+        dc: Number(h["dc"]),
+        saveType: String(h["save_type"]),
+        tiles: (h["tiles"] as number[][]).map(
+          (t) => [Number(t[0]), Number(t[1])] as [number, number],
+        ),
+      })),
+    } : {}),
   };
 
   const units: Record<string, UnitState> = {};
@@ -711,6 +782,22 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
       attacksThisTurn: 0,
       ...(Array.isArray(raw["abilities"]) && { abilities: (raw["abilities"] as string[]).map(String) }),
       abilitiesRemaining: {},
+      ...(Array.isArray(raw["weapons"]) && (() => {
+        const weapons = parseWeapons(raw["weapons"] as Record<string, unknown>[]);
+        const weaponAmmo: Record<number, number> = {};
+        let hasAmmo = false;
+        for (let i = 0; i < weapons.length; i++) {
+          if (weapons[i].ammo != null) {
+            weaponAmmo[i] = weapons[i].ammo!;
+            hasAmmo = true;
+          }
+        }
+        return { weapons, ...(hasAmmo && { weaponAmmo }) };
+      })()),
+      ...(typeof raw["sprite_sheet"] === "string" && { spriteSheet: raw["sprite_sheet"] }),
+      ...(Array.isArray(raw["reactions"]) && { reactions: (raw["reactions"] as string[]).map(String) }),
+      ...(raw["shield_hardness"] != null && { shieldHardness: Number(raw["shield_hardness"]) }),
+      ...(raw["shield_hp"] != null && { shieldHp: Number(raw["shield_hp"]), shieldMaxHp: Number(raw["shield_hp"]), shieldRaised: false }),
     };
   }
 
@@ -800,9 +887,10 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
   if (typeof data["tiled_map"] === "string" && data["tiled_map"]) {
     const tiledMapPath = data["tiled_map"] as string;
     const { loadTiledMap } = await import("./tiledLoader");
-    const { extractMapState } = await import("./mapDataBridge");
+    const { extractMapState, extractHazardZones } = await import("./mapDataBridge");
     const tiledMap = await loadTiledMap(tiledMapPath);
     const tiledMapState = extractMapState(tiledMap);
+    const tiledHazards = extractHazardZones(tiledMap);
     const mergedData: Record<string, unknown> = {
       ...data,
       map: {
@@ -812,6 +900,14 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
         ...(tiledMapState.moveCost   && { move_cost:    tiledMapState.moveCost }),
         ...(tiledMapState.coverGrade && { cover_grade:  tiledMapState.coverGrade }),
         ...(tiledMapState.elevation  && { elevation:    tiledMapState.elevation }),
+        ...(tiledHazards.length > 0  && { hazards: tiledHazards.map((z) => ({
+          id: z.id,
+          damage_type: z.element,
+          damage_per_turn: z.damagePerTurn,
+          dc: z.dc,
+          save_type: z.saveType,
+          tiles: z.tiles,
+        })) }),
       },
     };
     validateScenario(mergedData);

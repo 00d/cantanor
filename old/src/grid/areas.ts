@@ -1,6 +1,5 @@
 /**
  * Area targeting helpers.
- * Mirrors engine/grid/areas.py
  */
 
 export function radiusPoints(
@@ -49,6 +48,38 @@ export function linePoints(
     }
   }
   return points;
+}
+
+/**
+ * Line-spell footprint: the tiles a fixed-length line hits when aimed from
+ * `origin` toward `aim`.
+ *
+ * The aim point fixes DIRECTION, not length. A 60-foot lightning bolt aimed at
+ * a goblin 2 tiles away still travels 12 tiles in that direction. We project
+ * the aim vector out to `lengthTiles` (Chebyshev, since Bresenham produces
+ * `cheb` tiles for a Chebyshev-distance of `cheb`), walk Bresenham to that
+ * projected endpoint, skip the origin, and truncate to `lengthTiles`.
+ *
+ * Returns `[]` if aim === origin (no direction to aim in).
+ */
+export function lineAimPoints(
+  ox: number,
+  oy: number,
+  aimX: number,
+  aimY: number,
+  lengthTiles: number,
+): Array<[number, number]> {
+  const dx = aimX - ox;
+  const dy = aimY - oy;
+  if (dx === 0 && dy === 0) return [];
+
+  const cheb = Math.max(Math.abs(dx), Math.abs(dy));
+  const scale = lengthTiles / cheb;
+  const farX = ox + Math.round(dx * scale);
+  const farY = oy + Math.round(dy * scale);
+
+  // Skip index 0 (origin), clamp to lengthTiles (rounding may overshoot).
+  return linePoints(ox, oy, farX, farY).slice(1, 1 + lengthTiles);
 }
 
 export function conePoints(

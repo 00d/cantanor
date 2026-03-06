@@ -251,9 +251,5 @@ export function processAnimationQueue(
     } else if (anim.type === "miss") {
       showMiss(unit.x, unit.y);
     }
-    // anim.type === "move": drained and dropped. The sprite tween is armed
-    // separately by syncUnits() when the new battle state lands; this queue
-    // entry is just the reducer's generic "something moved" signal and has
-    // no visual of its own.
   }
 }

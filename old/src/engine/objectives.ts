@@ -1,6 +1,5 @@
 /**
  * Objective evaluation for scenario-driven encounters.
- * Mirrors engine/core/objectives.py
  *
  * Pathfinder 2e ORC encounter objectives: victory/defeat conditions.
  */

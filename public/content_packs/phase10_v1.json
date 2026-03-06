@@ -68,6 +68,23 @@
       }
     },
     {
+      "id": "spell.fireball",
+      "kind": "spell",
+      "source_ref": "core-rulebook",
+      "tags": ["fire", "area", "offense"],
+      "uses_per_day": 3,
+      "payload": {
+        "command_type": "cast_spell",
+        "spell_id": "fireball",
+        "area": { "shape": "burst", "radius_feet": 20 },
+        "save_type": "Reflex",
+        "mode": "basic",
+        "damage": "6d6",
+        "damage_type": "fire",
+        "dc": 21
+      }
+    },
+    {
       "id": "feat.battle_medicine",
       "kind": "feat",
       "source_ref": "core-rulebook",

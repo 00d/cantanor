@@ -1,6 +1,7 @@
 /**
- * Movement checks for square grids.
- * Mirrors engine/grid/movement.py
+ * Movement checks for square grids with 8-connected (diagonal) movement.
+ * Implements PF2e alternating diagonal cost: 1st diagonal = 5ft (1 tile),
+ * 2nd diagonal = 10ft (2 tiles), alternating.
  */
 
 import { BattleState, UnitState } from "../engine/state";
@@ -15,6 +16,21 @@ export function manhattanDistance(
   return Math.abs(ax - bx) + Math.abs(ay - by);
 }
 
+/** Chebyshev distance — max of axis deltas. Used for reach/adjacency in PF2e. */
+export function chebyshevDistance(
+  ax: number,
+  ay: number,
+  bx: number,
+  by: number,
+): number {
+  return Math.max(Math.abs(ax - bx), Math.abs(ay - by));
+}
+
+/**
+ * Can `unit` step to adjacent tile `(x, y)` in one move?
+ * Allows 8-connected adjacency (Chebyshev distance 1).
+ * Diagonal steps require both "corner" tiles to be passable (not blocked, not occupied).
+ */
 export function canStepTo(
   state: BattleState,
   unit: UnitState,
@@ -24,10 +40,24 @@ export function canStepTo(
   if (!inBounds(state, x, y)) return false;
   if (isBlocked(state, x, y)) return false;
   if (isOccupied(state, x, y)) return false;
-  return manhattanDistance(unit.x, unit.y, x, y) === 1;
+  if (chebyshevDistance(unit.x, unit.y, x, y) !== 1) return false;
+
+  // Corner-cutting prevention for diagonal moves
+  const dx = x - unit.x;
+  const dy = y - unit.y;
+  if (dx !== 0 && dy !== 0) {
+    // Diagonal — both adjacent orthogonal tiles must be passable
+    if (isBlocked(state, unit.x + dx, unit.y) || isOccupied(state, unit.x + dx, unit.y)) return false;
+    if (isBlocked(state, unit.x, unit.y + dy) || isOccupied(state, unit.x, unit.y + dy)) return false;
+  }
+  return true;
 }
 
-const DIRS = [[0, 1], [0, -1], [1, 0], [-1, 0]] as const;
+// 8-connected directions: orthogonal then diagonal
+const DIRS: ReadonlyArray<readonly [number, number]> = [
+  [0, 1], [0, -1], [1, 0], [-1, 0],   // orthogonal
+  [1, 1], [1, -1], [-1, 1], [-1, -1],  // diagonal
+];
 
 interface DijkstraResult {
   /** Minimum cost to reach each visited tile, keyed by "x,y". */
@@ -40,6 +70,11 @@ interface DijkstraResult {
  * Core Dijkstra search from `(sx, sy)` out to `maxCost` steps.
  * Bucket-queue implementation — O(V+E) since per-tile cost is a small integer.
  * Blocked and occupied tiles are walls (the moving unit's own tile is open).
+ *
+ * PF2e diagonal cost: tracked via parity bit per Dijkstra state node.
+ * State key is "x,y,parity". Diagonal from parity 0 costs tileCost×1 (flips to 1).
+ * Diagonal from parity 1 costs tileCost×2 (flips to 0). Orthogonal doesn't change parity.
+ * The returned `dist` map contains the minimum cost across both parities for each tile.
  */
 function dijkstra(
   state: BattleState,
@@ -56,17 +91,26 @@ function dijkstra(
       .map((u) => `${u.x},${u.y}`),
   );
 
+  // Internal distance map keyed by "x,y,parity"
+  const stateDist = new Map<string, number>();
+  // Best distance per tile (min across both parities)
   const dist = new Map<string, number>();
   const prev = new Map<string, string>();
-  // Bucket queue: buckets[c] = tiles reachable with exactly cost c
-  const buckets: Array<Array<[number, number]>> = Array.from({ length: maxCost + 1 }, () => []);
-  buckets[0].push([sx, sy]);
+
+  // Bucket queue: buckets[c] = list of [x, y, parity] entries
+  const maxBucket = maxCost * 4; // worst case: every step is diagonal parity-1 on difficult terrain (tileCost 2 × parity multiplier 2)
+  const buckets: Array<Array<[number, number, number]>> = Array.from({ length: maxBucket + 1 }, () => []);
+  buckets[0].push([sx, sy, 0]);
+  stateDist.set(`${sx},${sy},0`, 0);
   dist.set(`${sx},${sy}`, 0);
 
-  for (let c = 0; c <= maxCost; c++) {
-    for (const [x, y] of buckets[c]) {
-      const key = `${x},${y}`;
-      if (dist.get(key) !== c) continue; // stale entry (found cheaper path)
+  for (let c = 0; c <= maxBucket; c++) {
+    const bucket = buckets[c];
+    if (!bucket) continue;
+    for (let bi = 0; bi < bucket.length; bi++) {
+      const [x, y, parity] = bucket[bi];
+      const stateKey = `${x},${y},${parity}`;
+      if (stateDist.get(stateKey) !== c) continue; // stale entry
 
       for (const [dx, dy] of DIRS) {
         const nx = x + dx;
@@ -74,14 +118,53 @@ function dijkstra(
         if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
         const nkey = `${nx},${ny}`;
         if (blockedSet.has(nkey) || occupiedSet.has(nkey)) continue;
+
+        const isDiagonal = dx !== 0 && dy !== 0;
+
+        // Corner-cutting prevention for diagonals
+        if (isDiagonal) {
+          const cx1 = `${x + dx},${y}`;
+          const cx2 = `${x},${y + dy}`;
+          if (blockedSet.has(cx1) || occupiedSet.has(cx1)) continue;
+          if (blockedSet.has(cx2) || occupiedSet.has(cx2)) continue;
+        }
+
         const tileCost = state.battleMap.moveCost?.[nkey] ?? 1;
-        const nc = c + tileCost;
+        let moveCost: number;
+        let nextParity: number;
+
+        if (isDiagonal) {
+          if (parity === 0) {
+            // First diagonal: costs tileCost × 1
+            moveCost = tileCost;
+            nextParity = 1;
+          } else {
+            // Second diagonal: costs tileCost × 2
+            moveCost = tileCost * 2;
+            nextParity = 0;
+          }
+        } else {
+          // Orthogonal: costs tileCost, parity unchanged
+          moveCost = tileCost;
+          nextParity = parity;
+        }
+
+        const nc = c + moveCost;
         if (nc > maxCost) continue;
-        const known = dist.get(nkey);
-        if (known !== undefined && known <= nc) continue;
-        dist.set(nkey, nc);
-        prev.set(nkey, key);
-        buckets[nc].push([nx, ny]);
+
+        const nStateKey = `${nx},${ny},${nextParity}`;
+        const knownState = stateDist.get(nStateKey);
+        if (knownState !== undefined && knownState <= nc) continue;
+        stateDist.set(nStateKey, nc);
+
+        // Update best dist for this tile position
+        const knownTile = dist.get(nkey);
+        if (knownTile === undefined || nc < knownTile) {
+          dist.set(nkey, nc);
+          prev.set(nkey, `${x},${y}`);
+        }
+
+        buckets[nc].push([nx, ny, nextParity]);
       }
     }
   }
@@ -89,26 +172,20 @@ function dijkstra(
   return { dist, prev };
 }
 
-/**
- * Reachability result — the tile set for range highlighting plus the
- * parent-pointer map for path reconstruction. Computed together because
- * both come from the same Dijkstra pass; computing them separately would
- * double the search cost for no reason.
- */
 export interface ReachResult {
-  /** "x,y" keys the unit can end its move on. Start tile excluded. */
+  /** Tile keys ("x,y") reachable within movement speed. Excludes the start tile. */
   tiles: Set<string>;
-  /** Parent-pointer map — `prev.get(tile)` is the step before `tile` on
-   *  the shortest path from the unit's start. Start tile has no entry, so
-   *  a walk-back loop naturally terminates there. */
+  /** Parent-pointer map — `prev.get(tile)` is the step before `tile` on the
+   *  shortest path from the unit's start. The start tile has no entry, so a
+   *  walk-back loop naturally terminates there. */
   prev: Map<string, string>;
 }
 
 /**
- * Run Dijkstra once from the unit's position and hand back both the
- * reachable-tile set and the parent map. Callers that need a path hold
- * onto `prev` and feed it to `pathTo()` per hovered destination — no
- * re-search needed as the mouse moves.
+ * Run Dijkstra once from the unit's position and hand back both the reachable
+ * set and the parent map. Callers that need path reconstruction hold onto
+ * `prev` and feed it to `pathTo()` per hovered destination — no re-search as
+ * the mouse moves.
  */
 export function reachableWithPrev(state: BattleState, unitId: string): ReachResult {
   const unit = state.units[unitId];
@@ -125,28 +202,30 @@ export function reachableWithPrev(state: BattleState, unitId: string): ReachResu
 
 /**
  * Returns the set of tile keys ("x,y") reachable by `unitId` within its
- * movement speed.  Blocked and occupied tiles are walls; diagonal moves are
- * not allowed.  The unit's own starting tile is excluded from the result.
+ * movement speed. Uses 8-connected movement with PF2e alternating diagonal cost.
+ * Blocked and occupied tiles are walls. Corner-cutting is prevented.
+ * The unit's own starting tile is excluded from the result.
  * Per-tile moveCost (default 1) is read from MapState.moveCost.
  *
  * Thin wrapper over reachableWithPrev — kept for callers (reducer move
- * validation, click handler) that don't need path reconstruction.
+ * validation, AI stepToward) that don't need path reconstruction.
  */
 export function reachableTiles(state: BattleState, unitId: string): Set<string> {
   return reachableWithPrev(state, unitId).tiles;
 }
 
 /**
- * Reconstruct the shortest path from the search origin to `(destX, destY)`
- * by walking the parent-pointer map backward. Returns tiles in travel order
+ * Reconstruct the shortest path from the search origin to `(destX, destY)` by
+ * walking the parent-pointer map backward. Returns tiles in travel order
  * (element 0 is the start tile, last is the destination) or null if the
  * destination is unreachable.
  *
  * Hovering the start tile itself returns null (start has no prev entry —
  * there's no path to "where you already are").
  *
- * O(path length) — the Dijkstra search already happened when `prev` was
- * built, this is just pointer chasing.
+ * Direction-agnostic: the parent map encodes 8-dir steps as tile→tile links,
+ * so this doesn't care whether a step was orthogonal or diagonal. O(path
+ * length) — the Dijkstra search already happened when `prev` was built.
  */
 export function pathTo(
   prev: Map<string, string>,
@@ -172,7 +251,8 @@ export function pathTo(
 
 /**
  * Finds the reachable tile that gets `unitId` closest to `(targetX, targetY)`.
- * Used by the AI to approach enemies when out of melee range.  Returns null
+ * Uses Chebyshev distance for target evaluation (matches PF2e reach rules).
+ * Used by the AI to approach enemies when out of melee range. Returns null
  * if the unit cannot move (no reachable tiles or already adjacent).
  * Ties broken by lowest movement cost, then by tile key for determinism.
  */
@@ -188,7 +268,7 @@ export function stepToward(
   const { dist } = dijkstra(state, unit.x, unit.y, unitId, speed);
 
   let best: [number, number] | null = null;
-  let bestDist = manhattanDistance(unit.x, unit.y, targetX, targetY);
+  let bestDist = chebyshevDistance(unit.x, unit.y, targetX, targetY);
   let bestCost = Infinity;
   let bestKey = "";
 
@@ -197,7 +277,7 @@ export function stepToward(
     const x = Number(xs);
     const y = Number(ys);
     if (x === unit.x && y === unit.y) continue;
-    const d = manhattanDistance(x, y, targetX, targetY);
+    const d = chebyshevDistance(x, y, targetX, targetY);
     if (
       d < bestDist ||
       (d === bestDist && cost < bestCost) ||

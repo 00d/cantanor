@@ -16,6 +16,7 @@ npm run test         # Run tests once (Vitest)
 npm run test:watch   # Run tests in watch mode
 npm run test:ui      # Run tests with interactive Vitest UI
 npm run preview      # Preview production build
+npm run validate:determinism  # Run all smoke scenarios twice, fail on hash mismatch or command_error
 ```
 
 To run a single test file: `npx vitest run src/path/to/file.test.ts`
@@ -37,8 +38,7 @@ The game engine is a pure functional state machine:
 - **`src/engine/forecast.ts`** — Preview battle outcomes before committing an action
 - **`src/engine/turnOrder.ts`** — Turn order management
 - **`src/engine/scenarioRunner.ts`** — Headless battle orchestrator used for scripted/test runs
-- **`src/effects/lifecycle.ts`** — Effect application, expiry, and condition handling
-- **`src/effects/handlers/`** — Per-effect-type handlers (damage, condition, summon, movement)
+- **`src/effects/lifecycle.ts`** — Effect application, expiry, condition handling, damage-over-time
 - **`src/rules/`** — Pathfinder 2e rules: checks, saves, damage, degrees of success, conditions
 
 ### Store Layer
@@ -48,7 +48,55 @@ The game engine is a pure functional state machine:
 - **Transient state** — animation state, mutated directly (no re-renders)
 - **UI state** — selection, hover, target mode
 
-`dispatchCommand` now materializes content-entry commands, checks battle-end objectives, and schedules AI turns via a 420ms setTimeout chain. This bridges the gap between the headless `scenarioRunner.ts` orchestration and the interactive browser loop.
+`dispatchCommand` is the single entry point for all game actions: materializes content-entry
+commands, calls `applyCommand` (pure reducer), checks battle-end objectives, detects reactions
+(`detectMoveReactions`/`detectDamageReactions`), and routes to `_processNextReaction` — which
+either surfaces the next reaction prompt or (queue empty) schedules the next AI turn via an
+animation-gated rAF poll on `transient.activeAnimCount`. This bridges the gap between the
+headless `scenarioRunner.ts` orchestration and
+the interactive browser loop.
+
+### Load-Bearing Invariants
+
+Breaking any of these causes silent corruption, not a loud error. When touching
+`battleStore.ts`, `reducer.ts`, or `spriteManager.ts`, check these hold.
+
+**`deepClone` is `applyCommand`'s first statement.** The reducer deep-clones the entire
+input state before any mutation. The `battle` reference held by the store is never
+mutated after the reducer returns. Any code that writes to `store.battle.*` outside the
+reducer breaks this — and silently breaks any future event-sourced rewind (see
+[ADR-001](docs/adr/001-no-undo.md)).
+
+**RNG position matches committed state** *(Phase 14 M0.2)*. After `dispatchCommand` returns —
+success or throw — `rng.callCount` must exactly match the `battle` held by the store.
+Enforced by capturing `rng.callCount` at the top of `dispatchCommand` and resetting
+(`new DeterministicRNG(seed, capturedCount)`) in the catch block. A handler that
+rolls-then-throws would otherwise drift the RNG and desync a replay.
+
+**`loadGeneration` fences all deferred store writes** *(Phase 14 M0.1)*. Every
+`setTimeout` / `requestAnimationFrame` inside the store that writes state must capture
+`loadGeneration` at schedule-time and check it at fire-time. Gen-mismatch → silent
+return — the fresh battle may already have set `isAiTurn:true`; don't stomp it.
+`loadGeneration` bumps on every `loadBattle` and `loadSavedGame`; async loaders
+(`reloadLastBattle`, `startCampaignStage`) gen-check after their await.
+
+**`activeAnimCount` written unconditionally every tick** *(Phase 14 M1)*. `tickSprites()`
+writes `transient.activeAnimCount` on every PixiJS ticker frame, even when the count is
+zero. The animation-gated AI poll reads this value; a frame that skips the write leaves
+the poll reading a stale nonzero and the AI never fires.
+
+**`_processNextReaction` is the single gateway to `_scheduleAiTurn`** *(Phase 14 M2.3)*.
+The animation-gated AI poll runs for up to ~2s and does NOT check `pendingReaction` per
+frame — it relies on being unreachable while a prompt is open. `_processNextReaction`'s
+queue-empty branch is the only caller of `_scheduleAiTurn`, and it clears `pendingReaction`
+one line before the call. `loadBattle` / `loadSavedGame` route through `_processNextReaction`
+rather than calling `_scheduleAiTurn` directly. Adding a new direct call site breaks the
+invariant; `_scheduleAiTurn` asserts it at entry but the failure mode is a silent early
+return, not an error — so if it trips, AI turns just stop happening.
+
+**No undo system.** See [ADR-001](docs/adr/001-no-undo.md). The
+infrastructure above (deepClone, RNG reset, loadGeneration) was designed for undo in
+an earlier branch and is preserved because each piece is independently valuable.
 
 ### Battle Orchestrator (`src/io/battleOrchestrator.ts`)
 Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
@@ -59,16 +107,16 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 
 ### Rendering (`src/rendering/`)
 - `pixiApp.ts` — PixiJS application setup; layer order: map → overlay → units → effects → ui
-- `rangeOverlay.ts` — Blue/red/purple tile highlights for move range and ability targets
-- `cameraController.ts` — Viewport/camera controller
-- `spriteManager.ts` — Unit sprite management and animation
+- `rangeOverlay.ts` — Three separate Graphics layers: `_graphics` (move/strike/ability tile fills), `_areaGraphics` (AoE blast diamond with LOE-shadowed tiles), `_pathGraphics` (chevron waypoints + destination ring for move preview). Each layer clears independently so hover-redraw doesn't wipe the others
+- `cameraController.ts` — Pan/zoom/focus with lerp smoothing. `setCameraBounds(tilesW, tilesH)` clamps `targetX/Y` in `tickCamera` so the viewport never shows void past the map edge; maps smaller than viewport centre
+- `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
 - `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles
 - `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps
 - `tilesetLoader.ts` — Loads tileset textures from `.tmj` files
-- `effectRenderer.ts` — Visual effects overlay
+- `effectRenderer.ts` — Float-text (damage/heal/miss) overlay. Drains `transient.animationQueue` destructively each tick
 
 ### Grid & Pathfinding (`src/grid/`)
-Handles pathfinding (`reachableTiles` BFS respects `unit.speed`), line-of-sight (LOS), line-of-effect (LOE), terrain costs, and area shapes (cone, burst, line).
+8-connected Dijkstra with PF2e alternating diagonal cost (`movement.ts` — state tracked as `(x, y, parity)`). `reachableWithPrev()` returns both the reachable tile set and a parity-aware `statePrev` map for path reconstruction; `pathTo()` walks it back to build a cost-correct route. Line-of-sight (LOS), line-of-effect (LOE), area shapes (cone, burst, line).
 
 ### I/O Layer (`src/io/`)
 - `scenarioLoader.ts` — Parses scenario JSON into battle state; returns `contentContext` and `rawScenario`; auto-detects Tiled vs hand-written format
@@ -108,8 +156,9 @@ Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage a
 
 ## Assets & Content
 
-- `public/scenarios/smoke/` — 38 smoke-test scenario JSON files (served by Vite)
+- `public/scenarios/smoke/` — 44 smoke-test scenario JSON files (served by Vite)
 - `public/content_packs/` — Content pack JSON files served at runtime
 - `public/maps/` — Tiled `.tmj` arena files (e.g. `dungeon_arena_01.tmj`)
 - `public/tilesets/` — Tileset images referenced by Tiled maps
 - `corpus/content_packs/` — Source game-design content pack data (not served directly)
+- `docs/adr/` — Architecture Decision Records for permanent design choices
