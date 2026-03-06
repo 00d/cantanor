@@ -428,6 +428,36 @@ export function validateScenario(data: Record<string, unknown>): void {
     "map.height must be positive int",
   );
 
+  const mapHazards = (mapData["hazards"] as unknown[]) ?? [];
+  require(Array.isArray(mapHazards), "map.hazards must be list when present");
+  for (let idx = 0; idx < mapHazards.length; idx++) {
+    const hz = mapHazards[idx] as Record<string, unknown>;
+    require(typeof hz === "object" && hz !== null, `map.hazards[${idx}] must be object`);
+    for (const key of ["id", "damage_type", "damage_per_turn", "dc", "save_type", "tiles"]) {
+      require(key in hz, `map.hazards[${idx}] missing key: ${key}`);
+    }
+    require(typeof hz["id"] === "string" && Boolean(hz["id"]), `map.hazards[${idx}].id must be non-empty string`);
+    require(
+      typeof hz["damage_per_turn"] === "number" && Number(hz["damage_per_turn"]) >= 0,
+      `map.hazards[${idx}].damage_per_turn must be non-negative number`,
+    );
+    require(
+      typeof hz["dc"] === "number" && Number.isInteger(hz["dc"]),
+      `map.hazards[${idx}].dc must be integer`,
+    );
+    require(
+      Array.isArray(hz["tiles"]) && (hz["tiles"] as unknown[]).length > 0,
+      `map.hazards[${idx}].tiles must be non-empty list`,
+    );
+    for (const tile of hz["tiles"] as unknown[]) {
+      require(
+        Array.isArray(tile) && tile.length === 2 &&
+          Number.isInteger(tile[0]) && Number.isInteger(tile[1]),
+        `map.hazards[${idx}] tile must be [int, int] pair`,
+      );
+    }
+  }
+
   const contentPacks = (data["content_packs"] as unknown[]) ?? [];
   require(Array.isArray(contentPacks), "content_packs must be list when present");
   for (let idx = 0; idx < contentPacks.length; idx++) {
@@ -694,6 +724,18 @@ export function battleStateFromScenario(data: Record<string, unknown>): BattleSt
     ...(mapData["move_cost"] ? { moveCost: mapData["move_cost"] as Record<string, number> } : {}),
     ...(mapData["cover_grade"] ? { coverGrade: mapData["cover_grade"] as Record<string, number> } : {}),
     ...(mapData["elevation"] ? { elevation: mapData["elevation"] as Record<string, number> } : {}),
+    ...(mapData["hazards"] ? {
+      hazards: (mapData["hazards"] as Record<string, unknown>[]).map((h) => ({
+        id: String(h["id"]),
+        damageType: String(h["damage_type"]),
+        damagePerTurn: Number(h["damage_per_turn"]),
+        dc: Number(h["dc"]),
+        saveType: String(h["save_type"]),
+        tiles: (h["tiles"] as number[][]).map(
+          (t) => [Number(t[0]), Number(t[1])] as [number, number],
+        ),
+      })),
+    } : {}),
   };
 
   const units: Record<string, UnitState> = {};
@@ -845,9 +887,10 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
   if (typeof data["tiled_map"] === "string" && data["tiled_map"]) {
     const tiledMapPath = data["tiled_map"] as string;
     const { loadTiledMap } = await import("./tiledLoader");
-    const { extractMapState } = await import("./mapDataBridge");
+    const { extractMapState, extractHazardZones } = await import("./mapDataBridge");
     const tiledMap = await loadTiledMap(tiledMapPath);
     const tiledMapState = extractMapState(tiledMap);
+    const tiledHazards = extractHazardZones(tiledMap);
     const mergedData: Record<string, unknown> = {
       ...data,
       map: {
@@ -857,6 +900,14 @@ export async function loadScenarioFromUrl(url: string): Promise<LoadScenarioResu
         ...(tiledMapState.moveCost   && { move_cost:    tiledMapState.moveCost }),
         ...(tiledMapState.coverGrade && { cover_grade:  tiledMapState.coverGrade }),
         ...(tiledMapState.elevation  && { elevation:    tiledMapState.elevation }),
+        ...(tiledHazards.length > 0  && { hazards: tiledHazards.map((z) => ({
+          id: z.id,
+          damage_type: z.element,
+          damage_per_turn: z.damagePerTurn,
+          dc: z.dc,
+          save_type: z.saveType,
+          tiles: z.tiles,
+        })) }),
       },
     };
     validateScenario(mergedData);

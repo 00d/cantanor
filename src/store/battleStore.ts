@@ -685,7 +685,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
           return;
         }
 
-        const rawCmd = getAiCommand(state.battle, policy);
+        const rawCmd = getAiCommand(state.battle, policy, state.contentContext);
 
         // Materialize if needed
         let cmd = rawCmd;

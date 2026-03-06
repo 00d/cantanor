@@ -16,6 +16,8 @@ import { BattleState, activeUnitId, unitAlive } from "../engine/state";
 import { type ContentContext } from "./contentPackLoader";
 import { ReductionError } from "../engine/reducer";
 import { hasLineOfSight } from "../grid/los";
+import { hasTileLineOfEffect } from "../grid/loe";
+import { radiusPoints } from "../grid/areas";
 import { stepToward } from "../grid/movement";
 import { thrownRange } from "../engine/traits";
 
@@ -230,13 +232,115 @@ function enemyCandidates(state: BattleState, actorId: string): EnemyCandidate[] 
     .sort((a, b) => a.dist - b.dist || a.unitId.localeCompare(b.unitId));
 }
 
+// ─── AI area-spell targeting ────────────────────────────────────────────────
+
+interface AiAreaSpec {
+  shape: "burst";
+  /** The size in tiles (reducer uses tilesFromFeet to convert — we do too). */
+  sizeTiles: number;
+}
+
+/** PF2e 5ft grid. Mirrors reducer.ts:tilesFromFeet — keep in sync. */
+function tilesFromFeet(feet: number): number {
+  return Math.max(1, Math.floor((feet + 4) / 5));
+}
+
+/** Read the area spec from a content-entry payload, or null if single-target.
+ *  Same parsing rules as ActionPanel's readAreaShape. Burst-only — cone/line
+ *  return null so the policy falls through to approach (matches materialize's
+ *  throw on non-burst). */
+function readEntryArea(payload: Record<string, unknown> | undefined): AiAreaSpec | null {
+  if (!payload) return null;
+  const raw = payload["area"];
+  if (!raw || typeof raw !== "object") return null;
+  const a = raw as Record<string, unknown>;
+  if (String(a["shape"] ?? "") !== "burst") return null;
+  const sizeFeet = Number(a["radius_feet"]);
+  if (!Number.isFinite(sizeFeet) || sizeFeet <= 0) return null;
+  return { shape: "burst", sizeTiles: tilesFromFeet(sizeFeet) };
+}
+
+/** Compute the burst footprint at a given centre — MIRRORS the reducer's
+ *  area_save_damage target collection so the AI and the engine agree on who
+ *  gets hit. */
+function areaFootprint(
+  state: BattleState,
+  cx: number,
+  cy: number,
+  sizeTiles: number,
+): Set<string> {
+  const out = new Set<string>();
+  for (const [tx, ty] of radiusPoints(cx, cy, sizeTiles)) {
+    if (hasTileLineOfEffect(state, cx, cy, tx, ty)) {
+      out.add(`${tx},${ty}`);
+    }
+  }
+  return out;
+}
+
+interface AreaPick {
+  centerX: number;
+  centerY: number;
+  /** Enemies hit minus allies hit. Positive = worth casting. */
+  score: number;
+}
+
+/** Try a set of candidate centre points and return the one that hits the most
+ *  enemies net of friendly fire. Candidates are the enemy positions themselves
+ *  — the best place to centre a fireball is usually on top of the densest
+ *  cluster, and enemy tiles are the cluster nuclei.
+ *
+ *  Ties broken by highest enemy count (prefer hitting 2+1 over 1+0 even though
+ *  both score 1), then by unitId for determinism. */
+function pickBestAreaAim(
+  state: BattleState,
+  actorId: string,
+  spec: AiAreaSpec,
+  enemyIds: string[],
+): AreaPick | null {
+  const actor = state.units[actorId];
+  const allUnits = Object.values(state.units).filter(unitAlive);
+
+  let best: (AreaPick & { enemies: number; tiebreak: string }) | null = null;
+
+  for (const candId of enemyIds) {
+    const cand = state.units[candId];
+    const footprint = areaFootprint(state, cand.x, cand.y, spec.sizeTiles);
+
+    let enemies = 0;
+    let allies = 0;
+    for (const u of allUnits) {
+      if (u.unitId === actorId) continue; // include_actor default false
+      if (!footprint.has(`${u.x},${u.y}`)) continue;
+      if (u.team === actor.team) allies++;
+      else enemies++;
+    }
+    const score = enemies - allies;
+
+    if (
+      best === null ||
+      score > best.score ||
+      (score === best.score && enemies > best.enemies) ||
+      (score === best.score && enemies === best.enemies && candId < best.tiebreak)
+    ) {
+      best = { centerX: cand.x, centerY: cand.y, score, enemies, tiebreak: candId };
+    }
+  }
+
+  return best;
+}
+
 /**
  * Decides the next command for the AI-controlled active unit.
  * Returns a raw command ready for materialization then dispatch.
+ *
+ * @param contentContext — optional; only needed by `cast_area_entry_best`
+ *   which introspects the entry's area block to know the blast shape.
  */
 export function getAiCommand(
   state: BattleState,
   policy: EnemyPolicy,
+  contentContext?: ContentContext | null,
 ): Record<string, unknown> {
   const actorId = activeUnitId(state);
   const actor = state.units[actorId];
@@ -333,6 +437,45 @@ export function getAiCommand(
         const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
         if (step) return { type: "move", actor: actorId, x: step[0], y: step[1] };
       }
+      return { type: "end_turn", actor: actorId };
+    }
+    case "cast_area_entry_best": {
+      // Look up the entry's area spec. Without a contentContext we can't know
+      // the shape — fall back to end_turn rather than guess. Same if the
+      // entry turns out to be single-target (area === null): the scenario
+      // author picked the wrong policy for this spell.
+      const entryId = policy.contentEntryId ?? "";
+      const entry = contentContext?.entryLookup[entryId];
+      const spec = readEntryArea(entry?.payload);
+      if (!spec || candidates.length === 0) {
+        // No area spec or no enemies — try to approach, else end turn.
+        if (candidates.length > 0) {
+          const targetUnit = state.units[candidates[0].unitId];
+          const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
+          if (step) return { type: "move", actor: actorId, x: step[0], y: step[1] };
+        }
+        return { type: "end_turn", actor: actorId };
+      }
+
+      // Pick the aim point that hits the most enemies net of friendly fire.
+      // Only cast when the score is strictly positive — a blast that hits
+      // one enemy and one ally (score 0) isn't worth burning the action on.
+      const enemyIds = candidates.map((c) => c.unitId);
+      const pick = pickBestAreaAim(state, actorId, spec, enemyIds);
+      if (pick && pick.score > 0) {
+        return {
+          type: "cast_spell",
+          actor: actorId,
+          content_entry_id: entryId,
+          center_x: pick.centerX,
+          center_y: pick.centerY,
+        };
+      }
+
+      // No profitable aim — approach the nearest enemy instead.
+      const targetUnit = state.units[candidates[0].unitId];
+      const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
+      if (step) return { type: "move", actor: actorId, x: step[0], y: step[1] };
       return { type: "end_turn", actor: actorId };
     }
     case "use_feat_entry_self": {

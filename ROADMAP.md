@@ -346,6 +346,62 @@ after Phase 14. Doesn't block Phase 15.
 
 ---
 
+## Reconciliation Pass — `old/` Superset Closeout ✅
+
+The Phase 14 preamble claimed "strict superset." Re-diffing `old/` after M5 close found three
+features that never crossed over. R1 and R2 landed; R3 remains tracked-not-scheduled; `old/`
+deleted. None blocked Phase 15.
+
+### R1 — Spatial hazard zone tick ✅
+
+`extractHazardZones()` had survived the reconciliation with tests, but its output went
+nowhere — the Tiled parser was live, both ends of the pipe were gone. Pipeline now closed:
+
+- `HazardZone` interface + `battleMap.hazards?: HazardZone[]` — `src/engine/state.ts:119-144`
+- `tickHazardZones()` + call after `advanceTurn()` in `end_turn` — `src/engine/reducer.ts`
+- `map.hazards` validation + state mapping + Tiled bridge — `src/io/scenarioLoader.ts`
+- 8 tests — `src/engine/hazards.test.ts`
+
+**Hash safety held:** `src/engine/hazards.test.ts:73-90` pins zero RNG consumption when
+`battleMap.hazards` is absent/empty. All 44 smoke scenarios and all regression phases
+predate this type, so `end_turn` takes the early return and `rng.callCount` is unchanged.
+Regression hash suite passed without regeneration.
+
+### R2 — `cast_area_entry_best` AI policy ✅
+
+M3 restored the player-side AoE path; `getAiCommand` had no area-aware policy case to match.
+Enemy casters now have one. `pickBestAreaAim()` iterates enemy positions as candidate aim
+points, scores each as `enemiesHit − alliesHit`, only casts when **strictly positive** — a
+blast hitting one PC and one goblin scores 0 and the AI approaches instead. Ties broken by
+raw enemy count then `unitId` for determinism.
+
+- `pickBestAreaAim()`, `areaFootprint()`, `readEntryArea()`, `tilesFromFeet()`, `cast_area_entry_best` case — `src/io/battleOrchestrator.ts`
+- `contentContext` passed at call site — `src/store/battleStore.ts:688`
+
+Burst-only: `readEntryArea` returns `null` for non-burst shapes and the policy falls through
+to approach. No reducer edit, no hash churn.
+
+### R3 — Cone & line AoE shapes (tracked, not scheduled)
+
+Deliberately deferred during M3 — `materializeRawCommand` comments *"Only burst is wired
+today; `shape` is kept in the schema so a later line/cone pass has somewhere to hang its
+dispatch."* The reference implementation was deleted with `old/`; these are the surviving
+design notes:
+
+- **`lineAimPoints()` geometry** — aim sets direction not length. A 60ft lightning bolt aimed at a 2-tile-away goblin still travels 12 tiles. The aim tile picks the ray; the spell's range fills it.
+- **`area_save_damage` shape branch** — cone LoE traces from caster (not centre); line stops at the first wall tile; both shapes exclude the caster's own tile.
+- **Three-shape `showAreaFootprint(aim, area, state, actorX, actorY)`** — overlay needs the actor origin for cone/line orientation, which is why M5.1's simplified `(cx, cy, radius)` signature won't extend cleanly.
+- **9 tests pinned the semantics** — gone with `old/`; fresh tests needed.
+
+**Why not bundled with R1/R2:** M5.1 deliberately simplified `showAreaFootprint`'s signature
+to mirror the burst-only reducer. M3.6's 6 tests guard the `shape !== "burst"` throw.
+`TargetMode.area` is typed `{ shape: "burst"; ... }`. Re-widening unwinds three deliberate
+M3/M5 choices and changes 2 regression hashes (`phase5_mitigation_bypass` — the event
+payload gains a `shape` field). Not hard, but it's a **decision to revisit M3's scope**,
+which makes it a phase, not a closeout.
+
+---
+
 ## Phase 15 — Preview & Confirm
 
 **Goal:** Two-stage commit for movement — the gameplay mitigation for

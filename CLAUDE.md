@@ -21,6 +21,10 @@ npm run validate:determinism  # Run all smoke scenarios twice, fail on hash mism
 
 To run a single test file: `npx vitest run src/path/to/file.test.ts`
 
+To regenerate regression hash baselines after an intentional reducer change:
+`npx tsx scripts/regenerate-hashes.ts` — self-verifies determinism (runs each scenario
+twice) before writing, so it won't silently record a broken scenario.
+
 ## Architecture
 
 ### Split-Viewport Layout
@@ -38,6 +42,8 @@ The game engine is a pure functional state machine:
 - **`src/engine/forecast.ts`** — Preview battle outcomes before committing an action
 - **`src/engine/turnOrder.ts`** — Turn order management
 - **`src/engine/scenarioRunner.ts`** — Headless battle orchestrator used for scripted/test runs
+- **`src/engine/reactions.ts`** — Pure trigger detection: `detectMoveReactions` (AoO/reactive_strike), `detectDamageReactions` (shield_block). Returns triggers sorted by unitId for determinism; store layer queues them
+- **`src/engine/traits.ts`** — Weapon-trait parsing helpers (`traitValue`, `isAgile`, deadly/fatal/volley) shared by reducer, forecast, and tooltip
 - **`src/effects/lifecycle.ts`** — Effect application, expiry, condition handling, damage-over-time
 - **`src/rules/`** — Pathfinder 2e rules: checks, saves, damage, degrees of success, conditions
 
@@ -109,6 +115,7 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `pixiApp.ts` — PixiJS application setup; layer order: map → overlay → units → effects → ui
 - `rangeOverlay.ts` — Three separate Graphics layers: `_graphics` (move/strike/ability tile fills), `_areaGraphics` (AoE blast diamond with LOE-shadowed tiles), `_pathGraphics` (chevron waypoints + destination ring for move preview). Each layer clears independently so hover-redraw doesn't wipe the others
 - `cameraController.ts` — Pan/zoom/focus with lerp smoothing. `setCameraBounds(tilesW, tilesH)` clamps `targetX/Y` in `tickCamera` so the viewport never shows void past the map edge; maps smaller than viewport centre
+- `terrainOverlay.ts` — Persistent difficult-terrain hatch and cover-grade markers. Drawn once on map load; unlike `rangeOverlay.ts` it does not clear on hover
 - `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
 - `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles
 - `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps
@@ -126,6 +133,15 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `mapDataBridge.ts` — Converts `ResolvedTiledMap` into scenario JSON shape; extracts spawn points, blocked tiles, hazard zones, objectives; auto-generates `enemy_policy` for non-PC teams
 - `tiledTypes.ts` — TypeScript types for Tiled `.tmj` format
 - `commandAuthoring.ts` — Utilities for authoring and validating commands
+
+### Campaign Layer (`src/campaign/`)
+Multi-battle progression — no `@campaign` alias, imported via relative path.
+- `campaignState.ts` — `snapshotParty` captures surviving-PC HP/ammo/persistent conditions (drained, doomed) at battle end; `applyPartySnapshot` merges into freshly-loaded units at next-stage start
+- `campaignPersistence.ts` — localStorage save/load under key `cantanor_campaign_save`, version-gated
+- `campaignLoader.ts` — fetches campaign definition JSON (`public/campaigns/`)
+
+The store holds `campaignDefinition` + `campaignProgress`; `startCampaignStage` is an async
+loader (gen-checks after await — see `loadGeneration` invariant).
 
 ### Content Packs
 JSON files in `public/content_packs/` served by Vite. Scenario JSON references them via `"content_packs": ["/content_packs/phase10_v1.json"]`. Each entry has `id`, `kind` (spell/feat/item), `tags`, and `payload` (command template). The `ActionPanel` renders entries grouped by kind with colour-coded buttons.

@@ -102,6 +102,74 @@ function emitLifecycleEvents(
   }
 }
 
+function tickHazardZones(
+  events: Record<string, unknown>[],
+  state: BattleState,
+  rng: DeterministicRNG,
+): void {
+  const hazards = state.battleMap.hazards;
+  if (!hazards || hazards.length === 0) return;
+
+  const targetId = state.turnOrder[state.turnIndex];
+  const target = state.units[targetId];
+  if (!target || !unitAlive(target)) return;
+
+  for (const zone of hazards) {
+    const onTile = zone.tiles.some(([hx, hy]) => hx === target.x && hy === target.y);
+    if (!onTile) continue;
+
+    const save = resolveSave(rng, zone.saveType, unitSaveProfile(state, targetId), zone.dc);
+    const multiplier = basicSaveMultiplier(save.degree);
+    const rawTotal = Math.floor(zone.damagePerTurn * multiplier);
+    const adjustment = applyDamageModifiers({
+      rawTotal,
+      damageType: zone.damageType,
+      resistances: target.resistances,
+      weaknesses: target.weaknesses,
+      immunities: target.immunities,
+    });
+    const applied = applyDamageToPool({
+      hp: target.hp,
+      tempHp: target.tempHp,
+      damageTotal: adjustment.appliedTotal,
+    });
+    target.hp = applied.newHp;
+    target.tempHp = applied.newTempHp;
+    if (target.tempHp === 0) {
+      target.tempHpSource = null;
+      target.tempHpOwnerEffectId = null;
+    }
+    if (target.hp === 0) {
+      target.conditions = applyCondition(target.conditions, "unconscious", 1);
+    }
+
+    appendEvent(events, state, "hazard_tick", {
+      target: targetId,
+      hazard_id: zone.id,
+      save_type: zone.saveType,
+      roll: {
+        die: save.die,
+        modifier: save.modifier,
+        total: save.total,
+        dc: save.dc,
+        degree: save.degree,
+      },
+      damage: {
+        damage_type: zone.damageType,
+        raw_total: adjustment.rawTotal,
+        multiplier,
+        immune: adjustment.immune,
+        resistance_total: adjustment.resistanceTotal,
+        weakness_total: adjustment.weaknessTotal,
+        applied_total: adjustment.appliedTotal,
+      },
+      target_hp: target.hp,
+    });
+
+    if (!unitAlive(target)) break; // Don't tick further zones on a corpse.
+  }
+}
+
 function commandActionCost(command: RawCommand, defaultCost: number): number {
   const raw = command.action_cost ?? defaultCost;
   const cost = Number(raw);
@@ -1226,6 +1294,7 @@ export function applyCommand(
     });
     emitLifecycleEvents(events, nextState, processTiming(nextState, rng, "turn_end"));
     advanceTurn(nextState);
+    tickHazardZones(events, nextState, rng);
     appendEvent(events, nextState, "turn_start", {
       active_unit: nextState.turnOrder[nextState.turnIndex],
       round: nextState.roundNumber,

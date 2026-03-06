@@ -110,6 +110,25 @@ export function unitAlive(unit: UnitState): boolean {
   return unit.hp > 0;
 }
 
+/**
+ * Spatial hazard zone — environmental damage tied to map tiles.
+ * Units standing on a hazard tile at the start of their turn roll a
+ * basic save against `dc`; flat `damagePerTurn` is applied per the
+ * outcome (crit success 0×, success 0.5×, fail 1×, crit fail 2×).
+ */
+export interface HazardZone {
+  id: string;
+  /** Damage type (fire, cold, acid, etc.) — respects resistances/immunities. */
+  damageType: string;
+  /** Flat damage amount (pre-save, pre-resistance). */
+  damagePerTurn: number;
+  dc: number;
+  /** "Fortitude" | "Reflex" | "Will" */
+  saveType: string;
+  /** Grid cells covered by the zone. */
+  tiles: Array<[number, number]>;
+}
+
 export interface MapState {
   width: number;
   height: number;
@@ -120,6 +139,8 @@ export interface MapState {
   coverGrade?: Record<string, number>;
   /** Per-tile elevation keyed by "x,y"; absent = 0 (ground level). */
   elevation?: Record<string, number>;
+  /** Spatial hazard zones. Damage ticks at start of a unit's turn if they stand on a covered tile. */
+  hazards?: HazardZone[];
 }
 
 export interface EffectState {
