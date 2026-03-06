@@ -36,7 +36,7 @@ The app (`src/ui/App.tsx`) uses a Gold Box-inspired split viewport:
 The game engine is a pure functional state machine:
 - **`src/engine/state.ts`** — Immutable battle state interfaces (units, effects, map, objectives)
 - **`src/engine/commands.ts`** — Typed commands (Move, Strike, SaveDamage, ApplyEffect, etc.)
-- **`src/engine/reducer.ts`** — Pure reducer: `(state, command, rng) → [nextState, events]`
+- **`src/engine/reducer.ts`** — Pure reducer: `(state, command, rng) → [nextState, events]`. `tickHazardZones()` runs after `advanceTurn()` in the `end_turn` handler; guarded to consume zero RNG when `battleMap.hazards` is absent/empty (all pre-R1 regression hashes depend on this)
 - **`src/engine/rng.ts`** — Seeded deterministic RNG for replayable battles
 - **`src/engine/objectives.ts`** — Victory/defeat condition evaluation
 - **`src/engine/forecast.ts`** — Preview battle outcomes before committing an action
@@ -108,15 +108,16 @@ an earlier branch and is preserved because each piece is independently valuable.
 Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `buildOrchestratorConfig(rawScenario)` — extracts AI policy and win/loss conditions
 - `checkBattleEnd(state, config)` — evaluates objectives each turn
-- `getAiCommand(state, policy)` — selects next AI action (strike_nearest)
-- `materializeRawCommand(cmd, contentContext)` — merges content-pack payload before `applyCommand`
+- `getAiCommand(state, policy, contentContext)` — selects next AI action. Policies: `strike_nearest` (4-pass: melee → thrown → ranged with ammo check → reload), `cast_area_entry_best` (scores aim points as `enemiesHit − alliesHit`, only casts when strictly positive, ties broken by raw enemy count then `unitId`)
+- `materializeRawCommand(cmd, contentContext)` — merges content-pack payload before `applyCommand`. When a `cast_spell` command has an `area` block in its content-pack payload and `center_x`/`center_y` on the caller side, rewrites to `area_save_damage`. Gate reads `payloadTemplate.area` (not `merged.area`) so a dispatch can't inject an area block and turn a single-target spell into an AoE
 
 ### Rendering (`src/rendering/`)
 - `pixiApp.ts` — PixiJS application setup; layer order: map → overlay → units → effects → ui
 - `rangeOverlay.ts` — Three separate Graphics layers: `_graphics` (move/strike/ability tile fills), `_areaGraphics` (AoE blast diamond with LOE-shadowed tiles), `_pathGraphics` (chevron waypoints + destination ring for move preview). Each layer clears independently so hover-redraw doesn't wipe the others
 - `cameraController.ts` — Pan/zoom/focus with lerp smoothing. `setCameraBounds(tilesW, tilesH)` clamps `targetX/Y` in `tickCamera` so the viewport never shows void past the map edge; maps smaller than viewport centre
 - `terrainOverlay.ts` — Persistent difficult-terrain hatch and cover-grade markers. Drawn once on map load; unlike `rangeOverlay.ts` it does not clear on hover
-- `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
+- `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out, owns the walk↔idle sprite-sheet transition (frame-locked with visible motion), and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
+- `spriteSheetLoader.ts` — Async frame-slicing for unit sprite sheets, cached by descriptor URL. Falls back gracefully if the texture fails to load (unit renders as a static placeholder)
 - `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles
 - `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps
 - `tilesetLoader.ts` — Loads tileset textures from `.tmj` files
@@ -133,6 +134,7 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `mapDataBridge.ts` — Converts `ResolvedTiledMap` into scenario JSON shape; extracts spawn points, blocked tiles, hazard zones, objectives; auto-generates `enemy_policy` for non-PC teams
 - `tiledTypes.ts` — TypeScript types for Tiled `.tmj` format
 - `commandAuthoring.ts` — Utilities for authoring and validating commands
+- `eventLog.ts` — Canonical JSON serialization (`sortedJson` matches Python's `sort_keys=True`) and `replayHash` computation. The regression hash suite and `validate:determinism` both pin against this output — any change to event-payload field names or ordering churns every baseline
 
 ### Campaign Layer (`src/campaign/`)
 Multi-battle progression — no `@campaign` alias, imported via relative path.
@@ -146,8 +148,8 @@ loader (gen-checks after await — see `loadGeneration` invariant).
 ### Content Packs
 JSON files in `public/content_packs/` served by Vite. Scenario JSON references them via `"content_packs": ["/content_packs/phase10_v1.json"]`. Each entry has `id`, `kind` (spell/feat/item), `tags`, and `payload` (command template). The `ActionPanel` renders entries grouped by kind with colour-coded buttons.
 
-### Designer Tools (`src/ui/designer/`)
-In-app scenario authoring tools: Scenario Inspector, File Browser, Viewer. Toggled via the Game/Designer mode button in `App.tsx`. The canvas is kept in the DOM (`display:none`) during designer mode so the PixiJS WebGL context is preserved across mode switches.
+### Designer Tools (`src/ui/designer/` + `src/store/designerStore.ts`)
+In-app scenario authoring tools: Scenario Inspector, File Browser, Viewer. Toggled via the Game/Designer mode button in `App.tsx`. Designer state lives in a separate Zustand store (`designerStore.ts`) — the battle store is not touched. The canvas is kept in the DOM (`display:none`) during designer mode so the PixiJS WebGL context is preserved across mode switches.
 
 ## Path Aliases
 
@@ -168,13 +170,17 @@ Defined in `vite.config.ts` and `vitest.config.ts`:
 Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage areas: areas, LOS, damage, conditions, checks, objectives. The same path aliases apply in tests.
 
 - **`src/test-utils/`** — Shared fixtures (`fixtures.ts`) and a headless `scenarioTestRunner.ts` for integration-level scenario tests
-- **`src/test-scenarios/regression.test.ts`** — End-to-end regression scenarios run headlessly against `scenarioRunner.ts`
+- **`src/test-scenarios/regression.test.ts`** — End-to-end regression scenarios run headlessly against `scenarioRunner.ts`, pinned to hash baselines in `scenarios/regression_phase*/`. If a reducer change intentionally shifts an event payload or RNG consumption, regenerate baselines via `npx tsx scripts/regenerate-hashes.ts` (self-verifies determinism before writing)
+- **`validate:determinism`** — faster CI-gate alternative: runs all 44 smoke scenarios twice each, fails on hash drift or `command_error`. Does NOT pin to baselines (catches nondeterminism, not behaviour drift)
 
 ## Assets & Content
 
-- `public/scenarios/smoke/` — 44 smoke-test scenario JSON files (served by Vite)
+- `public/scenarios/smoke/` — 44 smoke-test scenario JSON files (served by Vite; `interactive_arena.json` is the primary playtest scenario)
 - `public/content_packs/` — Content pack JSON files served at runtime
-- `public/maps/` — Tiled `.tmj` arena files (e.g. `dungeon_arena_01.tmj`)
+- `public/maps/` — Tiled `.tmj` arena files (see `TILED_AUTHORING.md` in this dir for the `moveCost`/`coverGrade`/`elevation` custom-property schema)
 - `public/tilesets/` — Tileset images referenced by Tiled maps
+- `public/campaigns/` — Campaign definition JSON (ordered scenario lists with narrative frames)
+- `scenarios/regression_phase*/` — Regression-baseline scenarios (NOT served; read by `regression.test.ts` via node fs)
 - `corpus/content_packs/` — Source game-design content pack data (not served directly)
 - `docs/adr/` — Architecture Decision Records for permanent design choices
+- `archive/` — Reconciled earlier-branch code (kept for reference; `old/` was deleted after the Reconciliation Pass)
