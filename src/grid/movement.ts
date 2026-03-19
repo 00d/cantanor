@@ -196,6 +196,9 @@ function dijkstra(
 export interface ReachResult {
   /** "x,y" keys the unit can end its move on. Start tile excluded. */
   tiles: Set<string>;
+  /** Minimum cost to reach each tile, keyed by "x,y". Used by the UI to
+   *  populate ProposedPath.cost so the player sees the movement price. */
+  dist: Map<string, number>;
   /** State-level parent map ("x,y,parity" → "x,y,parity"). */
   statePrev: Map<string, string>;
   /** Per-tile entry point for walk-back ("x,y" → "x,y,parity"). */
@@ -210,7 +213,7 @@ export interface ReachResult {
  */
 export function reachableWithPrev(state: BattleState, unitId: string): ReachResult {
   const unit = state.units[unitId];
-  if (!unit) return { tiles: new Set(), statePrev: new Map(), bestEntry: new Map() };
+  if (!unit) return { tiles: new Set(), dist: new Map(), statePrev: new Map(), bestEntry: new Map() };
   const speed = unit.speed ?? 5;
   const { dist, statePrev, bestEntry } = dijkstra(state, unit.x, unit.y, unitId, speed);
   const tiles = new Set<string>();
@@ -218,7 +221,7 @@ export function reachableWithPrev(state: BattleState, unitId: string): ReachResu
   for (const key of dist.keys()) {
     if (key !== startKey) tiles.add(key);
   }
-  return { tiles, statePrev, bestEntry };
+  return { tiles, dist, statePrev, bestEntry };
 }
 
 /**

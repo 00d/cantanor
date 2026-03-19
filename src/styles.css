@@ -1905,3 +1905,89 @@ html, body {
   }
 }
 
+/* ============================================================
+   Move-confirm overlay — propose-then-commit path preview
+   Absolutely positioned in the bottom-left of the canvas area,
+   same anchor as the forecast tooltip.
+   ============================================================ */
+.move-confirm-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 6;
+  background: rgba(22, 33, 62, 0.96);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-green);
+  border-radius: 4px;
+  padding: 8px 12px;
+  min-width: 160px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+
+.move-confirm-cost {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.move-confirm-cost-value {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--accent-green);
+  line-height: 1;
+}
+
+.move-confirm-cost-sep {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 1px;
+}
+
+.move-confirm-cost-max {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.move-confirm-cost-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-left: 5px;
+}
+
+.move-confirm-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.move-confirm-btn {
+  flex: 1;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.move-confirm-btn.confirm {
+  background: rgba(68, 255, 136, 0.15);
+  color: var(--accent-green);
+  border-color: var(--accent-green);
+}
+
+.move-confirm-btn.confirm:hover {
+  background: rgba(68, 255, 136, 0.30);
+}
+
+.move-confirm-btn.cancel {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+}
+
+.move-confirm-btn.cancel:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}

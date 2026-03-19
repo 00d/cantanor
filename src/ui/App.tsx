@@ -12,6 +12,7 @@ import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
 import { ActionPanel } from "./ActionPanel";
 import { ForecastTooltip } from "./ForecastTooltip";
+import { MoveConfirmOverlay } from "./MoveConfirmOverlay";
 import { TurnOrderBar } from "./TurnOrderBar";
 import { ScenarioLoader } from "./ScenarioLoader";
 import { BattleEndOverlay } from "./BattleEndOverlay";
@@ -64,9 +65,11 @@ export function App() {
   const startCampaignStage = useBattleStore((s) => s.startCampaignStage);
   const clearCampaign      = useBattleStore((s) => s.clearCampaign);
 
+  const proposedPath     = useBattleStore((s) => s.proposedPath);
   const selectUnit       = useBattleStore((s) => s.selectUnit);
   const setHoverTileStore = useBattleStore((s) => s.setHoverTile);
   const setTargetMode    = useBattleStore((s) => s.setTargetMode);
+  const setProposedPath  = useBattleStore((s) => s.setProposedPath);
   const dispatchCommand  = useBattleStore((s) => s.dispatchCommand);
   const clearBattle      = useBattleStore((s) => s.clearBattle);
   const toggleGrid       = useBattleStore((s) => s.toggleGrid);
@@ -206,6 +209,23 @@ export function App() {
   }, [battle, battleEnded, targetMode?.type]);
 
   // ---------------------------------------------------------------------------
+  // Stale-lock guard — if the battle state changes while a path is locked
+  // (e.g., an AI reaction moves a unit onto the destination), the proposal
+  // becomes invalid. moveReach recomputes on `battle` change; check whether
+  // the locked destination is still reachable. If not, clear the lock so the
+  // overlay disappears and hover resumes.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (!proposedPath?.locked || !moveReach) return;
+    const dest = proposedPath.tiles[proposedPath.tiles.length - 1];
+    const destKey = `${dest[0]},${dest[1]}`;
+    if (!moveReach.tiles.has(destKey)) {
+      setProposedPath(null);
+      clearPathPreview();
+    }
+  }, [moveReach, proposedPath, setProposedPath]);
+
+  // ---------------------------------------------------------------------------
   // Range overlay — update whenever targetMode or battle changes
   // ---------------------------------------------------------------------------
   useEffect(() => {
@@ -249,26 +269,35 @@ export function App() {
   useEffect(() => {
     if (!pixiReadyRef.current) return;
 
+    // When the path is locked, hover no longer updates it — the green
+    // chevrons stay put until the player confirms or cancels.
+    if (proposedPath?.locked) return;
+
     if (!moveReach || !hoveredTilePos) {
       clearPathPreview();
+      setProposedPath(null);
       return;
     }
 
     const [hx, hy] = hoveredTilePos;
+    const tileKey = `${hx},${hy}`;
     // Only preview when hovering inside the blue move range. Hovering a wall
     // or an out-of-range tile should show nothing (not a partial path).
-    if (!moveReach.tiles.has(`${hx},${hy}`)) {
+    if (!moveReach.tiles.has(tileKey)) {
       clearPathPreview();
+      setProposedPath(null);
       return;
     }
 
     const path = pathTo(moveReach, hx, hy);
     if (path) {
       showPathPreview(path);
+      setProposedPath({ tiles: path, cost: moveReach.dist.get(tileKey) ?? 0, locked: false });
     } else {
       clearPathPreview();
+      setProposedPath(null);
     }
-  }, [hoveredTilePos, moveReach]);
+  }, [hoveredTilePos, moveReach, proposedPath?.locked, setProposedPath]);
 
   // ---------------------------------------------------------------------------
   // AoE footprint — on hover during area-target mode, paint the blast diamond
@@ -327,7 +356,14 @@ export function App() {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
       if (e.key === "Escape") {
-        if (useBattleStore.getState().targetMode) setTargetMode(null);
+        const cur = useBattleStore.getState();
+        if (cur.proposedPath?.locked) {
+          // Unlock the locked path — back to hover-preview, not out of move mode.
+          setProposedPath(null);
+          clearPathPreview();
+          return;
+        }
+        if (cur.targetMode) setTargetMode(null);
         return;
       }
 
@@ -471,20 +507,36 @@ export function App() {
       const actorId  = getActiveUnitId(battle);
       const activeUnit = battle.units[actorId];
 
-      // ── Move ──────────────────────────────────────────────────────────────
+      // ── Move (two-phase: lock → confirm) ────────────────────────────────
       if (targetMode.type === "move") {
-        // moveReach is the same memoised Dijkstra that painted the blue
-        // tiles — guaranteed non-null here for the same reason as the
-        // overlay effect (see memo null-gate). Reuse it instead of searching
-        // again to validate.
-        if (!moveReach!.tiles.has(`${tx},${ty}`)) {
-          // Invalid move tile — inspect any unit standing there instead
-          const unitAtTile = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
-          if (unitAtTile) selectUnit(unitAtTile.unitId);
-          return;
+        if (proposedPath && proposedPath.tiles.length >= 2) {
+          const dest = proposedPath.tiles[proposedPath.tiles.length - 1];
+          const clickedDest = dest[0] === tx && dest[1] === ty;
+
+          if (proposedPath.locked && clickedDest) {
+            // Phase 2 — confirm: commit the locked path.
+            dispatchCommand({ type: "move", actor: actorId, x: tx, y: ty });
+            setTargetMode(null);
+            return;
+          }
+
+          if (clickedDest) {
+            // Phase 1 — lock: freeze the path and switch to green visuals.
+            setProposedPath({ ...proposedPath, locked: true });
+            showPathPreview(proposedPath.tiles, true);
+            return;
+          }
+
+          // Clicked a different tile — unlock so hover resumes.
+          setProposedPath(null);
+          clearPathPreview();
         }
-        dispatchCommand({ type: "move", actor: actorId, x: tx, y: ty });
-        setTargetMode(null);
+
+        // No proposal (or just cleared). If a unit stands here, inspect it;
+        // otherwise the click is a no-op — the player must hover a reachable
+        // tile first. proposedPath is the single gateway to moves.
+        const unitAtTile = Object.values(battle.units).find((u) => u.x === tx && u.y === ty);
+        if (unitAtTile) selectUnit(unitAtTile.unitId);
         return;
       }
 
@@ -606,6 +658,7 @@ export function App() {
           onMouseLeave={handleCanvasLeave}
         />
         <ForecastTooltip />
+        <MoveConfirmOverlay />
       </div>
 
       {appMode === "game" && (

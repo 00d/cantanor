@@ -147,6 +147,30 @@ export interface TargetMode {
 }
 
 // ---------------------------------------------------------------------------
+// Proposed path (move-preview before commit)
+// ---------------------------------------------------------------------------
+
+/** Temporary Dijkstra-derived path the player is previewing before committing
+ *  a move. Set on hover while in move target mode; cleared on commit, cancel,
+ *  or any state reset.
+ *
+ *  Two-phase flow:
+ *    1. Hover (locked=false) — path updates as the mouse moves over reachable tiles.
+ *    2. Click  (locked=true)  — path freezes; chevrons turn green to signal "confirm."
+ *    3. Confirm-click on the same destination → dispatchCommand, clear.
+ *       Click elsewhere / Escape → unlock (back to phase 1). */
+export interface ProposedPath {
+  /** Waypoints in travel order — element 0 is the start, last is destination. */
+  tiles: Array<[number, number]>;
+  /** Total movement cost in tiles (PF2e alternating diagonal accounted for). */
+  cost: number;
+  /** When true the path is "locked in" — hover no longer updates it and the
+   *  rendering switches to the confirmed colour. The next click on the same
+   *  destination commits; any other click or Escape unlocks. */
+  locked: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Transient state (direct mutation, no React re-renders)
 // ---------------------------------------------------------------------------
 
@@ -219,6 +243,8 @@ export interface BattleStore {
   selectedUnitId: string | null;
   hoveredTilePos: [number, number] | null;
   targetMode: TargetMode | null;
+  /** Dijkstra path the player is previewing before committing a move. */
+  proposedPath: ProposedPath | null;
 
   // Transient state — direct updates, bypasses React
   transient: TransientState;
@@ -236,6 +262,7 @@ export interface BattleStore {
   selectUnit: (unitId: string | null) => void;
   setHoverTile: (pos: [number, number] | null) => void;
   setTargetMode: (mode: TargetMode | null) => void;
+  setProposedPath: (path: ProposedPath | null) => void;
   toggleGrid: () => void;
   clearBattle: () => void;
   reloadLastBattle: (url?: string) => Promise<void>;
@@ -399,6 +426,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     selectedUnitId: null,
     hoveredTilePos: null,
     targetMode: null,
+    proposedPath: null,
 
     transient: { animationQueue: [], activeAnimCount: 0 },
 
@@ -433,6 +461,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: initialSelectedId,
         hoveredTilePos: null,
         targetMode: null,
+        proposedPath: null,
         // M0.3: reaction queue is battle-scoped; a stale prompt from the
         // previous battle references units that don't exist in the new one.
         pendingReaction: null,
@@ -879,6 +908,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: saved.selectedUnitId,
         hoveredTilePos: null,
         targetMode: null,
+        proposedPath: null,
         pendingReaction: null,
         reactionQueue: [],
         transient: { animationQueue: [], activeAnimCount: 0 },
@@ -944,6 +974,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,
+        proposedPath: null,
         pendingReaction: null,
         reactionQueue: [],
         transient: { animationQueue: [], activeAnimCount: 0 },
@@ -1048,7 +1079,8 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     // -------------------------------------------------------------------------
     selectUnit: (unitId) => set({ selectedUnitId: unitId }),
     setHoverTile: (pos) => set({ hoveredTilePos: pos }),
-    setTargetMode: (mode) => set({ targetMode: mode }),
+    setTargetMode: (mode) => set({ targetMode: mode, proposedPath: null }),
+    setProposedPath: (path) => set({ proposedPath: path }),
     toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
 
     clearBattle: () => {
@@ -1070,6 +1102,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
         selectedUnitId: null,
         hoveredTilePos: null,
         targetMode: null,
+        proposedPath: null,
         pendingReaction: null,
         reactionQueue: [],
         transient: { animationQueue: [], activeAnimCount: 0 },

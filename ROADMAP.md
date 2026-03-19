@@ -4,8 +4,8 @@ This document tracks the forward-looking feature phases for Cantanor, a browser-
 TRPG built on Pathfinder 2e ORC mechanics.
 
 The engine (Phases 3–9) and its TypeScript browser port are **complete**: 13 command types,
-deterministic RNG, content packs, enemy AI, mission events, hazard routines, and 344 passing
-tests across 22 test files. The phases below build the gameplay and production layers on top.
+deterministic RNG, content packs, enemy AI, mission events, hazard routines, and 352 passing
+tests across 23 test files. The phases below build the gameplay and production layers on top.
 
 **Design decisions that close off directions permanently** (rather than deferring them) live
 in [`docs/adr/`](docs/adr/). See [ADR-001](docs/adr/001-no-undo.md) for why this codebase has
@@ -402,33 +402,278 @@ which makes it a phase, not a closeout.
 
 ---
 
-## Phase 15 — Preview & Confirm
+## Phase 15 — Preview & Confirm (in progress)
 
 **Goal:** Two-stage commit for movement — the gameplay mitigation for
 [ADR-001](docs/adr/001-no-undo.md)'s decision to drop undo.
-
-Currently clicking a reachable tile immediately dispatches the Move and spends the action.
-Two-stage commit inserts an arm/confirm step: click once to arm, click again (or Enter) to
-confirm, Esc to cancel at zero cost.
-
-**Deliverables:**
-- Ghost sprite at armed destination (reuses `spriteManager`'s tween target as the ghost position)
-- **AoO threat markers**: every enemy whose reach the armed path passes through gets a
-  warning badge. Computed by running `detectMoveReactions()` against a copy of state with
-  the ghost position substituted — no RNG, no mutation.
-- Armed state lives in `TargetMode` — extend with `armedDestination?: [number, number]`
-- Confirm via Enter or second click on same tile; any other click or Esc dis-arms
-- Strike/spell targeting already has a de-facto preview (forecast tooltip on hover) — evaluate
-  whether a confirm step adds value or just adds clicks
 
 **Why this substitutes for undo:** The player gets full *tactical* information (positioning,
 AoO threat, path, cover) before spending an action, rather than taking it back after seeing
 dice. `detectMoveReactions()` fires inside `dispatchCommand`, so an armed-but-cancelled move
 is invisible to the engine — no snapshot needed, no RNG rewind.
 
+### Completed
+
+- **`ProposedPath` store field** (`battleStore.ts`). `{ tiles, cost, locked }` — UI-tier
+  Zustand state. `locked: false` = hover preview, `locked: true` = confirmed/awaiting commit.
+  Cleared at every state-reset site (`loadBattle`, `loadSavedGame`, `clearBattle`,
+  `advanceCampaignStage`). `setTargetMode` atomically clears it.
+
+- **`ReachResult.dist` exposed** (`grid/movement.ts`). The Dijkstra pass already computed
+  per-tile costs; `reachableWithPrev` was discarding it. Now returned in `ReachResult` so the
+  UI can populate `ProposedPath.cost` in O(1).
+
+- **Two-phase click flow** (`App.tsx`). First click on a hovered destination locks the
+  proposal; second click on the same tile commits. Click elsewhere or Escape unlocks. Escape
+  is two-phase: first press unlocks a locked path (back to hover), second exits move mode.
+
+- **Single-gateway dispatch** (`App.tsx`). The move click handler reads **only** from
+  `proposedPath` (store). The `moveReach` memo stays for the hover effect and range overlay
+  but is never consulted for dispatch validation — eliminates the dual-Dijkstra ownership bug.
+
+- **Locked-path visual** (`rangeOverlay.ts`). `showPathPreview(path, locked)` switches
+  chevrons and destination ring from white (hover) to green (locked). Separate colour
+  constants (`LOCKED_PATH_COLOR`, `LOCKED_PATH_STROKE`) for clear visual distinction.
+
+- **`MoveConfirmOverlay`** (`ui/MoveConfirmOverlay.tsx`). Canvas-area overlay (bottom-left,
+  z-index 6) showing `cost/speed tiles` in green, with Confirm and Cancel buttons. Guarded
+  against `isAiTurn` and `battleEnded` — overlay disappears if either fires while a path is
+  locked.
+
+- **Stale-lock guard** (`App.tsx`). Effect clears a locked proposal whenever `moveReach`
+  recomputes and the destination is no longer reachable (e.g., AI reaction occupies the tile).
+
+### Remaining
+
+- **Ghost sprite at armed destination.** Semi-transparent sprite at the locked tile showing
+  where the unit will land. Reuse `spriteManager`'s tween infrastructure — arm a "ghost"
+  sprite at `proposedPath.tiles[last]` when locked, remove on unlock/confirm. Purely visual;
+  no engine contact.
+
+- **AoO threat markers.** Every enemy whose reach the locked path passes through gets a
+  warning badge on the canvas. Computed by running `detectMoveReactions()` against a
+  shallow copy of state with the unit's position set to each waypoint — no RNG, no mutation.
+  Display as red exclamation pips on the enemy sprite or at the waypoint tile.
+
+- **Enter key to confirm.** Currently only second-click and the Confirm button commit. Add
+  Enter as a third confirm trigger in the keyboard handler (symmetric with Escape to cancel).
+
+- **Strike/spell confirm evaluation.** Strike targeting already has a de-facto preview
+  (ForecastTooltip on hover). Evaluate whether a confirm step adds value or just adds clicks.
+  Spells with limited uses/day are higher-value candidates than at-will strikes.
+
 ---
 
-## Phase 16 — Audio & Production
+## Phase 16 — Tactical Depth
+
+**Goal:** Make the condition system mechanically meaningful and add core PF2e positioning
+tactics. Without this phase, 13 of the 27 content-pack entries (every condition-inflicting
+spell, feat, and item) are cosmetic — the UI shows "Frightened 2" but nothing changes in
+the engine. This phase gives those entries teeth and adds the positioning layer (flanking,
+off-guard, Step) that defines PF2e tactical combat.
+
+**Scope note:** The engine already tracks conditions as `Record<string, number>` and has
+immunity support. The work is wiring tracked conditions into the reducer's check resolution,
+action economy, and movement validation — not designing a new system.
+
+**Milestone sequencing:**
+```
+M1 Condition effects ──► M2 Off-guard + flanking ──► M5 Condition-aware AI
+                    └──► M3 Step action ──────────┘
+                    └──► M4 Dying/wounded ─────────┘
+```
+
+### M1 — Condition Mechanical Effects
+
+Wire tracked conditions into the reducer. Each condition below applies its PF2e penalty
+inside the existing resolution code paths. No new command types needed.
+
+- **`frightened N`** — Apply −N status penalty to attack rolls, save DCs, saving throws,
+  and skill checks. Decrement by 1 at end of turn (auto-recovery). Hook: attack resolution
+  in `reducer.ts` strike handler, save resolution in `rules/saves.ts`, turn-end decrement
+  in `effects/lifecycle.ts`.
+
+- **`sickened N`** — Identical penalty profile to frightened (−N to checks/DCs/saves).
+  Does NOT auto-decrement — must be removed by a Fortitude save (new `retch` action or
+  content-pack feat). Add to condition list in `state.ts`.
+
+- **`clumsy N`** — −N to AC, Reflex saves, and DEX-based attack rolls. Hook: AC calculation
+  in strike handler, Reflex save path.
+
+- **`stupefied N`** — −N to spell DCs and spell attack rolls. Hook: `cast_spell` /
+  `save_damage` / `area_save_damage` DC resolution.
+
+- **`immobilized`** — Speed becomes 0. Hook: `reachableTiles()` early-returns empty set;
+  reducer move handler rejects.
+
+- **`slowed N`** — Lose N actions at turn start. Hook: turn-start in `advanceTurn()` —
+  set `actionsRemaining = Math.max(0, 3 - N)`.
+
+- **`stunned N`** — Lose N actions at turn start (same as slowed, but clears after spending).
+  Hook: same as slowed, plus clear the condition once actions are consumed.
+
+- **`blinded`** — Target is off-guard to all attackers (requires M2). −4 status penalty to
+  Perception-based checks (when skill checks exist). Hook: off-guard application in M2.
+
+- **`concealed`** — Attacker must succeed on a DC 5 flat check before the attack roll.
+  Failure = miss (no damage, no MAP increment). Hook: strike handler, before attack roll.
+
+**Test plan:** One test per condition verifying the penalty applies. Regression hash suite
+re-run after each; conditions that alter RNG consumption (concealed flat check) will need
+baseline regeneration.
+
+### M2 — Off-Guard + Flanking
+
+- **`off_guard` condition** — −2 circumstance penalty to AC. Applied by flanking, blinded,
+  grabbed, prone, and various class features. Hook: AC lookup in strike handler checks
+  `target.conditions["off_guard"] > 0`.
+
+- **Flanking detection** — `isFlanked(state, targetId): boolean` in `src/grid/`. Two enemies
+  on opposite sides (180° ± 1 tile) grant off-guard. Checked per-strike, not cached — the
+  tactical landscape changes every move. The reducer applies a transient `off_guard` for the
+  strike's AC calculation without mutating the target's persistent conditions.
+
+- **Flanking overlay** — When hovering a strike target, tiles that would complete a flank
+  highlighted in the range overlay. Low priority; the AC number in ForecastTooltip already
+  reflects the bonus.
+
+### M3 — Step Action
+
+- **New command type `step`** — 1 action, move exactly 1 tile (5 ft), does NOT trigger
+  `detectMoveReactions`. Validates: tile is adjacent, not blocked, not occupied. No Dijkstra
+  needed — Chebyshev-1 adjacency check.
+
+- **`detectMoveReactions` skip** — `dispatchCommand` checks `cmd.type` — `step` bypasses
+  the reaction-detection branch. This is the entire mechanical difference from `move`.
+
+- **ActionPanel button** — "Step" appears alongside "Move" when the active unit has ≥1
+  action remaining. Enters a step-specific target mode (`type: "step"`) that highlights
+  only the 8 adjacent tiles.
+
+- **AI step-back** — `strike_nearest` policy gains a retreat option: if the unit has taken
+  MAP −10 and has 1 action left, step away from the nearest enemy instead of ending turn.
+  Keeps AI from standing in AoO range for free.
+
+### M4 — Dying / Wounded / Recovery
+
+Replaces the current "HP ≤ 0 → unconscious → out" model with PF2e's death spiral.
+
+- **`dying N` condition** (1–4). Applied when HP drops to 0. Incremented by 1 each turn
+  (turn-start hook in `advanceTurn`). At `dying 4` the unit dies (removed from combat
+  permanently, not just unconscious). `wounded` value adds to initial dying value.
+
+- **`wounded N` condition**. Applied when a unit recovers from dying (healed above 0).
+  Persists until the unit receives a Treat Wounds or full rest. Next time HP hits 0,
+  `dying` starts at `1 + wounded`.
+
+- **Recovery check** — DC 10 flat check at turn start (before dying increments). Success:
+  dying decreases by 1; if dying reaches 0, unit stabilizes (unconscious but no longer
+  dying). Critical success: unit regains 1 HP and wakes. Failure: dying increases by 1.
+  Critical failure: dying increases by 2.
+
+- **Healing interaction** — Any healing on a dying unit sets dying to 0 and applies
+  `wounded` (or increments it). Unit regains consciousness if HP > 0.
+
+- **Campaign persistence** — `snapshotParty` already carries `wounded` and `doomed` across
+  battles. No new persistence work needed.
+
+### M5 — Condition-Aware AI
+
+The AI currently ignores conditions entirely — it doesn't know it's frightened, doesn't
+heal when dying, doesn't avoid friendly AoE that would hit slowed allies.
+
+- **Healing priority** — `use_feat_entry_self` / `use_item_entry_self` policies check
+  HP threshold; if below 25%, prefer heal over strike. If an ally is dying and the unit
+  has a healing entry with `allyTarget`, prioritize that.
+
+- **Condition avoidance** — `cast_area_entry_best` score function penalizes aim points
+  that would hit allies with `immobilized` or `slowed` (they can't escape the zone).
+
+- **Retreat when frightened** — If `frightened ≥ 2` and unit has taken MAP this turn,
+  prefer Step away over continuing to attack at penalty.
+
+- **Shield awareness** — AI units with `shield_block` reaction and a shield raise it
+  if they have 3 actions and expect to be targeted (adjacent to an enemy, or within
+  ranged enemy's increment). Currently AI never raises shields.
+
+### Compatibility & Integration Notes
+
+Deep scan of the codebase against Phase 16 milestones (performed at Phase 15 close).
+These notes document the specific injection sites, signature changes, and hash-safety
+considerations discovered.
+
+**Single-site injection points (low risk):**
+- Strike attack roll: single injection site at `reducer.ts` ~line 853 (`effectiveAttackMod`
+  before `resolveCheck`) — condition penalties (frightened, sickened, clumsy) slot in here
+- AC calculation: single site at `reducer.ts` ~line 852 (`effectiveAc = target.ac +
+  coverBonus + shieldBonus`) — off-guard −2 inserts directly
+- Turn-start action budget: `advanceTurn()` sets `actionsRemaining = 3` at `reducer.ts`
+  ~line 80 — slowed/stunned reduction hooks here
+- Immobilized: `reachableWithPrev()` in `movement.ts` can early-return the empty `ReachResult`
+  when `conditions["immobilized"] > 0` — no Dijkstra changes needed
+- Step command: follows the existing discriminated union pattern in `commands.ts`; reaction
+  gate in `dispatchCommand` only fires for `cmd.type === "move"` — Step is automatically
+  excluded from AoO detection without any gate change
+
+**Signature changes needed (moderate risk — must update all call sites):**
+- `resolveSave(rng, saveType, profile, dc)` in `rules/saves.ts` needs a `conditions`
+  parameter for frightened/sickened/clumsy penalties on saves. **6 call sites** in the
+  engine layer (`reducer.ts` save handlers, `effects/lifecycle.ts` recovery checks).
+  Recommendation: add `conditions` as an optional last parameter with `{}` default to
+  avoid breaking existing calls during incremental development.
+
+**Extraction needed before M4 (dying/wounded):**
+- HP-to-zero logic is scattered across **8 sites** in `reducer.ts` (strike damage, save
+  damage, area save damage, persistent damage, hazard damage, affliction damage, reaction
+  damage, effect damage). Currently each site independently checks `hp <= 0` and sets
+  unconscious. M4 must extract this into a `resolveHpZero(state, unitId)` helper that
+  applies dying/wounded and routes through the recovery system. Do this extraction as the
+  first step of M4 — the refactor is safe before the mechanic exists.
+
+**Campaign persistence:**
+- `PERSISTENT_CONDITIONS` set in `campaignState.ts` already includes `"drained"` and
+  `"doomed"`. Just needs `"wounded"` added for M4. `snapshotParty`/`applyPartySnapshot`
+  will carry it automatically.
+
+**Content pack safety:**
+- All 13 condition-applying content-pack entries target enemies, not allies — safe for
+  M1 to wire effects without worrying about self-inflicted penalty loops.
+- No regression scenarios have pre-set conditions on units — wiring condition effects
+  won't change existing scenario hash baselines unless conditions are actually applied
+  during a run.
+
+**AI policy adjustments:**
+- `getAiCommand`'s `stepToward()` in `movement.ts` does not check conditions — if
+  `slowed` reduces speed via `reachableWithPrev`, the AI will compute shorter reach
+  automatically (Dijkstra sees fewer tiles). But `stepToward` itself calls
+  `reachableTiles(state, unit)` which reads `unit.speed` — M1 must ensure immobilized
+  returns empty here. No new AI code needed for basic condition support; M5 adds
+  tactical awareness on top.
+- `strike_nearest` policy's 4-pass fallback chain naturally degrades gracefully: if
+  conditions make attacks miss more often, the AI just whiffs — it doesn't need to
+  know about frightened to function. M5 adds intelligence, not correctness.
+
+**Determinism & hash impact:**
+- Three conditions introduce **new RNG calls**: concealed (DC 5 flat check before
+  attack), blinded (DC 11 flat check variant), dying (DC 10 recovery check at turn
+  start). Any scenario where these conditions appear will have different RNG consumption
+  → different hash. Since no existing regression scenario applies these conditions,
+  existing baselines are safe. **New test scenarios** that exercise conditions will need
+  their own baselines.
+- Event payload field additions (e.g., `"off_guard": true` on strike events, `"condition_penalty": -2`)
+  change `replayHash` via `sortedJson`. Recommendation: add fields only to new event types
+  or optional fields on existing ones. Run `validate:determinism` after each milestone;
+  regenerate regression baselines once at Phase 16 close (not per-milestone).
+
+**No circular dependency risks:**
+- `reducer.ts` already imports from `grid/movement.ts` and `rules/conditions.ts` — new
+  penalty functions in `rules/conditions.ts` don't introduce new import edges.
+- Flanking geometry helper can live in `grid/movement.ts` alongside existing
+  `chebyshevDistance` — used only by the reducer's strike handler.
+
+---
+
+## Phase 17 — Audio & Production
 
 **Goal:** Sound, particles, tutorial, deployment.
 

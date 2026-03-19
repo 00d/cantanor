@@ -32,6 +32,10 @@ The app (`src/ui/App.tsx`) uses a Gold Box-inspired split viewport:
 - **Left 62%**: PixiJS WebGL canvas for game rendering
 - **Right 38%**: React UI panels (party list, combat log, actions, scenario loader)
 
+Canvas-area overlays (absolutely positioned inside `.canvas-section`, `pointer-events: none` unless interactive):
+- `ForecastTooltip` — strike hit/damage preview, bottom-left, visible during strike target mode
+- `MoveConfirmOverlay` — two-phase move confirmation with cost display and Confirm/Cancel buttons, bottom-left, visible when a move path is locked (`proposedPath.locked === true`). Uses `pointer-events: auto` for button interaction. Guarded against `isAiTurn` and `battleEnded`
+
 ### Core Engine (Deterministic)
 The game engine is a pure functional state machine:
 - **`src/engine/state.ts`** — Immutable battle state interfaces (units, effects, map, objectives)
@@ -47,12 +51,32 @@ The game engine is a pure functional state machine:
 - **`src/effects/lifecycle.ts`** — Effect application, expiry, condition handling, damage-over-time
 - **`src/rules/`** — Pathfinder 2e rules: checks, saves, damage, degrees of success, conditions
 
+### PF2e Rules Coverage
+
+**Implemented and mechanically active:** 3-action economy, MAP (agile/non-agile), degrees of
+success (crit/success/fail/crit-fail with natural 1/20 shifting), Fortitude/Reflex/Will saves
+with basic multiplier, weapon traits (agile/deadly/fatal/volley/thrown/propulsive), cover grades
+(standard +2, greater +4, melee-in-reach negation), shield raise/block, resistances/weaknesses/
+immunities with damage-type bypass, ammo tracking/reload, PF2e alternating diagonal movement
+cost, difficult terrain via per-tile `moveCost`, AoO/reactive strike on movement, affliction
+stages (disease/poison with save progression), persistent damage with recovery checks, hazard
+zones with per-round saves.
+
+**Tracked but not yet mechanically wired (Phase 16 — Tactical Depth):** Conditions are stored
+as `Record<string, number>` on each unit with immunity support, but most have no effect on
+resolution. `frightened`, `sickened`, `clumsy`, `stupefied`, `immobilized`, `slowed`, `stunned`,
+`blinded`, and `concealed` are applied by content-pack entries but do not modify attack rolls,
+AC, saves, speed, or action count. `off_guard` (flat-footed) does not exist yet — blocks
+flanking. There is no Step action (move without provoking). Death is binary (HP ≤ 0 →
+unconscious → out) rather than the PF2e dying/wounded/recovery spiral. See `ROADMAP.md`
+Phase 16 for the plan to close these gaps.
+
 ### Store Layer
 `src/store/battleStore.ts` (Zustand) segregates state by update frequency:
 - **Core battle state** — immutable snapshots, triggers React re-renders
 - **Orchestration state** — `orchestratorConfig`, `contentContext`, `contentEntries`, `battleEnded`, `battleOutcome`, `isAiTurn`
 - **Transient state** — animation state, mutated directly (no re-renders)
-- **UI state** — selection, hover, target mode
+- **UI state** — selection, hover, target mode, proposed path (move preview)
 
 `dispatchCommand` is the single entry point for all game actions: materializes content-entry
 commands, calls `applyCommand` (pure reducer), checks battle-end objectives, detects reactions
@@ -100,6 +124,14 @@ rather than calling `_scheduleAiTurn` directly. Adding a new direct call site br
 invariant; `_scheduleAiTurn` asserts it at entry but the failure mode is a silent early
 return, not an error — so if it trips, AI turns just stop happening.
 
+**`proposedPath` is the single gateway to player move dispatch** *(Phase 15)*.
+The click handler in `App.tsx` does NOT fall back to `moveReach` for move commitment.
+`proposedPath` (store) is the sole authority on "which move will execute." The hover
+effect writes it from `moveReach` (local memo); the click handler only reads it. Adding
+a second dispatch path through `moveReach` reintroduces the dual-ownership bug fixed in
+Phase 15. The stale-lock guard effect clears a locked proposal whenever `moveReach`
+recomputes and the destination is no longer reachable.
+
 **No undo system.** See [ADR-001](docs/adr/001-no-undo.md). The
 infrastructure above (deepClone, RNG reset, loadGeneration) was designed for undo in
 an earlier branch and is preserved because each piece is independently valuable.
@@ -113,7 +145,7 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 
 ### Rendering (`src/rendering/`)
 - `pixiApp.ts` — PixiJS application setup; layer order: map → overlay → units → effects → ui
-- `rangeOverlay.ts` — Three separate Graphics layers: `_graphics` (move/strike/ability tile fills), `_areaGraphics` (AoE blast diamond with LOE-shadowed tiles), `_pathGraphics` (chevron waypoints + destination ring for move preview). Each layer clears independently so hover-redraw doesn't wipe the others
+- `rangeOverlay.ts` — Three separate Graphics layers: `_graphics` (move/strike/ability tile fills), `_areaGraphics` (AoE blast diamond with LOE-shadowed tiles), `_pathGraphics` (chevron waypoints + destination ring for move preview). Each layer clears independently so hover-redraw doesn't wipe the others. `showPathPreview(path, locked)` switches between white (hovering) and green (locked/confirmed) palettes
 - `cameraController.ts` — Pan/zoom/focus with lerp smoothing. `setCameraBounds(tilesW, tilesH)` clamps `targetX/Y` in `tickCamera` so the viewport never shows void past the map edge; maps smaller than viewport centre
 - `terrainOverlay.ts` — Persistent difficult-terrain hatch and cover-grade markers. Drawn once on map load; unlike `rangeOverlay.ts` it does not clear on hover
 - `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out, owns the walk↔idle sprite-sheet transition (frame-locked with visible motion), and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
@@ -124,7 +156,7 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `effectRenderer.ts` — Float-text (damage/heal/miss) overlay. Drains `transient.animationQueue` destructively each tick
 
 ### Grid & Pathfinding (`src/grid/`)
-8-connected Dijkstra with PF2e alternating diagonal cost (`movement.ts` — state tracked as `(x, y, parity)`). `reachableWithPrev()` returns both the reachable tile set and a parity-aware `statePrev` map for path reconstruction; `pathTo()` walks it back to build a cost-correct route. Line-of-sight (LOS), line-of-effect (LOE), area shapes (cone, burst, line).
+8-connected Dijkstra with PF2e alternating diagonal cost (`movement.ts` — state tracked as `(x, y, parity)`). `reachableWithPrev()` returns a `ReachResult` containing: the reachable tile set, a per-tile cost map (`dist`), and parity-aware `statePrev`/`bestEntry` maps for path reconstruction. `pathTo()` walks the `statePrev` chain back to build a cost-correct route. The `dist` map is used by the UI to populate `ProposedPath.cost` for the move-confirmation overlay. Line-of-sight (LOS), line-of-effect (LOE), area shapes (cone, burst, line).
 
 ### I/O Layer (`src/io/`)
 - `scenarioLoader.ts` — Parses scenario JSON into battle state; returns `contentContext` and `rawScenario`; auto-detects Tiled vs hand-written format

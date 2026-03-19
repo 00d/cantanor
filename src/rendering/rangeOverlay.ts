@@ -43,6 +43,10 @@ const AREA_SHADOW_ALPHA = 0.08;
 const PATH_COLOR   = 0xffffff;
 const PATH_STROKE  = 0x000000;
 const PATH_ALPHA   = 0.95;
+// Locked (confirmed) path — green tint signals "click again to commit."
+const LOCKED_PATH_COLOR  = 0x44ff88;
+const LOCKED_PATH_STROKE = 0x005522;
+const LOCKED_PATH_ALPHA  = 1.0;
 const CHEVRON_R    = 7;                    // half-width of a chevron triangle
 const DEST_RING_R  = TILE_SIZE / 2 - 10;
 
@@ -264,7 +268,16 @@ export function clearAreaFootprint(): void {
 // at the same size instead of diagonals coming out √2× larger.
 // ---------------------------------------------------------------------------
 
-function drawChevron(g: Graphics, cx: number, cy: number, dx: number, dy: number): void {
+function drawChevron(
+  g: Graphics,
+  cx: number,
+  cy: number,
+  dx: number,
+  dy: number,
+  fill: number,
+  fillAlpha: number,
+  stroke: number,
+): void {
   // Normalize so diagonal chevrons don't draw √2× larger than orthogonal.
   const len = Math.hypot(dx, dy);
   const ux = dx / len, uy = dy / len;
@@ -276,15 +289,23 @@ function drawChevron(g: Graphics, cx: number, cy: number, dx: number, dy: number
     cx - ux * r + px * r, cy - uy * r + py * r,  // barb
     cx - ux * r - px * r, cy - uy * r - py * r,  // barb
   ])
-    .fill({ color: PATH_COLOR, alpha: PATH_ALPHA })
-    .stroke({ color: PATH_STROKE, alpha: 0.8, width: 1 });
+    .fill({ color: fill, alpha: fillAlpha })
+    .stroke({ color: stroke, alpha: 0.8, width: 1 });
 }
 
-export function showPathPreview(path: Array<[number, number]>): void {
+/**
+ * Draw the path preview. When `locked` is true the chevrons and ring switch
+ * to a green "confirmed" palette so the player sees a clear visual difference
+ * between "hovering" and "click again to commit."
+ */
+export function showPathPreview(path: Array<[number, number]>, locked = false): void {
   if (!_pathGraphics) return;
   _pathGraphics.clear();
   if (path.length < 2) return;
 
+  const color  = locked ? LOCKED_PATH_COLOR  : PATH_COLOR;
+  const stroke = locked ? LOCKED_PATH_STROKE : PATH_STROKE;
+  const alpha  = locked ? LOCKED_PATH_ALPHA  : PATH_ALPHA;
   const last = path.length - 1;
 
   // Waypoint chevrons — everything between the unit and the landing tile.
@@ -293,19 +314,18 @@ export function showPathPreview(path: Array<[number, number]>): void {
     const [nx, ny] = path[i + 1];
     const cx = x * TILE_SIZE + TILE_SIZE / 2;
     const cy = y * TILE_SIZE + TILE_SIZE / 2;
-    drawChevron(_pathGraphics, cx, cy, nx - x, ny - y);
+    drawChevron(_pathGraphics, cx, cy, nx - x, ny - y, color, alpha, stroke);
   }
 
-  // Destination ring — black underlayer first, white on top. Draw order is
-  // paint order in Pixi, so the wider stroke has to go down first.
+  // Destination ring — dark underlayer first, colour on top.
   const [dx, dy] = path[last];
   const rcx = dx * TILE_SIZE + TILE_SIZE / 2;
   const rcy = dy * TILE_SIZE + TILE_SIZE / 2;
   _pathGraphics
     .circle(rcx, rcy, DEST_RING_R)
-    .stroke({ color: PATH_STROKE, alpha: 0.6, width: 4 })
+    .stroke({ color: stroke, alpha: 0.6, width: 4 })
     .circle(rcx, rcy, DEST_RING_R)
-    .stroke({ color: PATH_COLOR, alpha: PATH_ALPHA, width: 2 });
+    .stroke({ color: color, alpha: alpha, width: 2 });
 }
 
 /** Clear just the path preview, leaving the range tiles up. Called when the
