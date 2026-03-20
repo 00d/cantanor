@@ -17,7 +17,7 @@ npm run dev        # Dev server at localhost:5173
 npm run dev          # Vite dev server with hot reload
 npm run build        # tsc -b && vite build
 npm run typecheck    # Type-check without emitting
-npm run test         # Run all tests (Vitest) — 344 tests, 22 files
+npm run test         # Run all tests (Vitest) — 352 tests, 23 files
 npm run test:watch   # Watch mode
 npm run test:ui      # Interactive Vitest UI
 npm run preview      # Preview production build
@@ -50,11 +50,18 @@ See `docs/adr/` for permanent design decisions (e.g. why this codebase has no un
 
 ## Current Status
 
-**Phase 14 complete** — feel parity on top of the Phase 13 engine:
+**Phase 15 core complete** — two-stage move commit on top of Phase 14 feel parity:
+
+- Hover a reachable tile → white chevron path preview
+- First click locks the proposal → green chevrons + `MoveConfirmOverlay` with cost/speed readout
+- Second click, Confirm button, or (soon) Enter commits; Escape unlocks then exits
+- `proposedPath` (store) is the single authority for move dispatch — no dual-ownership fallback
+- Stale-lock guard auto-clears if the locked destination becomes unreachable
+
+Phase 14 feel layer:
 
 - Sprite tweens: units slide to their destination over ~280ms with quad-ease-out
 - Animation-gated AI: enemy turns wait for sprite settlement (rAF poll on `activeAnimCount`), not a fixed delay
-- Path preview: hover a reachable tile → chevron waypoints trace the parity-correct Dijkstra route
 - AoE footprint: hover with an area spell armed → blast diamond with LOE-shadowed tiles (what's behind a wall)
 - Camera bounds: pan clamps at map edge; small maps centre; zoom-out pulls the target in
 - Turn bar: chip hover highlights the unit on the map, click pans the camera there
@@ -73,8 +80,8 @@ Phase 13 foundation — full campaign progression on a deep PF2e engine:
 - Trait-aware strike forecast: expected damage accounts for deadly/fatal/propulsive on crit
 - AI weapon selection: 4-pass strategy (melee → thrown → ranged with ammo check → reload)
 
-See `ROADMAP.md` for Phase 15 (two-stage commit for movement — the gameplay mitigation for
-having no undo).
+See `ROADMAP.md` for Phase 15 remaining items (ghost sprite, AoO threat markers) and Phase 16
+(wiring tracked conditions into resolution, off-guard/flanking, Step action).
 
 ## Test Scenarios
 

@@ -166,6 +166,7 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `mapDataBridge.ts` — Converts `ResolvedTiledMap` into scenario JSON shape; extracts spawn points, blocked tiles, hazard zones, objectives; auto-generates `enemy_policy` for non-PC teams
 - `tiledTypes.ts` — TypeScript types for Tiled `.tmj` format
 - `commandAuthoring.ts` — Utilities for authoring and validating commands
+- `effectModelLoader.ts` — Async fetch of `data/rules/effect_models.json` with a sync-access escape hatch: `setPreloadedEffectModel()` must be called before `lookupHazardSource()` (used by the reducer's hazard resolution). `scenarioTestRunner.ts` handles this preload for tests; the browser path must preload before the first dispatch that touches a hazard
 - `eventLog.ts` — Canonical JSON serialization (`sortedJson` matches Python's `sort_keys=True`) and `replayHash` computation. The regression hash suite and `validate:determinism` both pin against this output — any change to event-payload field names or ordering churns every baseline
 
 ### Campaign Layer (`src/campaign/`)
@@ -207,12 +208,13 @@ Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage a
 
 ## Assets & Content
 
-- `public/scenarios/smoke/` — 44 smoke-test scenario JSON files (served by Vite; `interactive_arena.json` is the primary playtest scenario)
+- `scenarios/smoke/` — 44 smoke-test scenario JSON files (`interactive_arena.json` is the primary playtest scenario). Served by Vite via the `public/scenarios → ../scenarios` symlink; scripts and tests read the same files directly via node fs
 - `public/content_packs/` — Content pack JSON files served at runtime
 - `public/maps/` — Tiled `.tmj` arena files (see `TILED_AUTHORING.md` in this dir for the `moveCost`/`coverGrade`/`elevation` custom-property schema)
 - `public/tilesets/` — Tileset images referenced by Tiled maps
 - `public/campaigns/` — Campaign definition JSON (ordered scenario lists with narrative frames)
 - `scenarios/regression_phase*/` — Regression-baseline scenarios (NOT served; read by `regression.test.ts` via node fs)
 - `corpus/content_packs/` — Source game-design content pack data (not served directly)
+- `data/` — Generated rules artifacts (`rules/effect_models.json`, `rules/engine_rules.json`, `rules/primitives.json`) and bestiary JSON. Produced by `scripts/build_tactical_*.py`. `effect_models.json` is preloaded via node fs in `scenarioTestRunner.ts` and `scripts/regenerate-hashes.ts`; the browser never fetches it (the 8 scenarios in the UI picker are hazard-free, so the reducer's `lookupHazardSource` path is unreachable interactively)
 - `docs/adr/` — Architecture Decision Records for permanent design choices
 - `archive/` — Reconciled earlier-branch code (kept for reference; `old/` was deleted after the Reconciliation Pass)
