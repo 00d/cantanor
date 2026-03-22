@@ -15,9 +15,23 @@ JSON.
 - Orthogonal orientation, right-down render order.
 - Tile size: **64 × 64 px** is the engine's world-grid unit (`TILE_SIZE = 64`).  You may
   author tilesets at any resolution; the Tiled tilemap renderer scales the entire
-  tilemap by `TILE_SIZE / tilewidth` automatically.  The current `dungeon_basic` tileset
-  uses 32 × 32 px source tiles (scaled 2× at runtime) — 64 × 64 px source tiles are
-  preferred for new work to avoid upscaling blur.
+  tilemap container by `TILE_SIZE / tilewidth` automatically — 32 px source → 2× scale,
+  64 px → 1× (native), 128 px → 0.5× (supersampled for high-DPI).  Pick the source
+  resolution that matches your art style; the renderer adapts.
+
+---
+
+## Tileset-Level Properties
+
+Set these under **Tileset → Tileset Properties** in the Tiled editor (NOT per-tile
+properties — those are covered below under *Tile Custom Properties*).
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `filter` | string | `"pixel"` | Texture sampling mode.  `"pixel"` → nearest-neighbor (crisp edges, doubled pixels — correct for pixel art at any upscale).  `"smooth"` → linear interpolation (soft gradients — correct for painted/anti-aliased art, typically 64 px+ source that renders at or below 1× scale). |
+
+The default suits 32 px pixel art at 2× upscale — crisp retro look, no blur.  Set
+`filter: "smooth"` when shipping hand-painted tiles where pixel-doubling would look wrong.
 
 ---
 

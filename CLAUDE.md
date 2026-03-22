@@ -149,10 +149,10 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `cameraController.ts` — Pan/zoom/focus with lerp smoothing. `setCameraBounds(tilesW, tilesH)` clamps `targetX/Y` in `tickCamera` so the viewport never shows void past the map edge; maps smaller than viewport centre
 - `terrainOverlay.ts` — Persistent difficult-terrain hatch and cover-grade markers. Drawn once on map load; unlike `rangeOverlay.ts` it does not clear on hover
 - `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out, owns the walk↔idle sprite-sheet transition (frame-locked with visible motion), and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
-- `spriteSheetLoader.ts` — Async frame-slicing for unit sprite sheets, cached by descriptor URL. Falls back gracefully if the texture fails to load (unit renders as a static placeholder)
-- `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles
-- `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps
-- `tilesetLoader.ts` — Loads tileset textures from `.tmj` files
+- `spriteSheetLoader.ts` — Async frame-slicing for unit sprite sheets, cached by descriptor URL. Forces `scaleMode: "nearest"` on the atlas source (all unit sprites are pixel art upscaled to `TILE_SIZE − padding`). Falls back gracefully if the texture fails to load (unit renders as a static placeholder)
+- `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles. Container scales by `TILE_SIZE / tilewidth`, so source tileset resolution is free (32px → 2× upscale, 64px → 1×, 128px → 0.5×)
+- `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps via `Graphics` rects (no textures, so unaffected by `scaleMode`)
+- `tilesetLoader.ts` — Loads tileset textures from `.tmj` files. Reads the tileset-level `filter` custom property (`"pixel"` → `GL_NEAREST`, `"smooth"` → `GL_LINEAR`; default `"pixel"`) and sets it on the atlas `TextureSource`. Zero-spacing atlases are bleed-safe under either mode — `@pixi/tilemap` writes `aFrame` with a half-texel inset (`eps = 0.5`) and the fragment shader clamps UVs to it
 - `effectRenderer.ts` — Float-text (damage/heal/miss) overlay. Drains `transient.animationQueue` destructively each tick
 
 ### Grid & Pathfinding (`src/grid/`)
@@ -215,6 +215,7 @@ Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage a
 - `public/campaigns/` — Campaign definition JSON (ordered scenario lists with narrative frames)
 - `scenarios/regression_phase*/` — Regression-baseline scenarios (NOT served; read by `regression.test.ts` via node fs)
 - `corpus/content_packs/` — Source game-design content pack data (not served directly)
-- `data/` — Generated rules artifacts (`rules/effect_models.json`, `rules/engine_rules.json`, `rules/primitives.json`) and bestiary JSON. Produced by `scripts/build_tactical_*.py`. `effect_models.json` is preloaded via node fs in `scenarioTestRunner.ts` and `scripts/regenerate-hashes.ts`; the browser never fetches it (the 8 scenarios in the UI picker are hazard-free, so the reducer's `lookupHazardSource` path is unreachable interactively)
+- `Tiled/` — Self-contained map-authoring sandbox (NOT served). Reference `.tmj` with programmatically-generated tileset and validator that runs the map through `mapDataBridge.ts`. Migrated copy lives in `public/maps/temple_courtyard.tmj` as the 9th picker entry — the first to use the direct-`.tmj` load branch (`scenarioLoader.ts:862`) with no JSON wrapper
+- `data/` — Generated rules artifacts (`rules/effect_models.json`, `rules/engine_rules.json`, `rules/primitives.json`) and bestiary JSON. Produced by `scripts/build_tactical_*.py`. `effect_models.json` is preloaded via node fs in `scenarioTestRunner.ts` and `scripts/regenerate-hashes.ts`; the browser never fetches it — `lookupHazardSource` is only called by `hazard_routines` (scripted trap events), not by `map.hazards` (spatial zones — `tickHazardZones` is self-contained), and no picker scenario uses `hazard_routines`
 - `docs/adr/` — Architecture Decision Records for permanent design choices
 - `archive/` — Reconciled earlier-branch code (kept for reference; `old/` was deleted after the Reconciliation Pass)

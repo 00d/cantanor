@@ -402,6 +402,73 @@ which makes it a phase, not a closeout.
 
 ---
 
+## Tiled Sandbox — Direct-`.tmj` Path Closeout ✅
+
+Phase 12 marked the `mapDataBridge` spawn/blocked/hazard/objective extractors as delivered,
+but only the `tiled_map` hybrid path (JSON wrapper → `.tmj` for terrain only) was ever
+exercised in the browser. Building a feature-showcase map (`Tiled/temple_courtyard.tmj`) as
+a first-exerciser for the direct-`.tmj` branch (`scenarioLoader.ts:862`) surfaced two gaps
+where documented schema fields were silently dropped on that path. Both fixed.
+
+### G1 — `speed` spawn property discarded ✅
+
+`TILED_AUTHORING.md` documents `speed` as a per-unit spawn property, but `SpawnPointData`
+lacked the field entirely — `extractSpawnPoints` never read it, `buildScenarioFromTiledMap`
+never output it. Every Tiled-loaded unit fell through to `scenarioLoader.ts`'s hard-coded
+default of 5. Four one-line additions to `mapDataBridge.ts` (interface field, read with
+`?? 5` default, push, output). Ranger now gets speed 6, guardian gets speed 4.
+
+### G2 — Hazards layer discarded on direct `.tmj` load ✅
+
+`buildScenarioFromTiledMap` hard-coded `hazard_routines: []` and never called
+`extractHazardZones` — the hybrid `tiled_map` path at `scenarioLoader.ts:903` did extract
+hazards correctly, but the direct-`.tmj` path did not. R1 wired `tickHazardZones` into the
+reducer; this fix wires the extractor into the bridge. Added a conditional-spread
+`map.hazards` block with the same snake_case transform the hybrid path uses. Hazard-free
+maps produce byte-identical output — no hash churn.
+
+### Sandbox artifacts
+
+`Tiled/` is a self-contained reference: `gen_tileset.mjs` (pure-Node PNG encoder, 24 tiles
+with semantic glyphs — hatch for moveCost, square for cover, ✕ for blocked, chevron for
+elevation), `temple_courtyard.tmj` (16×12, embedded tileset, all six layer types),
+`validate.mjs` (57 assertions through `buildScenarioFromTiledMap`). Copied to `public/maps/`
++ `public/tilesets/` with one image-path edit; added as the 9th picker entry — the first to
+point at a `.tmj` with no JSON wrapper.
+
+**Manual browser test confirmed:** map renders via `tiledTilemapRenderer`; PCs route around
+pillars/statue/walls via Dijkstra (`movement.ts` respects `blocked` from the bridge); enemy
+`strike_nearest` policy routes the same way. The `.tmj` alone is a playable scenario —
+units, objectives, `enemy_policy`, hazard zone all derived from Tiled layers with zero JSON.
+
+**Hash safety held:** conditional spreads gate both fixes. The four existing `.tmj` maps
+have no Hazards layer and no per-unit `speed`, so their bridge output is byte-identical.
+123/123 IO tests, 44/44 determinism scenarios, 7/7 regression hashes unchanged.
+
+### Follow-on: per-tileset texture filtering ✅
+
+Rendering the temple map surfaced that `tilesetLoader.ts` never set `scaleMode` on loaded
+atlases — whatever PixiJS defaulted to, the author couldn't override it. The auto-ratio
+container scale (`TILE_SIZE / tilewidth` at `tiledTilemapRenderer.ts:91`) already handles
+arbitrary source resolutions — 32px source → 2×, 64px → 1× — but the *sampling mode* at
+each ratio was unopinionated. Pixel art at 2× upscale wants `GL_NEAREST` (crisp doubled
+pixels); painted art at 1× wants `GL_LINEAR` (soft gradients). This is an art-asset
+decision, not a renderer decision.
+
+Added a tileset-level `filter` custom property (`"pixel"` → nearest, `"smooth"` → linear;
+default `"pixel"` — all five current tilesets are 32px pixel art). Read in
+`tilesetLoader.ts:tilesetScaleMode()`, set on the atlas `TextureSource` before slicing.
+`spriteSheetLoader.ts` hardcodes `nearest` — all unit sprites are pixel art, no schema
+growth until a painted sprite ships. Documented in `TILED_AUTHORING.md` under a new
+*Tileset-Level Properties* section.
+
+Atlas-bleed audit: all five `.tmj` maps have `margin: 0, spacing: 0`. Not a risk —
+`@pixi/tilemap` writes `aFrame` with a half-texel inset (`eps = 0.5`, `Tilemap.js:312`)
+and the fragment shader clamps UVs to it (`pixi-tilemap.mjs:58`). Watertight under both
+filter modes. No tile extrusion needed.
+
+---
+
 ## Phase 15 — Preview & Confirm (in progress)
 
 **Goal:** Two-stage commit for movement — the gameplay mitigation for

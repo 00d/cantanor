@@ -35,6 +35,7 @@ export interface SpawnPointData {
   reflex: number;
   will: number;
   tempHp: number;
+  speed: number;
 }
 
 export interface HazardZoneData {
@@ -237,6 +238,7 @@ export function extractSpawnPoints(tiledMap: ResolvedTiledMap): SpawnPointData[]
     const reflex = Number(props["reflex"] ?? 0);
     const will = Number(props["will"] ?? 0);
     const tempHp = Number(props["tempHp"] ?? 0);
+    const speed = Number(props["speed"] ?? 5);
 
     // Object position is top-left pixel; divide by tile size for grid coords.
     const gridX = pixelToTile(obj.x, tiledMap.tilewidth);
@@ -256,6 +258,7 @@ export function extractSpawnPoints(tiledMap: ResolvedTiledMap): SpawnPointData[]
       reflex,
       will,
       tempHp,
+      speed,
     });
   }
 
@@ -342,6 +345,7 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
   const mapProps = extractMapProperties(tiledMap);
   const mapState = extractMapState(tiledMap);
   const spawns = extractSpawnPoints(tiledMap);
+  const hazards = extractHazardZones(tiledMap);
   const objectives = extractObjectives(tiledMap);
 
   if (spawns.length === 0) {
@@ -366,6 +370,7 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
     reflex: s.reflex,
     will: s.will,
     temp_hp: s.tempHp > 0 ? s.tempHp : undefined,
+    speed: s.speed,
   }));
 
   // Convert ObjectiveData to scenario objective format
@@ -397,6 +402,17 @@ export function buildScenarioFromTiledMap(tiledMap: ResolvedTiledMap): Record<st
       ...(mapState.moveCost && { move_cost: mapState.moveCost }),
       ...(mapState.coverGrade && { cover_grade: mapState.coverGrade }),
       ...(mapState.elevation && { elevation: mapState.elevation }),
+      // Shape matches the tiled_map hybrid path in scenarioLoader.ts and the
+      // validateScenario schema for map.hazards (id, damage_type,
+      // damage_per_turn, dc, save_type, tiles).
+      ...(hazards.length > 0 && { hazards: hazards.map((z) => ({
+        id: z.id,
+        damage_type: z.element,
+        damage_per_turn: z.damagePerTurn,
+        dc: z.dc,
+        save_type: z.saveType,
+        tiles: z.tiles,
+      })) }),
     },
     units,
     commands: [],

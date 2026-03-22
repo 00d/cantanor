@@ -1,0 +1,295 @@
+{
+  "type": "map",
+  "version": "1.10",
+  "tiledversion": "1.11.0",
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "width": 16,
+  "height": 12,
+  "tilewidth": 32,
+  "tileheight": 32,
+  "infinite": false,
+  "compressionlevel": -1,
+  "nextlayerid": 7,
+  "nextobjectid": 9,
+  "properties": [
+    { "name": "battleId",    "type": "string", "value": "temple_courtyard" },
+    { "name": "seed",        "type": "int",    "value": 15322 },
+    { "name": "enginePhase", "type": "int",    "value": 7 }
+  ],
+  "tilesets": [
+    {
+      "firstgid": 1,
+      "name": "temple_ruins",
+      "image": "temple_ruins.png",
+      "imagewidth": 256,
+      "imageheight": 96,
+      "tilewidth": 32,
+      "tileheight": 32,
+      "tilecount": 24,
+      "columns": 8,
+      "margin": 0,
+      "spacing": 0,
+      "tiles": [
+        { "id": 4,  "properties": [{ "name": "moveCost",   "type": "int",    "value": 2 }] },
+        { "id": 5,  "properties": [{ "name": "moveCost",   "type": "int",    "value": 3 }] },
+        { "id": 7,  "properties": [
+            { "name": "blocked", "type": "bool",   "value": true },
+            { "name": "terrain", "type": "string", "value": "water" }
+        ]},
+        { "id": 8,  "properties": [{ "name": "coverGrade", "type": "int",    "value": 1 }] },
+        { "id": 9,  "properties": [{ "name": "coverGrade", "type": "int",    "value": 1 }] },
+        { "id": 10, "properties": [{ "name": "coverGrade", "type": "int",    "value": 2 }] },
+        { "id": 11, "properties": [{ "name": "coverGrade", "type": "int",    "value": 1 }] },
+        { "id": 12, "properties": [{ "name": "blocked",    "type": "bool",   "value": true }] },
+        { "id": 13, "properties": [{ "name": "blocked",    "type": "bool",   "value": true }] },
+        { "id": 14, "properties": [{ "name": "blocked",    "type": "bool",   "value": true }] },
+        { "id": 15, "properties": [
+            { "name": "blocked", "type": "bool",   "value": true },
+            { "name": "terrain", "type": "string", "value": "pit" }
+        ]},
+        { "id": 16, "properties": [{ "name": "elevation",  "type": "int",    "value": 1 }] },
+        { "id": 17, "properties": [{ "name": "elevation",  "type": "int",    "value": 1 }] },
+        { "id": 18, "properties": [{ "name": "elevation",  "type": "int",    "value": 2 }] },
+        { "id": 19, "properties": [
+            { "name": "blocked",    "type": "bool", "value": true },
+            { "name": "coverGrade", "type": "int",  "value": 1 }
+        ]}
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": 1,
+      "name": "Ground",
+      "type": "tilelayer",
+      "visible": true,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 12,
+      "data": [
+         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+         2, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2,
+         2, 4, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 2,
+         2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 2,
+         2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 2,
+         2, 4, 1, 1, 7, 7, 7, 7, 7, 1, 1, 1, 1, 1, 4, 2,
+         2, 4, 1, 1, 7, 7, 7, 7, 7, 1, 1, 1, 1, 1, 4, 2,
+         2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 4, 2,
+         2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 4, 2,
+         2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 2,
+         2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2,
+         2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Terrain",
+      "type": "tilelayer",
+      "visible": true,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 12,
+      "data": [
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 9, 5, 0, 0,21,18,18,21, 0, 0, 0, 9, 0, 0,
+         0, 0, 0, 0, 0, 0, 0,18,11, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,20, 0, 0, 0, 0,
+         0, 0,10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0,
+         0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 9, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Walls",
+      "type": "tilelayer",
+      "visible": true,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 12,
+      "data": [
+        15,13,14,13,14,13,14,13,14,13,14,13,14,13,14,15,
+        13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,
+        14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,
+        13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,
+        14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,
+        13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,
+        14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,
+        13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,
+        14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,
+        13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,
+        14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,
+        15,13,14,13, 0, 0, 0, 0, 0,14,13,14,13,14,13,15
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Spawns",
+      "type": "objectgroup",
+      "visible": true,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "objects": [
+        {
+          "id": 1, "name": "pc_paladin", "type": "spawn",
+          "x": 160, "y": 288, "width": 32, "height": 32,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "team",       "type": "string", "value": "pc" },
+            { "name": "hp",         "type": "int",    "value": 52 },
+            { "name": "ac",         "type": "int",    "value": 19 },
+            { "name": "attackMod",  "type": "int",    "value": 8 },
+            { "name": "damage",     "type": "string", "value": "1d8+4" },
+            { "name": "initiative", "type": "int",    "value": 14 },
+            { "name": "fortitude",  "type": "int",    "value": 9 },
+            { "name": "reflex",     "type": "int",    "value": 5 },
+            { "name": "will",       "type": "int",    "value": 7 },
+            { "name": "speed",      "type": "int",    "value": 5 }
+          ]
+        },
+        {
+          "id": 2, "name": "pc_ranger", "type": "spawn",
+          "x": 224, "y": 320, "width": 32, "height": 32,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "team",       "type": "string", "value": "pc" },
+            { "name": "hp",         "type": "int",    "value": 38 },
+            { "name": "ac",         "type": "int",    "value": 17 },
+            { "name": "attackMod",  "type": "int",    "value": 9 },
+            { "name": "damage",     "type": "string", "value": "1d6+3" },
+            { "name": "initiative", "type": "int",    "value": 18 },
+            { "name": "fortitude",  "type": "int",    "value": 6 },
+            { "name": "reflex",     "type": "int",    "value": 9 },
+            { "name": "will",       "type": "int",    "value": 5 },
+            { "name": "speed",      "type": "int",    "value": 6 }
+          ]
+        },
+        {
+          "id": 3, "name": "pc_cleric", "type": "spawn",
+          "x": 192, "y": 320, "width": 32, "height": 32,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "team",       "type": "string", "value": "pc" },
+            { "name": "hp",         "type": "int",    "value": 44 },
+            { "name": "ac",         "type": "int",    "value": 16 },
+            { "name": "attackMod",  "type": "int",    "value": 6 },
+            { "name": "damage",     "type": "string", "value": "1d6+2" },
+            { "name": "initiative", "type": "int",    "value": 12 },
+            { "name": "fortitude",  "type": "int",    "value": 8 },
+            { "name": "reflex",     "type": "int",    "value": 4 },
+            { "name": "will",       "type": "int",    "value": 10 },
+            { "name": "speed",      "type": "int",    "value": 5 }
+          ]
+        },
+        {
+          "id": 4, "name": "cultist_1", "type": "spawn",
+          "x": 224, "y": 64, "width": 32, "height": 32,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "team",       "type": "string", "value": "cult" },
+            { "name": "hp",         "type": "int",    "value": 28 },
+            { "name": "ac",         "type": "int",    "value": 15 },
+            { "name": "attackMod",  "type": "int",    "value": 6 },
+            { "name": "damage",     "type": "string", "value": "1d6+2" },
+            { "name": "initiative", "type": "int",    "value": 10 },
+            { "name": "fortitude",  "type": "int",    "value": 5 },
+            { "name": "reflex",     "type": "int",    "value": 4 },
+            { "name": "will",       "type": "int",    "value": 6 },
+            { "name": "speed",      "type": "int",    "value": 5 }
+          ]
+        },
+        {
+          "id": 5, "name": "cultist_2", "type": "spawn",
+          "x": 288, "y": 96, "width": 32, "height": 32,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "team",       "type": "string", "value": "cult" },
+            { "name": "hp",         "type": "int",    "value": 28 },
+            { "name": "ac",         "type": "int",    "value": 15 },
+            { "name": "attackMod",  "type": "int",    "value": 6 },
+            { "name": "damage",     "type": "string", "value": "1d6+2" },
+            { "name": "initiative", "type": "int",    "value": 10 },
+            { "name": "fortitude",  "type": "int",    "value": 5 },
+            { "name": "reflex",     "type": "int",    "value": 4 },
+            { "name": "will",       "type": "int",    "value": 6 },
+            { "name": "speed",      "type": "int",    "value": 5 }
+          ]
+        },
+        {
+          "id": 6, "name": "temple_guardian", "type": "spawn",
+          "x": 384, "y": 128, "width": 32, "height": 32,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "team",       "type": "string", "value": "cult" },
+            { "name": "hp",         "type": "int",    "value": 65 },
+            { "name": "ac",         "type": "int",    "value": 20 },
+            { "name": "attackMod",  "type": "int",    "value": 10 },
+            { "name": "damage",     "type": "string", "value": "2d8+5" },
+            { "name": "initiative", "type": "int",    "value": 8 },
+            { "name": "fortitude",  "type": "int",    "value": 10 },
+            { "name": "reflex",     "type": "int",    "value": 3 },
+            { "name": "will",       "type": "int",    "value": 8 },
+            { "name": "speed",      "type": "int",    "value": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Hazards",
+      "type": "objectgroup",
+      "visible": true,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "objects": [
+        {
+          "id": 7, "name": "cursed_pool", "type": "hazard",
+          "x": 128, "y": 160, "width": 160, "height": 64,
+          "rotation": 0, "visible": true,
+          "properties": [
+            { "name": "element",       "type": "string", "value": "cold" },
+            { "name": "damagePerTurn", "type": "int",    "value": 4 },
+            { "name": "dc",            "type": "int",    "value": 15 },
+            { "name": "saveType",      "type": "string", "value": "Fortitude" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Objectives",
+      "type": "objectgroup",
+      "visible": true,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "objects": [
+        {
+          "id": 8, "name": "cleanse", "type": "defeat_all_enemies",
+          "x": 256, "y": 96, "width": 0, "height": 0,
+          "rotation": 0, "visible": true, "point": true,
+          "properties": [
+            { "name": "label", "type": "string", "value": "Cleanse the Temple" }
+          ]
+        }
+      ]
+    }
+  ]
+}

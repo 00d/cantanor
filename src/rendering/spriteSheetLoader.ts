@@ -50,6 +50,11 @@ export async function loadSpriteSheet(
     const baseTexture = await Assets.load<Texture>(descriptor.texture);
     if (!baseTexture) return null;
 
+    // Unit sprites are pixel art stretched to TILE_SIZE − padding (spriteManager.ts:153).
+    // Nearest-neighbor keeps edges crisp under that upscale. If a future descriptor
+    // carries painted art, grow the descriptor schema with a `filter` field then.
+    baseTexture.source.scaleMode = "nearest";
+
     // Slice frames from the texture
     const cols = Math.floor(baseTexture.width / descriptor.frameWidth);
     const rows = Math.floor(baseTexture.height / descriptor.frameHeight);

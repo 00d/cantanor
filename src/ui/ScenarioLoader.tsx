@@ -24,6 +24,10 @@ const SCENARIOS = [
   { id: "phase6_duel", name: "Phase 6 – Enemy Policy Duel", path: "/scenarios/smoke/phase6_enemy_policy_duel_basic.json" },
   { id: "phase13_ammo", name: "Phase 13 – Ammo & Reload", path: "/scenarios/smoke/phase13_ammo_reload.json" },
   { id: "phase13_cover", name: "Phase 13 – Melee Cover Bypass", path: "/scenarios/smoke/phase13_cover_melee.json" },
+  // First entry to exercise the direct-.tmj load path (scenarioLoader.ts:862) —
+  // units, objectives, hazards, and enemy_policy all come from the .tmj itself
+  // via buildScenarioFromTiledMap, with no JSON wrapper.
+  { id: "temple_courtyard", name: "🏛 Temple Courtyard (direct .tmj)", path: "/maps/temple_courtyard.tmj" },
 ];
 
 const CAMPAIGNS = [

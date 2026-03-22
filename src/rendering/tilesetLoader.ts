@@ -6,7 +6,26 @@
  */
 
 import { Assets, Texture, Rectangle } from "pixi.js";
+import type { SCALE_MODE } from "pixi.js";
 import type { ResolvedTiledMap, TiledTileset } from "../io/tiledTypes";
+import { getProperties } from "../io/tiledLoader";
+
+/**
+ * Reads the tileset-level `filter` custom property and maps it to a PixiJS
+ * scale mode. Defaults to `"nearest"` — all current tilesets (dungeon_basic,
+ * temple_ruins) are 32px pixel art, and the CompositeTilemap container scales
+ * them by TILE_SIZE/tilewidth (2× for 32px source). Linear filtering on a 2×
+ * upscale softens pixel edges; nearest keeps them crisp.
+ *
+ * Set `filter: "smooth"` on a tileset's custom properties (Tileset → Tileset
+ * Properties in the Tiled editor) for painted/anti-aliased art where linear
+ * filtering is desired — typically 64px+ source tiles that render at 1× scale
+ * or below.
+ */
+function tilesetScaleMode(tileset: TiledTileset): SCALE_MODE {
+  const props = getProperties(tileset.properties);
+  return props["filter"] === "smooth" ? "linear" : "nearest";
+}
 
 /**
  * Resolves a tileset image path (relative to the .tmj file's location) into
@@ -70,6 +89,14 @@ export async function loadTilesetTextures(
 
     // Assets.load is cached — duplicate calls return the same texture
     const sourceTexture = await Assets.load<Texture>(imageUrl);
+
+    // scaleMode lives on the TextureSource (the atlas image), not on the
+    // per-tile Texture frames that share it. Setting it once here covers every
+    // frame sliceTileTextures is about to produce. Because Assets.load caches
+    // by URL, two tilesets pointing at the same PNG share one TextureSource —
+    // the last tileset's `filter` wins. In practice every tileset in a map is
+    // either all pixel art or all painted, so this doesn't bite.
+    sourceTexture.source.scaleMode = tilesetScaleMode(tileset);
 
     const sliced = sliceTileTextures(sourceTexture, tileset);
     for (const [gid, tex] of sliced) {
