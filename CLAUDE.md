@@ -25,7 +25,31 @@ To regenerate regression hash baselines after an intentional reducer change:
 `npx tsx scripts/regenerate-hashes.ts` — self-verifies determinism (runs each scenario
 twice) before writing, so it won't silently record a broken scenario.
 
+## Key Principles
+
+**Determinism is a first-class constraint.** Every battle must replay identically given the same seed and command sequence. This drives the architecture: seeded RNG (`src/engine/rng.ts`), pure reducer, canonical event serialization (`src/io/eventLog.ts`), and regression hash baselines. Any change that shifts RNG consumption order or event-payload shape breaks all baseline hashes — regenerate with `npx tsx scripts/regenerate-hashes.ts`.
+
+**Pure engine / impure store separation.** The engine (`src/engine/`, `src/rules/`, `src/effects/`, `src/grid/`) is pure functions with no side effects. All impure orchestration (animations, AI scheduling, React state, async loading) lives in the store layer (`src/store/battleStore.ts`). Never import store code from engine code.
+
+**Content-driven gameplay.** Abilities, spells, feats, and items are defined in JSON content packs, not hardcoded. The engine evaluates command templates from content packs at dispatch time via `materializeRawCommand`.
+
+## TypeScript
+
+Strict mode is enabled: `strict: true`, `noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`, `noUncheckedSideEffectImports`. There is no ESLint — TypeScript strict mode is the only static analysis gate. Target is ES2022.
+
 ## Architecture
+
+### Data Flow
+
+Player action lifecycle (reading this requires understanding multiple files):
+
+1. **User click** → `App.tsx` event handlers set store UI state (selection, target mode, proposed path)
+2. **Commit** → `battleStore.dispatchCommand()` — the single entry point for all game mutations
+3. **Materialize** → content-pack command templates merged via `materializeRawCommand`
+4. **Reduce** → `applyCommand()` deep-clones state, runs pure reducer, returns `[nextState, events]`
+5. **Post-dispatch** → store checks objectives (`checkBattleEnd`), detects reactions (`detectMoveReactions`/`detectDamageReactions`), queues animations
+6. **Reactions** → `_processNextReaction` surfaces prompts or (queue empty) schedules next AI turn
+7. **Render** → React re-renders from store state; PixiJS sprite tweens run on the ticker
 
 ### Split-Viewport Layout
 The app (`src/ui/App.tsx`) uses a Gold Box-inspired split viewport:
@@ -62,14 +86,7 @@ cost, difficult terrain via per-tile `moveCost`, AoO/reactive strike on movement
 stages (disease/poison with save progression), persistent damage with recovery checks, hazard
 zones with per-round saves.
 
-**Tracked but not yet mechanically wired (Phase 16 — Tactical Depth):** Conditions are stored
-as `Record<string, number>` on each unit with immunity support, but most have no effect on
-resolution. `frightened`, `sickened`, `clumsy`, `stupefied`, `immobilized`, `slowed`, `stunned`,
-`blinded`, and `concealed` are applied by content-pack entries but do not modify attack rolls,
-AC, saves, speed, or action count. `off_guard` (flat-footed) does not exist yet — blocks
-flanking. There is no Step action (move without provoking). Death is binary (HP ≤ 0 →
-unconscious → out) rather than the PF2e dying/wounded/recovery spiral. See `ROADMAP.md`
-Phase 16 for the plan to close these gaps.
+**Not yet mechanically wired:** Most conditions are tracked (`Record<string, number>`) but don't affect resolution. No `off_guard`/flanking, no Step action, simplified death model. See `ROADMAP.md` Phase 16.
 
 ### Store Layer
 `src/store/battleStore.ts` (Zustand) segregates state by update frequency:
@@ -144,30 +161,23 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `materializeRawCommand(cmd, contentContext)` — merges content-pack payload before `applyCommand`. When a `cast_spell` command has an `area` block in its content-pack payload and `center_x`/`center_y` on the caller side, rewrites to `area_save_damage`. Gate reads `payloadTemplate.area` (not `merged.area`) so a dispatch can't inject an area block and turn a single-target spell into an AoE
 
 ### Rendering (`src/rendering/`)
-- `pixiApp.ts` — PixiJS application setup; layer order: map → overlay → units → effects → ui
-- `rangeOverlay.ts` — Three separate Graphics layers: `_graphics` (move/strike/ability tile fills), `_areaGraphics` (AoE blast diamond with LOE-shadowed tiles), `_pathGraphics` (chevron waypoints + destination ring for move preview). Each layer clears independently so hover-redraw doesn't wipe the others. `showPathPreview(path, locked)` switches between white (hovering) and green (locked/confirmed) palettes
-- `cameraController.ts` — Pan/zoom/focus with lerp smoothing. `setCameraBounds(tilesW, tilesH)` clamps `targetX/Y` in `tickCamera` so the viewport never shows void past the map edge; maps smaller than viewport centre
-- `terrainOverlay.ts` — Persistent difficult-terrain hatch and cover-grade markers. Drawn once on map load; unlike `rangeOverlay.ts` it does not clear on hover
-- `spriteManager.ts` — Unit sprite tweens. `syncUnits` arms tweens; `tickSprites` advances with quad-ease-out, owns the walk↔idle sprite-sheet transition (frame-locked with visible motion), and writes `transient.activeAnimCount` unconditionally every tick (the AI poll gates on this); `snapAllSprites` forces instant settlement (fresh-load)
-- `spriteSheetLoader.ts` — Async frame-slicing for unit sprite sheets, cached by descriptor URL. Forces `scaleMode: "nearest"` on the atlas source (all unit sprites are pixel art upscaled to `TILE_SIZE − padding`). Falls back gracefully if the texture fails to load (unit renders as a static placeholder)
-- `tiledTilemapRenderer.ts` — Renders Tiled Map Editor `.tmj` maps with GPU-batched tiles. Container scales by `TILE_SIZE / tilewidth`, so source tileset resolution is free (32px → 2× upscale, 64px → 1×, 128px → 0.5×)
-- `tileRenderer.ts` — Renders hand-written (non-Tiled) scenario maps via `Graphics` rects (no textures, so unaffected by `scaleMode`)
-- `tilesetLoader.ts` — Loads tileset textures from `.tmj` files. Reads the tileset-level `filter` custom property (`"pixel"` → `GL_NEAREST`, `"smooth"` → `GL_LINEAR`; default `"pixel"`) and sets it on the atlas `TextureSource`. Zero-spacing atlases are bleed-safe under either mode — `@pixi/tilemap` writes `aFrame` with a half-texel inset (`eps = 0.5`) and the fragment shader clamps UVs to it
-- `effectRenderer.ts` — Float-text (damage/heal/miss) overlay. Drains `transient.animationQueue` destructively each tick
+PixiJS layer order: map → overlay → units → effects → ui (`pixiApp.ts`).
+
+Key cross-cutting concerns:
+- **`rangeOverlay.ts`** has three independent Graphics layers (`_graphics`, `_areaGraphics`, `_pathGraphics`) that clear independently — hover-redraw doesn't wipe path preview or AoE footprint
+- **`spriteManager.ts`** owns the animation tick: `tickSprites` writes `transient.activeAnimCount` unconditionally every frame (the AI poll gates on this — see Load-Bearing Invariants)
+- **Two tilemap renderers**: `tiledTilemapRenderer.ts` for Tiled `.tmj` maps (GPU-batched), `tileRenderer.ts` for hand-written scenario maps (Graphics rects). Container scales by `TILE_SIZE / tilewidth`
+- All unit sprites are pixel art — `spriteSheetLoader.ts` forces `scaleMode: "nearest"`
 
 ### Grid & Pathfinding (`src/grid/`)
 8-connected Dijkstra with PF2e alternating diagonal cost (`movement.ts` — state tracked as `(x, y, parity)`). `reachableWithPrev()` returns a `ReachResult` containing: the reachable tile set, a per-tile cost map (`dist`), and parity-aware `statePrev`/`bestEntry` maps for path reconstruction. `pathTo()` walks the `statePrev` chain back to build a cost-correct route. The `dist` map is used by the UI to populate `ProposedPath.cost` for the move-confirmation overlay. Line-of-sight (LOS), line-of-effect (LOE), area shapes (cone, burst, line).
 
 ### I/O Layer (`src/io/`)
-- `scenarioLoader.ts` — Parses scenario JSON into battle state; returns `contentContext` and `rawScenario`; auto-detects Tiled vs hand-written format
-- `contentPackLoader.ts` — Fetches and validates content packs; builds `entryLookup`
-- `battleOrchestrator.ts` — Interactive loop orchestration (AI policy, objectives, battle-end)
-- `tiledLoader.ts` — Parses `.tmj` files into `ResolvedTiledMap` (resolves external tilesets, flips flags)
-- `mapDataBridge.ts` — Converts `ResolvedTiledMap` into scenario JSON shape; extracts spawn points, blocked tiles, hazard zones, objectives; auto-generates `enemy_policy` for non-PC teams
-- `tiledTypes.ts` — TypeScript types for Tiled `.tmj` format
-- `commandAuthoring.ts` — Utilities for authoring and validating commands
-- `effectModelLoader.ts` — Async fetch of `data/rules/effect_models.json` with a sync-access escape hatch: `setPreloadedEffectModel()` must be called before `lookupHazardSource()` (used by the reducer's hazard resolution). `scenarioTestRunner.ts` handles this preload for tests; the browser path must preload before the first dispatch that touches a hazard
-- `eventLog.ts` — Canonical JSON serialization (`sortedJson` matches Python's `sort_keys=True`) and `replayHash` computation. The regression hash suite and `validate:determinism` both pin against this output — any change to event-payload field names or ordering churns every baseline
+Scenario loading pipeline: `scenarioLoader.ts` auto-detects Tiled vs hand-written format → for Tiled, `tiledLoader.ts` parses `.tmj` into `ResolvedTiledMap` → `mapDataBridge.ts` converts to scenario shape (spawn points, blocked tiles, hazard zones, objectives). `contentPackLoader.ts` fetches and builds `entryLookup` for content-driven abilities.
+
+Key files with non-obvious constraints:
+- **`eventLog.ts`** — Canonical JSON serialization (`sortedJson` matches Python's `sort_keys=True`) and `replayHash` computation. Any change to event-payload field names or ordering churns every regression baseline
+- **`effectModelLoader.ts`** — `setPreloadedEffectModel()` must be called before `lookupHazardSource()`. `scenarioTestRunner.ts` handles this preload for tests; browser must preload before any hazard dispatch
 
 ### Campaign Layer (`src/campaign/`)
 Multi-battle progression — no `@campaign` alias, imported via relative path.
@@ -186,17 +196,19 @@ In-app scenario authoring tools: Scenario Inspector, File Browser, Viewer. Toggl
 
 ## Path Aliases
 
-Defined in `vite.config.ts` and `vitest.config.ts`:
+Defined in `vite.config.ts`, `tsconfig.app.json`, and `vitest.config.ts`. Import with glob suffix:
 ```
-@engine    → src/engine/
-@grid      → src/grid/
-@rules     → src/rules/
-@effects   → src/effects/
-@io        → src/io/
-@rendering → src/rendering/
-@store     → src/store/
-@ui        → src/ui/
+@engine/*    → src/engine/*
+@grid/*      → src/grid/*
+@rules/*     → src/rules/*
+@effects/*   → src/effects/*
+@io/*        → src/io/*
+@rendering/* → src/rendering/*
+@store/*     → src/store/*
+@ui/*        → src/ui/*
 ```
+
+The Vite dev server also watches `corpus/`, `compiled/`, and `scenarios/` for hot reload (non-default — configured in `vite.config.ts`).
 
 ## Test Infrastructure
 
@@ -208,14 +220,13 @@ Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage a
 
 ## Assets & Content
 
-- `scenarios/smoke/` — 44 smoke-test scenario JSON files (`interactive_arena.json` is the primary playtest scenario). Served by Vite via the `public/scenarios → ../scenarios` symlink; scripts and tests read the same files directly via node fs
+- `scenarios/smoke/` — 44 smoke-test scenario JSON files (`interactive_arena.json` is the primary playtest scenario). Served via `public/scenarios → ../scenarios` symlink
+- `scenarios/regression_phase*/` — Regression-baseline scenarios (NOT served; read by `regression.test.ts` via node fs)
 - `public/content_packs/` — Content pack JSON files served at runtime
-- `public/maps/` — Tiled `.tmj` arena files (see `TILED_AUTHORING.md` in this dir for the `moveCost`/`coverGrade`/`elevation` custom-property schema)
+- `public/maps/` — Tiled `.tmj` arena files (see `public/maps/TILED_AUTHORING.md` for custom-property schema)
 - `public/tilesets/` — Tileset images referenced by Tiled maps
 - `public/campaigns/` — Campaign definition JSON (ordered scenario lists with narrative frames)
-- `scenarios/regression_phase*/` — Regression-baseline scenarios (NOT served; read by `regression.test.ts` via node fs)
+- `data/` — Generated rules artifacts (`effect_models.json`, `engine_rules.json`, `primitives.json`) and bestiary JSON, produced by `scripts/build_tactical_*.py`
 - `corpus/content_packs/` — Source game-design content pack data (not served directly)
-- `Tiled/` — Self-contained map-authoring sandbox (NOT served). Reference `.tmj` with programmatically-generated tileset and validator that runs the map through `mapDataBridge.ts`. Migrated copy lives in `public/maps/temple_courtyard.tmj` as the 9th picker entry — the first to use the direct-`.tmj` load branch (`scenarioLoader.ts:862`) with no JSON wrapper
-- `data/` — Generated rules artifacts (`rules/effect_models.json`, `rules/engine_rules.json`, `rules/primitives.json`) and bestiary JSON. Produced by `scripts/build_tactical_*.py`. `effect_models.json` is preloaded via node fs in `scenarioTestRunner.ts` and `scripts/regenerate-hashes.ts`; the browser never fetches it — `lookupHazardSource` is only called by `hazard_routines` (scripted trap events), not by `map.hazards` (spatial zones — `tickHazardZones` is self-contained), and no picker scenario uses `hazard_routines`
 - `docs/adr/` — Architecture Decision Records for permanent design choices
-- `archive/` — Reconciled earlier-branch code (kept for reference; `old/` was deleted after the Reconciliation Pass)
+- `archive/` — Reconciled earlier-branch code (kept for reference)
