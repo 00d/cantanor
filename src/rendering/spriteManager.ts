@@ -88,6 +88,7 @@ function hpColor(pct: number): number {
 
 const _sprites = new Map<string, UnitSprite>();
 let _parentLayer: Container | null = null;
+let _ghostContainer: Container | null = null;
 
 function teamColor(team: string): number {
   return TEAM_COLORS[team] ?? 0x888888;
@@ -381,7 +382,54 @@ export function snapAllSprites(): void {
   }
 }
 
+/**
+ * Show a semi-transparent ghost sprite at a destination tile to preview where
+ * the unit will land when a locked move path is confirmed. The ghost mirrors
+ * the unit's appearance (sprite sheet texture if loaded, coloured rectangle
+ * otherwise) at 40% opacity.
+ *
+ * Call clearGhost() to remove it — it is also removed by clearUnits().
+ */
+export function showGhostAtTile(unitId: string, tileX: number, tileY: number, unit: UnitState): void {
+  clearGhost();
+  if (!_parentLayer) return;
+
+  const source = _sprites.get(unitId);
+  const p = UNIT_PADDING;
+  const container = new Container();
+  container.label = "ghost_sprite";
+  container.position.set(tileX * TILE_SIZE, tileY * TILE_SIZE);
+  container.alpha = 0.4;
+  container.zIndex = tileY * 100;  // same stacking as live sprites, behind them
+
+  if (source?.animatedSprite?.texture) {
+    const spr = new Sprite(source.animatedSprite.texture);
+    spr.width  = TILE_SIZE - p * 2;
+    spr.height = TILE_SIZE - p * 2;
+    spr.position.set(p, p);
+    container.addChild(spr);
+  } else {
+    const body = new Graphics();
+    body
+      .roundRect(p, p, TILE_SIZE - p * 2, TILE_SIZE - p * 2, 6)
+      .fill(teamColor(unit.team));
+    container.addChild(body);
+  }
+
+  _ghostContainer = container;
+  _parentLayer.addChild(_ghostContainer);
+}
+
+export function clearGhost(): void {
+  if (_ghostContainer && _parentLayer) {
+    _parentLayer.removeChild(_ghostContainer);
+    _ghostContainer.destroy({ children: true });
+    _ghostContainer = null;
+  }
+}
+
 export function clearUnits(): void {
+  clearGhost();
   if (_parentLayer) {
     for (const sprite of _sprites.values()) {
       _parentLayer.removeChild(sprite.container);

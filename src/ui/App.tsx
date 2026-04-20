@@ -6,7 +6,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useBattleStore } from "../store/battleStore";
-import { activeUnitId as getActiveUnitId } from "../engine/state";
+import { activeUnitId as getActiveUnitId, BattleState } from "../engine/state";
+import { detectMoveReactions } from "../engine/reactions";
 import { reachableWithPrev, pathTo } from "../grid/movement";
 import { PartyPanel } from "./PartyPanel";
 import { CombatLogPanel } from "./CombatLogPanel";
@@ -22,7 +23,7 @@ import { initPixiApp, getPixiLayers, getPixiWorld } from "../rendering/pixiApp";
 import { renderTileMap, clearTileMap, setHoverTile } from "../rendering/tileRenderer";
 import { renderTiledMap, setHoverTileTiled, updateGridOverlay, clearTiledRenderer } from "../rendering/tiledTilemapRenderer";
 import { loadTilesetTextures } from "../rendering/tilesetLoader";
-import { syncUnits, clearUnits, tickSprites, snapAllSprites } from "../rendering/spriteManager";
+import { syncUnits, clearUnits, tickSprites, snapAllSprites, showGhostAtTile, clearGhost } from "../rendering/spriteManager";
 import { initCamera, tickCamera, screenToTile, focusTile, resizeCamera, panBy, zoom, setCameraBounds } from "../rendering/cameraController";
 import { initEffectRenderer, clearEffectRenderer, processAnimationQueue } from "../rendering/effectRenderer";
 import {
@@ -36,6 +37,8 @@ import {
   clearPathPreview,
   showAreaFootprint,
   clearAreaFootprint,
+  showThreatMarkers,
+  clearThreatMarkers,
 } from "../rendering/rangeOverlay";
 import {
   initTerrainOverlay,
@@ -226,6 +229,61 @@ export function App() {
   }, [moveReach, proposedPath, setProposedPath]);
 
   // ---------------------------------------------------------------------------
+  // Ghost sprite — semi-transparent preview at the locked destination.
+  // Shown when proposedPath.locked is true; cleared on unlock/confirm/cancel.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (!pixiReadyRef.current) return;
+    if (!proposedPath?.locked || !battle) {
+      clearGhost();
+      return;
+    }
+    const actorId = getActiveUnitId(battle);
+    const actor = battle.units[actorId];
+    if (!actor) { clearGhost(); return; }
+    const dest = proposedPath.tiles[proposedPath.tiles.length - 1];
+    showGhostAtTile(actorId, dest[0], dest[1], actor);
+  }, [proposedPath, battle]);
+
+  // ---------------------------------------------------------------------------
+  // AoO threat markers — when a path is locked, highlight every enemy that
+  // can react to at least one step along the path.
+  //
+  // For each tile-to-tile step we shallow-copy state with the mover placed at
+  // the TO position (so detectMoveReactions' LOS check uses the post-step
+  // position) and pass the FROM tile as the reaction trigger origin.
+  // No RNG consumed, no state mutated — purely read-only preview.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (!pixiReadyRef.current) return;
+    if (!proposedPath?.locked || !battle) {
+      clearThreatMarkers();
+      return;
+    }
+    const actorId = getActiveUnitId(battle);
+    const threats = new Set<string>();
+    for (let i = 1; i < proposedPath.tiles.length; i++) {
+      const [fromX, fromY] = proposedPath.tiles[i - 1];
+      const [toX, toY]   = proposedPath.tiles[i];
+      const fakeState: BattleState = {
+        ...battle,
+        units: {
+          ...battle.units,
+          [actorId]: { ...battle.units[actorId], x: toX, y: toY },
+        },
+      };
+      for (const t of detectMoveReactions(fakeState, actorId, fromX, fromY)) {
+        threats.add(t.reactorId);
+      }
+    }
+    if (threats.size > 0) {
+      showThreatMarkers(threats, battle);
+    } else {
+      clearThreatMarkers();
+    }
+  }, [proposedPath, battle]);
+
+  // ---------------------------------------------------------------------------
   // Range overlay — update whenever targetMode or battle changes
   // ---------------------------------------------------------------------------
   useEffect(() => {
@@ -364,6 +422,19 @@ export function App() {
           return;
         }
         if (cur.targetMode) setTargetMode(null);
+        return;
+      }
+
+      if (e.key === "Enter") {
+        const cur = useBattleStore.getState();
+        if (cur.proposedPath?.locked && cur.battle && !cur.battleEnded && !cur.isAiTurn) {
+          const path = cur.proposedPath.tiles;
+          const dest = path[path.length - 1];
+          const actorId = getActiveUnitId(cur.battle);
+          e.preventDefault();
+          dispatchCommand({ type: "move", actor: actorId, x: dest[0], y: dest[1] });
+          setTargetMode(null);
+        }
         return;
       }
 

@@ -49,6 +49,9 @@ const LOCKED_PATH_STROKE = 0x005522;
 const LOCKED_PATH_ALPHA  = 1.0;
 const CHEVRON_R    = 7;                    // half-width of a chevron triangle
 const DEST_RING_R  = TILE_SIZE / 2 - 10;
+// AoO threat markers — red ring around units that can react to the locked path.
+const THREAT_COLOR = 0xff2222;
+const THREAT_ALPHA = 0.9;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -89,22 +92,28 @@ let _areaGraphics: Graphics | null = null;
  *  last → draws on top. Path and area never coexist (move mode vs spell
  *  mode) so the z-order between them is academic. */
 let _pathGraphics: Graphics | null = null;
+/** AoO threat markers — rendered on top of everything so they read clearly
+ *  over the green locked path. Cleared whenever the path is unlocked. */
+let _threatGraphics: Graphics | null = null;
 
 export function initRangeOverlay(layer: Container): void {
   // Guard against re-initialisation (e.g. hot-reload): clean up the old
   // Graphics objects before creating new ones.
   if (_overlay) {
-    if (_graphics)     { _overlay.removeChild(_graphics);     _graphics.destroy();     _graphics = null; }
-    if (_areaGraphics) { _overlay.removeChild(_areaGraphics); _areaGraphics.destroy(); _areaGraphics = null; }
-    if (_pathGraphics) { _overlay.removeChild(_pathGraphics); _pathGraphics.destroy(); _pathGraphics = null; }
+    if (_graphics)      { _overlay.removeChild(_graphics);      _graphics.destroy();      _graphics = null; }
+    if (_areaGraphics)  { _overlay.removeChild(_areaGraphics);  _areaGraphics.destroy();  _areaGraphics = null; }
+    if (_pathGraphics)  { _overlay.removeChild(_pathGraphics);  _pathGraphics.destroy();  _pathGraphics = null; }
+    if (_threatGraphics){ _overlay.removeChild(_threatGraphics);_threatGraphics.destroy();_threatGraphics = null; }
   }
   _overlay = layer;
   _graphics = new Graphics();
   _areaGraphics = new Graphics();
   _pathGraphics = new Graphics();
+  _threatGraphics = new Graphics();
   _overlay.addChild(_graphics);
   _overlay.addChild(_areaGraphics);
   _overlay.addChild(_pathGraphics);
+  _overlay.addChild(_threatGraphics);
 }
 
 /**
@@ -198,11 +207,12 @@ export function showAllyTargets(state: BattleState, actorId: string): void {
   }
 }
 
-/** Remove all highlights (range fills, area footprint, path preview). */
+/** Remove all highlights (range fills, area footprint, path preview, threat markers). */
 export function clearRangeOverlay(): void {
   _graphics?.clear();
   _areaGraphics?.clear();
   _pathGraphics?.clear();
+  _threatGraphics?.clear();
 }
 
 // ---------------------------------------------------------------------------
@@ -332,4 +342,37 @@ export function showPathPreview(path: Array<[number, number]>, locked = false): 
  *  mouse moves off a reachable tile but move mode is still active. */
 export function clearPathPreview(): void {
   _pathGraphics?.clear();
+}
+
+// ---------------------------------------------------------------------------
+// AoO threat markers — red rings on enemies that can react to a locked path.
+//
+// showThreatMarkers draws a ring slightly larger than DEST_RING_R around each
+// threatening unit, making it unambiguous which enemies can punish the move
+// without cluttering the canvas when there are no threats.
+// ---------------------------------------------------------------------------
+
+/**
+ * Draw a red threat ring on each unit in `threatUnitIds`.
+ * Call whenever a path is locked; clear when it is unlocked or confirmed.
+ */
+export function showThreatMarkers(threatUnitIds: Set<string>, state: BattleState): void {
+  if (!_threatGraphics) return;
+  _threatGraphics.clear();
+  for (const unitId of threatUnitIds) {
+    const unit = state.units[unitId];
+    if (!unit) continue;
+    const cx = unit.x * TILE_SIZE + TILE_SIZE / 2;
+    const cy = unit.y * TILE_SIZE + TILE_SIZE / 2;
+    // Outer ring — slightly larger than the destination ring so it frames the
+    // unit sprite without overlapping the path chevrons at the same tile.
+    _threatGraphics
+      .circle(cx, cy, DEST_RING_R + 5)
+      .stroke({ color: THREAT_COLOR, alpha: THREAT_ALPHA, width: 3 });
+  }
+}
+
+/** Clear just the threat markers. Called when the path is unlocked. */
+export function clearThreatMarkers(): void {
+  _threatGraphics?.clear();
 }

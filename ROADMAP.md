@@ -469,7 +469,7 @@ filter modes. No tile extrusion needed.
 
 ---
 
-## Phase 15 — Preview & Confirm (in progress)
+## Phase 15 — Preview & Confirm ✅
 
 **Goal:** Two-stage commit for movement — the gameplay mitigation for
 [ADR-001](docs/adr/001-no-undo.md)'s decision to drop undo.
@@ -478,8 +478,6 @@ filter modes. No tile extrusion needed.
 AoO threat, path, cover) before spending an action, rather than taking it back after seeing
 dice. `detectMoveReactions()` fires inside `dispatchCommand`, so an armed-but-cancelled move
 is invisible to the engine — no snapshot needed, no RNG rewind.
-
-### Completed
 
 - **`ProposedPath` store field** (`battleStore.ts`). `{ tiles, cost, locked }` — UI-tier
   Zustand state. `locked: false` = hover preview, `locked: true` = confirmed/awaiting commit.
@@ -494,9 +492,13 @@ is invisible to the engine — no snapshot needed, no RNG rewind.
   proposal; second click on the same tile commits. Click elsewhere or Escape unlocks. Escape
   is two-phase: first press unlocks a locked path (back to hover), second exits move mode.
 
-- **Single-gateway dispatch** (`App.tsx`). The move click handler reads **only** from
-  `proposedPath` (store). The `moveReach` memo stays for the hover effect and range overlay
-  but is never consulted for dispatch validation — eliminates the dual-Dijkstra ownership bug.
+- **Enter key to confirm** (`App.tsx`). `Enter` confirms a locked path (symmetric with
+  Escape to unlock). Guards against `isAiTurn` and `battleEnded`.
+
+- **Single-gateway dispatch** (`App.tsx`). The move click handler and Enter key handler read
+  **only** from `proposedPath` (store). The `moveReach` memo stays for the hover effect and
+  range overlay but is never consulted for dispatch validation — eliminates the dual-Dijkstra
+  ownership bug.
 
 - **Locked-path visual** (`rangeOverlay.ts`). `showPathPreview(path, locked)` switches
   chevrons and destination ring from white (hover) to green (locked). Separate colour
@@ -510,24 +512,23 @@ is invisible to the engine — no snapshot needed, no RNG rewind.
 - **Stale-lock guard** (`App.tsx`). Effect clears a locked proposal whenever `moveReach`
   recomputes and the destination is no longer reachable (e.g., AI reaction occupies the tile).
 
-### Remaining
+- **Ghost sprite at locked destination** (`spriteManager.ts`, `App.tsx`). `showGhostAtTile`
+  places a semi-transparent Container (40% alpha) at the destination tile — sprite sheet
+  texture if loaded, team-colour rectangle otherwise. `useEffect` keyed on `proposedPath`
+  shows it on lock and clears it on unlock/confirm/cancel. `clearUnits` also calls
+  `clearGhost` to prevent orphaned containers on battle load. Purely visual; no engine
+  contact.
 
-- **Ghost sprite at armed destination.** Semi-transparent sprite at the locked tile showing
-  where the unit will land. Reuse `spriteManager`'s tween infrastructure — arm a "ghost"
-  sprite at `proposedPath.tiles[last]` when locked, remove on unlock/confirm. Purely visual;
-  no engine contact.
+- **AoO threat markers** (`rangeOverlay.ts`, `App.tsx`). New `_threatGraphics` layer (fourth
+  independent Graphics layer, drawn above `_pathGraphics`). `showThreatMarkers` draws a red
+  ring around each threatening unit. `useEffect` keyed on `proposedPath` iterates the locked
+  path step-by-step: for each tile-to-tile step it shallow-copies state with the mover at
+  the TO position, calls `detectMoveReactions(fakeState, actorId, fromX, fromY)`, and
+  collects unique reactor IDs — no RNG consumed, no state mutated.
 
-- **AoO threat markers.** Every enemy whose reach the locked path passes through gets a
-  warning badge on the canvas. Computed by running `detectMoveReactions()` against a
-  shallow copy of state with the unit's position set to each waypoint — no RNG, no mutation.
-  Display as red exclamation pips on the enemy sprite or at the waypoint tile.
-
-- **Enter key to confirm.** Currently only second-click and the Confirm button commit. Add
-  Enter as a third confirm trigger in the keyboard handler (symmetric with Escape to cancel).
-
-- **Strike/spell confirm evaluation.** Strike targeting already has a de-facto preview
-  (ForecastTooltip on hover). Evaluate whether a confirm step adds value or just adds clicks.
-  Spells with limited uses/day are higher-value candidates than at-will strikes.
+**Deferred (not implemented):** Strike/spell confirm evaluation. `ForecastTooltip` already
+provides the tactical preview for strikes; adding a confirm step would add clicks without
+proportional value. Spells with limited uses/day remain candidates for a future phase.
 
 ---
 

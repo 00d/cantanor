@@ -50,11 +50,13 @@ See `docs/adr/` for permanent design decisions (e.g. why this codebase has no un
 
 ## Current Status
 
-**Phase 15 core complete** — two-stage move commit on top of Phase 14 feel parity:
+**Phase 15 complete** — two-stage move commit on top of Phase 14 feel parity:
 
 - Hover a reachable tile → white chevron path preview
 - First click locks the proposal → green chevrons + `MoveConfirmOverlay` with cost/speed readout
-- Second click, Confirm button, or (soon) Enter commits; Escape unlocks then exits
+- Second click, Confirm button, or Enter commits; Escape unlocks then exits move mode
+- Ghost sprite at the locked destination shows where the unit will land
+- AoO threat markers (red rings) on enemies whose reach the path passes through
 - `proposedPath` (store) is the single authority for move dispatch — no dual-ownership fallback
 - Stale-lock guard auto-clears if the locked destination becomes unreachable
 
@@ -80,8 +82,7 @@ Phase 13 foundation — full campaign progression on a deep PF2e engine:
 - Trait-aware strike forecast: expected damage accounts for deadly/fatal/propulsive on crit
 - AI weapon selection: 4-pass strategy (melee → thrown → ranged with ammo check → reload)
 
-See `ROADMAP.md` for Phase 15 remaining items (ghost sprite, AoO threat markers) and Phase 16
-(wiring tracked conditions into resolution, off-guard/flanking, Step action).
+See `ROADMAP.md` for Phase 16 (wiring tracked conditions into resolution, off-guard/flanking, Step action).
 
 ## Test Scenarios
 

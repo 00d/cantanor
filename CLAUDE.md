@@ -25,6 +25,10 @@ To regenerate regression hash baselines after an intentional reducer change:
 `npx tsx scripts/regenerate-hashes.ts` — self-verifies determinism (runs each scenario
 twice) before writing, so it won't silently record a broken scenario.
 
+Additional scripts in `scripts-ts/` (TypeScript-native, use Mulberry32 RNG — hashes differ from Python MT19937 baselines):
+- `npx tsx scripts-ts/generateRegressionBaselines.ts` — regenerate TS-internal baselines
+- `npx tsx scripts-ts/validateMigration.ts` — verify Python→TypeScript engine parity
+
 ## Key Principles
 
 **Determinism is a first-class constraint.** Every battle must replay identically given the same seed and command sequence. This drives the architecture: seeded RNG (`src/engine/rng.ts`), pure reducer, canonical event serialization (`src/io/eventLog.ts`), and regression hash baselines. Any change that shifts RNG consumption order or event-payload shape breaks all baseline hashes — regenerate with `npx tsx scripts/regenerate-hashes.ts`.
@@ -144,10 +148,15 @@ return, not an error — so if it trips, AI turns just stop happening.
 **`proposedPath` is the single gateway to player move dispatch** *(Phase 15)*.
 The click handler in `App.tsx` does NOT fall back to `moveReach` for move commitment.
 `proposedPath` (store) is the sole authority on "which move will execute." The hover
-effect writes it from `moveReach` (local memo); the click handler only reads it. Adding
-a second dispatch path through `moveReach` reintroduces the dual-ownership bug fixed in
-Phase 15. The stale-lock guard effect clears a locked proposal whenever `moveReach`
-recomputes and the destination is no longer reachable.
+effect writes it from `moveReach` (local memo); the click handler and Enter key handler
+only read it. Adding a second dispatch path through `moveReach` reintroduces the
+dual-ownership bug fixed in Phase 15. The stale-lock guard effect clears a locked
+proposal whenever `moveReach` recomputes and the destination is no longer reachable.
+When locked, two `useEffect`s in `App.tsx` fire side effects: `showGhostAtTile` places
+a semi-transparent preview sprite at the destination, and `showThreatMarkers` draws red
+rings on enemies whose reach the path passes through (computed via `detectMoveReactions`
+per step with a shallow-copied state — no RNG, no mutation). Both clear when
+`proposedPath` becomes null or unlocked.
 
 **No undo system.** See [ADR-001](docs/adr/001-no-undo.md). The
 infrastructure above (deepClone, RNG reset, loadGeneration) was designed for undo in
@@ -164,7 +173,7 @@ Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 PixiJS layer order: map → overlay → units → effects → ui (`pixiApp.ts`).
 
 Key cross-cutting concerns:
-- **`rangeOverlay.ts`** has three independent Graphics layers (`_graphics`, `_areaGraphics`, `_pathGraphics`) that clear independently — hover-redraw doesn't wipe path preview or AoE footprint
+- **`rangeOverlay.ts`** has four independent Graphics layers (`_graphics`, `_areaGraphics`, `_pathGraphics`, `_threatGraphics`) that clear independently — hover-redraw doesn't wipe path preview, AoE footprint, or AoO threat markers
 - **`spriteManager.ts`** owns the animation tick: `tickSprites` writes `transient.activeAnimCount` unconditionally every frame (the AI poll gates on this — see Load-Bearing Invariants)
 - **Two tilemap renderers**: `tiledTilemapRenderer.ts` for Tiled `.tmj` maps (GPU-batched), `tileRenderer.ts` for hand-written scenario maps (Graphics rects). Container scales by `TILE_SIZE / tilewidth`
 - All unit sprites are pixel art — `spriteSheetLoader.ts` forces `scaleMode: "nearest"`
@@ -176,6 +185,7 @@ Key cross-cutting concerns:
 Scenario loading pipeline: `scenarioLoader.ts` auto-detects Tiled vs hand-written format → for Tiled, `tiledLoader.ts` parses `.tmj` into `ResolvedTiledMap` → `mapDataBridge.ts` converts to scenario shape (spawn points, blocked tiles, hazard zones, objectives). `contentPackLoader.ts` fetches and builds `entryLookup` for content-driven abilities.
 
 Key files with non-obvious constraints:
+- **`commandAuthoring.ts`** — Browser-facing helpers (`listContentEntryOptions`, `buildPartialCommand`) that translate loaded content entries into dispatchable command skeletons; used by `ActionPanel` to populate the ability buttons
 - **`eventLog.ts`** — Canonical JSON serialization (`sortedJson` matches Python's `sort_keys=True`) and `replayHash` computation. Any change to event-payload field names or ordering churns every regression baseline
 - **`effectModelLoader.ts`** — `setPreloadedEffectModel()` must be called before `lookupHazardSource()`. `scenarioTestRunner.ts` handles this preload for tests; browser must preload before any hazard dispatch
 
