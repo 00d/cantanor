@@ -261,7 +261,7 @@ function onAfflictionTick(
 
   effect.payload["current_stage"] = nextStage;
   if (nextStage <= 0) {
-    effect.durationRounds = 0;
+    effect.payload["_expire_now"] = true;
     return [
       [
         "effect_tick",

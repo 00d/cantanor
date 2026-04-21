@@ -10,7 +10,7 @@ import { BattleState, unitAlive, resolveWeapon } from "../engine/state";
 import { hasLineOfSight } from "../grid/los";
 import { hasTileLineOfEffect } from "../grid/loe";
 import { radiusPoints } from "../grid/areas";
-import { inBounds } from "../grid/map";
+import { inBounds, tilesFromFeet } from "../grid/map";
 import { thrownRange } from "../engine/traits";
 import { TILE_SIZE } from "./pixiApp";
 
@@ -223,20 +223,12 @@ export function clearRangeOverlay(): void {
 //   1. radiusPoints(center, tilesFromFeet(radiusFeet))  — Manhattan diamond
 //   2. filter by hasTileLineOfEffect from the center
 //
-// We mirror both steps exactly. The feet→tiles formula is duplicated from
-// reducer.ts:187 (its copy is module-private); if these ever drift the
-// player will see a red tile the spell doesn't touch, or vice versa — the
-// regression-hash suite won't catch it because rendering isn't hashed.
+// We mirror both steps exactly. Both import tilesFromFeet from grid/map.ts.
 //
 // Tiles that fail the LOE filter are drawn very faint instead of hidden.
 // That way a wall in the blast is legible: bright red stops at the wall,
 // faint red continues on the far side.
 // ---------------------------------------------------------------------------
-
-/** PF2e 5ft grid. Duplicate of reducer.ts:tilesFromFeet — see block comment. */
-function tilesFromFeet(feet: number): number {
-  return Math.max(1, Math.floor((feet + 4) / 5));
-}
 
 export function showAreaFootprint(
   cx: number,

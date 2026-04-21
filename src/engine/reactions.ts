@@ -91,7 +91,7 @@ export function detectDamageReactions(
   damageType: string,
 ): ReactionTrigger[] {
   const target = state.units[targetId];
-  if (!target || !unitAlive(target)) return [];
+  if (!target) return [];
   if (damageAmount <= 0) return [];
 
   const triggers: ReactionTrigger[] = [];

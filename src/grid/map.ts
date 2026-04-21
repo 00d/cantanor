@@ -17,3 +17,8 @@ export function isOccupied(state: BattleState, x: number, y: number): boolean {
     (unit) => unitAlive(unit) && unit.x === x && unit.y === y,
   );
 }
+
+/** PF2e 5ft grid: convert a distance in feet to a tile radius. */
+export function tilesFromFeet(feet: number): number {
+  return Math.max(1, Math.floor((feet + 4) / 5));
+}

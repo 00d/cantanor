@@ -578,16 +578,35 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
                 triggers = detectMoveReactions(nextState, String(cmd["actor"]), from[0], from[1]);
               }
             }
-          } else if (cmdType === "strike" || cmdType === "reaction_strike") {
-            // Check for Shield Block triggers after strike damage
-            const strikeEvent = newEvents.find(e => e["type"] === "strike" || e["type"] === "reaction_strike");
-            if (strikeEvent) {
-              const payload = strikeEvent["payload"] as Record<string, unknown>;
+          } else if (cmdType === "strike" || cmdType === "reaction_strike" ||
+                     cmdType === "cast_spell" || cmdType === "save_damage") {
+            const damageEvent = newEvents.find(e =>
+              e["type"] === cmdType || e["type"] === "strike" || e["type"] === "reaction_strike");
+            if (damageEvent) {
+              const payload = damageEvent["payload"] as Record<string, unknown>;
               const dmg = payload["damage"] as Record<string, unknown> | null;
-              if (dmg && Number(dmg["total"] ?? 0) > 0) {
+              if (dmg && Number(dmg["applied_total"] ?? dmg["total"] ?? 0) > 0) {
                 const targetId = String(payload["target"]);
                 const damageType = String(dmg["damage_type"] ?? "physical");
-                triggers = detectDamageReactions(nextState, targetId, Number(dmg["total"]), damageType);
+                const total = Number(dmg["applied_total"] ?? dmg["total"]);
+                triggers = detectDamageReactions(nextState, targetId, total, damageType);
+              }
+            }
+          } else if (cmdType === "area_save_damage") {
+            const areaEvent = newEvents.find(e => e["type"] === "area_save_damage");
+            if (areaEvent) {
+              const payload = areaEvent["payload"] as Record<string, unknown>;
+              const resolutions = payload["resolutions"] as Record<string, unknown>[];
+              if (resolutions) {
+                for (const res of resolutions) {
+                  const dmg = res["damage"] as Record<string, unknown> | null;
+                  if (dmg && Number(dmg["applied_total"] ?? 0) > 0) {
+                    const targetId = String(res["target"]);
+                    const damageType = String(dmg["damage_type"] ?? "physical");
+                    const t = detectDamageReactions(nextState, targetId, Number(dmg["applied_total"]), damageType);
+                    triggers.push(...t);
+                  }
+                }
               }
             }
           }
@@ -610,6 +629,14 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
       } catch (err) {
         if (err instanceof ReductionError) {
           console.warn("Command rejected:", err.message);
+          set((s) => ({
+            eventLog: [...s.eventLog, {
+              type: "command_error",
+              round: battle.roundNumber,
+              active_unit: activeUnitId(battle),
+              payload: { error: err.message },
+            }],
+          }));
         } else {
           console.error("Unexpected reducer error:", err);
         }
@@ -937,7 +964,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     },
 
     advanceCampaignStage: () => {
-      const { campaignDefinition, campaignProgress, battle } = get();
+      const { campaignDefinition, campaignProgress, battle, loadGeneration } = get();
       if (!campaignDefinition || !campaignProgress || !battle) return;
 
       const currentStage = campaignDefinition.stages[campaignProgress.currentStageIndex];
@@ -958,6 +985,7 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
 
       clearSavedGame(); // clear stale battle save
       set({
+        loadGeneration: loadGeneration + 1,
         campaignProgress: newProgress,
         showCampScreen: true,
         battle: null,
@@ -1086,8 +1114,9 @@ export const useBattleStore = create<BattleStore>()((set, get) => ({
     clearBattle: () => {
       clearSavedGame();
       // Only clear campaign if explicitly ending the campaign (via clearCampaign)
-      const { campaignDefinition, campaignProgress } = get();
+      const { campaignDefinition, campaignProgress, loadGeneration } = get();
       set({
+        loadGeneration: loadGeneration + 1,
         battle: null,
         rng: null,
         eventLog: [],

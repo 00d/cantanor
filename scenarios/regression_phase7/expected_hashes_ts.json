@@ -1,7 +1,7 @@
 {
   "01_interact.json": "c2599a973e7ab4c942f58fed2e7fe33b47bf0c47272705b1a70344fc33927fec",
-  "02_content_pack_integration.json": "63c6575c5da47028921a93fbeea8eeb1baa0cb7293b7f9e151c0dbd4a837ed0e",
-  "03_cast_spell.json": "8d9fe943e1202d1f97004c0e6053a064be7375e8707ffd84eecbbaf120382f58",
+  "02_content_pack_integration.json": "e79a253b5713c81a04b910c480c27598b77665885218286fd9b92e40a86dfc7d",
+  "03_cast_spell.json": "2530e64d087956b1b8fa9b37c4f7feb6cf776cb83d005c69863a103ffb85007b",
   "04_use_item_effect.json": "fbd6713d52718c782788bdaffc65c27a4ef9550f5e66ee95dcb4a1eb3b3a08dd",
   "05_enemy_policy_duel.json": "26fd8c70433ff47ada7ae14364505aa598c61dbacf6d26c78662490b12ec8633"
 }

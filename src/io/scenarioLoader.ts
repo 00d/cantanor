@@ -552,10 +552,10 @@ export function validateScenario(data: Record<string, unknown>): void {
     }
     const action = String(ep["action"] ?? "strike_nearest");
     require(
-      ["strike_nearest", "cast_spell_entry_nearest", "use_feat_entry_self", "use_item_entry_self", "interact_entry_self"].includes(action),
+      ["strike_nearest", "cast_area_entry_best", "cast_spell_entry_nearest", "use_feat_entry_self", "use_item_entry_self", "interact_entry_self"].includes(action),
       "enemy_policy.action invalid",
     );
-    if (["cast_spell_entry_nearest", "use_feat_entry_self", "use_item_entry_self", "interact_entry_self"].includes(action)) {
+    if (["cast_area_entry_best", "cast_spell_entry_nearest", "use_feat_entry_self", "use_item_entry_self", "interact_entry_self"].includes(action)) {
       require(
         typeof ep["content_entry_id"] === "string" && Boolean(ep["content_entry_id"]),
         `enemy_policy.content_entry_id required for action ${action}`,

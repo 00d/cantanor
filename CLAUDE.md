@@ -6,10 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Cantanor** is a deterministic tactical TRPG browser game implementing Pathfinder 2e ORC rules. Built with TypeScript, React 19, PixiJS 8 (WebGL), and Zustand.
 
+**Current status:** Phase 15 (Preview & Confirm) is complete. Phase 16 (Tactical Depth — wiring conditions into resolution, off-guard/flanking, Step action, dying/wounded) is next. See `ROADMAP.md` for detailed milestone sequencing and Phase 16 compatibility notes identifying injection sites, signature changes, and hash-safety considerations.
+
 ## Commands
 
 ```bash
-npm run dev          # Start Vite dev server with hot reload
+npm install          # Install dependencies (first time or after package.json changes)
+npm run dev          # Start Vite dev server at localhost:5173 with hot reload
 npm run build        # TypeScript compile + Vite production build (tsc -b && vite build)
 npm run typecheck    # Type-check without emitting (tsc --noEmit)
 npm run test         # Run tests once (Vitest)
@@ -21,9 +24,13 @@ npm run validate:determinism  # Run all smoke scenarios twice, fail on hash mism
 
 To run a single test file: `npx vitest run src/path/to/file.test.ts`
 
-To regenerate regression hash baselines after an intentional reducer change:
-`npx tsx scripts/regenerate-hashes.ts` — self-verifies determinism (runs each scenario
-twice) before writing, so it won't silently record a broken scenario.
+### After changing the reducer or event payloads
+
+Any change that shifts RNG consumption order or event-payload shape breaks regression hash baselines.
+
+1. Run `npm run validate:determinism` — catches nondeterminism (hash drift between two identical runs)
+2. If the change is intentional, regenerate baselines: `npx tsx scripts/regenerate-hashes.ts` — self-verifies determinism (runs each scenario twice) before writing
+3. Run `npm run test` to confirm regression tests pass against the new baselines
 
 Additional scripts in `scripts-ts/` (TypeScript-native, use Mulberry32 RNG — hashes differ from Python MT19937 baselines):
 - `npx tsx scripts-ts/generateRegressionBaselines.ts` — regenerate TS-internal baselines
@@ -67,14 +74,14 @@ Canvas-area overlays (absolutely positioned inside `.canvas-section`, `pointer-e
 ### Core Engine (Deterministic)
 The game engine is a pure functional state machine:
 - **`src/engine/state.ts`** — Immutable battle state interfaces (units, effects, map, objectives)
-- **`src/engine/commands.ts`** — Typed commands (Move, Strike, SaveDamage, ApplyEffect, etc.)
-- **`src/engine/reducer.ts`** — Pure reducer: `(state, command, rng) → [nextState, events]`. `tickHazardZones()` runs after `advanceTurn()` in the `end_turn` handler; guarded to consume zero RNG when `battleMap.hazards` is absent/empty (all pre-R1 regression hashes depend on this)
+- **`src/engine/commands.ts`** — Typed commands (Move, Strike, SaveDamage, Reload, ApplyEffect, etc.)
+- **`src/engine/reducer.ts`** — Pure reducer: `(state, command, rng) → [nextState, events]`. Action cost for content-driven handlers follows the pattern `commandActionCost(command, defaultCost)` + `spendActions(actor, cost)` + `spendAbilityCharge(actor, command)` — used by save_damage, area_save_damage, apply_effect, cast_spell, run_hazard_routine, trigger_hazard_source. Move/strike/reload have fixed PF2e costs and don't use this pattern. `tickHazardZones()` runs after `advanceTurn()` in the `end_turn` handler; guarded to consume zero RNG when `battleMap.hazards` is absent/empty (all pre-R1 regression hashes depend on this). Shield_block is exempted from the `unitAlive` preamble check so it can heal back lethal damage
 - **`src/engine/rng.ts`** — Seeded deterministic RNG for replayable battles
 - **`src/engine/objectives.ts`** — Victory/defeat condition evaluation
 - **`src/engine/forecast.ts`** — Preview battle outcomes before committing an action
 - **`src/engine/turnOrder.ts`** — Turn order management
 - **`src/engine/scenarioRunner.ts`** — Headless battle orchestrator used for scripted/test runs
-- **`src/engine/reactions.ts`** — Pure trigger detection: `detectMoveReactions` (AoO/reactive_strike), `detectDamageReactions` (shield_block). Returns triggers sorted by unitId for determinism; store layer queues them
+- **`src/engine/reactions.ts`** — Pure trigger detection: `detectMoveReactions` (AoO/reactive_strike), `detectDamageReactions` (shield_block — triggers after strike, cast_spell, save_damage, and area_save_damage). Returns triggers sorted by unitId for determinism; store layer queues them
 - **`src/engine/traits.ts`** — Weapon-trait parsing helpers (`traitValue`, `isAgile`, deadly/fatal/volley) shared by reducer, forecast, and tooltip
 - **`src/effects/lifecycle.ts`** — Effect application, expiry, condition handling, damage-over-time
 - **`src/rules/`** — Pathfinder 2e rules: checks, saves, damage, degrees of success, conditions
@@ -86,9 +93,11 @@ success (crit/success/fail/crit-fail with natural 1/20 shifting), Fortitude/Refl
 with basic multiplier, weapon traits (agile/deadly/fatal/volley/thrown/propulsive), cover grades
 (standard +2, greater +4, melee-in-reach negation), shield raise/block, resistances/weaknesses/
 immunities with damage-type bypass, ammo tracking/reload, PF2e alternating diagonal movement
-cost, difficult terrain via per-tile `moveCost`, AoO/reactive strike on movement, affliction
-stages (disease/poison with save progression), persistent damage with recovery checks, hazard
-zones with per-round saves.
+cost, difficult terrain via per-tile `moveCost`, AoO/reactive strike on movement, shield block
+on lethal damage (clears unconscious on HP restore), LOS validation on cast_spell/save_damage,
+single area-wide damage roll for area_save_damage (PF2e correct), affliction stages
+(disease/poison with save progression), persistent damage with recovery checks, hazard zones
+with per-round saves.
 
 **Not yet mechanically wired:** Most conditions are tracked (`Record<string, number>`) but don't affect resolution. No `off_guard`/flanking, no Step action, simplified death model. See `ROADMAP.md` Phase 16.
 
@@ -103,9 +112,10 @@ zones with per-round saves.
 commands, calls `applyCommand` (pure reducer), checks battle-end objectives, detects reactions
 (`detectMoveReactions`/`detectDamageReactions`), and routes to `_processNextReaction` — which
 either surfaces the next reaction prompt or (queue empty) schedules the next AI turn via an
-animation-gated rAF poll on `transient.activeAnimCount`. This bridges the gap between the
-headless `scenarioRunner.ts` orchestration and
-the interactive browser loop.
+animation-gated rAF poll on `transient.activeAnimCount`. On `ReductionError`, the catch block
+pushes a `command_error` event to `eventLog` so rejected commands surface in the combat log.
+This bridges the gap between the headless `scenarioRunner.ts` orchestration and the interactive
+browser loop.
 
 ### Load-Bearing Invariants
 
@@ -128,8 +138,9 @@ rolls-then-throws would otherwise drift the RNG and desync a replay.
 `setTimeout` / `requestAnimationFrame` inside the store that writes state must capture
 `loadGeneration` at schedule-time and check it at fire-time. Gen-mismatch → silent
 return — the fresh battle may already have set `isAiTurn:true`; don't stomp it.
-`loadGeneration` bumps on every `loadBattle` and `loadSavedGame`; async loaders
-(`reloadLastBattle`, `startCampaignStage`) gen-check after their await.
+`loadGeneration` bumps on every `loadBattle`, `loadSavedGame`, `clearBattle`, and
+`advanceCampaignStage`; async loaders (`reloadLastBattle`, `startCampaignStage`)
+gen-check after their await.
 
 **`activeAnimCount` written unconditionally every tick** *(Phase 14 M1)*. `tickSprites()`
 writes `transient.activeAnimCount` on every PixiJS ticker frame, even when the count is
@@ -166,7 +177,7 @@ an earlier branch and is preserved because each piece is independently valuable.
 Parses `enemy_policy` and `objectives` from raw scenario JSON. Provides:
 - `buildOrchestratorConfig(rawScenario)` — extracts AI policy and win/loss conditions
 - `checkBattleEnd(state, config)` — evaluates objectives each turn
-- `getAiCommand(state, policy, contentContext)` — selects next AI action. Policies: `strike_nearest` (4-pass: melee → thrown → ranged with ammo check → reload), `cast_area_entry_best` (scores aim points as `enemiesHit − alliesHit`, only casts when strictly positive, ties broken by raw enemy count then `unitId`)
+- `getAiCommand(state, policy, contentContext)` — selects next AI action. Policies: `strike_nearest` (4-pass: melee → thrown → ranged with ammo check → reload), `cast_spell_entry_nearest` and `cast_area_entry_best` (both check `action_cost` from the content-pack payload against `actionsRemaining` before attempting a spell; `cast_area_entry_best` scores aim points as `enemiesHit − alliesHit`, only casts when strictly positive, ties broken by raw enemy count then `unitId`)
 - `materializeRawCommand(cmd, contentContext)` — merges content-pack payload before `applyCommand`. When a `cast_spell` command has an `area` block in its content-pack payload and `center_x`/`center_y` on the caller side, rewrites to `area_save_damage`. Gate reads `payloadTemplate.area` (not `merged.area`) so a dispatch can't inject an area block and turn a single-target spell into an AoE
 
 ### Rendering (`src/rendering/`)
@@ -179,7 +190,7 @@ Key cross-cutting concerns:
 - All unit sprites are pixel art — `spriteSheetLoader.ts` forces `scaleMode: "nearest"`
 
 ### Grid & Pathfinding (`src/grid/`)
-8-connected Dijkstra with PF2e alternating diagonal cost (`movement.ts` — state tracked as `(x, y, parity)`). `reachableWithPrev()` returns a `ReachResult` containing: the reachable tile set, a per-tile cost map (`dist`), and parity-aware `statePrev`/`bestEntry` maps for path reconstruction. `pathTo()` walks the `statePrev` chain back to build a cost-correct route. The `dist` map is used by the UI to populate `ProposedPath.cost` for the move-confirmation overlay. Line-of-sight (LOS), line-of-effect (LOE), area shapes (cone, burst, line).
+8-connected Dijkstra with PF2e alternating diagonal cost (`movement.ts` — state tracked as `(x, y, parity)`). `reachableWithPrev()` returns a `ReachResult` containing: the reachable tile set, a per-tile cost map (`dist`), and parity-aware `statePrev`/`bestEntry` maps for path reconstruction. `pathTo()` walks the `statePrev` chain back to build a cost-correct route. The `dist` map is used by the UI to populate `ProposedPath.cost` for the move-confirmation overlay. Line-of-sight (LOS), line-of-effect (LOE), area shapes (cone, burst, line). `tilesFromFeet` (PF2e 5ft-grid conversion) is exported from `map.ts` as the single shared implementation — used by the reducer, battleOrchestrator, and rangeOverlay.
 
 ### I/O Layer (`src/io/`)
 Scenario loading pipeline: `scenarioLoader.ts` auto-detects Tiled vs hand-written format → for Tiled, `tiledLoader.ts` parses `.tmj` into `ResolvedTiledMap` → `mapDataBridge.ts` converts to scenario shape (spawn points, blocked tiles, hazard zones, objectives). `contentPackLoader.ts` fetches and builds `entryLookup` for content-driven abilities.
@@ -222,7 +233,7 @@ The Vite dev server also watches `corpus/`, `compiled/`, and `scenarios/` for ho
 
 ## Test Infrastructure
 
-Tests use Vitest with jsdom. Test files follow `src/**/*.test.ts(x)`. Coverage areas: areas, LOS, damage, conditions, checks, objectives. The same path aliases apply in tests.
+Tests use Vitest with jsdom. Vitest globals are enabled (`globals: true` in `vitest.config.ts`) — `describe`, `it`, `expect`, `vi` are available without import. Test files follow `src/**/*.test.ts(x)`. Coverage areas: areas, LOS, damage, conditions, checks, objectives. The same path aliases apply in tests.
 
 - **`src/test-utils/`** — Shared fixtures (`fixtures.ts`) and a headless `scenarioTestRunner.ts` for integration-level scenario tests
 - **`src/test-scenarios/regression.test.ts`** — End-to-end regression scenarios run headlessly against `scenarioRunner.ts`, pinned to hash baselines in `scenarios/regression_phase*/`. If a reducer change intentionally shifts an event payload or RNG consumption, regenerate baselines via `npx tsx scripts/regenerate-hashes.ts` (self-verifies determinism before writing)

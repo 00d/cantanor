@@ -1,10 +1,10 @@
 {
-  "01_damage_mitigation.json": "a15018e917451b08b3fd26572cd5bc9a267e0c4e907b616aa8423729e8d199ed",
+  "01_damage_mitigation.json": "5d23c864638514e4a716d744e56dba92bb411e205022c1d66ccf2569d2a10630",
   "02_affliction_mitigation.json": "64179b8a8ce379db7cac07865d2d8ea4fea95c1e7a4ca332f7bb9883b9a49fa5",
   "03_mitigation_bypass.json": "817581700cbbccaaa3a78f884eab2504fb1bb828e9179cb55ec3d064fed51db8",
   "04_persistent_bypass.json": "603ec06f79a070533f268a173b1b193829dc8fbafe1f3bea154c45057b63f334",
-  "05_grouped_mitigation.json": "ce74b7df137bdb23c96e523c00e25c0ea360478424f4068639933dc65dddfc2e",
-  "06_mitigation_precedence.json": "dd37ce597e331b93483812372d9db2db9704815c48834540c893cc62f358a21a",
+  "05_grouped_mitigation.json": "c0ae07b0a0456fd29e907f05ad45b7c59e464da6ddb55bbd376ceafead3770c9",
+  "06_mitigation_precedence.json": "4a27d4b598206d730faa9124d5f59af4e2502584a863591971a8e5db68d43c4e",
   "07_temp_hp_basic.json": "d06e338551e34693538377dcc162a61241739e898f592796b5c446b9afa14a0f",
   "08_temp_hp_effect.json": "7de6c44c60479fb3f3022c2ffe19039b771bab522a6b5f5ce4db4591bb247c44",
   "09_temp_hp_expire.json": "8792634840be78c280374680e628433227ee06b41cfafbce36725a2ca6630745",

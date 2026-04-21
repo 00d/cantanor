@@ -295,9 +295,7 @@ movement with PF2e alternating diagonal cost.
   `_areaGraphics` layer (separate from `_graphics` and `_pathGraphics` so hover redraw
   doesn't wipe anything else). `showAreaFootprint(cx, cy, radiusFeet, state)` mirrors the
   reducer's `area_save_damage` tile set exactly: `radiusPoints` → `hasTileLineOfEffect`
-  filter, same `tilesFromFeet` formula (duplicated with a block comment pointing at
-  `reducer.ts:187` — if these drift the red tiles won't match what gets hit, and the hash
-  suite won't catch it because rendering isn't hashed). LOE-blocked tiles drawn at
+  filter, same `tilesFromFeet` formula (shared from `src/grid/map.ts`). LOE-blocked tiles drawn at
   `AREA_SHADOW_ALPHA=0.08` instead of hidden, so a wall in the blast is legible: bright red
   stops at the wall, faint red continues behind it. App.tsx effect keyed on `targetMode?.area`
   (not `targetMode` — setTargetMode returns fresh objects, same thrash concern as `moveReach`).

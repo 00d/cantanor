@@ -159,6 +159,12 @@ export interface ShieldBlockCommand {
   damageAmount: number;
 }
 
+export interface ReloadCommand {
+  type: "reload";
+  actor: string;
+  weaponIndex?: number;
+}
+
 export interface InteractCommand {
   type: "interact";
   actor: string;
@@ -189,6 +195,7 @@ export type Command =
   | UseFeatCommand
   | UseItemCommand
   | InteractCommand
+  | ReloadCommand
   | ReactionStrikeCommand
   | RaiseShieldCommand
   | ShieldBlockCommand;

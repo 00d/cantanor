@@ -5,10 +5,6 @@
  * provided for determinism tests using a simple digest approach.
  */
 
-export function canonicalEventLog(events: Record<string, unknown>[]): string {
-  return JSON.stringify(events, Object.keys(events[0] ?? {}).sort(), undefined);
-}
-
 /** Canonical JSON serialization matching Python's sort_keys=True */
 function sortedJson(obj: unknown): string {
   if (Array.isArray(obj)) {

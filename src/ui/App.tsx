@@ -96,9 +96,13 @@ export function App() {
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    let tickerFn: ((ticker: { deltaMS: number }) => void) | null = null;
+    let appRef: Awaited<ReturnType<typeof initPixiApp>> | null = null;
+
     async function init() {
       if (!canvasRef.current) return;
       const app = await initPixiApp(canvasRef.current);
+      appRef = app;
       const layers = getPixiLayers();
       initCamera(getPixiWorld(), app.screen.width, app.screen.height);
       initEffectRenderer(layers.effects);
@@ -116,17 +120,24 @@ export function App() {
       // useEffect, below) hasn't armed the tween yet. M2's _scheduleAiTurn
       // handles that with a 2-frame settle debounce; nothing in this
       // callback can paper over it.
-      app.ticker.add((ticker) => {
+      tickerFn = (ticker) => {
         tickCamera();
         const state = useBattleStore.getState();
         tickSprites(ticker.deltaMS, state.transient);
         if (state.battle) {
           processAnimationQueue(state.transient.animationQueue, state.battle);
         }
-      });
+      };
+      app.ticker.add(tickerFn);
     }
 
     init();
+
+    return () => {
+      if (appRef && tickerFn) {
+        appRef.ticker.remove(tickerFn);
+      }
+    };
   }, []);
 
   // ---------------------------------------------------------------------------
@@ -535,15 +546,13 @@ export function App() {
   // ---------------------------------------------------------------------------
   useEffect(() => {
     if (appMode !== "game" || !pixiReadyRef.current) return;
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       if (!canvasRef.current) return;
       const rect = canvasRef.current.getBoundingClientRect();
       if (rect.width === 0) return;
       resizeCamera(rect.width, rect.height);
       const currentBattle = useBattleStore.getState().battle;
       if (currentBattle) {
-        // Bounds re-set here because the viewport may have resized while
-        // hidden — setCameraBounds is cheap and idempotent.
         setCameraBounds(currentBattle.battleMap.width, currentBattle.battleMap.height);
         focusTile(
           (currentBattle.battleMap.width - 1) / 2,
@@ -551,6 +560,7 @@ export function App() {
         );
       }
     });
+    return () => cancelAnimationFrame(rafId);
   }, [appMode]);
 
   // ---------------------------------------------------------------------------

@@ -18,12 +18,13 @@ export function resolveSave(
   profile: SaveProfile,
   dc: number,
 ): CheckResult {
+  const normalized = saveType.charAt(0).toUpperCase() + saveType.slice(1).toLowerCase();
   const lookup: Record<string, number> = {
     Fortitude: profile.fortitude,
     Reflex: profile.reflex,
     Will: profile.will,
   };
-  const modifier = lookup[saveType] ?? 0;
+  const modifier = lookup[normalized] ?? 0;
   return resolveCheck(rng, modifier, dc);
 }
 

@@ -9,9 +9,9 @@ import { LifecycleEvent, onApply, processTiming } from "../effects/lifecycle";
 import { conePoints, linePoints, radiusPoints } from "../grid/areas";
 import { adjustCoverForMelee, coverAcBonusFromGrade, coverGradeForUnits, hasTileLineOfEffect } from "../grid/loe";
 import { hasLineOfSight } from "../grid/los";
-import { inBounds, isBlocked, isOccupied } from "../grid/map";
+import { inBounds, isBlocked, isOccupied, tilesFromFeet } from "../grid/map";
 import { reachableTiles } from "../grid/movement";
-import { applyCondition, conditionIsImmune, normalizeConditionName } from "../rules/conditions";
+import { applyCondition, clearCondition, conditionIsImmune, normalizeConditionName } from "../rules/conditions";
 import { applyDamageModifiers, applyDamageToPool, parseFormula, rollDamage, rollTraitBonusDice } from "../rules/damage";
 import { isAgile, mapPenalty as traitMapPenalty, volleyPenalty, deadlyDice, fatalDice, thrownRange } from "./traits";
 import { Degree } from "../rules/degrees";
@@ -211,9 +211,10 @@ function unitSaveProfile(state: BattleState, unitId: string): SaveProfile {
 }
 
 function saveModifierForType(unit: UnitState, saveType: string): number {
-  if (saveType === "Fortitude") return unit.fortitude;
-  if (saveType === "Reflex") return unit.reflex;
-  if (saveType === "Will") return unit.will;
+  const normalized = saveType.charAt(0).toUpperCase() + saveType.slice(1).toLowerCase();
+  if (normalized === "Fortitude") return unit.fortitude;
+  if (normalized === "Reflex") return unit.reflex;
+  if (normalized === "Will") return unit.will;
   return 0;
 }
 
@@ -244,16 +245,12 @@ function nearestEnemyUnitId(state: BattleState, actorId: string): string | null 
   );
   if (enemies.length === 0) return null;
   const sorted = enemies.sort((a, b) => {
-    const da = Math.abs(a.x - actor.x) + Math.abs(a.y - actor.y);
-    const db = Math.abs(b.x - actor.x) + Math.abs(b.y - actor.y);
+    const da = Math.max(Math.abs(a.x - actor.x), Math.abs(a.y - actor.y));
+    const db = Math.max(Math.abs(b.x - actor.x), Math.abs(b.y - actor.y));
     if (da !== db) return da - db;
     return a.unitId.localeCompare(b.unitId);
   });
   return sorted[0].unitId;
-}
-
-function tilesFromFeet(feet: number): number {
-  return Math.max(1, Math.floor((feet + 4) / 5));
 }
 
 function unitsWithinRadiusFeet(
@@ -732,7 +729,10 @@ export function applyCommand(
   }
 
   const actor = nextState.units[actorId];
-  if (!actor || !unitAlive(actor)) {
+  if (!actor) {
+    throw new ReductionError(`actor ${actorId} does not exist`);
+  }
+  if (!unitAlive(actor) && commandType !== "shield_block") {
     throw new ReductionError(`actor ${actorId} is not alive`);
   }
 
@@ -1265,6 +1265,9 @@ export function applyCommand(
     // Retroactively heal back min(hardness, damageAmount)
     const blocked = Math.min(hardness, damageAmount);
     actor.hp = Math.min(actor.maxHp, actor.hp + blocked);
+    if (actor.hp > 0 && actor.conditions["unconscious"]) {
+      actor.conditions = clearCondition(actor.conditions, "unconscious");
+    }
 
     // Shield takes remaining damage
     const shieldDamage = Math.max(0, damageAmount - hardness);
@@ -1317,6 +1320,9 @@ export function applyCommand(
     const target = nextState.units[targetId];
     if (!target) throw new ReductionError(`unknown target ${targetId}`);
     if (!unitAlive(target)) throw new ReductionError(`target ${targetId} is not alive`);
+    if (!hasLineOfSight(nextState, actor, target)) {
+      throw new ReductionError(`no line of sight from ${actorId} to ${targetId}`);
+    }
 
     const dc = Number(command.dc);
     const saveType = command.save_type ?? "Reflex";
@@ -1373,12 +1379,15 @@ export function applyCommand(
     if (appliedDamage.absorbedByTempHp > 0)
       damagePayload["temp_hp_absorbed"] = appliedDamage.absorbedByTempHp;
 
-    const forecast = castSpellForecast(
-      saveModifierForType(target, saveType),
-      dc,
-      damageFormula,
-      mode,
-    );
+    let forecast: Record<string, unknown> | null = null;
+    if (command.emit_forecast) {
+      forecast = castSpellForecast(
+        saveModifierForType(target, saveType),
+        dc,
+        damageFormula,
+        mode,
+      );
+    }
 
     appendEvent(events, nextState, "cast_spell", {
       actor: actorId,
@@ -1406,13 +1415,16 @@ export function applyCommand(
   // SAVE DAMAGE
   // =========================================================================
   if (commandType === "save_damage") {
-    if (actor.actionsRemaining <= 0) {
-      throw new ReductionError("actor has no actions remaining");
-    }
+    const actionCost = commandActionCost(command, 2);
+    spendActions(actor, actionCost);
+    spendAbilityCharge(actor, command);
     const targetId = command.target ?? "";
     const target = nextState.units[targetId];
     if (!target) throw new ReductionError(`unknown target ${targetId}`);
     if (!unitAlive(target)) throw new ReductionError(`target ${targetId} is not alive`);
+    if (!hasLineOfSight(nextState, actor, target)) {
+      throw new ReductionError(`no line of sight from ${actorId} to ${targetId}`);
+    }
 
     const dc = Number(command.dc);
     const saveType = command.save_type ?? "Reflex";
@@ -1469,7 +1481,6 @@ export function applyCommand(
     if (appliedDamage.absorbedByTempHp > 0)
       damagePayload["temp_hp_absorbed"] = appliedDamage.absorbedByTempHp;
 
-    actor.actionsRemaining -= 1;
     appendEvent(events, nextState, "save_damage", {
       actor: actorId,
       target: targetId,
@@ -1493,9 +1504,9 @@ export function applyCommand(
   // AREA SAVE DAMAGE
   // =========================================================================
   if (commandType === "area_save_damage") {
-    if (actor.actionsRemaining <= 0) {
-      throw new ReductionError("actor has no actions remaining");
-    }
+    const actionCost = commandActionCost(command, 2);
+    spendActions(actor, actionCost);
+    spendAbilityCharge(actor, command);
     const centerX = Number(command.center_x);
     const centerY = Number(command.center_y);
     const radiusFeet = Number(command.radius_feet);
@@ -1518,6 +1529,7 @@ export function applyCommand(
       return hasTileLineOfEffect(nextState, centerX, centerY, t.x, t.y);
     });
 
+    const areaRoll = rollDamage(rng, damageFormula);
     const resolutions: Record<string, unknown>[] = [];
     for (const targetId of targets) {
       const save = resolveSave(
@@ -1527,8 +1539,7 @@ export function applyCommand(
         dc,
       );
       const multiplier = basicSaveMultiplier(save.degree);
-      const roll = rollDamage(rng, damageFormula);
-      const rawTotal = Math.floor(roll.total * multiplier);
+      const rawTotal = Math.floor(areaRoll.total * multiplier);
       const tgt = nextState.units[targetId];
       const adjustment = applyDamageModifiers({
         rawTotal,
@@ -1556,9 +1567,9 @@ export function applyCommand(
       const damagePayload: Record<string, unknown> = {
         formula: damageFormula,
         damage_type: damageType,
-        rolled_total: roll.total,
-        rolls: roll.rolls,
-        flat_modifier: roll.flatModifier,
+        rolled_total: areaRoll.total,
+        rolls: areaRoll.rolls,
+        flat_modifier: areaRoll.flatModifier,
         multiplier,
         raw_total: adjustment.rawTotal,
         immune: adjustment.immune,
@@ -1585,7 +1596,6 @@ export function applyCommand(
       });
     }
 
-    actor.actionsRemaining -= 1;
     appendEvent(events, nextState, "area_save_damage", {
       actor: actorId,
       center: [centerX, centerY],
@@ -1759,18 +1769,15 @@ export function applyCommand(
 
     if (!spawned.team) throw new ReductionError("spawn_unit unit.team is required");
 
+    const spendAction = Boolean(command.spend_action);
+    if (spendAction) {
+      spendActions(actor, 1);
+    }
+
     const activeUnitIdSaved = nextState.turnOrder[nextState.turnIndex];
     nextState.units[unitId] = spawned;
     nextState.turnOrder = buildTurnOrder(nextState.units);
     nextState.turnIndex = nextState.turnOrder.indexOf(activeUnitIdSaved);
-
-    const spendAction = Boolean(command.spend_action);
-    if (spendAction) {
-      if (actor.actionsRemaining <= 0) {
-        throw new ReductionError("actor has no actions remaining");
-      }
-      actor.actionsRemaining -= 1;
-    }
 
     appendEvent(events, nextState, "spawn_unit", {
       actor: actorId,
@@ -1788,9 +1795,8 @@ export function applyCommand(
   // RUN HAZARD ROUTINE
   // =========================================================================
   if (commandType === "run_hazard_routine") {
-    if (actor.actionsRemaining <= 0) {
-      throw new ReductionError("actor has no actions remaining");
-    }
+    const actionCost = commandActionCost(command, 1);
+    spendActions(actor, actionCost);
     const hazardId = String(command.hazard_id ?? "");
     const sourceName = String(command.source_name ?? "");
     const sourceType = String(command.source_type ?? "trigger_action");
@@ -1859,7 +1865,6 @@ export function applyCommand(
       lifecycleEvents.push(...tEvents);
     }
 
-    actor.actionsRemaining -= 1;
     appendEvent(events, nextState, "run_hazard_routine", {
       actor: actorId,
       hazard_id: hazardId,
@@ -1882,9 +1887,8 @@ export function applyCommand(
   // TRIGGER HAZARD SOURCE
   // =========================================================================
   if (commandType === "trigger_hazard_source") {
-    if (actor.actionsRemaining <= 0) {
-      throw new ReductionError("actor has no actions remaining");
-    }
+    const actionCost = commandActionCost(command, 1);
+    spendActions(actor, actionCost);
     const hazardId = String(command.hazard_id ?? "");
     const sourceName = String(command.source_name ?? "");
     const sourceType = String(command.source_type ?? "trigger_action");
@@ -1926,7 +1930,6 @@ export function applyCommand(
       lifecycleEvents.push(...tEvents);
     }
 
-    actor.actionsRemaining -= 1;
     appendEvent(events, nextState, "trigger_hazard_source", {
       actor: actorId,
       hazard_id: hazardId,
@@ -2089,9 +2092,8 @@ export function applyCommand(
   // APPLY EFFECT
   // =========================================================================
   if (commandType === "apply_effect") {
-    if (actor.actionsRemaining <= 0) {
-      throw new ReductionError("actor has no actions remaining");
-    }
+    const actionCost = commandActionCost(command, 1);
+    spendActions(actor, actionCost);
     const targetId = command.target ?? "";
     const target = nextState.units[targetId];
     if (!target) throw new ReductionError(`unknown target ${targetId}`);
@@ -2109,7 +2111,6 @@ export function applyCommand(
     };
     nextState.effects[effect.effectId] = effect;
 
-    actor.actionsRemaining -= 1;
     appendEvent(events, nextState, "apply_effect_command", {
       actor: actorId,
       target: targetId,

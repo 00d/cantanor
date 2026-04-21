@@ -18,6 +18,7 @@ import { ReductionError } from "../engine/reducer";
 import { hasLineOfSight } from "../grid/los";
 import { hasTileLineOfEffect } from "../grid/loe";
 import { radiusPoints } from "../grid/areas";
+import { tilesFromFeet } from "../grid/map";
 import { stepToward } from "../grid/movement";
 import { thrownRange } from "../engine/traits";
 
@@ -240,11 +241,6 @@ interface AiAreaSpec {
   sizeTiles: number;
 }
 
-/** PF2e 5ft grid. Mirrors reducer.ts:tilesFromFeet — keep in sync. */
-function tilesFromFeet(feet: number): number {
-  return Math.max(1, Math.floor((feet + 4) / 5));
-}
-
 /** Read the area spec from a content-entry payload, or null if single-target.
  *  Same parsing rules as ActionPanel's readAreaShape. Burst-only — cone/line
  *  return null so the policy falls through to approach (matches materialize's
@@ -421,12 +417,24 @@ export function getAiCommand(
       return { type: "end_turn", actor: actorId };
     }
     case "cast_spell_entry_nearest": {
+      const spellEntryId = policy.contentEntryId ?? "";
+      const spellEntry = contentContext?.entryLookup[spellEntryId];
+      const spellCost = Number(spellEntry?.payload?.["action_cost"] ?? 2);
+      if (actor.actionsRemaining < spellCost) {
+        // Not enough actions to cast — move toward nearest enemy or end turn.
+        if (candidates.length > 0) {
+          const targetUnit = state.units[candidates[0].unitId];
+          const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
+          if (step) return { type: "move", actor: actorId, x: step[0], y: step[1] };
+        }
+        return { type: "end_turn", actor: actorId };
+      }
       const target = candidates.find((c) => c.hasLos);
       if (target) {
         return {
           type: "cast_spell",
           actor: actorId,
-          content_entry_id: policy.contentEntryId ?? "",
+          content_entry_id: spellEntryId,
           target: target.unitId,
           dc: policy.dc ?? 15,
         };
@@ -440,12 +448,17 @@ export function getAiCommand(
       return { type: "end_turn", actor: actorId };
     }
     case "cast_area_entry_best": {
-      // Look up the entry's area spec. Without a contentContext we can't know
-      // the shape — fall back to end_turn rather than guess. Same if the
-      // entry turns out to be single-target (area === null): the scenario
-      // author picked the wrong policy for this spell.
       const entryId = policy.contentEntryId ?? "";
       const entry = contentContext?.entryLookup[entryId];
+      const areaCost = Number(entry?.payload?.["action_cost"] ?? 2);
+      if (actor.actionsRemaining < areaCost) {
+        if (candidates.length > 0) {
+          const targetUnit = state.units[candidates[0].unitId];
+          const step = stepToward(state, actorId, targetUnit.x, targetUnit.y);
+          if (step) return { type: "move", actor: actorId, x: step[0], y: step[1] };
+        }
+        return { type: "end_turn", actor: actorId };
+      }
       const spec = readEntryArea(entry?.payload);
       if (!spec || candidates.length === 0) {
         // No area spec or no enemies — try to approach, else end turn.

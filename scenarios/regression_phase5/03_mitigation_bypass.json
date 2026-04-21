@@ -76,6 +76,7 @@
     },
     {
       "type": "save_damage",
+      "action_cost": 1,
       "actor": "caster",
       "target": "target_save",
       "dc": 30,
@@ -87,6 +88,7 @@
     },
     {
       "type": "area_save_damage",
+      "action_cost": 1,
       "actor": "caster",
       "center_x": 1,
       "center_y": 1,
